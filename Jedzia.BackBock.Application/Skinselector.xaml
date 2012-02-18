@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="Jedzia.BackBock.Application.Skinselector"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Initialized="UserControl_Initialized"
+    >
+    <Grid>
+        <ComboBox x:Name="selectSkin" SelectionChanged="selectSkin_SelectionChanged" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:m="clr-namespace:System;assembly=mscorlib"
+                    xmlns:controls="clr-namespace:Jedzia.BackBock.CustomControls.NavBar;assembly=Jedzia.BackBock.CustomControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!--<ResourceDictionary Source="ThemeBase.xaml"/>-->
+        <ResourceDictionary Source="ThemeNavBarStyles.xaml"/>
+        <ResourceDictionary Source="MainWindow/ClassGeneralPage.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    
+</ResourceDictionary>

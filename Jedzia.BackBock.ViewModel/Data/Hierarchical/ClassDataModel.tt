@@ -1,0 +1,27 @@
+﻿<#@ template inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" language="C#v3.5" 
+debug="true" hostSpecific="true" #>
+<#@ include file="ViewModelGenerator/ViewModelGenerator.tt" #>
+<# 
+    // TextTemplatingFileGenerator
+    // <copyright file="ViewModelFromXsd2.tt" company="EvePanix">
+    //  Copyright 2012 © Jedzia. All Rights Reserved.
+    // </copyright>
+    // Shows how to generate a ViewModel with a Schema from a nested definition 
+    // in an XML file.  
+
+    // Bug: Items with a Basetype should not expose the basetypes members again.
+    ViewModelGenerator vmg = new ViewModelGenerator(Host, @"../../../Jedzia.BackBock.Model/Data/ClassData.xsd");
+
+    vmg.CustomUsings.Add("Jedzia.BackBock.Model.Data");
+    vmg.CustomUsings.Add("Jedzia.BackBock.ViewModel.MainWindow");
+    vmg.Properties["ViewModelBaseType"]["ClassMemberViewModel"] = "DisplayModeViewModel";
+    //vmg.Properties["ViewModelBaseType"]["RandaleViewModel"] = "ClassMemberViewModel";
+
+    //vmg.ViewModelBaseType = @"OlderDepp";
+
+    vmg.EnumProject = @"../../../Jedzia.BackBock.SharedTypes/Jedzia.BackBock.SharedTypes.csproj";
+    vmg.EnumFile = @"../Jedzia.BackBock.SharedTypes/ClassDataEnums.cs";
+    vmg.EnumNamespace = "Jedzia.BackBock.SharedTypes";
+
+    vmg.Run();
+#>

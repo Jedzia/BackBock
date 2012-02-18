@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BA57B6A9-70FF-4A22-876B-5A8DFE003293}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Jedzia.BackBock.ViewModel</RootNamespace>
+    <AssemblyName>Jedzia.BackBock.ViewModel</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationViewModel.cs" />
+    <Compile Include="Commands\ClickCommands.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\RelayContextMenu.cs" />
+    <Compile Include="Controls\DropDownButton.cs" />
+    <Compile Include="Converters\BoolToOppositeConverter.cs" />
+    <Compile Include="Converters\DoubleTypeConverter.cs" />
+    <Compile Include="Converters\EnumTypeConverter.cs" />
+    <Compile Include="Data\ClassDataViewModel.ClassDataItem.generated.cs">
+      <DependentUpon>ClassDataViewModel.tt</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\ClassDataViewModel.ClassDataItemList.generated.cs">
+      <DependentUpon>ClassDataViewModel.tt</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\ClassDataViewModel1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClassDataViewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Hierarchical\ClassDataModel.ClassData.generated.cs">
+      <DependentUpon>ClassDataModel.tt</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Hierarchical\ClassDataModel.ClassMember.generated.cs">
+      <DependentUpon>ClassDataModel.tt</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Hierarchical\ClassDataModel.cs">
+      <DependentUpon>ClassDataModel.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Data\Hierarchical\ClassDataModel.DerivedFrom.generated.cs">
+      <DependentUpon>ClassDataModel.tt</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Hierarchical\ClassDataModel.Fields.generated.cs">
+      <DependentUpon>ClassDataModel.tt</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Hierarchical\ClassDataModel.Methods.generated.cs">
+      <DependentUpon>ClassDataModel.tt</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Hierarchical\ClassDataModel.Properties.generated.cs">
+      <DependentUpon>ClassDataModel.tt</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Hierarchical\ClassDataModel.Randale.generated.cs">
+      <DependentUpon>ClassDataModel.tt</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Hierarchical\ClassDataModel.Specification.generated.cs">
+      <DependentUpon>ClassDataModel.tt</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Hierarchical\ClassMemberViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Diagram\Designer\IDesignerCanvas.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Diagram\ValueConverter\ImageConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Diagram\ValueConverter\ObjectToVisibility.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayMode.cs" />
+    <Compile Include="ForTesting\MenuItemStyleSelector.cs" />
+    <Compile Include="ForTesting\ProcessStageHelper.cs" />
+    <Compile Include="CommandKeyGestureAttribute.cs" />
+    <Compile Include="ApplicationCommandModel.cs" />
+    <Compile Include="ICanCommandBind.cs" />
+    <Compile Include="ICanInputBind.cs" />
+    <Compile Include="ICleanup.cs" />
+    <Compile Include="InputBindExtender.cs" />
+    <Compile Include="MainWindow\ClassGeneralOptViewModel.cs" />
+    <Compile Include="MainWindow\IMainWindow.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow\ISpecificationWindow.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainWindowBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainWindowCommandModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainWindowViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MergeMenus.cs" />
+    <Compile Include="Commands\RelayCommandGeneric.cs" />
+    <Compile Include="MVVM\Helpers\IExecuteWithObject.cs" />
+    <Compile Include="MVVM\Helpers\WeakAction.cs" />
+    <Compile Include="MVVM\Helpers\WeakActionGeneric.cs" />
+    <Compile Include="MVVM\Messaging\DialogMessage.cs" />
+    <Compile Include="MVVM\Messaging\GenericMessage.cs" />
+    <Compile Include="MVVM\Messaging\IMessenger.cs" />
+    <Compile Include="MVVM\Messaging\MessageBase.cs" />
+    <Compile Include="MVVM\Messaging\Messenger.cs" />
+    <Compile Include="MVVM\Messaging\NotificationMessage.cs" />
+    <Compile Include="MVVM\Messaging\NotificationMessageAction.cs" />
+    <Compile Include="MVVM\Messaging\NotificationMessageActionGeneric.cs" />
+    <Compile Include="MVVM\Messaging\NotificationMessageGeneric.cs" />
+    <Compile Include="MVVM\Messaging\NotificationMessageWithCallback.cs" />
+    <Compile Include="MVVM\Messaging\PropertyChangedMessage.cs" />
+    <Compile Include="MVVM\Messaging\PropertyChangedMessageBase.cs" />
+    <Compile Include="MVVM\Threading\DispatcherHelper.cs" />
+    <Compile Include="ObservableObject.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\BindingConvertor.cs" />
+    <Compile Include="Serialization\EditorHelper.cs" />
+    <Compile Include="Serialization\ItemsControlCustomTypeDescriptor.cs" />
+    <Compile Include="Serialization\ItemsControlTypeDescriptionProvider.cs" />
+    <Compile Include="Serialization\XamlSerializer.cs" />
+    <Compile Include="Util\Guard.cs" />
+    <Compile Include="Util\VisualHelper.cs" />
+    <Compile Include="ViewModelBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jedzia.BackBock.CustomControls\Jedzia.BackBock.CustomControls.csproj">
+      <Project>{CC8CBF4D-23EA-4DBC-80AF-8AAAF6407328}</Project>
+      <Name>Jedzia.BackBock.CustomControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jedzia.BackBock.Model\Jedzia.BackBock.Model.csproj">
+      <Project>{277724C1-B97E-493D-8B08-699110A78052}</Project>
+      <Name>Jedzia.BackBock.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jedzia.BackBock.SharedTypes\Jedzia.BackBock.SharedTypes.csproj">
+      <Project>{5033C48F-59BF-4E59-B76B-C61F2BC02F19}</Project>
+      <Name>Jedzia.BackBock.SharedTypes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\ClassDataViewModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ClassDataViewModel1.cs</LastGenOutput>
+    </None>
+    <None Include="Data\Hierarchical\ClassDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ClassDataModel.cs</LastGenOutput>
+    </None>
+    <None Include="Data\Hierarchical\ClassDataModel.tt.log">
+      <DependentUpon>ClassDataModel.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

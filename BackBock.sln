@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.Application", "Jedzia.BackBock.Application\Jedzia.BackBock.Application.csproj", "{04211530-B6CD-4074-86F6-5B0412D195EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.SharedTypes", "Jedzia.BackBock.SharedTypes\Jedzia.BackBock.SharedTypes.csproj", "{5033C48F-59BF-4E59-B76B-C61F2BC02F19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.Model", "Jedzia.BackBock.Model\Jedzia.BackBock.Model.csproj", "{277724C1-B97E-493D-8B08-699110A78052}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.CustomControls", "Jedzia.BackBock.CustomControls\Jedzia.BackBock.CustomControls.csproj", "{CC8CBF4D-23EA-4DBC-80AF-8AAAF6407328}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.ViewModel", "Jedzia.BackBock.ViewModel\Jedzia.BackBock.ViewModel.csproj", "{BA57B6A9-70FF-4A22-876B-5A8DFE003293}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04211530-B6CD-4074-86F6-5B0412D195EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04211530-B6CD-4074-86F6-5B0412D195EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04211530-B6CD-4074-86F6-5B0412D195EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04211530-B6CD-4074-86F6-5B0412D195EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5033C48F-59BF-4E59-B76B-C61F2BC02F19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5033C48F-59BF-4E59-B76B-C61F2BC02F19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5033C48F-59BF-4E59-B76B-C61F2BC02F19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5033C48F-59BF-4E59-B76B-C61F2BC02F19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{277724C1-B97E-493D-8B08-699110A78052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{277724C1-B97E-493D-8B08-699110A78052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{277724C1-B97E-493D-8B08-699110A78052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{277724C1-B97E-493D-8B08-699110A78052}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC8CBF4D-23EA-4DBC-80AF-8AAAF6407328}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC8CBF4D-23EA-4DBC-80AF-8AAAF6407328}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC8CBF4D-23EA-4DBC-80AF-8AAAF6407328}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC8CBF4D-23EA-4DBC-80AF-8AAAF6407328}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA57B6A9-70FF-4A22-876B-5A8DFE003293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA57B6A9-70FF-4A22-876B-5A8DFE003293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA57B6A9-70FF-4A22-876B-5A8DFE003293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA57B6A9-70FF-4A22-876B-5A8DFE003293}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
