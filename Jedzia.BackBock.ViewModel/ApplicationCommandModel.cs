@@ -21,7 +21,6 @@ namespace Jedzia.BackBock.ViewModel
     using System.Windows;
     using Jedzia.BackBock.ViewModel.Commands;
     using Jedzia.BackBock.ViewModel.MainWindow;
-    using Jedzia.BackBock.ViewModel.Diagram.Designer;
 
     public sealed class ApplicationCommandModel //: INotifyPropertyChanged
     {
@@ -42,7 +41,7 @@ namespace Jedzia.BackBock.ViewModel
             }
         }*/
 
-        private IDesignerCanvas mainCanvas;
+        private IMainWorkArea mainCanvas;
         private readonly IMainWindow mainWindow;
         public ApplicationCommandModel(IMainWindow mainWindow)
         {

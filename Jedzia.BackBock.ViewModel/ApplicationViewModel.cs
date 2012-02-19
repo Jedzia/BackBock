@@ -13,7 +13,6 @@
     using System.Windows.Markup;
     using System.Xml;
     using Jedzia.BackBock.ViewModel.Commands;
-    using Jedzia.BackBock.ViewModel.Diagram.Designer;
     using System;
 
     public class ApplicationViewModel : /*IFolderExplorerViewModel,*/ INotifyPropertyChanged

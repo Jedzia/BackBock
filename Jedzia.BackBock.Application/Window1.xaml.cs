@@ -1,7 +1,6 @@
 ﻿namespace Jedzia.BackBock.Application
 {
     using System.Windows;
-    using Jedzia.BackBock.ViewModel.Diagram.Designer;
     using Jedzia.BackBock.ViewModel.MainWindow;
     using System.Collections.Generic;
     using System.Windows.Controls;
@@ -19,7 +18,7 @@
 
         }
 
-        protected override IDesignerCanvas GetDesigner()
+        protected override IMainWorkArea GetDesigner()
         {
             return this.MyDesigner;
         }

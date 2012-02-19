@@ -5,7 +5,7 @@
 // <email>jed69@gmx.de</email>
 // <date>$date$</date>
 // <summary>$summary$</summary>
-namespace Jedzia.BackBock.ViewModel.Diagram.ValueConverter
+namespace Jedzia.BackBock.ViewModel.Converters
 {
     using System;
     using System.Globalization;

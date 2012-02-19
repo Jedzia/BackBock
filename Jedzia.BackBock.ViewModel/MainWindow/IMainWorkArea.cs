@@ -5,16 +5,12 @@
 // <email>jed69@gmx.de</email>
 // <date>$date$</date>
 // <summary>$summary$</summary>
-namespace Jedzia.BackBock.ViewModel.Diagram.Designer
+namespace Jedzia.BackBock.ViewModel.MainWindow
 {
-    using System;
-    using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Documents;
-    using System.Windows.Media;
 
-    public interface IDesignerCanvas : ICanInputBind, ICanCommandBind, IInputElement
+    public interface IMainWorkArea : ICanInputBind, ICanCommandBind, IInputElement
     {
         #region Properties
 

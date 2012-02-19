@@ -63,6 +63,8 @@
     <Compile Include="Converters\BoolToOppositeConverter.cs" />
     <Compile Include="Converters\DoubleTypeConverter.cs" />
     <Compile Include="Converters\EnumTypeConverter.cs" />
+    <Compile Include="Converters\ImageConverter.cs" />
+    <Compile Include="Converters\ObjectToVisibility.cs" />
     <Compile Include="Data\BackupDataModel.BackupData.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
@@ -75,15 +77,6 @@
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\ClassMemberViewModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Diagram\Designer\IDesignerCanvas.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Diagram\ValueConverter\ImageConverter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Diagram\ValueConverter\ObjectToVisibility.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayMode.cs" />
@@ -99,6 +92,7 @@
     <Compile Include="MainWindow\IMainWindow.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MainWindow\IMainWorkArea.cs" />
     <Compile Include="MainWindow\ISpecificationWindow.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -165,6 +159,10 @@
     <None Include="Data\BackupDataModel.tt.log">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Diagram\Designer\" />
+    <Folder Include="Diagram\ValueConverter\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

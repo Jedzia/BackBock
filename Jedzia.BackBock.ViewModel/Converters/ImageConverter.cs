@@ -5,16 +5,16 @@
 // <email>jed69@gmx.de</email>
 // <date>$date$</date>
 // <summary>$summary$</summary>
-namespace Jedzia.BackBock.ViewModel.Diagram.ValueConverter
+namespace Jedzia.BackBock.ViewModel.Converters
 {
     using System;
+    using System.Drawing;
     using System.Globalization;
+    using System.Runtime.InteropServices;
     using System.Windows;
     using System.Windows.Data;
-    using System.Drawing;
-    using System.Windows.Media.Imaging;
     using System.Windows.Interop;
-    using System.Runtime.InteropServices;
+    using System.Windows.Media.Imaging;
 
     // Todo: Move this to Jedzia.BackBock.ViewModel.Converters
     [ValueConversion(typeof(Image), typeof(string))]

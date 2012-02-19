@@ -10,7 +10,6 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
     using System.Windows;
     using System.Windows.Input;
     using Jedzia.BackBock.ViewModel.Commands;
-    using Jedzia.BackBock.ViewModel.Diagram.Designer;
     using System.Xml;
     using System.Xml.Serialization;
     using System.Windows.Controls;
@@ -20,7 +19,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
     {
         #region Fields
 
-        private readonly IDesignerCanvas designerCanvas;
+        private readonly IMainWorkArea mainWorkArea;
         //private DesignerCanvasCommandModel designerCommands;
 
         #endregion
@@ -32,7 +31,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         public MainWindowCommandModel(IMainWindow mainWindow)
         {
             //this.mainWindow = mainWindow;
-            this.designerCanvas = mainWindow.Designer;
+            this.mainWorkArea = mainWindow.Designer;
         }
 
         #endregion
@@ -73,7 +72,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
             //int xay = 4;
             //MessageBox.Show(sender8.ToString());
-            //this.designerCanvas.DesignerPlacementProcessor.DistributeVertical_Executed(sender8);
+            //this.mainWorkArea.DesignerPlacementProcessor.DistributeVertical_Executed(sender8);
 
             //XmiStuff();
 
@@ -157,12 +156,12 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private void AddAttribute_Executed()
         {
-            designerCanvas.AddAttributeType();
+            mainWorkArea.AddAttributeType();
         }
 
         private bool AddAttribute_Enabled(object sender)
         {
-            bool canExecute = designerCanvas.SelectionService.CurrentSelection.Count() > 0;
+            bool canExecute = mainWorkArea.SelectionService.CurrentSelection.Count() > 0;
             return canExecute;
         }*/
 

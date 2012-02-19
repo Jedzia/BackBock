@@ -18,7 +18,7 @@
 
         #region Properties
 
-        //IDesignerCanvas Designer { get; }
+        //IMainWorkArea Designer { get; }
 
         #endregion
     }

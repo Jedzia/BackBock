@@ -13,17 +13,16 @@
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     using System.Windows;
-    using Jedzia.BackBock.ViewModel.Diagram.Designer;
 
     public class MainWindowBase : Window, IMainWindow
     {
-        /*protected virtual IDesignerCanvas GetDesigner()
+        /*protected virtual IMainWorkArea GetDesigner()
         {
             return null;
         }*/
         #region Properties
 
-        public IDesignerCanvas Designer
+        public IMainWorkArea Designer
         {
             get
             {
@@ -33,7 +32,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #endregion
 
-        protected virtual IDesignerCanvas GetDesigner()
+        protected virtual IMainWorkArea GetDesigner()
         {
             return null;
         }

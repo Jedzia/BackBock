@@ -1,7 +1,6 @@
 ﻿namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     using System;
-    using Jedzia.BackBock.ViewModel.Diagram.Designer;
 
     public interface IMainWindow : ICanInputBind, ICanCommandBind
     {
@@ -13,7 +12,7 @@
 
         #region Properties
 
-        IDesignerCanvas Designer { get; }
+        IMainWorkArea Designer { get; }
 
         #endregion
     }
