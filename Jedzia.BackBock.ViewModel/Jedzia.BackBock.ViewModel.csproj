@@ -76,6 +76,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\BackupDataModel.Exclusion.generated.cs">
+      <DependentUpon>BackupDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\BackupDataModel.Inclusion.generated.cs">
+      <DependentUpon>BackupDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\BackupDataModel.Paths.generated.cs">
+      <DependentUpon>BackupDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\ClassMemberViewModel.cs">
       <SubType>Code</SubType>
     </Compile>

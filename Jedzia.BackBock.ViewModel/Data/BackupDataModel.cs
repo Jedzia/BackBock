@@ -20,6 +20,32 @@
 
 
    // ==========================================================================
+   // vmodel.Name : Paths | vmodel.Type : Paths | 
+
+        //  item.Name : Exclusion | item.Type : Wildcard | propertyType : PathsExclusion  
+        //  item.Name : Inclusion | item.Type : Wildcard | propertyType : PathsInclusion  
+        //  item.Name : Path | item.Type : System.String | propertyType : PathsPath  
+        //  item.Name : UserData | item.Type : System.String | propertyType : PathsUserData  
+   // ==========================================================================
+
+
+   // ==========================================================================
+   // vmodel.Name : Exclusion | vmodel.Type : Wildcard | 
+
+        //  item.Name : Pattern | item.Type : System.String | propertyType : WildcardPattern  
+        //  item.Name : Enabled | item.Type : System.Boolean | propertyType : WildcardEnabled  
+   // ==========================================================================
+
+
+   // ==========================================================================
+   // vmodel.Name : Inclusion | vmodel.Type : Wildcard | 
+
+        //  item.Name : Pattern | item.Type : System.String | propertyType : WildcardPattern  
+        //  item.Name : Enabled | item.Type : System.Boolean | propertyType : WildcardEnabled  
+   // ==========================================================================
+
+
+   // ==========================================================================
    // vmodel.Name : BackupData | vmodel.Type : BackupData | 
 
         //  item.Name : BackupItem | item.Type : BackupItem | propertyType : BackupDataBackupItem  
@@ -30,10 +56,9 @@
    // ==========================================================================
    // vmodel.Name : BackupItem | vmodel.Type : BackupItem | 
 
+        //  item.Name : Paths | item.Type : Paths | propertyType : BackupItemPaths  
         //  item.Name : Name | item.Type : System.String | propertyType : BackupItemName  
         //  item.Name : IsEnabled | item.Type : System.Boolean | propertyType : BackupItemIsEnabled  
-        //  item.Name : Test | item.Type : System.String | propertyType : BackupItemTest  
-        //  item.Name : IsInterface | item.Type : System.Boolean | propertyType : BackupItemIsInterface  
    // ==========================================================================
 
 

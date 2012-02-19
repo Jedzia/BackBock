@@ -26,65 +26,64 @@ namespace Jedzia.BackBock.ViewModel.Data
 {
 
     /// <summary>
-    /// The summary of BackupDataViewModel. BaseType: 
+    /// The summary of ExclusionViewModel. BaseType: 
     /// </summary>
-    public partial class BackupDataViewModel : ViewModelBase
+    public partial class ExclusionViewModel : ViewModelBase
     {
-        internal BackupData backupdata;
+        internal Wildcard exclusion;
 
-        public BackupDataViewModel(BackupData backupData)
+        public ExclusionViewModel(Wildcard exclusion)
         {
-            this.backupdata = backupData;
+            this.exclusion = exclusion;
         }
 
-        // BackupItem. HasFacets: False AttrQName: 
-        //                   propertyType: BackupItem, IsChoiceRoot: False, BaseType: 
-        //                   ListType: None, HasCommonBaseType: False, xxxx: 
-        /// <summary>
-        /// The summary. 
-        /// </summary>
-        private List<BackupItemViewModel> backupitem;
-
-        public List<BackupItemViewModel> BackupItem
-        {
-            get
-            {
-                if (this.backupitem == null)
-                {
-                    this.backupitem = new List<BackupItemViewModel>();
-                    foreach (var item in this.backupdata.BackupItem)
-                    {
-                        var colItem = new BackupItemViewModel(item);
-                        colItem.PropertyChanged += OnDataPropertyChanged;
-                        this.backupitem.Add(colItem);
-                    }
-                }
-                return this.backupitem;
-            }
-        }
-
-        // Name. HasFacets: False AttrQName: 
+        // Pattern. HasFacets: False AttrQName: 
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
-        /// Gets or sets the Name. HasFacets: False AttrQName: 
+        /// Gets or sets the Pattern. HasFacets: False AttrQName: 
         /// </summary> // Attribute
-        /// <value>The Name.</value>
-        public System.String Name
+        /// <value>The Pattern.</value>
+        public System.String Pattern
         {
             get
             {
-                return this.backupdata.Name;
+                return this.exclusion.Pattern;
             }
 
             set
             {
-                if (this.backupdata.Name == value)
+                if (this.exclusion.Pattern == value)
                 {
                     return;
                 }
-                this.backupdata.Name = value;
-                RaisePropertyChanged("Name");
+                this.exclusion.Pattern = value;
+                RaisePropertyChanged("Pattern");
+            }
+        }
+
+        // Enabled. HasFacets: False AttrQName: 
+        //                   propertyType: System.Boolean, IsChoiceRoot: False, BaseType: 
+        //                   ListType: None, HasCommonBaseType: False, xxxx: 
+        /// <summary>
+        /// Gets or sets the Enabled. HasFacets: False AttrQName: 
+        /// </summary> // Attribute
+        /// <value>The Enabled.</value>
+        public System.Boolean Enabled
+        {
+            get
+            {
+                return this.exclusion.Enabled;
+            }
+
+            set
+            {
+                if (this.exclusion.Enabled == value)
+                {
+                    return;
+                }
+                this.exclusion.Enabled = value;
+                RaisePropertyChanged("Enabled");
             }
         }
 
@@ -95,9 +94,9 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e);
 
-        public BackupDataViewModel Clone()
+        public ExclusionViewModel Clone()
         {
-            return (BackupDataViewModel)this.MemberwiseClone();
+            return (ExclusionViewModel)this.MemberwiseClone();
         }
     } 
 }

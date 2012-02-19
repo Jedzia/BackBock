@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/19/2012 01:24:50 by 
+This code was automatically generated at 02/19/2012 07:35:36 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -30,11 +30,37 @@ namespace Jedzia.BackBock.ViewModel.Data
     /// </summary>
     public partial class BackupItemViewModel : ViewModelBase
     {
-        internal BackupItem backupitem;
+        internal BackupItemType backupitem;
 
-        public BackupItemViewModel(BackupItem backupItem)
+        public BackupItemViewModel(BackupItemType backupItem)
         {
             this.backupitem = backupItem;
+        }
+
+        // Paths. HasFacets: False AttrQName: 
+        //                   propertyType: List<Paths>, IsChoiceRoot: False, BaseType: 
+        //                   ListType: None, HasCommonBaseType: False, xxxx: 
+        /// <summary>
+        /// The summary. 
+        /// </summary>
+        private List<PathsViewModel> paths;
+
+        public List<PathsViewModel> Paths
+        {
+            get
+            {
+                if (this.paths == null)
+                {
+                    this.paths = new List<PathsViewModel>();
+                    foreach (var item in this.backupitem.Paths)
+                    {
+                        var colItem = new PathsViewModel(item);
+                        colItem.PropertyChanged += OnDataPropertyChanged;
+                        this.paths.Add(colItem);
+                    }
+                }
+                return this.paths;
+            }
         }
 
         // Name. HasFacets: False AttrQName: 
@@ -84,56 +110,6 @@ namespace Jedzia.BackBock.ViewModel.Data
                 }
                 this.backupitem.IsEnabled = value;
                 RaisePropertyChanged("IsEnabled");
-            }
-        }
-
-        // Test. HasFacets: False AttrQName: 
-        //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 
-        //                   ListType: None, HasCommonBaseType: False, xxxx: 
-        /// <summary>
-        /// Gets or sets the Test. HasFacets: False AttrQName: 
-        /// </summary> // Attribute
-        /// <value>The Test.</value>
-        public System.String Test
-        {
-            get
-            {
-                return this.backupitem.Test;
-            }
-
-            set
-            {
-                if (this.backupitem.Test == value)
-                {
-                    return;
-                }
-                this.backupitem.Test = value;
-                RaisePropertyChanged("Test");
-            }
-        }
-
-        // IsInterface. HasFacets: False AttrQName: 
-        //                   propertyType: System.Boolean, IsChoiceRoot: False, BaseType: 
-        //                   ListType: None, HasCommonBaseType: False, xxxx: 
-        /// <summary>
-        /// Gets or sets the IsInterface. HasFacets: False AttrQName: 
-        /// </summary> // Attribute
-        /// <value>The IsInterface.</value>
-        public System.Boolean IsInterface
-        {
-            get
-            {
-                return this.backupitem.IsInterface;
-            }
-
-            set
-            {
-                if (this.backupitem.IsInterface == value)
-                {
-                    return;
-                }
-                this.backupitem.IsInterface = value;
-                RaisePropertyChanged("IsInterface");
             }
         }
 

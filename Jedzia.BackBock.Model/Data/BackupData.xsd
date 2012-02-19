@@ -4,27 +4,30 @@
     <xs:element name="BackupData">
         <xs:complexType>
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="BackupItem" type="BackupItem" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="BackupItem"/>
             </xs:sequence>
             <xs:attribute name="Name" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
-    <xs:complexType name="BackupItem">
+    <xs:complexType name="BackupItemType">
+        <xs:sequence maxOccurs="unbounded">
+            <xs:element name="Path" type="PathDataType"/>
+        </xs:sequence>
         <xs:attribute name="Name" type="xs:string" use="required"/>
         <xs:attribute name="IsEnabled" type="xs:boolean" default="false"/>
-        <xs:attribute name="Test"/>
-        <xs:attribute name="IsInterface" type="xs:boolean"/>
     </xs:complexType>
-    <xs:complexType name="PathData">
+    <xs:complexType name="PathDataType">
         <xs:sequence>
             <xs:element name="Exclusion" type="Wildcard" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="Inclusion" type="Wildcard" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="Path" type="xs:string" use="required"/>
-        <xs:attribute name="Wildcard" type="xs:string" use="optional"/>
+        <xs:attribute name="UserData" type="xs:string" use="optional"/>
     </xs:complexType>
     <xs:complexType name="Wildcard">
         <xs:attribute name="Pattern" type="xs:string" use="required"/>
         <xs:attribute name="Enabled" type="xs:boolean" default="false"/>
     </xs:complexType>
+    <xs:element name="Paths" type="PathDataType"/>
+    <xs:element name="BackupItem" type="BackupItemType"/>
 </xs:schema>
