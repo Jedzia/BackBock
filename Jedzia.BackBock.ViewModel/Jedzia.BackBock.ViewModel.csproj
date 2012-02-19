@@ -82,7 +82,7 @@
     <Compile Include="Data\BackupDataModel.Inclusion.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\BackupDataModel.Paths.generated.cs">
+    <Compile Include="Data\BackupDataModel.Path.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\ClassMemberViewModel.cs">

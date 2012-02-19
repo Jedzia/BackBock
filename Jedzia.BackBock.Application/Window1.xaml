@@ -54,7 +54,7 @@
                         </local:MyCanvas.Background>-->
                     <StackPanel Grid.Row="0">
                         <Button Width="200">Test</Button>
-                        <TextBlock Text="{Binding .}"/>
+                        <TextBlock Text="{Binding DatasetName}"/>
                         <ListView ItemsSource="{Binding BackupItems}" MinHeight="240"  View="{DynamicResource BackupDataViewBase1}"/>
                     </StackPanel>
                     <ListView Grid.Row="1" ItemsSource="{x:Static Fonts.SystemFontFamilies}">

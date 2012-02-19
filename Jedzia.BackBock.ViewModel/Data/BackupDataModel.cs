@@ -20,12 +20,12 @@
 
 
    // ==========================================================================
-   // vmodel.Name : Paths | vmodel.Type : Paths | 
+   // vmodel.Name : Path | vmodel.Type : PathDataType | 
 
-        //  item.Name : Exclusion | item.Type : Wildcard | propertyType : PathsExclusion  
-        //  item.Name : Inclusion | item.Type : Wildcard | propertyType : PathsInclusion  
-        //  item.Name : Path | item.Type : System.String | propertyType : PathsPath  
-        //  item.Name : UserData | item.Type : System.String | propertyType : PathsUserData  
+        //  item.Name : Exclusion | item.Type : Wildcard | propertyType : PathDataTypeExclusion  
+        //  item.Name : Inclusion | item.Type : Wildcard | propertyType : PathDataTypeInclusion  
+        //  item.Name : Path | item.Type : System.String | propertyType : PathDataTypePath  
+        //  item.Name : UserData | item.Type : System.String | propertyType : PathDataTypeUserData  
    // ==========================================================================
 
 
@@ -48,17 +48,17 @@
    // ==========================================================================
    // vmodel.Name : BackupData | vmodel.Type : BackupData | 
 
-        //  item.Name : BackupItem | item.Type : BackupItem | propertyType : BackupDataBackupItem  
-        //  item.Name : Name | item.Type : System.String | propertyType : BackupDataName  
+        //  item.Name : BackupItem | item.Type : BackupItemType | propertyType : BackupDataBackupItem  
+        //  item.Name : DatasetName | item.Type : System.String | propertyType : BackupDataDatasetName  
    // ==========================================================================
 
 
    // ==========================================================================
-   // vmodel.Name : BackupItem | vmodel.Type : BackupItem | 
+   // vmodel.Name : BackupItem | vmodel.Type : BackupItemType | 
 
-        //  item.Name : Paths | item.Type : Paths | propertyType : BackupItemPaths  
-        //  item.Name : Name | item.Type : System.String | propertyType : BackupItemName  
-        //  item.Name : IsEnabled | item.Type : System.Boolean | propertyType : BackupItemIsEnabled  
+        //  item.Name : Path | item.Type : Path | propertyType : BackupItemTypePath  
+        //  item.Name : ItemName | item.Type : System.String | propertyType : BackupItemTypeItemName  
+        //  item.Name : IsEnabled | item.Type : System.Boolean | propertyType : BackupItemTypeIsEnabled  
    // ==========================================================================
 
 

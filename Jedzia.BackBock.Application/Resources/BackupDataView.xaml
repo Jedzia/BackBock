@@ -1,7 +1,15 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:data="clr-namespace:Jedzia.BackBock.ViewModel.Data;assembly=Jedzia.BackBock.ViewModel"
+    >
 
+    <DataTemplate x:Key="PathViewModelDataTemplate" DataType="data:PathViewModel">
+        <StackPanel>
+            <TextBlock Text="{Binding Path}"/>
+        </StackPanel>
+    </DataTemplate>
+    
 	<GridView x:Key="BackupDataViewBase1" AllowsColumnReorder="true">
 		<GridViewColumn Header="IsEnabled" >
 			<GridViewColumn.CellTemplate>
@@ -10,9 +18,15 @@
 				</DataTemplate>
 			</GridViewColumn.CellTemplate>
 		</GridViewColumn>
-		<GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
-		<GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" />
-		<GridViewColumn DisplayMemberBinding="{Binding Test}" Header="Test"/>
+		<GridViewColumn DisplayMemberBinding="{Binding ItemName}" Header="Name" />
+        <GridViewColumn Header="Paths" >
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <ListBox ItemsSource="{Binding Paths}" ItemTemplate="{StaticResource PathViewModelDataTemplate}"/>
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn DisplayMemberBinding="{Binding Test}" Header="Test"/>
 	</GridView>
 	<!-- Resource dictionary entries should be defined here. -->
 </ResourceDictionary>

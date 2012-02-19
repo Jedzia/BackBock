@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/19/2012 07:35:36 by 
+This code was automatically generated at 02/19/2012 14:24:14 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -37,54 +37,54 @@ namespace Jedzia.BackBock.ViewModel.Data
             this.backupitem = backupItem;
         }
 
-        // Paths. HasFacets: False AttrQName: 
-        //                   propertyType: List<Paths>, IsChoiceRoot: False, BaseType: 
+        // Path. HasFacets: False AttrQName: 
+        //                   propertyType: List<Path>, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
         /// The summary. 
         /// </summary>
-        private List<PathsViewModel> paths;
+        private List<PathViewModel> path;
 
-        public List<PathsViewModel> Paths
+        public List<PathViewModel> Paths
         {
             get
             {
-                if (this.paths == null)
+                if (this.path == null)
                 {
-                    this.paths = new List<PathsViewModel>();
-                    foreach (var item in this.backupitem.Paths)
+                    this.path = new List<PathViewModel>();
+                    foreach (var item in this.backupitem.Path)
                     {
-                        var colItem = new PathsViewModel(item);
+                        var colItem = new PathViewModel(item);
                         colItem.PropertyChanged += OnDataPropertyChanged;
-                        this.paths.Add(colItem);
+                        this.path.Add(colItem);
                     }
                 }
-                return this.paths;
+                return this.path;
             }
         }
 
-        // Name. HasFacets: False AttrQName: 
+        // ItemName. HasFacets: False AttrQName: 
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
-        /// Gets or sets the Name. HasFacets: False AttrQName: 
+        /// Gets or sets the ItemName. HasFacets: False AttrQName: 
         /// </summary> // Attribute
-        /// <value>The Name.</value>
-        public System.String Name
+        /// <value>The ItemName.</value>
+        public System.String ItemName
         {
             get
             {
-                return this.backupitem.Name;
+                return this.backupitem.ItemName;
             }
 
             set
             {
-                if (this.backupitem.Name == value)
+                if (this.backupitem.ItemName == value)
                 {
                     return;
                 }
-                this.backupitem.Name = value;
-                RaisePropertyChanged("Name");
+                this.backupitem.ItemName = value;
+                RaisePropertyChanged("ItemName");
             }
         }
 

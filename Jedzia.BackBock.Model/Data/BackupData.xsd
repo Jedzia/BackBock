@@ -6,18 +6,18 @@
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="BackupItem"/>
             </xs:sequence>
-            <xs:attribute name="Name" type="xs:string" use="required"/>
+            <xs:attribute name="DatasetName" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:complexType name="BackupItemType">
         <xs:sequence maxOccurs="unbounded">
-            <xs:element name="Path" type="PathDataType"/>
+            <xs:element ref="Path"/>
         </xs:sequence>
-        <xs:attribute name="Name" type="xs:string" use="required"/>
+        <xs:attribute name="ItemName" type="xs:string" use="required"/>
         <xs:attribute name="IsEnabled" type="xs:boolean" default="false"/>
     </xs:complexType>
     <xs:complexType name="PathDataType">
-        <xs:sequence>
+        <xs:sequence maxOccurs="unbounded">
             <xs:element name="Exclusion" type="Wildcard" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="Inclusion" type="Wildcard" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -28,6 +28,6 @@
         <xs:attribute name="Pattern" type="xs:string" use="required"/>
         <xs:attribute name="Enabled" type="xs:boolean" default="false"/>
     </xs:complexType>
-    <xs:element name="Paths" type="PathDataType"/>
     <xs:element name="BackupItem" type="BackupItemType"/>
+    <xs:element name="Path" type="PathDataType"/>
 </xs:schema>

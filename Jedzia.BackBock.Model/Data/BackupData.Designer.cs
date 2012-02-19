@@ -29,7 +29,7 @@ namespace Jedzia.BackBock.Model.Data {
         private List<BackupItemType> backupItemField;
         
         [EditorBrowsable(EditorBrowsableState.Never)]
-        private string nameField;
+        private string datasetNameField;
         
         private static System.Xml.Serialization.XmlSerializer serializer;
         
@@ -60,20 +60,20 @@ namespace Jedzia.BackBock.Model.Data {
         }
         
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Name {
+        public string DatasetName {
             get {
-                return this.nameField;
+                return this.datasetNameField;
             }
             set {
-                if ((this.nameField != null)) {
-                    if ((nameField.Equals(value) != true)) {
-                        this.nameField = value;
-                        this.OnPropertyChanged("Name");
+                if ((this.datasetNameField != null)) {
+                    if ((datasetNameField.Equals(value) != true)) {
+                        this.datasetNameField = value;
+                        this.OnPropertyChanged("DatasetName");
                     }
                 }
                 else {
-                    this.nameField = value;
-                    this.OnPropertyChanged("Name");
+                    this.datasetNameField = value;
+                    this.OnPropertyChanged("DatasetName");
                 }
             }
         }
@@ -270,10 +270,10 @@ namespace Jedzia.BackBock.Model.Data {
     public partial class BackupItemType : System.ComponentModel.INotifyPropertyChanged {
         
         [EditorBrowsable(EditorBrowsableState.Never)]
-        private List<PathDataType> pathsField;
+        private List<PathDataType> pathField;
         
         [EditorBrowsable(EditorBrowsableState.Never)]
-        private string nameField;
+        private string itemNameField;
         
         [EditorBrowsable(EditorBrowsableState.Never)]
         private bool isEnabledField;
@@ -281,44 +281,44 @@ namespace Jedzia.BackBock.Model.Data {
         private static System.Xml.Serialization.XmlSerializer serializer;
         
         public BackupItemType() {
-            this.pathsField = new List<PathDataType>();
+            this.pathField = new List<PathDataType>();
             this.isEnabledField = false;
         }
         
-        [System.Xml.Serialization.XmlElementAttribute("Paths", Order=0)]
-        public List<PathDataType> Paths {
+        [System.Xml.Serialization.XmlElementAttribute("Path", Order=0)]
+        public List<PathDataType> Path {
             get {
-                return this.pathsField;
+                return this.pathField;
             }
             set {
-                if ((this.pathsField != null)) {
-                    if ((pathsField.Equals(value) != true)) {
-                        this.pathsField = value;
-                        this.OnPropertyChanged("Paths");
+                if ((this.pathField != null)) {
+                    if ((pathField.Equals(value) != true)) {
+                        this.pathField = value;
+                        this.OnPropertyChanged("Path");
                     }
                 }
                 else {
-                    this.pathsField = value;
-                    this.OnPropertyChanged("Paths");
+                    this.pathField = value;
+                    this.OnPropertyChanged("Path");
                 }
             }
         }
         
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Name {
+        public string ItemName {
             get {
-                return this.nameField;
+                return this.itemNameField;
             }
             set {
-                if ((this.nameField != null)) {
-                    if ((nameField.Equals(value) != true)) {
-                        this.nameField = value;
-                        this.OnPropertyChanged("Name");
+                if ((this.itemNameField != null)) {
+                    if ((itemNameField.Equals(value) != true)) {
+                        this.itemNameField = value;
+                        this.OnPropertyChanged("ItemName");
                     }
                 }
                 else {
-                    this.nameField = value;
-                    this.OnPropertyChanged("Name");
+                    this.itemNameField = value;
+                    this.OnPropertyChanged("ItemName");
                 }
             }
         }
@@ -525,7 +525,7 @@ namespace Jedzia.BackBock.Model.Data {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlRootAttribute("Paths", Namespace="", IsNullable=false)]
+    [System.Xml.Serialization.XmlRootAttribute("Path", Namespace="", IsNullable=false)]
     public partial class PathDataType : System.ComponentModel.INotifyPropertyChanged {
         
         [EditorBrowsable(EditorBrowsableState.Never)]

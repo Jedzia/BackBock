@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/19/2012 07:35:36 by 
+This code was automatically generated at 02/19/2012 14:24:14 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -38,14 +38,14 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
 
         // BackupItem. HasFacets: False AttrQName: 
-        //                   propertyType: BackupItem, IsChoiceRoot: False, BaseType: 
+        //                   propertyType: List<BackupItemType>, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
         /// The summary. 
         /// </summary>
         private List<BackupItemViewModel> backupitem;
 
-        public List<BackupItemViewModel> BackupItem
+        public List<BackupItemViewModel> BackupItems
         {
             get
             {
@@ -63,28 +63,28 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
-        // Name. HasFacets: False AttrQName: 
+        // DatasetName. HasFacets: False AttrQName: 
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
-        /// Gets or sets the Name. HasFacets: False AttrQName: 
+        /// Gets or sets the DatasetName. HasFacets: False AttrQName: 
         /// </summary> // Attribute
-        /// <value>The Name.</value>
-        public System.String Name
+        /// <value>The DatasetName.</value>
+        public System.String DatasetName
         {
             get
             {
-                return this.backupdata.Name;
+                return this.backupdata.DatasetName;
             }
 
             set
             {
-                if (this.backupdata.Name == value)
+                if (this.backupdata.DatasetName == value)
                 {
                     return;
                 }
-                this.backupdata.Name = value;
-                RaisePropertyChanged("Name");
+                this.backupdata.DatasetName = value;
+                RaisePropertyChanged("DatasetName");
             }
         }
 
