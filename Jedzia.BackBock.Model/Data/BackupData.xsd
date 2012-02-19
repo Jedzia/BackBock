@@ -15,4 +15,16 @@
         <xs:attribute name="Test"/>
         <xs:attribute name="IsInterface" type="xs:boolean"/>
     </xs:complexType>
+    <xs:complexType name="PathData">
+        <xs:sequence>
+            <xs:element name="Exclusion" type="Wildcard" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Inclusion" type="Wildcard" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="Path" type="xs:string" use="required"/>
+        <xs:attribute name="Wildcard" type="xs:string" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="Wildcard">
+        <xs:attribute name="Pattern" type="xs:string" use="required"/>
+        <xs:attribute name="Enabled" type="xs:boolean" default="false"/>
+    </xs:complexType>
 </xs:schema>

@@ -55,21 +55,7 @@
                     <StackPanel Grid.Row="0">
                         <Button Width="200">Test</Button>
                         <TextBlock Text="{Binding .}"/>
-                        <ListView ItemsSource="{Binding BackupItems}" MinHeight="240">
-                            <ListView.View>
-                                <GridView AllowsColumnReorder="true">
-                                    <GridViewColumn Header="IsEnabled" >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <CheckBox IsChecked="{Binding Path=IsEnabled}" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
-                                    <GridViewColumn Header="Path" DisplayMemberBinding="{Binding Path}" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <ListView ItemsSource="{Binding BackupItems}" MinHeight="240"  View="{DynamicResource BackupDataViewBase1}"/>
                     </StackPanel>
                     <ListView Grid.Row="1" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
                         <ListView.View>

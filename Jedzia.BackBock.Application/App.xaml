@@ -29,8 +29,8 @@
                 <ResourceDictionary Source="Resources/Styles/ScrollBar.xaml"/>
                 <ResourceDictionary Source="Resources/ApplicationToolbar.xaml"/>
                 <ResourceDictionary Source="Resources/DesignerCanvasContextMenu.xaml"/>
-                
-            
+                <ResourceDictionary Source="Resources/BackupDataView.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
