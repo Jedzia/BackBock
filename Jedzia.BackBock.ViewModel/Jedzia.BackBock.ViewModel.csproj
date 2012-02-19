@@ -63,18 +63,18 @@
     <Compile Include="Converters\BoolToOppositeConverter.cs" />
     <Compile Include="Converters\DoubleTypeConverter.cs" />
     <Compile Include="Converters\EnumTypeConverter.cs" />
-    <Compile Include="Data\Hierarchical\BackupDataModel.BackupData.generated.cs">
+    <Compile Include="Data\BackupDataModel.BackupData.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\Hierarchical\BackupDataModel.BackupItem.generated.cs">
+    <Compile Include="Data\BackupDataModel.BackupItem.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\Hierarchical\BackupDataModel.cs">
+    <Compile Include="Data\BackupDataModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\Hierarchical\ClassMemberViewModel.cs">
+    <Compile Include="Data\ClassMemberViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Diagram\Designer\IDesignerCanvas.cs">
@@ -158,11 +158,11 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Hierarchical\BackupDataModel.tt">
+    <None Include="Data\BackupDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BackupDataModel.cs</LastGenOutput>
     </None>
-    <None Include="Data\Hierarchical\BackupDataModel.tt.log">
+    <None Include="Data\BackupDataModel.tt.log">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </None>
   </ItemGroup>

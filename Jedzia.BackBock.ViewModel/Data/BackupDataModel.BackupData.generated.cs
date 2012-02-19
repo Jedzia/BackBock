@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/19/2012 01:11:19 by 
+This code was automatically generated at 02/19/2012 01:24:50 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -22,7 +22,7 @@ using Jedzia.BackBock.Model.Data;
 using Jedzia.BackBock.ViewModel.MainWindow;
 
 
-namespace Jedzia.BackBock.ViewModel.Data.Hierarchical
+namespace Jedzia.BackBock.ViewModel.Data
 {
 
     /// <summary>

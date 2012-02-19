@@ -9,7 +9,7 @@ using System;
 using System.Windows;
 using System.Collections.Generic;
 using Jedzia.BackBock.Model;
-using Jedzia.BackBock.ViewModel.Data.Hierarchical;
+using Jedzia.BackBock.ViewModel.Data;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     public sealed class MainWindowViewModel //: INotifyPropertyChanged
