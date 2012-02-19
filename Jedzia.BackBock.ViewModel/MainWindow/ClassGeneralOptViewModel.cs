@@ -140,7 +140,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
     }
 
-    public sealed class ClassGeneralOptViewModel : DisplayModeViewModel
+   /* public sealed class ClassGeneralOptViewModel : DisplayModeViewModel
     {
         ClassDataItemListViewModel origClassData;
         ClassDataItemListViewModel workClassData;
@@ -466,6 +466,6 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //origClassData.Type = workClassData.Type;
             //origClassData.Color = workClassData.Color;
         }
-    }
+    }*/
 
 }

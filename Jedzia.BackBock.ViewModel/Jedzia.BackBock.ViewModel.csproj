@@ -63,19 +63,6 @@
     <Compile Include="Converters\BoolToOppositeConverter.cs" />
     <Compile Include="Converters\DoubleTypeConverter.cs" />
     <Compile Include="Converters\EnumTypeConverter.cs" />
-    <Compile Include="Data\ClassDataViewModel.ClassDataItem.generated.cs">
-      <DependentUpon>ClassDataViewModel.tt</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Data\ClassDataViewModel.ClassDataItemList.generated.cs">
-      <DependentUpon>ClassDataViewModel.tt</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Data\ClassDataViewModel1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ClassDataViewModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\Hierarchical\BackupDataModel.BackupData.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
@@ -171,10 +158,6 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\ClassDataViewModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ClassDataViewModel1.cs</LastGenOutput>
-    </None>
     <None Include="Data\Hierarchical\BackupDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BackupDataModel.cs</LastGenOutput>

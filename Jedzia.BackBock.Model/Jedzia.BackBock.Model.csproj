@@ -53,11 +53,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BackupData.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Data\ClassDataItem.Designer.cs">
-      <DependentUpon>ClassDataItem.xsd</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="SampleResourceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -67,14 +62,9 @@
       <Generator>Xsd2CodeCustomTool</Generator>
       <LastGenOutput>BackupData.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Data\ClassDataItem.xsd">
-      <Generator>Xsd2CodeCustomTool</Generator>
-      <LastGenOutput>ClassDataItem.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\BackupData01.xml" />
-    <Content Include="Data\ClassDataItemList.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jedzia.BackBock.SharedTypes\Jedzia.BackBock.SharedTypes.csproj">
