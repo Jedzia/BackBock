@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 rel. 2 (http://www.altova.com) by Venom (ICO) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="BackupData">
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="BackupItem" type="BackupItem" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="Name" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="BackupItem">
+        <xs:attribute name="Name" type="xs:string" use="required"/>
+        <xs:attribute name="IsEnabled" type="xs:boolean" default="false"/>
+        <xs:attribute name="Test"/>
+        <xs:attribute name="IsInterface" type="xs:boolean"/>
+    </xs:complexType>
+</xs:schema>

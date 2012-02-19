@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/18/2012 18:38:25 by 
+This code was automatically generated at 02/19/2012 01:11:19 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -26,16 +26,65 @@ namespace Jedzia.BackBock.ViewModel.Data.Hierarchical
 {
 
     /// <summary>
-    /// The summary of DerivedFromViewModel. BaseType: ClassMember
+    /// The summary of BackupItemViewModel. BaseType: 
     /// </summary>
-    public partial class DerivedFromViewModel : ClassMemberViewModel
+    public partial class BackupItemViewModel : ViewModelBase
     {
-        internal Derive derivedfrom;
+        internal BackupItem backupitem;
 
-        public DerivedFromViewModel(Derive derivedFrom)
-            : base(derivedFrom)
+        public BackupItemViewModel(BackupItem backupItem)
         {
-            this.derivedfrom = derivedFrom;
+            this.backupitem = backupItem;
+        }
+
+        // Name. HasFacets: False AttrQName: 
+        //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 
+        //                   ListType: None, HasCommonBaseType: False, xxxx: 
+        /// <summary>
+        /// Gets or sets the Name. HasFacets: False AttrQName: 
+        /// </summary> // Attribute
+        /// <value>The Name.</value>
+        public System.String Name
+        {
+            get
+            {
+                return this.backupitem.Name;
+            }
+
+            set
+            {
+                if (this.backupitem.Name == value)
+                {
+                    return;
+                }
+                this.backupitem.Name = value;
+                RaisePropertyChanged("Name");
+            }
+        }
+
+        // IsEnabled. HasFacets: False AttrQName: 
+        //                   propertyType: System.Boolean, IsChoiceRoot: False, BaseType: 
+        //                   ListType: None, HasCommonBaseType: False, xxxx: 
+        /// <summary>
+        /// Gets or sets the IsEnabled. HasFacets: False AttrQName: 
+        /// </summary> // Attribute
+        /// <value>The IsEnabled.</value>
+        public System.Boolean IsEnabled
+        {
+            get
+            {
+                return this.backupitem.IsEnabled;
+            }
+
+            set
+            {
+                if (this.backupitem.IsEnabled == value)
+                {
+                    return;
+                }
+                this.backupitem.IsEnabled = value;
+                RaisePropertyChanged("IsEnabled");
+            }
         }
 
         // Test. HasFacets: False AttrQName: 
@@ -49,92 +98,17 @@ namespace Jedzia.BackBock.ViewModel.Data.Hierarchical
         {
             get
             {
-                return this.derivedfrom.Test;
+                return this.backupitem.Test;
             }
 
             set
             {
-                if (this.derivedfrom.Test == value)
+                if (this.backupitem.Test == value)
                 {
                     return;
                 }
-                this.derivedfrom.Test = value;
+                this.backupitem.Test = value;
                 RaisePropertyChanged("Test");
-            }
-        }
-
-        // Nix. HasFacets: False AttrQName: 
-        //                   propertyType: System.Boolean, IsChoiceRoot: False, BaseType: 
-        //                   ListType: None, HasCommonBaseType: False, xxxx: 
-        /// <summary>
-        /// Gets or sets the Nix. HasFacets: False AttrQName: 
-        /// </summary> // Attribute
-        /// <value>The Nix.</value>
-        public System.Boolean Nix
-        {
-            get
-            {
-                return this.derivedfrom.Nix;
-            }
-
-            set
-            {
-                if (this.derivedfrom.Nix == value)
-                {
-                    return;
-                }
-                this.derivedfrom.Nix = value;
-                RaisePropertyChanged("Nix");
-            }
-        }
-
-        // Rotz. HasFacets: False AttrQName: 
-        //                   propertyType: System.Boolean, IsChoiceRoot: False, BaseType: 
-        //                   ListType: None, HasCommonBaseType: False, xxxx: 
-        /// <summary>
-        /// Gets or sets the Rotz. HasFacets: False AttrQName: 
-        /// </summary> // Attribute
-        /// <value>The Rotz.</value>
-        public System.Boolean Rotz
-        {
-            get
-            {
-                return this.derivedfrom.Rotz;
-            }
-
-            set
-            {
-                if (this.derivedfrom.Rotz == value)
-                {
-                    return;
-                }
-                this.derivedfrom.Rotz = value;
-                RaisePropertyChanged("Rotz");
-            }
-        }
-
-        // Blafasel. HasFacets: False AttrQName: 
-        //                   propertyType: System.DateTime, IsChoiceRoot: False, BaseType: 
-        //                   ListType: None, HasCommonBaseType: False, xxxx: 
-        /// <summary>
-        /// Gets or sets the Blafasel. HasFacets: False AttrQName: 
-        /// </summary> // Attribute
-        /// <value>The Blafasel.</value>
-        public System.DateTime Blafasel
-        {
-            get
-            {
-                return this.derivedfrom.Blafasel;
-            }
-
-            set
-            {
-                if (this.derivedfrom.Blafasel == value)
-                {
-                    return;
-                }
-                this.derivedfrom.Blafasel = value;
-                RaisePropertyChanged("Blafasel");
             }
         }
 
@@ -149,16 +123,16 @@ namespace Jedzia.BackBock.ViewModel.Data.Hierarchical
         {
             get
             {
-                return this.derivedfrom.IsInterface;
+                return this.backupitem.IsInterface;
             }
 
             set
             {
-                if (this.derivedfrom.IsInterface == value)
+                if (this.backupitem.IsInterface == value)
                 {
                     return;
                 }
-                this.derivedfrom.IsInterface = value;
+                this.backupitem.IsInterface = value;
                 RaisePropertyChanged("IsInterface");
             }
         }
@@ -170,9 +144,9 @@ namespace Jedzia.BackBock.ViewModel.Data.Hierarchical
 
         partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e);
 
-        public DerivedFromViewModel Clone()
+        public BackupItemViewModel Clone()
         {
-            return (DerivedFromViewModel)this.MemberwiseClone();
+            return (BackupItemViewModel)this.MemberwiseClone();
         }
     } 
 }

@@ -17,8 +17,8 @@ namespace Jedzia.BackBock.Model
 
     public static class SampleResourceProvider
     {
-        private static ClassData classData;
-        public static ClassData GenerateSampleData()
+        private static BackupData classData;
+        public static BackupData GenerateSampleData()
         {
             if (classData == null)
             {
@@ -27,12 +27,12 @@ namespace Jedzia.BackBock.Model
                 using (
                     Stream stream =
                         typeof(SampleResourceProvider).Assembly.GetManifestResourceStream(
-                            "Jedzia.BackBock.Model.Data.ClassesData02.xml"))
+                            "Jedzia.BackBock.Model.Data.BackupData01.xml"))
                 {
                     TextReader txr = new StreamReader(stream);
                     str = txr.ReadToEnd();
                 }
-                classData = ClassData.Deserialize(str);
+                classData = BackupData.Deserialize(str);
             }
 
             return classData;

@@ -76,42 +76,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ClassDataViewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\Hierarchical\ClassDataModel.ClassData.generated.cs">
-      <DependentUpon>ClassDataModel.tt</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="Data\Hierarchical\BackupDataModel.BackupData.generated.cs">
+      <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\Hierarchical\ClassDataModel.ClassMember.generated.cs">
-      <DependentUpon>ClassDataModel.tt</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="Data\Hierarchical\BackupDataModel.BackupItem.generated.cs">
+      <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\Hierarchical\ClassDataModel.cs">
-      <DependentUpon>ClassDataModel.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
+    <Compile Include="Data\Hierarchical\BackupDataModel.cs">
       <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Data\Hierarchical\ClassDataModel.DerivedFrom.generated.cs">
-      <DependentUpon>ClassDataModel.tt</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Data\Hierarchical\ClassDataModel.Fields.generated.cs">
-      <DependentUpon>ClassDataModel.tt</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Data\Hierarchical\ClassDataModel.Methods.generated.cs">
-      <DependentUpon>ClassDataModel.tt</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Data\Hierarchical\ClassDataModel.Properties.generated.cs">
-      <DependentUpon>ClassDataModel.tt</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Data\Hierarchical\ClassDataModel.Randale.generated.cs">
-      <DependentUpon>ClassDataModel.tt</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Data\Hierarchical\ClassDataModel.Specification.generated.cs">
-      <DependentUpon>ClassDataModel.tt</DependentUpon>
-      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Hierarchical\ClassMemberViewModel.cs">
       <SubType>Code</SubType>
@@ -201,12 +175,12 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ClassDataViewModel1.cs</LastGenOutput>
     </None>
-    <None Include="Data\Hierarchical\ClassDataModel.tt">
+    <None Include="Data\Hierarchical\BackupDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ClassDataModel.cs</LastGenOutput>
+      <LastGenOutput>BackupDataModel.cs</LastGenOutput>
     </None>
-    <None Include="Data\Hierarchical\ClassDataModel.tt.log">
-      <DependentUpon>ClassDataModel.tt</DependentUpon>
+    <None Include="Data\Hierarchical\BackupDataModel.tt.log">
+      <DependentUpon>BackupDataModel.tt</DependentUpon>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

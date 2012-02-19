@@ -42,7 +42,7 @@ namespace Jedzia.BackBock.ViewModel
             }
         }*/
 
-        private IDesignerCanvas designerCanvas;
+        private IDesignerCanvas mainCanvas;
         private readonly IMainWindow mainWindow;
         public ApplicationCommandModel(IMainWindow mainWindow)
         {
@@ -58,20 +58,20 @@ namespace Jedzia.BackBock.ViewModel
             {
                 throw new ArgumentNullException("mainWindow", "No Designer!");
             }
-            this.designerCanvas = this.mainWindow.Designer;
+            this.mainCanvas = this.mainWindow.Designer;
 
             // the global ApplicationCommands adding.
             //this.designerCanvas.CommandBindings.Add(new CommandBinding(ApplicationCommands.New, New_Executed));
-            this.designerCanvas.AddCommandBinding(ApplicationCommands.New, this.NewExecuted);
-            this.designerCanvas.AddCommandBinding(ApplicationCommands.Open, this.OpenExecuted);
-            this.designerCanvas.AddCommandBinding(ApplicationCommands.Save, this.SaveExecuted);
-            this.designerCanvas.AddCommandBinding(ApplicationCommands.Print, this.PrintExecuted);
+            this.mainCanvas.AddCommandBinding(ApplicationCommands.New, this.NewExecuted);
+            this.mainCanvas.AddCommandBinding(ApplicationCommands.Open, this.OpenExecuted);
+            this.mainCanvas.AddCommandBinding(ApplicationCommands.Save, this.SaveExecuted);
+            this.mainCanvas.AddCommandBinding(ApplicationCommands.Print, this.PrintExecuted);
 
             // this.designerCanvas.CommandBindings.Add(new CommandBinding(this.PasteCommand, this.Paste_Executed, Paste_Enabled));
-            this.designerCanvas.AddCommandBinding(ApplicationCommands.Cut, this.CutExecuted, this.CutEnabled);
-            this.designerCanvas.AddCommandBinding(ApplicationCommands.Copy, this.CopyExecuted, this.CopyEnabled);
-            this.designerCanvas.AddCommandBinding(ApplicationCommands.Paste, this.PasteExecuted, Paste_Enabled);
-            this.designerCanvas.AddCommandBinding(ApplicationCommands.Delete, this.DeleteExecuted, this.DeleteEnabled);
+            this.mainCanvas.AddCommandBinding(ApplicationCommands.Cut, this.CutExecuted, this.CutEnabled);
+            this.mainCanvas.AddCommandBinding(ApplicationCommands.Copy, this.CopyExecuted, this.CopyEnabled);
+            this.mainCanvas.AddCommandBinding(ApplicationCommands.Paste, this.PasteExecuted, Paste_Enabled);
+            this.mainCanvas.AddCommandBinding(ApplicationCommands.Delete, this.DeleteExecuted, this.DeleteEnabled);
 
             //this.designerCanvas.CommandBindings.Add(new CommandBinding(SelectAllCommand, SelectAll_Executed));
             //SelectAllCommand.InputGestures.Add(new KeyGesture(Key.A, ModifierKeys.Control));
@@ -202,7 +202,7 @@ namespace Jedzia.BackBock.ViewModel
 
             if (true == printDialog.ShowDialog())
             {
-                var visual = this.designerCanvas as Visual;
+                var visual = this.mainCanvas as Visual;
                 if (visual == null)
                 {
                     throw new ApplicationException("The DesignerCanvas can't be printed (no cast to Visual).");

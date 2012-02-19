@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/18/2012 18:38:25 by 
+This code was automatically generated at 02/19/2012 01:11:19 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -26,15 +26,41 @@ namespace Jedzia.BackBock.ViewModel.Data.Hierarchical
 {
 
     /// <summary>
-    /// The summary of ClassMemberViewModel. BaseType: 
+    /// The summary of BackupDataViewModel. BaseType: 
     /// </summary>
-    public partial class ClassMemberViewModel : DisplayModeViewModel
+    public partial class BackupDataViewModel : ViewModelBase
     {
-        internal ClassMember classmember;
+        internal BackupData backupdata;
 
-        public ClassMemberViewModel(ClassMember classMember)
+        public BackupDataViewModel(BackupData backupData)
         {
-            this.classmember = classMember;
+            this.backupdata = backupData;
+        }
+
+        // BackupItem. HasFacets: False AttrQName: 
+        //                   propertyType: List<BackupItem>, IsChoiceRoot: False, BaseType: 
+        //                   ListType: None, HasCommonBaseType: False, xxxx: 
+        /// <summary>
+        /// The summary. 
+        /// </summary>
+        private List<BackupItemViewModel> backupitem;
+
+        public List<BackupItemViewModel> BackupItems
+        {
+            get
+            {
+                if (this.backupitem == null)
+                {
+                    this.backupitem = new List<BackupItemViewModel>();
+                    foreach (var item in this.backupdata.BackupItem)
+                    {
+                        var colItem = new BackupItemViewModel(item);
+                        colItem.PropertyChanged += OnDataPropertyChanged;
+                        this.backupitem.Add(colItem);
+                    }
+                }
+                return this.backupitem;
+            }
         }
 
         // Name. HasFacets: False AttrQName: 
@@ -48,16 +74,16 @@ namespace Jedzia.BackBock.ViewModel.Data.Hierarchical
         {
             get
             {
-                return this.classmember.Name;
+                return this.backupdata.Name;
             }
 
             set
             {
-                if (this.classmember.Name == value)
+                if (this.backupdata.Name == value)
                 {
                     return;
                 }
-                this.classmember.Name = value;
+                this.backupdata.Name = value;
                 RaisePropertyChanged("Name");
             }
         }
@@ -69,9 +95,9 @@ namespace Jedzia.BackBock.ViewModel.Data.Hierarchical
 
         partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e);
 
-        public ClassMemberViewModel Clone()
+        public BackupDataViewModel Clone()
         {
-            return (ClassMemberViewModel)this.MemberwiseClone();
+            return (BackupDataViewModel)this.MemberwiseClone();
         }
     } 
 }

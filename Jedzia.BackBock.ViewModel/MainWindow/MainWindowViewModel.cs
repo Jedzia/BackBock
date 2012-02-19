@@ -8,6 +8,8 @@
 using System;
 using System.Windows;
 using System.Collections.Generic;
+using Jedzia.BackBock.Model;
+using Jedzia.BackBock.ViewModel.Data.Hierarchical;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     public sealed class MainWindowViewModel //: INotifyPropertyChanged
@@ -43,7 +45,15 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }*/
             this.applicationViewModel = applicationViewModel;
             this.mainWindow = mainWindow;
+            this.mainWindow.Initialized += new EventHandler(mainWindow_Initialized);
             this.applicationCommands = new ApplicationCommandModel(mainWindow);
+        }
+
+        void mainWindow_Initialized(object sender, EventArgs e)
+        {
+            var data = SampleResourceProvider.GenerateSampleData();
+            var bvm = new BackupDataViewModel(data);
+            this.mainWindow.Designer.DataContext = bvm;
         }
 
         #endregion

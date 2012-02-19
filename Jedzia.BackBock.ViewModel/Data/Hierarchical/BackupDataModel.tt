@@ -10,7 +10,7 @@ debug="true" hostSpecific="true" #>
     // in an XML file.  
 
     // Bug: Items with a Basetype should not expose the basetypes members again.
-    ViewModelGenerator vmg = new ViewModelGenerator(Host, @"../../../Jedzia.BackBock.Model/Data/ClassData.xsd");
+    ViewModelGenerator vmg = new ViewModelGenerator(Host, @"../../../Jedzia.BackBock.Model/Data/BackupData.xsd");
 
     vmg.CustomUsings.Add("Jedzia.BackBock.Model.Data");
     vmg.CustomUsings.Add("Jedzia.BackBock.ViewModel.MainWindow");
@@ -20,7 +20,7 @@ debug="true" hostSpecific="true" #>
     //vmg.ViewModelBaseType = @"OlderDepp";
 
     vmg.EnumProject = @"../../../Jedzia.BackBock.SharedTypes/Jedzia.BackBock.SharedTypes.csproj";
-    vmg.EnumFile = @"../Jedzia.BackBock.SharedTypes/ClassDataEnums.cs";
+    vmg.EnumFile = @"../Jedzia.BackBock.SharedTypes/BackupDataEnums.cs";
     vmg.EnumNamespace = "Jedzia.BackBock.SharedTypes";
 
     vmg.Run();

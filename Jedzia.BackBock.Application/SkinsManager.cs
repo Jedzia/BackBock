@@ -39,7 +39,7 @@ namespace Jedzia.BackBock.Application
                 return;
             }
 
-            Uri resourceLocator = new Uri("NetUml;Component/Themes/" + theme + "/Theme.xaml", UriKind.Relative);
+            Uri resourceLocator = new Uri("BackBock;Component/Themes/" + theme + "/Theme.xaml", UriKind.Relative);
             //Application.Current.Resources =  Application.LoadComponent(resourceLocator) as ResourceDictionary;
             //var dictionary = System.Windows.Application.LoadComponent(resourceLocator) as ResourceDictionary;
             var dictionary = new ResourceDictionary();

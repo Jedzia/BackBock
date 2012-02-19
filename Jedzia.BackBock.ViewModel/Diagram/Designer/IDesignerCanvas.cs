@@ -19,7 +19,7 @@ namespace Jedzia.BackBock.ViewModel.Diagram.Designer
         #region Properties
 
         UIElementCollection Children { get; }
-
+        object DataContext { get; set; }
         #endregion
 
     }

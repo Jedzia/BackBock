@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/18/2012 18:38:55 by 
+This code was automatically generated at 02/19/2012 01:11:16 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com

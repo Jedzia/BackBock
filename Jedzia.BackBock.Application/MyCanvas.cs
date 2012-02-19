@@ -6,7 +6,7 @@ using Jedzia.BackBock.ViewModel.Diagram.Designer;
 
 namespace Jedzia.BackBock.Application
 {
-    public class MyCanvas : Canvas, IDesignerCanvas
+    public class MyCanvas : Grid, IDesignerCanvas
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:MyCanvas"/> class.
@@ -14,7 +14,6 @@ namespace Jedzia.BackBock.Application
         public MyCanvas()
             : base()
         {
-
         }
     }
 

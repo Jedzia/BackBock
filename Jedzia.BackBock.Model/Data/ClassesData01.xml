@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Class Name="DesignerHeiner">
-	<DerivedFrom Class="DesignerBase" Interface="IDesigner"/>
-	<Item Name="data" Type="Field" Scope="private" Static="false" ValueType="collection"/>
-	<Item Name="ytext" Type="Field" Scope="private" Static="false" ValueType="string"/>
-</Class>
