@@ -14,7 +14,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     using System.Windows;
 
-    public class MainWindowBase : Window, IMainWindow
+    public abstract class MainWindowBase : Window, IMainWindow
     {
         /*protected virtual IMainWorkArea GetDesigner()
         {
@@ -32,10 +32,11 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #endregion
 
-        protected virtual IMainWorkArea GetDesigner()
+        /*protected virtual IMainWorkArea GetDesigner()
         {
             return null;
-        }
+        }*/
+        protected abstract IMainWorkArea GetDesigner();
 
         protected void Test()
         {

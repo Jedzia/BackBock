@@ -4,6 +4,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib" WindowStartupLocation="CenterScreen"
         xmlns:local="clr-namespace:Jedzia.BackBock.Application"
         xmlns:Main="clr-namespace:Jedzia.BackBock.ViewModel.MainWindow;assembly=Jedzia.BackBock.ViewModel" 
+        xmlns:wtk="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
                      Title="{Binding MainWindowTitle}"
         Height="850" Width="1200" Background="{DynamicResource ShadeBrush}"
         DataContext="{Binding RelativeSource={RelativeSource Self},Path=MainWindowViewModel}" Initialized="MainWindowBase_Initialized">
@@ -22,8 +23,8 @@
 
         <Grid Grid.Row="1" Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="265"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="225"/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <!-- Toolbox -->
             <StackPanel Grid.Column="0" Margin="0,0,5,0">
@@ -35,16 +36,17 @@
             <GridSplitter Focusable="False" Width="2" Background="LightGray"
               VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
             <!-- Designer -->
-            <GroupBox Header="Diagram" Grid.Column="1" Margin="3,0,0,0" >
-
+            <!--<GroupBox Header="Diagram" Grid.Column="1" Margin="3,0,0,0" >-->
+            <DockPanel Grid.Column="1">
+                <StackPanel DockPanel.Dock="Top" Grid.Row="0" Grid.RowSpan="3">
+                    <Button Command="{Binding TestCommand}">Test</Button>
+                    <TextBlock Text="{Binding DatasetName}"/>
+                </StackPanel>
                 <!--Background="{StaticResource WindowBackgroundBrush}"-->
-                <local:MyCanvas  Focusable="true" x:Name="MyDesigner" Margin="10" 
-                                    FocusVisualStyle="{x:Null}"
+                <local:MyCanvas DockPanel.Dock="Bottom"  Focusable="true" x:Name="MyDesigner" Margin="10" 
+                                  
                     ContextMenu="{StaticResource DesignerCanvasContextMenu}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="320"/>
-                        <RowDefinition Height="80*"/>
-                    </Grid.RowDefinitions>
+
                     <!--<local:MyCanvas.Background>
                             <DrawingBrush TileMode="Tile" Stretch="Fill" Viewport="0 0 50 50" ViewportUnits="Absolute" ViewboxUnits="Absolute" >
                                 <DrawingBrush.Drawing>
@@ -52,12 +54,43 @@
                                 </DrawingBrush.Drawing>
                             </DrawingBrush>
                         </local:MyCanvas.Background>-->
-                    <StackPanel Grid.Row="0">
-                        <Button Width="200">Test</Button>
-                        <TextBlock Text="{Binding DatasetName}"/>
-                        <ListView ItemsSource="{Binding BackupItems}" MinHeight="240"  View="{DynamicResource BackupDataViewBase1}"/>
-                    </StackPanel>
-                    <ListView Grid.Row="1" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
+
+                    <!--<ListView ItemsSource="{Binding BackupItems}" MinHeight="240"  View="{DynamicResource BackupDataViewBase1}"/>-->
+                    <wtk:DataGrid local:MyCanvas.Dock="Bottom" ItemsSource="{Binding BackupItems}"  AutoGenerateColumns="False"
+                                          VerticalScrollBarVisibility="Auto">
+                        <wtk:DataGrid.Columns>
+                            <wtk:DataGridTextColumn Header="Name" Binding="{Binding ItemName}"/>
+                            <wtk:DataGridTextColumn Header="Task" Binding="{Binding Task.TypeName}"/>
+                            <!--<wtk:DataGridTemplateColumn Header="Paths"  Binding="{Binding Paths}"/>-->
+                            <wtk:DataGridCheckBoxColumn Header="IsEnabled" Binding="{Binding IsEnabled}"/>
+                            <wtk:DataGridTextColumn IsReadOnly="True" Header="Items" Binding="{Binding Paths.Count}"/>
+                        </wtk:DataGrid.Columns>
+                        <wtk:DataGrid.RowDetailsTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="20,2,2,2">
+                                    <!--<TextBlock Margin="10" FontWeight="Bold">Details go here.</TextBlock>-->
+                                    <TextBlock Text="Details:" Margin="10" FontWeight="Bold"/>
+                                    <!--<ListBox Margin="20,2,2,2" ItemsSource="{Binding Paths}" ItemTemplate="{StaticResource PathViewModelDataTemplate}"/>-->
+                                    <wtk:DataGrid ItemsSource="{Binding Paths}" VerticalScrollBarVisibility="Auto">
+                                        <wtk:DataGrid.RowDetailsTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Margin="20,2,2,2">
+                                                    <TextBlock Text="Inclusions:" Margin="10" FontWeight="Bold"/>
+                                                    <wtk:DataGrid ItemsSource="{Binding Inclusions}" VerticalScrollBarVisibility="Auto">
+                                                    </wtk:DataGrid>
+                                                    <TextBlock Text="Exclusions:" Margin="10" FontWeight="Bold"/>
+                                                    <wtk:DataGrid ItemsSource="{Binding Exclusions}" VerticalScrollBarVisibility="Auto">
+                                                    </wtk:DataGrid>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </wtk:DataGrid.RowDetailsTemplate>
+                                    </wtk:DataGrid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </wtk:DataGrid.RowDetailsTemplate>
+                    </wtk:DataGrid>
+                    <!--<ListView Grid.Row="1" ItemsSource="{Binding BackupItems}"  View="{DynamicResource BackupDataViewBase1}"/>-->
+                    <!--<ListView Grid.Row="1" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Source}" />
@@ -71,9 +104,13 @@
                                 </GridViewColumn>
                             </GridView>
                         </ListView.View>
-                    </ListView>
+                    </ListView>-->
+                    <!--<wtk:DataGrid Grid.Row="2" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
+                    </wtk:DataGrid>-->
+
                 </local:MyCanvas>
-            </GroupBox>
+                <!--</GroupBox>-->
+            </DockPanel>
         </Grid>
     </Grid>
 </Main:MainWindowBase>

@@ -85,6 +85,9 @@
     <Compile Include="Data\BackupDataModel.Path.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\BackupDataModel.Task.generated.cs">
+      <DependentUpon>BackupDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\ClassMemberViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -155,6 +158,10 @@
     <ProjectReference Include="..\Jedzia.BackBock.SharedTypes\Jedzia.BackBock.SharedTypes.csproj">
       <Project>{5033C48F-59BF-4E59-B76B-C61F2BC02F19}</Project>
       <Name>Jedzia.BackBock.SharedTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jedzia.BackBock.Tasks\Jedzia.BackBock.Tasks.csproj">
+      <Project>{07B3FA8E-2DF4-4F3C-A060-E919EB9D3C98}</Project>
+      <Name>Jedzia.BackBock.Tasks</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

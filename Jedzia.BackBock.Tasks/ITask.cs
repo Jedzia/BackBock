@@ -7,5 +7,7 @@ namespace Jedzia.BackBock.Tasks
 {
     public interface ITask
     {
+        string Name { get; }
+        bool Execute();
     }
 }

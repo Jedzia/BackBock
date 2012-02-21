@@ -20,6 +20,7 @@
         //private object parent;
         public ApplicationViewModel()
         {
+            Tasks.TaskRegistry.GetInstance();
             /*this.parent = parent;
             //ClassData2 = ClassDataProvider.CreateSampleClassData();
             //ICollectionView view = CollectionViewSource.GetDefaultView(ClassData2);

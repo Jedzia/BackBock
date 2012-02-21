@@ -46,6 +46,13 @@
 
 
    // ==========================================================================
+   // vmodel.Name : Task | vmodel.Type : TaskType | 
+
+        //  item.Name : TypeName | item.Type : System.String | propertyType : TaskTypeTypeName  
+   // ==========================================================================
+
+
+   // ==========================================================================
    // vmodel.Name : BackupData | vmodel.Type : BackupData | 
 
         //  item.Name : BackupItem | item.Type : BackupItemType | propertyType : BackupDataBackupItem  
@@ -57,6 +64,7 @@
    // vmodel.Name : BackupItem | vmodel.Type : BackupItemType | 
 
         //  item.Name : Path | item.Type : Path | propertyType : BackupItemTypePath  
+        //  item.Name : Task | item.Type : TaskType | propertyType : BackupItemTypeTask  
         //  item.Name : ItemName | item.Type : System.String | propertyType : BackupItemTypeItemName  
         //  item.Name : IsEnabled | item.Type : System.Boolean | propertyType : BackupItemTypeIsEnabled  
    // ==========================================================================

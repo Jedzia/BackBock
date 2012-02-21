@@ -10,14 +10,15 @@
         </xs:complexType>
     </xs:element>
     <xs:complexType name="BackupItemType">
-        <xs:sequence maxOccurs="unbounded">
-            <xs:element ref="Path"/>
+        <xs:sequence maxOccurs="1">
+            <xs:element ref="Path" maxOccurs="unbounded"/>
+            <xs:element name="Task" type="TaskType"/>
         </xs:sequence>
         <xs:attribute name="ItemName" type="xs:string" use="required"/>
         <xs:attribute name="IsEnabled" type="xs:boolean" default="false"/>
     </xs:complexType>
     <xs:complexType name="PathDataType">
-        <xs:sequence maxOccurs="unbounded">
+        <xs:sequence>
             <xs:element name="Exclusion" type="Wildcard" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="Inclusion" type="Wildcard" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -30,4 +31,7 @@
     </xs:complexType>
     <xs:element name="BackupItem" type="BackupItemType"/>
     <xs:element name="Path" type="PathDataType"/>
+    <xs:complexType name="TaskType">
+        <xs:attribute name="TypeName" type="xs:string"/>
+    </xs:complexType>
 </xs:schema>

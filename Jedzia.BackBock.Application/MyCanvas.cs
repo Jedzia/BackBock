@@ -7,7 +7,7 @@ namespace Jedzia.BackBock.Application
 {
     using Jedzia.BackBock.ViewModel.MainWindow;
 
-    public class MyCanvas : Grid, IMainWorkArea
+    public class MyCanvas : DockPanel, IMainWorkArea
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:MyCanvas"/> class.

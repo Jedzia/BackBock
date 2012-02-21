@@ -1,0 +1,61 @@
+﻿<Window x:Class="Jedzia.BackBock.Application.Window2"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:wtk="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+             xmlns:local="clr-namespace:Jedzia.BackBock.Application"
+   Initialized="Window_Initialized"
+ Title="Window2" Height="300" Width="300">
+    <!--<StackPanel ScrollOwner="MyDesigner" >-->
+    <Border x:Name="myBorder" BorderBrush="Yellow" BorderThickness="3">
+        <!--<StackPanel Background="Azure" Height="{Binding ElementName=myBorder, Path=ActualHeight}" >-->
+            <!--<StackPanel Background="Aquamarine">
+                <Grid  >
+                    <StackPanel>
+                        <Button Command="{Binding TestCommand}" >Test</Button>
+                        <TextBlock Text="{Binding DatasetName}"/>
+                    </StackPanel>
+                </Grid>-->
+                <!--<ListView ItemsSource="{Binding BackupItems}" MinHeight="240"  View="{DynamicResource BackupDataViewBase1}"/>-->
+                <Border BorderBrush="Red" BorderThickness="2">
+                    <local:MyCanvas  x:Name="MyDesigner" Margin="10" >
+                        <Grid  local:MyCanvas.Dock="Top">
+                    <StackPanel>
+                        <Button Command="{Binding TestCommand}" >Test</Button>
+                        <TextBlock Text="{Binding DatasetName}"/>
+                    </StackPanel></Grid>
+                        <Border local:MyCanvas.Dock="Bottom" BorderBrush="Green" BorderThickness="1">
+                            <wtk:DataGrid  ItemsSource="{Binding BackupItems}"  AutoGenerateColumns="False"
+                                          VerticalScrollBarVisibility="Auto" >
+                                <wtk:DataGrid.Columns>
+                                    <wtk:DataGridTextColumn Header="Name" Binding="{Binding ItemName}"/>
+                                    <wtk:DataGridCheckBoxColumn Header="IsEnabled" Binding="{Binding IsEnabled}"/>
+                                </wtk:DataGrid.Columns>
+                                <wtk:DataGrid.RowDetailsTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="20,2,2,2">
+                                            <TextBlock Text="Details:" Margin="10" FontWeight="Bold"/>
+                                            <wtk:DataGrid ItemsSource="{Binding Paths}" >
+                                                <wtk:DataGrid.RowDetailsTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Margin="20,2,2,2">
+                                                            <TextBlock Text="Inclusions:" Margin="10" FontWeight="Bold"/>
+                                                            <wtk:DataGrid ItemsSource="{Binding Inclusions}">
+                                                            </wtk:DataGrid>
+                                                            <TextBlock Text="Exclusions:" Margin="10" FontWeight="Bold"/>
+                                                            <wtk:DataGrid ItemsSource="{Binding Exclusions}">
+                                                            </wtk:DataGrid>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </wtk:DataGrid.RowDetailsTemplate>
+                                            </wtk:DataGrid>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </wtk:DataGrid.RowDetailsTemplate>
+                            </wtk:DataGrid>
+                        </Border>
+                    </local:MyCanvas>
+                </Border>
+            <!--</StackPanel>-->
+        <!--</StackPanel>-->
+    </Border>
+</Window>
