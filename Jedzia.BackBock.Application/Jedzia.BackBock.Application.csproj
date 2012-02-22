@@ -64,6 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Editors\TaskEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\ApplicationToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -266,6 +270,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Editors\TaskEditorWindow.xaml.cs">
+      <DependentUpon>TaskEditorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MyCanvas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -337,7 +344,7 @@
       <Name>Jedzia.BackBock.SharedTypes</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jedzia.BackBock.ViewModel\Jedzia.BackBock.ViewModel.csproj">
-      <Project>{6B6238E6-F17D-415C-A6D6-A692B32771C5}</Project>
+      <Project>{BA57B6A9-70FF-4A22-876B-5A8DFE003293}</Project>
       <Name>Jedzia.BackBock.ViewModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\WPG\WPG\WPG.csproj">

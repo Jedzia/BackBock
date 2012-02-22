@@ -6,15 +6,25 @@
       xmlns:wpgtt="clr-namespace:WPG.Themes.TypeEditors;assembly=WPG"
   >
 
-    <DataTemplate x:Key="TestDataTemplate" >
+    <DataTemplate x:Key="TaskDataTemplate" >
         <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="cnt" Text="{Binding Paths.Count}"/>
-            <TextBlock Text="{Binding .}"/>
-            <Button Content="..." Command="{Binding EditCollectionCommand}"  Margin="4,0,4,0"/>
+            <Label Margin="2,0,2,0" Content="Task"/>
+            <TextBlock VerticalAlignment="Center" Margin="2,0,2,0" x:Name="cnt" Text="{Binding Task.TypeName}"/>
+            <Button HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" Command="{Binding TaskDataClickedCommand}">...</Button>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PathsDataTemplate" >
+        <StackPanel Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center" Margin="2,0,2,0" x:Name="cnt" Text="{Binding Paths.Count}"/>
+            <Label Margin="2,0,2,0" Content="Path's"/>
+            <!--<TextBlock Text="{Binding .}"/>-->
+            <!--<Button Content="..." Command="{Binding EditCollectionCommand}"  Margin="4,0,4,0"/>-->
             <!--<wpg:PropertyGrid Instance="{Binding ElementName=cnt}" />-->
             <wpgtt:CollectionEditorControl 
                 NumerableValue="{Binding Paths}"                                            
                 DataContext="{Binding .}"
+                NumerableType="{Binding NumerableType}"
                 NumerableTypeIdentifier="Paths"
                 AddTypeCommand="{Binding AddTypeCommand}"
                 RemoveTypeCommand="{Binding RemoveTypeCommand}"
@@ -27,16 +37,16 @@
             <TextBlock Text="{Binding Path}"/>
         </StackPanel>
     </DataTemplate>
-    
-	<GridView x:Key="BackupDataViewBase1" AllowsColumnReorder="true">
-		<GridViewColumn Header="IsEnabled" >
-			<GridViewColumn.CellTemplate>
-				<DataTemplate>
-					<CheckBox IsChecked="{Binding IsEnabled}" />
-				</DataTemplate>
-			</GridViewColumn.CellTemplate>
-		</GridViewColumn>
-		<GridViewColumn DisplayMemberBinding="{Binding ItemName}" Header="Name" />
+
+    <GridView x:Key="BackupDataViewBase1" AllowsColumnReorder="true">
+        <GridViewColumn Header="IsEnabled" >
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsEnabled}" />
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn DisplayMemberBinding="{Binding ItemName}" Header="Name" />
         <GridViewColumn Header="Paths" >
             <GridViewColumn.CellTemplate>
                 <DataTemplate>
@@ -45,6 +55,6 @@
             </GridViewColumn.CellTemplate>
         </GridViewColumn>
         <GridViewColumn DisplayMemberBinding="{Binding Test}" Header="Test"/>
-	</GridView>
-	<!-- Resource dictionary entries should be defined here. -->
+    </GridView>
+    <!-- Resource dictionary entries should be defined here. -->
 </ResourceDictionary>

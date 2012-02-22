@@ -1,0 +1,19 @@
+﻿<Window x:Class="Jedzia.BackBock.Application.Editors.TaskEditorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Jedzia.BackBock.Application"
+    xmlns:Main="clr-namespace:Jedzia.BackBock.ViewModel.MainWindow;assembly=Jedzia.BackBock.ViewModel" 
+    xmlns:wtk="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+    xmlns:wpg="clr-namespace:WPG;assembly=WPG"
+    Title="TaskEditorWindow" Height="300" Width="300">
+    <Window.Resources>
+
+    </Window.Resources>
+    
+    <Grid x:Name="grid">
+        <StackPanel>
+            <Button MaxHeight="24" Click="Button_Click" >Yippieh!</Button>
+            <wpg:PropertyGrid x:Name="wpg" Instance="{Binding ElementName=grid, Path=DataContext}" />
+        </StackPanel>
+    </Grid>
+</Window>

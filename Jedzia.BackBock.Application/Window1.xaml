@@ -32,7 +32,7 @@
                 <Button Content="TEST Me" Click="Button_Click"/>
                 <Expander Header="Flow Chart" Content="FlowChartStencils" IsExpanded="True"/>
                 <Expander Header="Shapes" Content="ShapeStencils" IsExpanded="True"/>
-                <wpg:PropertyGrid x:Name="wpg" Instance="{Binding .}" />
+                <!--<wpg:PropertyGrid x:Name="wpg" Instance="{Binding .}" />-->
             </StackPanel>
             <!-- GridSplitter -->
             <GridSplitter Focusable="False" Width="2" Background="LightGray"
@@ -62,11 +62,12 @@
                                           VerticalScrollBarVisibility="Auto">
                         <wtk:DataGrid.Columns>
                             <wtk:DataGridTextColumn Header="Name" Binding="{Binding ItemName}"/>
-                            <wtk:DataGridTextColumn Header="Task" Binding="{Binding Task.TypeName}"/>
+                            <wtk:DataGridTemplateColumn CellTemplate="{DynamicResource TaskDataTemplate}"  Header="Task" />
+                            <!--<wtk:DataGridTextColumn Header="Task" Binding="{Binding Task.TypeName}"/>-->
                             <!--<wtk:DataGridTemplateColumn Header="Paths"  Binding="{Binding Paths}"/>-->
                             <wtk:DataGridCheckBoxColumn Header="IsEnabled" Binding="{Binding IsEnabled}"/>
-                            <wtk:DataGridTextColumn IsReadOnly="True" Header="Items" Binding="{Binding Paths.Count}"/>
-                            <wtk:DataGridTemplateColumn CellTemplate="{DynamicResource TestDataTemplate}"  Header="Test" />
+                            <!--<wtk:DataGridTextColumn IsReadOnly="True" Header="Items" Binding="{Binding Paths.Count}"/>-->
+                            <wtk:DataGridTemplateColumn CellTemplate="{DynamicResource PathsDataTemplate}"  Header="Paths" />
                         </wtk:DataGrid.Columns>
                         <wtk:DataGrid.RowDetailsTemplate>
                             <DataTemplate>

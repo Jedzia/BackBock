@@ -59,8 +59,8 @@
 
         static Window1()
         {
-            //App.ApplicationViewModel.RegisterControl(DesignerCanvas.WindowTypes.ClassSpecificationWindow,
-            //    typeof(ClassSpecificationWindow));
+            App.ApplicationViewModel.RegisterControl(BackupItemViewModel.WindowTypes.TaskEditor,
+                typeof(Editors.TaskEditorWindow));
         }
 
         public /*override*/ void ShowDetail(object val)

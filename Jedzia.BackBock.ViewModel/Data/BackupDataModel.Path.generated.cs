@@ -117,11 +117,7 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// <summary>
         /// Initializes a new instance of the <see cref="T:PathViewModel"/> class.
         /// </summary>
-        public PathViewModel()
-        {
-            path = new PathDataType();
-            path.Path = "Moese, hehehe";
-        }
+
         /// <summary>
         /// Gets or sets 
         /// </summary>

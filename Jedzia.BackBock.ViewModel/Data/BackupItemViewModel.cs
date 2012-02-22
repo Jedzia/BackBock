@@ -11,6 +11,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 {
     public partial class BackupItemViewModel
     {
+        public enum WindowTypes { TaskEditor, ClassFieldOptPage, ClassMethodOptPage, ClassPropertyOptPage, ClassEventOptPage, SettingsPage, }
 
         partial void PathCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -47,6 +48,14 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        public Type NumerableType
+        {
+            get
+            {
+                //return typeof(PathViewModel);
+                return null;
+            }
+        }
         #region EditCollection Command
 
         private RelayCommand editCollectionCommand;
@@ -144,6 +153,39 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
 
         private bool RemoveTypeEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
+
+        #region TaskDataClicked Command
+
+        private RelayCommand taskDataClickedCommand;
+
+        public ICommand TaskDataClickedCommand
+        {
+            get
+            {
+                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
+                if (this.taskDataClickedCommand == null)
+                {
+                    this.taskDataClickedCommand = new RelayCommand(this.TaskDataClickedExecuted, this.TaskDataClickedEnabled);
+                }
+
+                return this.taskDataClickedCommand;
+            }
+        }
+
+
+        private void TaskDataClickedExecuted(object o)
+        {
+            var wnd = ApplicationViewModel.GetInstanceFromType<Window>(WindowTypes.TaskEditor);
+            wnd.DataContext = this.Task;
+            wnd.ShowDialog();
+        }
+
+        private bool TaskDataClickedEnabled(object sender)
         {
             bool canExecute = true;
             return canExecute;

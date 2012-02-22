@@ -92,6 +92,8 @@
     <Compile Include="Data\ClassMemberViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\PathViewModel.cs" />
+    <Compile Include="Data\TaskViewModel.cs" />
     <Compile Include="DisplayMode.cs" />
     <Compile Include="ForTesting\MenuItemStyleSelector.cs" />
     <Compile Include="ForTesting\ProcessStageHelper.cs" />
@@ -101,7 +103,7 @@
     <Compile Include="ICanInputBind.cs" />
     <Compile Include="ICleanup.cs" />
     <Compile Include="InputBindExtender.cs" />
-    <Compile Include="MainWindow\ClassGeneralOptViewModel.cs" />
+    <Compile Include="MainWindow\DisplayModeViewModel.cs" />
     <Compile Include="MainWindow\IMainWindow.cs">
       <SubType>Code</SubType>
     </Compile>
