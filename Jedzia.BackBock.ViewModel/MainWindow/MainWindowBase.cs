@@ -42,5 +42,12 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         {
             // this.Initialized
         }
+
+        #region IMainWindow Members
+
+
+        //public abstract void ShowDetail(object val);
+
+        #endregion
     }
 }

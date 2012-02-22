@@ -113,6 +113,31 @@ namespace Jedzia.BackBock.ViewModel.Data
                 RaisePropertyChanged("Path");
             }
         }
+        private System.Windows.Media.Brush myBrush = new System.Windows.Media.SolidColorBrush();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:PathViewModel"/> class.
+        /// </summary>
+        public PathViewModel()
+        {
+            path = new PathDataType();
+            path.Path = "Moese, hehehe";
+        }
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public System.Windows.Media.Brush MyBrush
+        {
+            get
+            {
+                return this.myBrush;
+            }
+
+            set
+            {
+                this.myBrush = value;
+            }
+        }
+
 
         // UserData. HasFacets: False AttrQName: 
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 

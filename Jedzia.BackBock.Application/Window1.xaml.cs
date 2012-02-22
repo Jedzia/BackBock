@@ -4,6 +4,9 @@
     using Jedzia.BackBock.ViewModel.MainWindow;
     using System.Collections.Generic;
     using System.Windows.Controls;
+    using System.ComponentModel;
+    using System.Collections;
+    using Jedzia.BackBock.ViewModel.Data;
     //    using Jedzia.BackBock.Application.Resources.Styles.Resources.Styles;
 
     public partial class Window1 : MainWindowBase
@@ -42,6 +45,9 @@
             /*Classlistbox_xaml res = new Classlistbox_xaml();
             res.InitializeComponent();
             var exp = res["ClassListDataTemplate-CSharp"];*/
+            //wpg.Instance = this.MyDesigner.DataContext;
+            var modl = (BackupDataViewModel)MyDesigner.DataContext;
+            ShowDetail(modl.BackupItems[0]);
         }
 
         private void MainWindowBase_Initialized(object sender, System.EventArgs e)
@@ -55,6 +61,19 @@
         {
             //App.ApplicationViewModel.RegisterControl(DesignerCanvas.WindowTypes.ClassSpecificationWindow,
             //    typeof(ClassSpecificationWindow));
+        }
+
+        public /*override*/ void ShowDetail(object val)
+        {
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(val);
+            var col = new WPG.Themes.TypeEditors.CollectionEditorControl();
+            col.MyProperty = new WPG.Data.Property(val, properties["Paths"]);
+            //col.MyProperty. IsReadOnly = false;
+            //col.NumerableType = typeof(PathViewModel);
+            col.NumerableType = val.GetType();
+            col.NumerableValue = ((BackupItemViewModel)val).Paths;
+            var pg = new WPG.TypeEditors.CollectionEditorWindow(col);
+            pg.ShowDialog();
         }
     }
 

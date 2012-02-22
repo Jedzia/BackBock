@@ -13,6 +13,7 @@
         #region Properties
 
         IMainWorkArea Designer { get; }
+        //void ShowDetail(object val);
 
         #endregion
     }

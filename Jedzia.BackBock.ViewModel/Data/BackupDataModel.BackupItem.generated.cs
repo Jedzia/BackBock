@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using Jedzia.BackBock.SharedTypes;
 using Jedzia.BackBock.Model.Data;
 using Jedzia.BackBock.ViewModel.MainWindow;
+using System.Collections.ObjectModel;
 
 
 namespace Jedzia.BackBock.ViewModel.Data
@@ -43,25 +44,46 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// <summary>
         /// The summary. 
         /// </summary>
-        private List<PathViewModel> path;
+        private ObservableCollection<PathViewModel> path;
 
-        public List<PathViewModel> Paths
+        public ObservableCollection<PathViewModel> Paths
         {
             get
             {
                 if (this.path == null)
                 {
-                    this.path = new List<PathViewModel>();
+                    this.path = new ObservableCollection<PathViewModel>();
                     foreach (var item in this.backupitem.Path)
                     {
                         var colItem = new PathViewModel(item);
                         colItem.PropertyChanged += OnDataPropertyChanged;
                         this.path.Add(colItem);
                     }
+                    // Todo: Implement the CollectionChanged behaviour for the ObservableCollection<T> Model.
+                    this.path.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(path_CollectionChanged);
                 }
                 return this.path;
             }
+            
+            set
+            {
+                // Todo: Implement set handling.
+                if (this.path == value)
+                {
+                    return;
+                }
+                this.path = value;
+                RaisePropertyChanged("Paths");
+            }
         }
+
+
+        private void path_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            PathCollectionChanged(sender, e);
+        }
+        
+        partial void PathCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e);
 
         // Task. HasFacets: False AttrQName: 
         //                   propertyType: TaskType, IsChoiceRoot: False, BaseType: 

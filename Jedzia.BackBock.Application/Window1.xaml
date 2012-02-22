@@ -5,6 +5,7 @@
         xmlns:local="clr-namespace:Jedzia.BackBock.Application"
         xmlns:Main="clr-namespace:Jedzia.BackBock.ViewModel.MainWindow;assembly=Jedzia.BackBock.ViewModel" 
         xmlns:wtk="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+                     xmlns:wpg="clr-namespace:WPG;assembly=WPG"
                      Title="{Binding MainWindowTitle}"
         Height="850" Width="1200" Background="{DynamicResource ShadeBrush}"
         DataContext="{Binding RelativeSource={RelativeSource Self},Path=MainWindowViewModel}" Initialized="MainWindowBase_Initialized">
@@ -31,6 +32,7 @@
                 <Button Content="TEST Me" Click="Button_Click"/>
                 <Expander Header="Flow Chart" Content="FlowChartStencils" IsExpanded="True"/>
                 <Expander Header="Shapes" Content="ShapeStencils" IsExpanded="True"/>
+                <wpg:PropertyGrid x:Name="wpg" Instance="{Binding .}" />
             </StackPanel>
             <!-- GridSplitter -->
             <GridSplitter Focusable="False" Width="2" Background="LightGray"
@@ -64,6 +66,7 @@
                             <!--<wtk:DataGridTemplateColumn Header="Paths"  Binding="{Binding Paths}"/>-->
                             <wtk:DataGridCheckBoxColumn Header="IsEnabled" Binding="{Binding IsEnabled}"/>
                             <wtk:DataGridTextColumn IsReadOnly="True" Header="Items" Binding="{Binding Paths.Count}"/>
+                            <wtk:DataGridTemplateColumn CellTemplate="{DynamicResource TestDataTemplate}"  Header="Test" />
                         </wtk:DataGrid.Columns>
                         <wtk:DataGrid.RowDetailsTemplate>
                             <DataTemplate>
@@ -71,6 +74,8 @@
                                     <!--<TextBlock Margin="10" FontWeight="Bold">Details go here.</TextBlock>-->
                                     <TextBlock Text="Details:" Margin="10" FontWeight="Bold"/>
                                     <!--<ListBox Margin="20,2,2,2" ItemsSource="{Binding Paths}" ItemTemplate="{StaticResource PathViewModelDataTemplate}"/>-->
+                                    <!--<wpg:PropertyGrid Instance="{Binding Paths}" DataContext="{Binding}"/>-->
+                                    <TextBlock Text="{Binding .}"/>
                                     <wtk:DataGrid ItemsSource="{Binding Paths}" VerticalScrollBarVisibility="Auto">
                                         <wtk:DataGrid.RowDetailsTemplate>
                                             <DataTemplate>

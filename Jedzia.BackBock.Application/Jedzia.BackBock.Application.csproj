@@ -340,6 +340,10 @@
       <Project>{6B6238E6-F17D-415C-A6D6-A692B32771C5}</Project>
       <Name>Jedzia.BackBock.ViewModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WPG\WPG\WPG.csproj">
+      <Project>{022EDA6A-0B76-44C3-A530-8312C1B40030}</Project>
+      <Name>WPG %28WPG\WPG%29</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\AddElement.png" />
