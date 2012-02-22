@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Jedzia.BackBock.ViewModel.Data
 {
-    public struct MyStructure
+    public class MyStructure
     {
         public int ValueOne;
         public Boolean ValueTwo;
