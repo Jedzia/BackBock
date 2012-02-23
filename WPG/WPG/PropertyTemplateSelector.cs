@@ -31,6 +31,16 @@ namespace WPG
 		{
 			Type propertyType = property.PropertyType;
 
+            if (property.PropertyType.IsGenericType)
+            {
+                //var gtype0 = property.PropertyType.GetGenericTypeDefinition();
+                //var gtype1 = property.PropertyType.GetElementType();
+                //var gtype2 = property.PropertyType.DeclaringType;
+                //Type[] typeArguments = gtype0.GetGenericArguments();
+                //Type[] typeArguments1 = property.PropertyType.GetGenericArguments();
+                //propertyType = typeof(List<string>);
+                //propertyType = typeof(List<object>);
+            }
 
             if (!(property.PropertyType is String) && property.PropertyType is IEnumerable)
                 propertyType = typeof(List<object>);
@@ -51,10 +61,10 @@ namespace WPG
 
 		private static DataTemplate TryFindDataTemplate(FrameworkElement element, object dataTemplateKey)
 		{
-            if (dataTemplateKey.ToString() == "Jedzia.BackBock.ViewModel.Data.MyStructure")
+            /*if (dataTemplateKey.ToString() == "Jedzia.BackBock.ViewModel.Data.MyStructure")
             {
                 
-            }
+            }*/
 			object dataTemplate = element.TryFindResource(dataTemplateKey);
 			if (dataTemplate == null)
 			{

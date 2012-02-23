@@ -32,7 +32,7 @@ namespace Jedzia.BackBock.ViewModel.Util
                 throw new ArgumentNullException(GetParameterName(reference));
             }
         }
-
+      
         /// <summary>
         /// Ensures the given string <paramref name="value"/> is not null or empty.
         /// Throws <see cref="ArgumentNullException"/> in the first case, or 

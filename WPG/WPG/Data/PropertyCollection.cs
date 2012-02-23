@@ -47,6 +47,31 @@ namespace WPG.Data
 
             foreach (PropertyDescriptor propertyDescriptor in properties)
             {
+                bool skipProperty = false;
+                foreach (var item in propertyDescriptor.Attributes)
+                {
+                    if (item is DesignerSerializationVisibilityAttribute)
+                    {
+                        if (((DesignerSerializationVisibilityAttribute)item).Visibility == DesignerSerializationVisibility.Hidden)
+                        {
+                            skipProperty = true;
+                            break;
+                        }
+                    }
+                    if (item is EditorBrowsableAttribute)
+                    {
+                        if (((EditorBrowsableAttribute)item).State == EditorBrowsableState.Never)
+                        {
+                            skipProperty = true;
+                            break;
+                        }
+                    }
+                }
+                if (skipProperty)
+                {
+                    continue;
+                }
+
                 if (useCustomTypeConverter)
                 {
                     Property property = new Property(instance, propertyDescriptor);

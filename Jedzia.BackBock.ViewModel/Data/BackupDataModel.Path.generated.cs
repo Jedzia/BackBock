@@ -43,15 +43,15 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// <summary>
         /// The summary. 
         /// </summary>
-        private List<ExclusionViewModel> exclusion;
+        private ExclusionViewModelList exclusion;
 
-        public List<ExclusionViewModel> Exclusions
+        public ExclusionViewModelList Exclusions
         {
             get
             {
                 if (this.exclusion == null)
                 {
-                    this.exclusion = new List<ExclusionViewModel>();
+                    this.exclusion = new ExclusionViewModelList();
                     foreach (var item in this.path.Exclusion)
                     {
                         var colItem = new ExclusionViewModel(item);

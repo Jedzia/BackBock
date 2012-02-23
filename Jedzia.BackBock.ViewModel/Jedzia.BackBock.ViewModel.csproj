@@ -95,6 +95,10 @@
     <Compile Include="Data\PathViewModel.cs" />
     <Compile Include="Data\TaskViewModel.cs" />
     <Compile Include="DisplayMode.cs" />
+    <Compile Include="Ext\ActivatorExtension.cs" />
+    <Compile Include="Ext\InvariantString.cs" />
+    <Compile Include="Ext\Setter.cs" />
+    <Compile Include="Ext\TypeExtension.cs" />
     <Compile Include="ForTesting\MenuItemStyleSelector.cs" />
     <Compile Include="ForTesting\ProcessStageHelper.cs" />
     <Compile Include="CommandKeyGestureAttribute.cs" />

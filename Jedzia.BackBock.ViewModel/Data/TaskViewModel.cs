@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace Jedzia.BackBock.ViewModel.Data
 {
@@ -17,6 +18,7 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// <summary>
         /// Gets or sets 
         /// </summary>
+        [DisplayNameAttribute("Arschloch")]
         public MyStructure MyProperty
         {
             get

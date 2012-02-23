@@ -47,12 +47,14 @@ namespace WPG.TypeEditors
                 //cmdRemove.Visibility = Visibility.Collapsed;
                 //return;
             }
+            // Todo: check generic list type
 
             //var aa = baseControl.MyProperty.PropertyType.GetGenericArguments();
-            if (!HasDefaultConstructor(baseControl.MyProperty.PropertyType.GetGenericArguments()[0]) || baseControl.MyProperty.IsReadOnly)
-            {
-                cmdAdd.Visibility = Visibility.Collapsed;
-            }
+            if (baseControl.MyProperty.PropertyType.GetGenericArguments().Length > 0)
+                if (!HasDefaultConstructor(baseControl.MyProperty.PropertyType.GetGenericArguments()[0]) || baseControl.MyProperty.IsReadOnly)
+                {
+                    cmdAdd.Visibility = Visibility.Collapsed;
+                }
 
             if (baseControl.MyProperty.IsReadOnly)
                 cmdRemove.Visibility = Visibility.Collapsed;
@@ -64,20 +66,6 @@ namespace WPG.TypeEditors
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-        private void cmdRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (myLst.SelectedItem != null)
-            {
-                var rem = myLst.SelectedItem;
-                myLst.Items.Remove(myLst.SelectedItem);
-                if (baseControl.RemoveTypeCommand != null)
-                {
-                    baseControl.RemoveTypeCommand.Execute(rem);
-                }
-            }
-            myGrid.Instance = null;
         }
 
         private void myLst_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -93,7 +81,26 @@ namespace WPG.TypeEditors
 
         private void cmdAdd_Click(object sender, RoutedEventArgs e)
         {
-            object newElem = System.Activator.CreateInstance(baseControl.MyProperty.PropertyType.GetGenericArguments()[0]);
+            object newElem = null;
+            if (baseControl.MyProperty.PropertyType.IsGenericType)
+            {
+                Type[] typeArguments = baseControl.MyProperty.PropertyType.GetGenericArguments();
+                newElem = System.Activator.CreateInstance(typeArguments[0]);
+                if (baseControl.AddToCollection)
+                    baseControl.MyProperty.AddCollectionElement(newElem);
+            }
+            else if (baseControl.MyProperty.PropertyType.BaseType.IsGenericType)
+            {
+                Type[] typeArguments = baseControl.MyProperty.PropertyType.BaseType.GetGenericArguments();
+                newElem = System.Activator.CreateInstance(typeArguments[0]);
+                if (baseControl.AddToCollection)
+                    baseControl.MyProperty.AddCollectionElement(newElem);
+            }
+            else
+            {
+                newElem = System.Activator.CreateInstance(baseControl.MyProperty.PropertyType.GetGenericArguments()[0]);
+            }
+
             if (baseControl.AddTypeCommand != null)
             {
                 baseControl.AddTypeCommand.Execute(newElem);
@@ -101,8 +108,30 @@ namespace WPG.TypeEditors
             myLst.Items.Add(newElem);
         }
 
+        private void cmdRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (myLst.SelectedItem != null)
+            {
+                var rem = myLst.SelectedItem;
+                if (baseControl.MyProperty.PropertyType.IsGenericType)
+                {
+                    if (baseControl.AddToCollection)
+                        baseControl.MyProperty.RemoveCollectionElement(rem);
+                }
+                else if (baseControl.MyProperty.PropertyType.BaseType.IsGenericType)
+                {
+                    if (baseControl.AddToCollection)
+                        baseControl.MyProperty.RemoveCollectionElement(rem);
+                }
 
+                myLst.Items.Remove(myLst.SelectedItem);
 
-
+                if (baseControl.RemoveTypeCommand != null)
+                {
+                    baseControl.RemoveTypeCommand.Execute(rem);
+                }
+            }
+            myGrid.Instance = null;
+        }
     }
 }

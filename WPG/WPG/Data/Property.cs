@@ -47,7 +47,23 @@ namespace WPG.Data
             NotifyPropertyChanged("PropertyType");
         }
 
-		#endregion
+        #endregion
+
+        public void AddCollectionElement(object element)
+        {
+            var it = TypeDescriptor.GetProperties(this._instance).Find(this.Name, false);
+            var propInstance = it.GetValue(this._instance);
+            var addMethod = PropertyType.GetMethod("Add");
+            addMethod.Invoke(propInstance, new object[] { element });
+        }
+
+        public void RemoveCollectionElement(object element)
+        {
+            var it = TypeDescriptor.GetProperties(this._instance).Find(this.Name, false);
+            var propInstance = it.GetValue(this._instance);
+            var addMethod = PropertyType.GetMethod("Remove");
+            addMethod.Invoke(propInstance, new object[] { element });
+        }
 
 		#region Properties
 

@@ -1,11 +1,72 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:data="clr-namespace:Jedzia.BackBock.ViewModel.Data;assembly=Jedzia.BackBock.ViewModel"
+    xmlns:generics="clr-namespace:System.Collections.Generic;assembly=mscorlib"
     xmlns:wpg="clr-namespace:WPG;assembly=WPG"
-      xmlns:wpgtt="clr-namespace:WPG.Themes.TypeEditors;assembly=WPG"
+    xmlns:t="clr-namespace:Jedzia.BackBock.ViewModel.Ext;assembly=Jedzia.BackBock.ViewModel"
+    xmlns:wpgtt="clr-namespace:WPG.Themes.TypeEditors;assembly=WPG"
   >
+    <!--
+    ResourceId={x:Type generics:List`1[data:ExclusionViewModel]}}" 
+    {t:Type gen:KeyValuePair, sys:String, sys:Int32}
+    -->
+    <!--<ContentControl x:Key="Arsch" Content="{t:Type gen:List, {t:Type gen:List, {t:Type gen:KeyValuePair, sys:String, sys:Int32}}}" />-->
 
+    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
+        ResourceId={x:Type data:ExclusionViewModelList}}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Value.Count}"/>
+            <TextBlock Text=" Exclusions  "/>
+            <!--<TextBox Text="Dingens ExclusionViewModelList">-->
+                <!--<TextBox.Text>
+                    <Binding Mode="TwoWay" Path="Value">
+                        <Binding.Converter>
+                            <converters:DoubleTypeConverter />
+                        </Binding.Converter>
+                    </Binding>
+                </TextBox.Text>-->
+            <!--</TextBox>-->
+            <!--<Button HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" 
+                    Command="{Binding ExclusionDataClickedCommand}">...</Button>-->
+            <!--<wpgtt:CollectionEditorControl 
+                NumerableType="{Binding Path=PropertyType}"                                            
+                NumerableValue="{Binding Path=Value}" MyProperty="{Binding Exclusions}" 
+                NumerableTypeIdentifier="Exclusions"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            </wpgtt:CollectionEditorControl>-->
+            <wpgtt:CollectionEditorControl 
+                NumerableValue="{Binding Value}"                                            
+                MyProperty="{Binding .}"
+                NumerableType="{Binding NumerableType}"
+                NumerableTypeIdentifier="Exclusions"
+                AddTypeCommand="{Binding AddTypeCommand}"
+                RemoveTypeCommand="{Binding RemoveTypeCommand}"
+                />
+        </StackPanel>
+    </DataTemplate>
+
+    <!--<DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
+        ResourceId={x:Type data:ExclusionViewModel}}">
+        <StackPanel>
+            <TextBox Text="Dingens">
+            </TextBox>
+            <Button HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" 
+                    Command="{Binding ExclusionDataClickedCommand}">...</Button>
+        </StackPanel>
+    </DataTemplate>-->
+
+    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
+        ResourceId={x:Type data:MyStructure}}">
+        <StackPanel Orientation="Horizontal">
+            <TextBox Text="MyStructure">
+            </TextBox>
+            <Button HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" 
+                    Command="{Binding ExclusionDataClickedCommand}">...</Button>
+        </StackPanel>
+    </DataTemplate>
+    
     <DataTemplate x:Key="TaskDataTemplate" >
         <StackPanel Orientation="Horizontal">
             <Label Margin="2,0,2,0" Content="Task"/>

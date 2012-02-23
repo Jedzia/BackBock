@@ -117,7 +117,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         private void AddTypeExecuted(object o)
         {
-            this.Paths.Add((PathViewModel)o);
+            //this.Paths.Add((PathViewModel)o);
             //this.AddType();
         }
 
@@ -149,7 +149,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         private void RemoveTypeExecuted(object o)
         {
-            this.Paths.Remove((PathViewModel)o);
+            //this.Paths.Remove((PathViewModel)o);
         }
 
         private bool RemoveTypeEnabled(object sender)

@@ -78,7 +78,8 @@ namespace Jedzia.BackBock.ViewModel
         [SuppressMessage(
             "Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
-            Justification = "Non static member needed for data binding")]
+            Justification = "Non static member needed for data binding"),
+        EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsInDesignMode
         {
             get

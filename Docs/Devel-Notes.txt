@@ -5,3 +5,44 @@ There is currently no documented way of defining a new theme. All
 you can do is add features to the built-in themes. 
 So, if the terminology "Theme" is used in the program or documentation,
 in fact, a skin is meaned.
+
+
+WPG DataTemplate's
+===================
+
+System.Collections.Generic.List`1[Jedzia.BackBock.ViewModel.Data.ExclusionViewModel]
+
+From http://wpg.codeplex.com/discussions/223237
+
+
+------------------------
+I want a DataTemplate for ObservableCollection in there is a Button in their.
+
+ 
+
+But their always come a mistake that it doesn´t find ObservableCollection.
+
+xmlns:clr3="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+
+<DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:PropertyGrid}, ResourceId={x:Type clr3:ObservableCollection}}">
+      <Button Content="..."/>
+ </DataTemplate>
+------------------------
+Datatemplates for generic Types normaly don't work.
+
+ 
+
+Look at PropertyTemplateSelector.cs with the Line 
+
+if (!(property.PropertyType is String) && property.PropertyType is IEnumerable)                
+ propertyType = typeof(List<object>);
+
+I added support for the
+
+     <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:PropertyGrid}, ResourceId={x:Type generics:List`1[System.Object]}}">
+<TypeEditors:CollectionEditorControl NumerableType="{Binding Path=PropertyType}" NumerableValue="{Binding Path=Value}" MyProperty="{Binding}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></TypeEditors:CollectionEditorControl>
+</DataTemplate>
+
+
+
+    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, ResourceId={x:Type generics:List`1[data:ExclusionViewModel]}}">

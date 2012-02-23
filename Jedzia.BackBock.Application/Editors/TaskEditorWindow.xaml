@@ -10,17 +10,6 @@ xmlns:data="clr-namespace:Jedzia.BackBock.ViewModel.Data;assembly=Jedzia.BackBoc
     Title="TaskEditorWindow" Height="300" Width="300">
     <Window.Resources>
 
-        <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, ResourceId={x:Type data:MyStructure}}">
-            <TextBox Text="XXXX">
-                <!--<TextBox.Text>
-                    <Binding Mode="TwoWay" Path="Value">
-                        <Binding.Converter>
-                            <converters:DoubleTypeConverter />
-                        </Binding.Converter>
-                    </Binding>
-                </TextBox.Text>-->
-            </TextBox>
-        </DataTemplate>
 
 
     </Window.Resources>

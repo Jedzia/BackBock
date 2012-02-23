@@ -84,6 +84,14 @@ namespace WPG.Themes.TypeEditors
         public static readonly DependencyProperty RemoveTypeCommandProperty =
             DependencyProperty.Register("RemoveTypeCommand", typeof(ICommand), typeof(CollectionEditorControl), new UIPropertyMetadata(null));
 
+        public bool AddToCollection
+        {
+            get { return (bool)GetValue(AddToCollectionProperty); }
+            set { SetValue(AddToCollectionProperty, value); }
+        }
+
+        public static readonly DependencyProperty AddToCollectionProperty =
+            DependencyProperty.Register("AddToCollection", typeof(bool), typeof(CollectionEditorControl), new UIPropertyMetadata(true));
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
