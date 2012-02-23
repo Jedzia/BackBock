@@ -25,10 +25,12 @@ namespace WPG.TypeEditors
 
             return true;
         }
+        
         public CollectionEditorWindow(CollectionEditorControl ctrl)
         {
             InitializeComponent();
             baseControl = ctrl;
+            this.DataContext = baseControl.DataContext;
 
             foreach (var tmp in baseControl.NumerableValue)
             {

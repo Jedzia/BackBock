@@ -56,6 +56,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 return null;
             }
         }
+
         #region EditCollection Command
 
         private RelayCommand editCollectionCommand;
@@ -96,7 +97,7 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
         #endregion
 
-        #region AddType Command
+        /*#region AddType Command
 
         private RelayCommand addTypeCommand;
 
@@ -157,7 +158,7 @@ namespace Jedzia.BackBock.ViewModel.Data
             bool canExecute = true;
             return canExecute;
         }
-        #endregion
+        #endregion*/
 
         #region TaskDataClicked Command
 

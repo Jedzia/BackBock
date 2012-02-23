@@ -41,11 +41,21 @@ namespace WPG
                 //propertyType = typeof(List<string>);
                 //propertyType = typeof(List<object>);
             }
+            if (property.Name == "Path")
+            {
+
+            }
 
             if (!(property.PropertyType is String) && property.PropertyType is IEnumerable)
                 propertyType = typeof(List<object>);
             
 			DataTemplate template = TryFindDataTemplate(element, propertyType);
+            var key = property.QualifierName;
+            DataTemplate template2 = TryFindDataTemplate(element, key);
+            if (template2 != null)
+            {
+                return template2;
+            }
 
     		while (template == null && propertyType.BaseType != null)
 			{

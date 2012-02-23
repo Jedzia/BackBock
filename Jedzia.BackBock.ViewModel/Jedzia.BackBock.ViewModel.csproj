@@ -56,9 +56,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationViewModel.cs" />
+    <Compile Include="Commands\BehaviorBinding.cs" />
     <Compile Include="Commands\ClickCommands.cs" />
+    <Compile Include="Commands\CommandBehavior.cs" />
+    <Compile Include="Commands\CommandBehaviorBinding.cs" />
+    <Compile Include="Commands\CommandBehaviorCollection.cs" />
+    <Compile Include="Commands\EventHandlerGenerator.cs" />
+    <Compile Include="Commands\ExecutionStrategy.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayContextMenu.cs" />
+    <Compile Include="Commands\SimpleCommand.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Converters\BoolToOppositeConverter.cs" />
     <Compile Include="Converters\DoubleTypeConverter.cs" />
@@ -107,6 +114,7 @@
     <Compile Include="ICanInputBind.cs" />
     <Compile Include="ICleanup.cs" />
     <Compile Include="InputBindExtender.cs" />
+    <Compile Include="IOService.cs" />
     <Compile Include="MainWindow\DisplayModeViewModel.cs" />
     <Compile Include="MainWindow\IMainWindow.cs">
       <SubType>Code</SubType>
@@ -169,6 +177,10 @@
     <ProjectReference Include="..\Jedzia.BackBock.Tasks\Jedzia.BackBock.Tasks.csproj">
       <Project>{07B3FA8E-2DF4-4F3C-A060-E919EB9D3C98}</Project>
       <Name>Jedzia.BackBock.Tasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WPG\WPG\WPG.csproj">
+      <Project>{022EDA6A-0B76-44C3-A530-8312C1B40030}</Project>
+      <Name>WPG %28WPG\WPG%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -273,6 +273,7 @@
     <Compile Include="Editors\TaskEditorWindow.xaml.cs">
       <DependentUpon>TaskEditorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FileIOService.cs" />
     <Compile Include="MyCanvas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

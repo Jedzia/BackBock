@@ -14,12 +14,34 @@
     using System.Xml;
     using Jedzia.BackBock.ViewModel.Commands;
     using System;
+    using Jedzia.BackBock.ViewModel.Util;
 
     public class ApplicationViewModel : /*IFolderExplorerViewModel,*/ INotifyPropertyChanged
     {
-        //private object parent;
-        public ApplicationViewModel()
+        //public enum ServiceTypes { TaskEditor,  }
+        private static IOService ioService;
+
+        public static IOService MainIOService
         {
+            get { return ioService; }
+            //set { ioService = value; }
+        }
+
+        private static object initialized = null;
+        public ApplicationViewModel(IOService ioService)
+        {
+            if (initialized != null)
+            {
+                throw new ApplicationException("Double initialization of the ApplicationViewModel.");
+            }
+            else
+            {
+                initialized = new object();
+            }
+
+            Guard.NotNull(() => ioService, ioService);
+
+            ApplicationViewModel.ioService = ioService;
             Tasks.TaskRegistry.GetInstance();
             /*this.parent = parent;
             //ClassData2 = ClassDataProvider.CreateSampleClassData();

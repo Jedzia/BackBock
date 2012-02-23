@@ -37,6 +37,13 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #endregion
 
+        /*public IOService MainIOService
+        {
+            get { return applicationViewModel.MainIOService; }
+            //set { ioService = value; }
+        }*/
+
+
         #region Constructors
 
         public MainWindowViewModel(ApplicationViewModel applicationViewModel, IMainWindow mainWindow)

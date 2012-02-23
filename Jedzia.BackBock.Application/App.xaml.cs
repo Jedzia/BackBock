@@ -23,7 +23,7 @@
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            applicationViewModel = new ApplicationViewModel();
+            applicationViewModel = new ApplicationViewModel(new FileIOService());
         }
     }
 }

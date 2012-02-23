@@ -45,6 +45,7 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// </summary>
         private ExclusionViewModelList exclusion;
 
+        //[WPG.Flat]
         public ExclusionViewModelList Exclusions
         {
             get
@@ -113,6 +114,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 RaisePropertyChanged("Path");
             }
         }
+
         private System.Windows.Media.Brush myBrush = new System.Windows.Media.SolidColorBrush();
         /// <summary>
         /// Initializes a new instance of the <see cref="T:PathViewModel"/> class.

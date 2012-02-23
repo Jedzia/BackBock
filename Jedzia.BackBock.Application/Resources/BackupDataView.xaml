@@ -14,6 +14,17 @@
     -->
     <!--<ContentControl x:Key="Arsch" Content="{t:Type gen:List, {t:Type gen:List, {t:Type gen:KeyValuePair, sys:String, sys:Int32}}}" />-->
 
+    <DataTemplate DataType="{x:Type data:PathViewModel}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Path '"/>
+            <TextBlock Text="{Binding Path}"/>
+            <TextBlock Text="' E:"/>
+            <TextBlock Text="{Binding Exclusions.Count}"/>
+            <TextBlock Text=" I:"/>
+            <TextBlock Text="{Binding Inclusions.Count}"/>
+        </StackPanel>
+    </DataTemplate>
+
     <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
         ResourceId={x:Type data:ExclusionViewModelList}}">
         <StackPanel Orientation="Horizontal">
@@ -56,6 +67,22 @@
                     Command="{Binding ExclusionDataClickedCommand}">...</Button>
         </StackPanel>
     </DataTemplate>-->
+    
+    <!-- ResourceId=Namespace.Class.Member identifies a member specific template.  -->
+    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
+        ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Path}">
+        <StackPanel Orientation="Horizontal">
+            <!--<TextBlock Text="{Binding Instance}"/>-->
+            <!--<TextBlock Text="{Binding ElementName=MyDesigner, Path=.}"/>-->
+            <!--<TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, 
+                AncestorType={x:Type Window}}, Path=DataContext}"/>-->
+            <TextBox Text="{Binding Value}"/>
+
+            <Button HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" 
+                    Command="{Binding Instance.OpenFileClickedCommand}">...</Button>
+        </StackPanel>
+    </DataTemplate>
+
 
     <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
         ResourceId={x:Type data:MyStructure}}">

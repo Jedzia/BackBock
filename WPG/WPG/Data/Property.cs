@@ -49,6 +49,11 @@ namespace WPG.Data
 
         #endregion
 
+        public string QualifierName
+        {
+            get { return this._instance.GetType().ToString() + "." + this.Name; }
+        }
+
         public void AddCollectionElement(object element)
         {
             var it = TypeDescriptor.GetProperties(this._instance).Find(this.Name, false);
@@ -66,6 +71,11 @@ namespace WPG.Data
         }
 
 		#region Properties
+
+        public object Instance
+        {
+            get { return _instance; }
+        }
 
 		/// <value>
 		/// Initializes the reflected instance property
