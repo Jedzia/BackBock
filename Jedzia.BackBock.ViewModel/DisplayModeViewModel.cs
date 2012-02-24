@@ -1,74 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Data;
-using System.Globalization;
-using Jedzia.BackBock.ViewModel.Data;
-using Jedzia.BackBock.Model.Data;
-
-namespace Jedzia.BackBock.ViewModel.MainWindow
+﻿namespace Jedzia.BackBock.ViewModel
 {
-    // Todo: Move this to converters namespace.
-    public sealed class DisplayModeToVisibility : DependencyObject, IValueConverter
-    {
-        #region Fields
-
-        public static readonly DependencyProperty InvertProperty =
-            DependencyProperty.Register(
-                "Invert",
-                typeof(bool),
-                typeof(DisplayModeToVisibility),
-                new FrameworkPropertyMetadata(false));
-
-        #endregion
-
-        #region Properties
-
-        public bool Invert
-        {
-            get
-            {
-                return (bool)GetValue(InvertProperty);
-            }
-            set
-            {
-                SetValue(InvertProperty, value);
-            }
-        }
-
-        #endregion
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if ((value != null) ^ this.Invert)
-            {
-                return Visibility.Visible.ToString();
-            }
-            //return "";
-            return Visibility.Collapsed.ToString();
-            //return "Class";
-        }
-
-        // No need to implement converting back on a one-way binding 
-        /// <exception cref="NotImplementedException"><c>NotImplementedException</c>.</exception>
-        public object ConvertBack(
-            object value,
-            Type targetType,
-            object parameter,
-            CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
     public class DisplayModeViewModel : ViewModelBase
     {
         /// <summary>
         /// The summary.
         /// </summary>
-        private DisplayMode displayMode = Jedzia.BackBock.ViewModel.DisplayMode.Standard;
+        private DisplayMode displayMode = DisplayMode.Standard;
 
         /// <summary>
         /// Gets or sets the summary.

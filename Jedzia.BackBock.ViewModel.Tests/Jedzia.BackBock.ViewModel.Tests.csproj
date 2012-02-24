@@ -77,6 +77,7 @@
     <Compile Include="Commands\RelayCommandGenericTest.cs" />
     <Compile Include="Commands\RelayCommandTest.cs" />
     <Compile Include="Data\BackupDataViewModelTest.cs" />
+    <Compile Include="DisplayModeViewModelTest.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestContains.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestCreationTime.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestIsRegistered.cs" />
@@ -140,9 +141,6 @@
       <Project>{BA57B6A9-70FF-4A22-876B-5A8DFE003293}</Project>
       <Name>Jedzia.BackBock.ViewModel</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Test References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
