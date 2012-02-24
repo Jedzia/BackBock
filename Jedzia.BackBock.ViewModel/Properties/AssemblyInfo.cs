@@ -95,3 +95,5 @@ using System;
     Scope = "namespace",
     Target = "GalaSoft.MvvmLight.Ioc")]
 
+
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Jedzia.BackBock.ViewModel.Tests")]

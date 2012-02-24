@@ -14,7 +14,10 @@ namespace Jedzia.BackBock.Application
         public string OpenFileDialog(string defaultPath)
         {
             var opf = new OpenFileDialog();
-            opf.FileName = defaultPath;
+            if (!string.IsNullOrEmpty(defaultPath))
+            {
+                opf.FileName = defaultPath;
+            }
             opf.ShowDialog();
             return opf.FileName;
         }

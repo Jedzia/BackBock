@@ -42,9 +42,7 @@ namespace Jedzia.BackBock.ViewModel.Data
         private void OpenFileClickedExecuted(object o)
         {
             var path = ApplicationViewModel.MainIOService.OpenFileDialog(string.Empty);
-            //System.Windows.MessageBox.Show("OpenFileClickedExecuted");
             this.Path = path;
-            //this.OpenFileClicked();
         }
 
         private bool OpenFileClickedEnabled(object sender)

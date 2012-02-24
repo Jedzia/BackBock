@@ -71,16 +71,22 @@
     <!-- ResourceId=Namespace.Class.Member identifies a member specific template.  -->
     <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
         ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Path}">
-        <StackPanel Orientation="Horizontal">
-            <!--<TextBlock Text="{Binding Instance}"/>-->
-            <!--<TextBlock Text="{Binding ElementName=MyDesigner, Path=.}"/>-->
-            <!--<TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, 
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="27"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <!--<TextBlock Text="{Binding Instance}"/>-->
+                <!--<TextBlock Text="{Binding ElementName=MyDesigner, Path=.}"/>-->
+                <!--<TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, 
                 AncestorType={x:Type Window}}, Path=DataContext}"/>-->
-            <TextBox Text="{Binding Value}"/>
+                <TextBox Text="{Binding Value}"/>
 
-            <Button HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" 
+            </StackPanel>
+            <Button Grid.Column="1" HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" 
                     Command="{Binding Instance.OpenFileClickedCommand}">...</Button>
-        </StackPanel>
+        </Grid>
     </DataTemplate>
 
 

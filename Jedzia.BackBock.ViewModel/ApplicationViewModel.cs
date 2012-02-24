@@ -14,6 +14,7 @@
     using System.Xml;
     using Jedzia.BackBock.ViewModel.Commands;
     using System;
+    using System.Linq;
     using Jedzia.BackBock.ViewModel.Util;
 
     public class ApplicationViewModel : /*IFolderExplorerViewModel,*/ INotifyPropertyChanged
@@ -23,11 +24,25 @@
 
         public static IOService MainIOService
         {
-            get { return ioService; }
+            get 
+            {
+                if (ioService == null)
+                {
+                    throw new ApplicationException("Fetching the MainIOService before an ApplicationViewModel was instantiated.");
+                }
+                return ioService; 
+            }
             //set { ioService = value; }
         }
 
         private static object initialized = null;
+        
+        internal static void Reset()
+        {
+            initialized = null;
+            ioService = null;
+        }
+
         public ApplicationViewModel(IOService ioService)
         {
             if (initialized != null)
@@ -69,10 +84,37 @@
         }
 
 
-        static Dictionary<Enum, Type> registeredControlTypes = new Dictionary<Enum, Type>();
-        public void RegisterControl(Enum kind, Type type)
+        private static Dictionary<Enum, Type> registeredControlTypes = new Dictionary<Enum, Type>();
+        public static void RegisterControl(Enum kind, Type type)
         {
+            Guard.NotNull(() => kind, kind);
+            Guard.NotNull(() => type, type);
+            // Todo: move this stuff to a ControlRegistrator class.
             //classSpecificationWindowType = type;
+            //var xxx = Data.BackupItemViewModel.WindowTypes.TaskEditor.GetType();
+            //var yyy = xxx.GetCustomAttributes(false);
+            var kindType = kind.GetType();
+            var member = kindType.GetMembers().FirstOrDefault((e) => e.Name == kind.ToString());
+            if (member != null)
+            {
+                var attrs = member.GetCustomAttributes(false);
+                var ctattr = attrs.OfType<CheckTypeAttribute>();
+                foreach (var item in ctattr)
+                {
+                    if (!type.IsSubclassOf(item.Type))
+                    {
+                        throw new NotSupportedException("Can't register type. The type "
+                            + type.ToString() + " is no instance of " + item.Type.ToString());
+                    }
+                    /*if (!type.IsInstanceOfType(item.Type))
+                    {
+                        throw new NotSupportedException("Can't register type. The type "
+                            + type.ToString() + " is no instance of " + item.Type.ToString());
+                    }*/
+                }
+            }
+            var values = Enum.GetValues(kindType);
+            //var attrs = kindType.GetCustomAttributes(false);
             registeredControlTypes.Add(kind, type);
             //var w = CreateInstanceFromType<Window>(type);
         }
@@ -106,6 +148,29 @@
             return instance;
         }
 
+    }
+
+    /// <summary>
+    /// Summary
+    /// </summary>
+    [global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
+    public sealed class CheckTypeAttribute : Attribute
+    {
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public Type Type
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:CheckTypeAttribute"/> class. 
+        /// </summary>
+        public CheckTypeAttribute(Type type)
+        {
+            this.Type = type;
+        }
     }
 
     /// <summary>

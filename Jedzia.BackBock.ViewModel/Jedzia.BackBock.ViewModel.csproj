@@ -178,10 +178,6 @@
       <Project>{07B3FA8E-2DF4-4F3C-A060-E919EB9D3C98}</Project>
       <Name>Jedzia.BackBock.Tasks</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WPG\WPG\WPG.csproj">
-      <Project>{022EDA6A-0B76-44C3-A530-8312C1B40030}</Project>
-      <Name>WPG %28WPG\WPG%29</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />

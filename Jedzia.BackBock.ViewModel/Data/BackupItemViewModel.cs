@@ -11,7 +11,16 @@ namespace Jedzia.BackBock.ViewModel.Data
 {
     public partial class BackupItemViewModel
     {
-        public enum WindowTypes { TaskEditor, ClassFieldOptPage, ClassMethodOptPage, ClassPropertyOptPage, ClassEventOptPage, SettingsPage, }
+        public enum WindowTypes
+        { 
+            [CheckType(typeof(Window))]
+            TaskEditor, 
+            ClassFieldOptPage,
+            ClassMethodOptPage,
+            ClassPropertyOptPage,
+            ClassEventOptPage,
+            SettingsPage, 
+        }
 
         partial void PathCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

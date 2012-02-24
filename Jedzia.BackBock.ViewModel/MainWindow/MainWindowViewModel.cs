@@ -171,6 +171,6 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         #endregion
 
 
-        private Type classSpecificationWindowType;
+        //private Type classSpecificationWindowType;
     }
 }
