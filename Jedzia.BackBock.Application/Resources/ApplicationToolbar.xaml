@@ -1,7 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Controls="clr-namespace:Jedzia.BackBock.ViewModel.Controls;assembly=Jedzia.BackBock.ViewModel"
-                    x:Class="Jedzia.BackBock.Application.Resources.d__e_projects_csharp_testing_diagramming_diagramdesignerpart4_diagramdesigner_resources_applicationtoolbar_xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Jedzia.BackBock.CustomControls.Controls;assembly=Jedzia.BackBock.CustomControls" x:Class="Jedzia.BackBock.Application.Resources.d__e_projects_csharp_testing_diagramming_diagramdesignerpart4_diagramdesigner_resources_applicationtoolbar_xaml">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Styles/Shared.xaml"/>

@@ -96,6 +96,7 @@
     <Compile Include="MVVM\Messaging\NotificationMessageActionTest.cs" />
     <Compile Include="MVVM\Messaging\NotificationMessageTest.cs" />
     <Compile Include="MVVM\Messaging\PropertyChangedMessageTest.cs" />
+    <Compile Include="MVVM\ObservableObjectTest.cs" />
     <Compile Include="MVVM\Stubs\ITestClass.cs" />
     <Compile Include="MVVM\Stubs\TestBindingTarget.cs" />
     <Compile Include="MVVM\Stubs\TestClass.cs" />
@@ -107,9 +108,15 @@
     <Compile Include="MVVM\Stubs\TestClassForCreationTime.cs" />
     <Compile Include="MVVM\Stubs\TestClassWithMultiConstructors.cs" />
     <Compile Include="MVVM\Stubs\TestViewModelWithBooleanSource.cs" />
+    <Compile Include="MVVM\ViewModelBaseTest.cs" />
+    <Compile Include="MVVM\ViewModel\TestClassWithObservableObject.cs" />
+    <Compile Include="MVVM\ViewModel\TestViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\TestViewModelNoMagicString.cs" />
+    <Compile Include="MVVM\ViewModel\ViewModelStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MVVM\Threading\DispatcherHelperTest.cs" />
     <Compile Include="Util\GuardTest.cs" />
+    <Compile Include="Util\VisualHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jedzia.BackBock.CustomControls\Jedzia.BackBock.CustomControls.csproj">

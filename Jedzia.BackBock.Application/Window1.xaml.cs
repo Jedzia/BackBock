@@ -1,6 +1,7 @@
 ﻿namespace Jedzia.BackBock.Application
 {
     using System.Windows;
+    using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.MainWindow;
     using System.Collections.Generic;
     using System.Windows.Controls;
@@ -59,7 +60,7 @@
 
         static Window1()
         {
-            App.ApplicationViewModel.RegisterControl(BackupItemViewModel.WindowTypes.TaskEditor,
+            ApplicationViewModel.RegisterControl(BackupItemViewModel.WindowTypes.TaskEditor,
                 typeof(Editors.TaskEditorWindow));
         }
 

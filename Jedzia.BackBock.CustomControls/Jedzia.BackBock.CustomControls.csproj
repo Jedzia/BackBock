@@ -71,6 +71,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="NavBar\Node.cs" />
     <Compile Include="NavBar\GroupItem.cs" />
     <Compile Include="NavBar\NavBar.cs" />

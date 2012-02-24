@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Data;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-
-namespace Jedzia.BackBock.ViewModel.Controls
+﻿namespace Jedzia.BackBock.CustomControls.Controls
 {
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
+    using System.Windows.Data;
+
     // http://www.google.de/search?sclient=psy-ab&hl=en&site=&source=hp&q=%2Bwpf+button+with+menu&btnG=Search
     // this is from http://andyonwpf.blogspot.com/2006/10/dropdownbuttons-in-wpf.html
     // more on 

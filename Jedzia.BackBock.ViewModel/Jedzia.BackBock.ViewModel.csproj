@@ -73,7 +73,6 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayContextMenu.cs" />
     <Compile Include="Commands\SimpleCommand.cs" />
-    <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Converters\BoolToOppositeConverter.cs" />
     <Compile Include="Converters\DoubleTypeConverter.cs" />
     <Compile Include="Converters\EnumTypeConverter.cs" />
