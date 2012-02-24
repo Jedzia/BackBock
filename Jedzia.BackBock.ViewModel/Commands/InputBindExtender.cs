@@ -1,4 +1,4 @@
-﻿namespace Jedzia.BackBock.ViewModel
+﻿namespace Jedzia.BackBock.ViewModel.Commands
 {
     using System.Windows.Input;
 

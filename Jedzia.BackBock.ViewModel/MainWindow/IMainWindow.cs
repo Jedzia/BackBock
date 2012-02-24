@@ -1,6 +1,7 @@
 ﻿namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     using System;
+    using Jedzia.BackBock.ViewModel.Commands;
 
     public interface IMainWindow : ICanInputBind, ICanCommandBind
     {

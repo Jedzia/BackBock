@@ -9,6 +9,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     using System.Windows;
     using System.Windows.Controls;
+    using Jedzia.BackBock.ViewModel.Commands;
 
     public interface IMainWorkArea : ICanInputBind, ICanCommandBind, IInputElement
     {

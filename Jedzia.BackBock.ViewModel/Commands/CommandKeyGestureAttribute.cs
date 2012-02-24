@@ -5,14 +5,14 @@
 // <email>jed69@gmx.de</email>
 // <date>$date$</date>
 // <summary>$summary$</summary>
-namespace Jedzia.BackBock.ViewModel
+namespace Jedzia.BackBock.ViewModel.Commands
 {
     using System;
     using System.Linq;
     using System.Reflection;
-    using System.Windows.Input;
     using System.Windows;
-    using Jedzia.BackBock.ViewModel.Commands;
+    using System.Windows.Input;
+    using Jedzia.BackBock.ViewModel.Util;
 
     // Todo: move this to Jedzia.BackBock.ViewModel.Commands
     [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = true)]
@@ -102,6 +102,7 @@ namespace Jedzia.BackBock.ViewModel
         /// tag the gesture to only types stored in this field.</param>
         public CommandKeyGestureAttribute(KeyGesture key, string target)
         {
+            Guard.NotNull(() => key, key);
             this.Key = key;
             this.Target = target;
         }
@@ -115,9 +116,9 @@ namespace Jedzia.BackBock.ViewModel
 
         #region Properties
 
-        private KeyGesture Key { get; set; }
+        public KeyGesture Key { get; private set; }
 
-        private string Target { get; set; }
+        public string Target { get; private set; }
 
         #endregion
 

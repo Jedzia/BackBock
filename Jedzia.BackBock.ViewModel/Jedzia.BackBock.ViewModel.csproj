@@ -66,10 +66,15 @@
     <Compile Include="Commands\CommandBehavior.cs" />
     <Compile Include="Commands\CommandBehaviorBinding.cs" />
     <Compile Include="Commands\CommandBehaviorCollection.cs" />
+    <Compile Include="Commands\CommandKeyGestureAttribute.cs" />
     <Compile Include="Commands\EventHandlerGenerator.cs" />
     <Compile Include="Commands\EventToCommand.cs" />
     <Compile Include="Commands\EventToCommand.WPF.cs" />
     <Compile Include="Commands\ExecutionStrategy.cs" />
+    <Compile Include="Commands\ICanCommandBind.cs" />
+    <Compile Include="Commands\ICanInputBind.cs" />
+    <Compile Include="Commands\InputBindExtender.cs" />
+    <Compile Include="Commands\MergeMenus.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayContextMenu.cs" />
     <Compile Include="Commands\SimpleCommand.cs" />
@@ -114,12 +119,8 @@
     <Compile Include="Ext\TypeExtension.cs" />
     <Compile Include="ForTesting\MenuItemStyleSelector.cs" />
     <Compile Include="ForTesting\ProcessStageHelper.cs" />
-    <Compile Include="CommandKeyGestureAttribute.cs" />
     <Compile Include="ApplicationCommandModel.cs" />
-    <Compile Include="ICanCommandBind.cs" />
-    <Compile Include="ICanInputBind.cs" />
     <Compile Include="ICleanup.cs" />
-    <Compile Include="InputBindExtender.cs" />
     <Compile Include="IOService.cs" />
     <Compile Include="MainWindow\DisplayModeViewModel.cs" />
     <Compile Include="MainWindow\IMainWindow.cs">
@@ -138,7 +139,6 @@
     <Compile Include="MainWindow\MainWindowViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MergeMenus.cs" />
     <Compile Include="Commands\RelayCommandGeneric.cs" />
     <Compile Include="MVVM\Helpers\IExecuteWithObject.cs" />
     <Compile Include="MVVM\Helpers\WeakAction.cs" />
