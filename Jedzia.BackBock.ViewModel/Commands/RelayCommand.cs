@@ -7,6 +7,8 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
+    using System.Diagnostics.CodeAnalysis;
+    using Jedzia.BackBock.ViewModel.Util;
 
     public class RelayCommand : /*DependencyObject,*/ ICommand
     {
@@ -26,6 +28,7 @@
 
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
+            Guard.NotNull(() => execute, execute);
             this.execute = execute;
             this.canExecute = canExecute;
         }
@@ -116,7 +119,10 @@
 
         public void Execute(object parameter)
         {
-            this.execute(parameter);
+            if (CanExecute(parameter))
+            {
+                this.execute(parameter);
+            }
         }
 
         #endregion

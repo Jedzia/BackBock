@@ -34,6 +34,10 @@
   <ItemGroup>
     <Reference Include="Gallio" />
     <Reference Include="MbUnit" />
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -48,6 +52,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Interactivity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Gallio35" />
     <Reference Include="MbUnit35" />
@@ -67,7 +72,43 @@
   <ItemGroup>
     <None Include="Util\GuardTestX.cs" />
     <Compile Include="ApplicationViewModelTest.cs" />
+    <Compile Include="Commands\EventToCommandTest.cs" />
+    <Compile Include="Commands\RelayCommandGenericTest.cs" />
+    <Compile Include="Commands\RelayCommandTest.cs" />
+    <Compile Include="Data\BackupDataViewModelTest.cs" />
+    <Compile Include="MVVM\Ioc\SimpleIocTestContains.cs" />
+    <Compile Include="MVVM\Ioc\SimpleIocTestCreationTime.cs" />
+    <Compile Include="MVVM\Ioc\SimpleIocTestIsRegistered.cs" />
+    <Compile Include="MVVM\Ioc\SimpleIocTestMultipleConstructors.cs" />
+    <Compile Include="MVVM\Ioc\SimpleIocTestMultipleInstances.cs" />
+    <Compile Include="MVVM\Ioc\SimpleIocTestSingleInstance.cs" />
+    <Compile Include="MVVM\Ioc\SimpleIocTestUnregistration.cs" />
+    <Compile Include="MVVM\Messaging\DialogMessageTest.cs" />
+    <Compile Include="MVVM\Messaging\MessengerBroadcastToAllTest.cs" />
+    <Compile Include="MVVM\Messaging\MessengerCreationDeletionTest.cs" />
+    <Compile Include="MVVM\Messaging\MessengerMultipleInstancesTest.cs" />
+    <Compile Include="MVVM\Messaging\MessengerOverrideDefaultTest.cs" />
+    <Compile Include="MVVM\Messaging\MessengerRegisterUnregisterTest.cs" />
+    <Compile Include="MVVM\Messaging\MessengerRegisterWhileSendingTest.cs" />
+    <Compile Include="MVVM\Messaging\MessengerSendToAllTest.cs" />
+    <Compile Include="MVVM\Messaging\MessengerSendToTypeTest.cs" />
+    <Compile Include="MVVM\Messaging\MessengerSendWithTokenTest.cs" />
+    <Compile Include="MVVM\Messaging\NotificationMessageActionTest.cs" />
+    <Compile Include="MVVM\Messaging\NotificationMessageTest.cs" />
+    <Compile Include="MVVM\Messaging\PropertyChangedMessageTest.cs" />
+    <Compile Include="MVVM\Stubs\ITestClass.cs" />
+    <Compile Include="MVVM\Stubs\TestBindingTarget.cs" />
+    <Compile Include="MVVM\Stubs\TestClass.cs" />
+    <Compile Include="MVVM\Stubs\TestClass2.cs" />
+    <Compile Include="MVVM\Stubs\TestClass3.cs" />
+    <Compile Include="MVVM\Stubs\TestClass4.cs" />
+    <Compile Include="MVVM\Stubs\TestClass5.cs" />
+    <Compile Include="MVVM\Stubs\TestClass6.cs" />
+    <Compile Include="MVVM\Stubs\TestClassForCreationTime.cs" />
+    <Compile Include="MVVM\Stubs\TestClassWithMultiConstructors.cs" />
+    <Compile Include="MVVM\Stubs\TestViewModelWithBooleanSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MVVM\Threading\DispatcherHelperTest.cs" />
     <Compile Include="Util\GuardTest.cs" />
   </ItemGroup>
   <ItemGroup>
