@@ -22,8 +22,19 @@ namespace Jedzia.BackBock.ViewModel.Data
             SettingsPage, 
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:BackupItemViewModel"/> class.
+        /// </summary>
+        public BackupItemViewModel()
+        {
+            this.backupitem = new Jedzia.BackBock.Model.Data.BackupItemType();
+        }
+
         partial void PathCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            // Mit ObservableCollection kann das ViewModel automatisch auf entfernen und
+            // hinzufügen von Objekten reagieren.
+            
             /*if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 foreach (PathViewModel item in e.NewItems)

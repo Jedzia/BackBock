@@ -54,7 +54,23 @@
                 NumerableTypeIdentifier="Exclusions"
                 AddTypeCommand="{Binding AddTypeCommand}"
                 RemoveTypeCommand="{Binding RemoveTypeCommand}"
-                />
+                TextBoxVisible="Collapsed"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
+        ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Inclusions}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Value.Count}"/>
+            <TextBlock Text=" Inclusions  "/>
+            <wpgtt:CollectionEditorControl 
+                NumerableValue="{Binding Value}"                                            
+                MyProperty="{Binding .}"
+                NumerableType="{Binding NumerableType}"
+                NumerableTypeIdentifier="Inclusions"
+                AddTypeCommand="{Binding AddTypeCommand}"
+                RemoveTypeCommand="{Binding RemoveTypeCommand}"
+                TextBoxVisible="Collapsed"/>
         </StackPanel>
     </DataTemplate>
 
@@ -115,13 +131,14 @@
             <!--<TextBlock Text="{Binding .}"/>-->
             <!--<Button Content="..." Command="{Binding EditCollectionCommand}"  Margin="4,0,4,0"/>-->
             <!--<wpg:PropertyGrid Instance="{Binding ElementName=cnt}" />-->
-            <wpgtt:CollectionEditorControl 
+            <wpgtt:CollectionEditorControl
                 NumerableValue="{Binding Paths}"                                            
                 DataContext="{Binding .}"
                 NumerableType="{Binding NumerableType}"
                 NumerableTypeIdentifier="Paths"
                 AddTypeCommand="{Binding AddTypeCommand}"
                 RemoveTypeCommand="{Binding RemoveTypeCommand}"
+                TextBoxVisible="Collapsed"
                 />
         </StackPanel>
     </DataTemplate>

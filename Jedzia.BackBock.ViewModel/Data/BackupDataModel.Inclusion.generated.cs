@@ -36,10 +36,6 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             this.inclusion = inclusion;
         }
-        public InclusionViewModel()
-        {
-            this.inclusion = new Wildcard();
-        }
 
         // Pattern. HasFacets: False AttrQName: 
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 

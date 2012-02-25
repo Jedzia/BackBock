@@ -53,6 +53,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BackupData.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ModelLoader.cs" />
     <Compile Include="SampleResourceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

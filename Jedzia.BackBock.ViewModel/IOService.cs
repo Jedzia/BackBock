@@ -9,6 +9,7 @@ namespace Jedzia.BackBock.ViewModel
     public interface IOService
     {
         string OpenFileDialog(string defaultPath);
+        string SaveFileDialog(string defaultPath);
 
         //Other similar untestable IO operations
         Stream OpenFile(string path);

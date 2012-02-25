@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BackupData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DatasetName="Daily">
+  <BackupItem IsEnabled="true" ItemName="Firefox">
+    <Path Path="C:\Program Files\Mozilla\config.sql" />
+    <Task TypeName="Backup" />
+  </BackupItem>
+  <BackupItem IsEnabled="true" ItemName="My Documents">
+    <Path Path="C:\Text\notes.txt" />
+    <Path Path="C:\Text\passwords.txt" />
+    <Path Path="C:\Users\root\info.txt" />
+    <Task TypeName="Backup" />
+  </BackupItem>
+  <BackupItem ItemName="From Dusk till D:\">
+    <Path Path="D:\">
+      <Exclusion Pattern="D:\Temp\**" />
+      <Inclusion Pattern="*.txt" />
+    </Path>
+    <Task TypeName="Backup" />
+  </BackupItem>
+</BackupData>

@@ -22,6 +22,8 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         }*/
         #region Properties
 
+        public abstract MainWindowViewModel MainWindowViewModel { get; }
+
         public IMainWorkArea Designer
         {
             get

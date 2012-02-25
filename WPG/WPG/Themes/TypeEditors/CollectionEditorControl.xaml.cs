@@ -40,7 +40,12 @@ namespace WPG.Themes.TypeEditors
         }
 
         public static readonly DependencyProperty NumerableTypeProperty =
-            DependencyProperty.Register("NumerableType", typeof(Type), typeof(CollectionEditorControl), new UIPropertyMetadata(null));
+            DependencyProperty.Register("NumerableType", typeof(Type), typeof(CollectionEditorControl), new UIPropertyMetadata(null), ValidateNumerableTypeProperty);
+
+        public static bool ValidateNumerableTypeProperty(object value)
+        {
+            return true;
+        }
 
         public IEnumerable NumerableValue
         {
@@ -92,6 +97,15 @@ namespace WPG.Themes.TypeEditors
 
         public static readonly DependencyProperty AddToCollectionProperty =
             DependencyProperty.Register("AddToCollection", typeof(bool), typeof(CollectionEditorControl), new UIPropertyMetadata(true));
+
+        public Visibility TextBoxVisible
+        {
+            get { return (Visibility)GetValue(TextBoxVisibleProperty); }
+            set { SetValue(TextBoxVisibleProperty, value); }
+        }
+
+        public static readonly DependencyProperty TextBoxVisibleProperty =
+            DependencyProperty.Register("TextBoxVisible", typeof(Visibility), typeof(CollectionEditorControl), new UIPropertyMetadata(Visibility.Visible));
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

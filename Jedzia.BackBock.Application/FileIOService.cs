@@ -27,6 +27,23 @@ namespace Jedzia.BackBock.Application
             throw new NotImplementedException();
         }
 
+        public string SaveFileDialog(string defaultPath)
+        {
+            var opf = new SaveFileDialog();
+            if (!string.IsNullOrEmpty(defaultPath))
+            {
+                opf.FileName = defaultPath;
+            }
+            opf.ShowDialog();
+            return opf.FileName;
+        }
+
+        public System.IO.Stream SaveFile(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+
         #endregion
     }
 }

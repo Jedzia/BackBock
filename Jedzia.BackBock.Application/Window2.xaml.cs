@@ -39,5 +39,15 @@ namespace Jedzia.BackBock.Application
         }
 
         #endregion
+
+        #region IMainWindow Members
+
+
+        public MainWindowViewModel MainWindowViewModel
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
     }
 }

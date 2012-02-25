@@ -111,6 +111,8 @@
     <Compile Include="Data\ClassMemberViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\ExclusionViewModel.cs" />
+    <Compile Include="Data\InclusionViewModel.cs" />
     <Compile Include="Data\PathViewModel.cs" />
     <Compile Include="Data\TaskViewModel.cs" />
     <Compile Include="DisplayMode.cs" />

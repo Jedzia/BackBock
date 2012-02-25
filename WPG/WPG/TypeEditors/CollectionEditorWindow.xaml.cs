@@ -3,6 +3,7 @@ using System.Collections;
 using System.Windows;
 using WPG.Themes.TypeEditors;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace WPG.TypeEditors
 {
@@ -49,20 +50,61 @@ namespace WPG.TypeEditors
                 //cmdRemove.Visibility = Visibility.Collapsed;
                 //return;
             }
-            // Todo: check generic list type
 
-            //var aa = baseControl.MyProperty.PropertyType.GetGenericArguments();
-            if (baseControl.MyProperty.PropertyType.GetGenericArguments().Length > 0)
-                if (!HasDefaultConstructor(baseControl.MyProperty.PropertyType.GetGenericArguments()[0]) || baseControl.MyProperty.IsReadOnly)
+            bool canBeConstructed = false;
+            if (baseControl.MyProperty.PropertyType.IsGenericType)
+            {
+                // check for generic list type
+                Type[] typeArguments = baseControl.MyProperty.PropertyType.GetGenericArguments();
+                canBeConstructed = IsDefaultConstructible(typeArguments);
+            }
+            else if (baseControl.MyProperty.PropertyType.BaseType.IsGenericType)
+            {
+                // check BaseType for generic list type
+                Type[] typeArguments = baseControl.MyProperty.PropertyType.BaseType.GetGenericArguments();
+                canBeConstructed = IsDefaultConstructible(typeArguments);
+            }
+            
+            if (canBeConstructed)
+            {
+                //cmdAdd.Visibility = Visibility.Visible;
+                //cmdRemove.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                if (baseControl.MyProperty.PropertyType.GetGenericArguments().Length > 0)
                 {
-                    cmdAdd.Visibility = Visibility.Collapsed;
+                    if (!HasDefaultConstructor(baseControl.MyProperty.PropertyType.GetGenericArguments()[0]) || baseControl.MyProperty.IsReadOnly)
+                    {
+                        cmdAdd.Visibility = Visibility.Collapsed;
+                    }
                 }
 
-            if (baseControl.MyProperty.IsReadOnly)
-                cmdRemove.Visibility = Visibility.Collapsed;
-
+                if (baseControl.MyProperty.IsReadOnly)
+                    cmdRemove.Visibility = Visibility.Collapsed;
+            }
 
             //myLst.ItemsSource = baseControl.NumerableValue;
+        }
+
+        private static bool IsDefaultConstructible(Type[] typeArguments)
+        {
+            bool canBeConstructed = false;
+            if (typeArguments.Length > 0)
+            {
+                var type = typeArguments[0];
+                //var ctors = type.GetConstructors(BindingFlags.Public | BindingFlags.Default);
+                var ctors = type.GetConstructors();
+                foreach (var ctor in ctors)
+                {
+                    var ctorparams = ctor.GetParameters();
+                    if (ctor.IsPublic && ctorparams.Length == 0)
+                    {
+                        canBeConstructed = true;
+                    }
+                }
+            }
+            return canBeConstructed;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

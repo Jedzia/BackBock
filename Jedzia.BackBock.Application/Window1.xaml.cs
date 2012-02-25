@@ -29,7 +29,7 @@
 
         MainWindowViewModel mainWindowViewModel;
 
-        public MainWindowViewModel MainWindowViewModel
+        public override MainWindowViewModel MainWindowViewModel
         {
             get
             {
