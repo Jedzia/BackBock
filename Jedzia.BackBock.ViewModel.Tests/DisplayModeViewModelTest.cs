@@ -1,9 +1,8 @@
 ﻿using Jedzia.BackBock.ViewModel;
 using MbUnit.Framework;
+using System.Collections.Generic;
 namespace Jedzia.BackBock.ViewModel.Tests
 {
-    using Gallio.Framework;
-
 
     /// <summary>
     ///This is a test class for DisplayModeViewModelTest and is intended
@@ -50,10 +49,27 @@ namespace Jedzia.BackBock.ViewModel.Tests
         [Test]
         public void IsStandardDisplayModeTest()
         {
-            DisplayModeViewModel target = new DisplayModeViewModel(); // TODO: Initialize to an appropriate value
+            int count=0;
+            List<string> props = new List<string>();
+            DisplayModeViewModel target = new DisplayModeViewModel();
+            target.PropertyChanged += (e, o) => { count++; props.Add(o.PropertyName); };
             bool actual;
             actual = target.IsStandardDisplayMode;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsTrue(actual);
+            Assert.AreEqual(0, count);
+
+            target.DisplayMode = DisplayMode.Expert;
+            actual = target.IsStandardDisplayMode;
+            Assert.IsTrue(actual);
+            Assert.AreEqual(3, count);
+            Assert.AreElementsEqual(new[] { "DisplayMode", "DisplayExpert", "DisplayAll" }, props);
+
+            props.Clear();
+            target.DisplayMode = DisplayMode.All;
+            actual = target.IsStandardDisplayMode;
+            Assert.IsTrue(actual);
+            Assert.AreEqual(6, count);
+            Assert.AreElementsEqual(new[] { "DisplayMode", "DisplayExpert", "DisplayAll" }, props);
         }
 
         /// <summary>
@@ -62,10 +78,18 @@ namespace Jedzia.BackBock.ViewModel.Tests
         [Test]
         public void IsExpertDisplayModeTest()
         {
-            DisplayModeViewModel target = new DisplayModeViewModel(); // TODO: Initialize to an appropriate value
+            DisplayModeViewModel target = new DisplayModeViewModel();
             bool actual;
             actual = target.IsExpertDisplayMode;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsFalse(actual);
+
+            target.DisplayMode = DisplayMode.Expert;
+            actual = target.IsExpertDisplayMode;
+            Assert.IsTrue(actual);
+
+            target.DisplayMode = DisplayMode.All;
+            actual = target.IsExpertDisplayMode;
+            Assert.IsTrue(actual);
         }
 
         /// <summary>
@@ -74,10 +98,18 @@ namespace Jedzia.BackBock.ViewModel.Tests
         [Test]
         public void IsAllDisplayModeTest()
         {
-            DisplayModeViewModel target = new DisplayModeViewModel(); // TODO: Initialize to an appropriate value
+            DisplayModeViewModel target = new DisplayModeViewModel();
             bool actual;
             actual = target.IsAllDisplayMode;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsFalse(actual);
+
+            target.DisplayMode = DisplayMode.Expert;
+            actual = target.IsAllDisplayMode;
+            Assert.IsFalse(actual);
+
+            target.DisplayMode = DisplayMode.All;
+            actual = target.IsAllDisplayMode;
+            Assert.IsTrue(actual);
         }
 
         /// <summary>
@@ -86,13 +118,26 @@ namespace Jedzia.BackBock.ViewModel.Tests
         [Test]
         public void DisplayModeTest()
         {
-            DisplayModeViewModel target = new DisplayModeViewModel(); // TODO: Initialize to an appropriate value
-            DisplayMode expected = new DisplayMode(); // TODO: Initialize to an appropriate value
+            DisplayModeViewModel target = new DisplayModeViewModel();
+            DisplayMode expected = DisplayMode.Standard;
             DisplayMode actual;
+            actual = target.DisplayMode;
+            Assert.AreEqual(expected, actual);
+            
+            expected = DisplayMode.Standard;
             target.DisplayMode = expected;
             actual = target.DisplayMode;
             Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+
+            expected = DisplayMode.Expert;
+            target.DisplayMode = expected;
+            actual = target.DisplayMode;
+            Assert.AreEqual(expected, actual);
+
+            expected = DisplayMode.All;
+            target.DisplayMode = expected;
+            actual = target.DisplayMode;
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -101,10 +146,25 @@ namespace Jedzia.BackBock.ViewModel.Tests
         [Test]
         public void DisplayExpertTest()
         {
-            DisplayModeViewModel target = new DisplayModeViewModel(); // TODO: Initialize to an appropriate value
+            DisplayModeViewModel target = new DisplayModeViewModel();
             string actual;
+            string expected = "Collapsed";
             actual = target.DisplayExpert;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(expected, actual);
+
+            target.DisplayMode = DisplayMode.Standard;
+            actual = target.DisplayExpert;
+            Assert.AreEqual(expected, actual);
+
+            target.DisplayMode = DisplayMode.Expert;
+            expected = "Visible";
+            actual = target.DisplayExpert;
+            Assert.AreEqual(expected, actual);
+
+            target.DisplayMode = DisplayMode.All;
+            expected = "Visible";
+            actual = target.DisplayExpert;
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -113,10 +173,24 @@ namespace Jedzia.BackBock.ViewModel.Tests
         [Test]
         public void DisplayAllTest()
         {
-            DisplayModeViewModel target = new DisplayModeViewModel(); // TODO: Initialize to an appropriate value
+            DisplayModeViewModel target = new DisplayModeViewModel();
             string actual;
+            string expected = "Collapsed";
             actual = target.DisplayAll;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.AreEqual(expected, actual);
+
+            target.DisplayMode = DisplayMode.Standard;
+            actual = target.DisplayAll;
+            Assert.AreEqual(expected, actual);
+
+            target.DisplayMode = DisplayMode.Expert;
+            actual = target.DisplayAll;
+            Assert.AreEqual(expected, actual);
+
+            target.DisplayMode = DisplayMode.All;
+            expected = "Visible";
+            actual = target.DisplayAll;
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -126,7 +200,6 @@ namespace Jedzia.BackBock.ViewModel.Tests
         public void DisplayModeViewModelConstructorTest()
         {
             DisplayModeViewModel target = new DisplayModeViewModel();
-            Assert.Inconclusive("TODO: Implement code to verify target");
         }
     }
 }
