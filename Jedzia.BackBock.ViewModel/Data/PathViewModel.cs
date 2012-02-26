@@ -20,6 +20,62 @@ namespace Jedzia.BackBock.ViewModel.Data
             path.Path = "Moese, hehehe";
         }
 
+        partial void ExclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            // Reflect the changes to the underlying data.
+            switch (e.Action)
+            {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                    foreach (ExclusionViewModel item in e.NewItems)
+                    {
+                        this.path.Exclusion.Add(item.exclusion);
+                    }
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                    foreach (ExclusionViewModel item in e.OldItems)
+                    {
+                        this.path.Exclusion.Remove(item.exclusion);
+                    }
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        partial void InclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            // Reflect the changes to the underlying data.
+            switch (e.Action)
+            {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                    foreach (InclusionViewModel item in e.NewItems)
+                    {
+                        this.path.Inclusion.Add(item.inclusion);
+                    }
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                    foreach (InclusionViewModel item in e.OldItems)
+                    {
+                        this.path.Inclusion.Remove(item.inclusion);
+                    }
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                    break;
+                default:
+                    break;
+            }
+        }
+
         #region OpenFileClicked Command
 
         private RelayCommand openFileClickedCommand;

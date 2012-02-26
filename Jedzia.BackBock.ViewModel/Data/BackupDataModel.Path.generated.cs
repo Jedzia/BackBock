@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/21/2012 15:48:19 by 
+This code was automatically generated at 02/26/2012 02:54:05 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -38,57 +38,72 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
 
         // Exclusion. HasFacets: False AttrQName: 
-        //                   propertyType: List<Wildcard>, IsChoiceRoot: False, BaseType: 
+        //                   propertyType: System.Collections.ObjectModel.ObservableCollection<Wildcard>, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
         /// The summary. 
         /// </summary>
-        private ExclusionViewModelList exclusion;
+        private System.Collections.ObjectModel.ObservableCollection<ExclusionViewModel> exclusion;
 
-        //[WPG.Flat]
-        public ExclusionViewModelList Exclusions
+        public System.Collections.ObjectModel.ObservableCollection<ExclusionViewModel> Exclusions
         {
             get
             {
                 if (this.exclusion == null)
                 {
-                    this.exclusion = new ExclusionViewModelList();
+                    this.exclusion = new System.Collections.ObjectModel.ObservableCollection<ExclusionViewModel>();
                     foreach (var item in this.path.Exclusion)
                     {
                         var colItem = new ExclusionViewModel(item);
                         colItem.PropertyChanged += OnDataPropertyChanged;
                         this.exclusion.Add(colItem);
                     }
+                    this.exclusion.CollectionChanged += OnExclusionCollectionChanged;
                 }
                 return this.exclusion;
             }
         }
 
+        protected virtual void OnExclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            ExclusionCollectionChanged(sender, e);
+        }
+
+        partial void ExclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e);
+
         // Inclusion. HasFacets: False AttrQName: 
-        //                   propertyType: List<Wildcard>, IsChoiceRoot: False, BaseType: 
+        //                   propertyType: System.Collections.ObjectModel.ObservableCollection<Wildcard>, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
         /// The summary. 
         /// </summary>
-        private List<InclusionViewModel> inclusion;
+        private System.Collections.ObjectModel.ObservableCollection<InclusionViewModel> inclusion;
 
-        public List<InclusionViewModel> Inclusions
+        public System.Collections.ObjectModel.ObservableCollection<InclusionViewModel> Inclusions
         {
             get
             {
                 if (this.inclusion == null)
                 {
-                    this.inclusion = new List<InclusionViewModel>();
+                    this.inclusion = new System.Collections.ObjectModel.ObservableCollection<InclusionViewModel>();
                     foreach (var item in this.path.Inclusion)
                     {
                         var colItem = new InclusionViewModel(item);
                         colItem.PropertyChanged += OnDataPropertyChanged;
                         this.inclusion.Add(colItem);
                     }
+                    this.inclusion.CollectionChanged += OnInclusionCollectionChanged;
                 }
                 return this.inclusion;
             }
         }
+
+        protected virtual void OnInclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            InclusionCollectionChanged(sender, e);
+        }
+
+        partial void InclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e);
 
         // Path. HasFacets: False AttrQName: 
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 
@@ -114,28 +129,6 @@ namespace Jedzia.BackBock.ViewModel.Data
                 RaisePropertyChanged("Path");
             }
         }
-
-        private System.Windows.Media.Brush myBrush = new System.Windows.Media.SolidColorBrush();
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:PathViewModel"/> class.
-        /// </summary>
-
-        /// <summary>
-        /// Gets or sets 
-        /// </summary>
-        public System.Windows.Media.Brush MyBrush
-        {
-            get
-            {
-                return this.myBrush;
-            }
-
-            set
-            {
-                this.myBrush = value;
-            }
-        }
-
 
         // UserData. HasFacets: False AttrQName: 
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 

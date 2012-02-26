@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/21/2012 15:48:19 by 
+This code was automatically generated at 02/26/2012 02:54:05 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -38,30 +38,38 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
 
         // BackupItem. HasFacets: False AttrQName: 
-        //                   propertyType: List<BackupItemType>, IsChoiceRoot: False, BaseType: 
+        //                   propertyType: System.Collections.ObjectModel.ObservableCollection<BackupItemType>, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
         /// The summary. 
         /// </summary>
-        private List<BackupItemViewModel> backupitem;
+        private System.Collections.ObjectModel.ObservableCollection<BackupItemViewModel> backupitem;
 
-        public List<BackupItemViewModel> BackupItems
+        public System.Collections.ObjectModel.ObservableCollection<BackupItemViewModel> BackupItems
         {
             get
             {
                 if (this.backupitem == null)
                 {
-                    this.backupitem = new List<BackupItemViewModel>();
+                    this.backupitem = new System.Collections.ObjectModel.ObservableCollection<BackupItemViewModel>();
                     foreach (var item in this.backupdata.BackupItem)
                     {
                         var colItem = new BackupItemViewModel(item);
                         colItem.PropertyChanged += OnDataPropertyChanged;
                         this.backupitem.Add(colItem);
                     }
+                    this.backupitem.CollectionChanged += OnBackupItemCollectionChanged;
                 }
                 return this.backupitem;
             }
         }
+
+        protected virtual void OnBackupItemCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            BackupItemCollectionChanged(sender, e);
+        }
+
+        partial void BackupItemCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e);
 
         // DatasetName. HasFacets: False AttrQName: 
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 

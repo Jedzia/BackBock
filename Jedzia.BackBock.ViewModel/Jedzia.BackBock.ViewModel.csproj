@@ -107,6 +107,7 @@
     <Compile Include="Data\BackupDataModel.Task.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\BackupDataViewModel.cs" />
     <Compile Include="Data\BackupItemViewModel.cs" />
     <Compile Include="Data\ClassMemberViewModel.cs">
       <SubType>Code</SubType>

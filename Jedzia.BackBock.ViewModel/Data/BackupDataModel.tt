@@ -11,6 +11,7 @@ debug="true" hostSpecific="true" #>
 
     // Bug: Items with a Basetype should not expose the basetypes members again.
     ViewModelGenerator vmg = new ViewModelGenerator(Host, @"../../Jedzia.BackBock.Model/Data/BackupData.xsd");
+    vmg.ListType = FoundElementHelper.ListType.ObservableCollection;
 
     vmg.CustomUsings.Add("Jedzia.BackBock.Model.Data");
     vmg.CustomUsings.Add("Jedzia.BackBock.ViewModel.MainWindow");

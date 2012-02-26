@@ -25,11 +25,12 @@
         </StackPanel>
     </DataTemplate>
 
-    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
+    <!-- Obsolete through ResourceId=Namespace.Class.Member form. -->
+    <!--<DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
         ResourceId={x:Type data:ExclusionViewModelList}}">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="{Binding Value.Count}"/>
-            <TextBlock Text=" Exclusions  "/>
+            <TextBlock Text=" Exclusions  "/>-->
             <!--<TextBox Text="Dingens ExclusionViewModelList">-->
                 <!--<TextBox.Text>
                     <Binding Mode="TwoWay" Path="Value">
@@ -47,6 +48,22 @@
                 NumerableTypeIdentifier="Exclusions"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             </wpgtt:CollectionEditorControl>-->
+            <!--<wpgtt:CollectionEditorControl 
+                NumerableValue="{Binding Value}"                                            
+                MyProperty="{Binding .}"
+                NumerableType="{Binding NumerableType}"
+                NumerableTypeIdentifier="Exclusions"
+                AddTypeCommand="{Binding AddTypeCommand}"
+                RemoveTypeCommand="{Binding RemoveTypeCommand}"
+                TextBoxVisible="Collapsed"/>
+        </StackPanel>
+    </DataTemplate>-->
+
+    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
+        ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Exclusions}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Value.Count}"/>
+            <TextBlock Text=" Exclusions  "/>
             <wpgtt:CollectionEditorControl 
                 NumerableValue="{Binding Value}"                                            
                 MyProperty="{Binding .}"
@@ -57,7 +74,7 @@
                 TextBoxVisible="Collapsed"/>
         </StackPanel>
     </DataTemplate>
-
+    
     <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
         ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Inclusions}">
         <StackPanel Orientation="Horizontal">

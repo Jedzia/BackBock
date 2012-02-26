@@ -71,27 +71,29 @@
                         </wtk:DataGrid.Columns>
                         <wtk:DataGrid.RowDetailsTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="20,2,2,2">
-                                    <!--<TextBlock Margin="10" FontWeight="Bold">Details go here.</TextBlock>-->
-                                    <TextBlock Text="Details:" Margin="10" FontWeight="Bold"/>
-                                    <!--<ListBox Margin="20,2,2,2" ItemsSource="{Binding Paths}" ItemTemplate="{StaticResource PathViewModelDataTemplate}"/>-->
-                                    <!--<wpg:PropertyGrid Instance="{Binding Paths}" DataContext="{Binding}"/>-->
-                                    <TextBlock Text="{Binding .}"/>
-                                    <wtk:DataGrid ItemsSource="{Binding Paths}" VerticalScrollBarVisibility="Auto">
-                                        <wtk:DataGrid.RowDetailsTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Margin="20,2,2,2">
-                                                    <TextBlock Text="Inclusions:" Margin="10" FontWeight="Bold"/>
-                                                    <wtk:DataGrid ItemsSource="{Binding Inclusions}" VerticalScrollBarVisibility="Auto">
-                                                    </wtk:DataGrid>
-                                                    <TextBlock Text="Exclusions:" Margin="10" FontWeight="Bold"/>
-                                                    <wtk:DataGrid ItemsSource="{Binding Exclusions}" VerticalScrollBarVisibility="Auto">
-                                                    </wtk:DataGrid>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </wtk:DataGrid.RowDetailsTemplate>
-                                    </wtk:DataGrid>
-                                </StackPanel>
+                                <Border BorderBrush="Turquoise" BorderThickness="2">
+                                    <StackPanel Margin="20,2,2,2">
+                                        <!--<TextBlock Margin="10" FontWeight="Bold">Details go here.</TextBlock>-->
+                                        <TextBlock Text="Details:" Margin="10" FontWeight="Bold"/>
+                                        <!--<ListBox Margin="20,2,2,2" ItemsSource="{Binding Paths}" ItemTemplate="{StaticResource PathViewModelDataTemplate}"/>-->
+                                        <!--<wpg:PropertyGrid Instance="{Binding Paths}" DataContext="{Binding}"/>-->
+                                        <TextBlock Text="{Binding .}"/>
+                                        <wtk:DataGrid ItemsSource="{Binding Paths}" VerticalScrollBarVisibility="Auto">
+                                            <wtk:DataGrid.RowDetailsTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Margin="20,2,2,2">
+                                                        <TextBlock Text="Inclusions:" Margin="10" FontWeight="Bold"/>
+                                                        <wtk:DataGrid ItemsSource="{Binding Inclusions}" VerticalScrollBarVisibility="Auto">
+                                                        </wtk:DataGrid>
+                                                        <TextBlock Text="Exclusions:" Margin="10" FontWeight="Bold"/>
+                                                        <wtk:DataGrid ItemsSource="{Binding Exclusions}" VerticalScrollBarVisibility="Auto">
+                                                        </wtk:DataGrid>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </wtk:DataGrid.RowDetailsTemplate>
+                                        </wtk:DataGrid>
+                                    </StackPanel>
+                                </Border>
                             </DataTemplate>
                         </wtk:DataGrid.RowDetailsTemplate>
                     </wtk:DataGrid>

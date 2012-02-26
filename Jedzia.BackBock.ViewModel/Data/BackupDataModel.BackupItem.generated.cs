@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/21/2012 15:48:19 by 
+This code was automatically generated at 02/26/2012 02:54:05 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using Jedzia.BackBock.SharedTypes;
 using Jedzia.BackBock.Model.Data;
 using Jedzia.BackBock.ViewModel.MainWindow;
-using System.Collections.ObjectModel;
 
 
 namespace Jedzia.BackBock.ViewModel.Data
@@ -39,50 +38,37 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
 
         // Path. HasFacets: False AttrQName: 
-        //                   propertyType: List<Path>, IsChoiceRoot: False, BaseType: 
+        //                   propertyType: System.Collections.ObjectModel.ObservableCollection<Path>, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
         /// The summary. 
         /// </summary>
-        private ObservableCollection<PathViewModel> path;
+        private System.Collections.ObjectModel.ObservableCollection<PathViewModel> path;
 
-        public ObservableCollection<PathViewModel> Paths
+        public System.Collections.ObjectModel.ObservableCollection<PathViewModel> Paths
         {
             get
             {
                 if (this.path == null)
                 {
-                    this.path = new ObservableCollection<PathViewModel>();
+                    this.path = new System.Collections.ObjectModel.ObservableCollection<PathViewModel>();
                     foreach (var item in this.backupitem.Path)
                     {
                         var colItem = new PathViewModel(item);
                         colItem.PropertyChanged += OnDataPropertyChanged;
                         this.path.Add(colItem);
                     }
-                    // Todo: Implement the CollectionChanged behaviour for the ObservableCollection<T> Model.
-                    this.path.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(path_CollectionChanged);
+                    this.path.CollectionChanged += OnPathCollectionChanged;
                 }
                 return this.path;
             }
-            
-            set
-            {
-                // Todo: Implement set handling.
-                if (this.path == value)
-                {
-                    return;
-                }
-                this.path = value;
-                RaisePropertyChanged("Paths");
-            }
         }
 
-
-        private void path_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        protected virtual void OnPathCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             PathCollectionChanged(sender, e);
         }
-        
+
         partial void PathCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e);
 
         // Task. HasFacets: False AttrQName: 
@@ -105,6 +91,13 @@ namespace Jedzia.BackBock.ViewModel.Data
                 return this.task;
             }
         }
+
+        protected virtual void OnTaskCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            TaskCollectionChanged(sender, e);
+        }
+
+        partial void TaskCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e);
 
         // ItemName. HasFacets: False AttrQName: 
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 

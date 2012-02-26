@@ -6,8 +6,9 @@ using MbUnit.Framework;
 
 namespace Jedzia.BackBock.ViewModel.Tests.Data
 {
-    
-    
+    using System.Collections.ObjectModel;
+
+
     /// <summary>
     ///This is a test class for BackupDataViewModelTest and is intended
     ///to contain all BackupDataViewModelTest Unit Tests
@@ -45,7 +46,7 @@ namespace Jedzia.BackBock.ViewModel.Tests.Data
         [Test]
         public void BackupItemsTest()
         {
-            List<BackupItemViewModel> actual;
+            ObservableCollection<BackupItemViewModel> actual;
             actual = target.BackupItems;
             Assert.IsNotNull(actual);
             Assert.IsEmpty(actual);
