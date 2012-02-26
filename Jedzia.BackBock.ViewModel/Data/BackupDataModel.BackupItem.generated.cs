@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/26/2012 02:54:05 by 
+This code was automatically generated at 02/26/2012 07:08:41 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -30,11 +30,11 @@ namespace Jedzia.BackBock.ViewModel.Data
     /// </summary>
     public partial class BackupItemViewModel : ViewModelBase
     {
-        internal BackupItemType backupitem;
+        internal BackupItemType data;
 
         public BackupItemViewModel(BackupItemType backupItem)
         {
-            this.backupitem = backupItem;
+            this.data = backupItem;
         }
 
         // Path. HasFacets: False AttrQName: 
@@ -52,7 +52,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 if (this.path == null)
                 {
                     this.path = new System.Collections.ObjectModel.ObservableCollection<PathViewModel>();
-                    foreach (var item in this.backupitem.Path)
+                    foreach (var item in this.data.Path)
                     {
                         var colItem = new PathViewModel(item);
                         colItem.PropertyChanged += OnDataPropertyChanged;
@@ -85,7 +85,7 @@ namespace Jedzia.BackBock.ViewModel.Data
             {
                 if (this.task == null)
                 {
-                    this.task = new TaskViewModel(this.backupitem.Task);
+                    this.task = new TaskViewModel(this.data.Task);
                     this.task.PropertyChanged += OnDataPropertyChanged;
                 }
                 return this.task;
@@ -110,16 +110,16 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             get
             {
-                return this.backupitem.ItemName;
+                return this.data.ItemName;
             }
 
             set
             {
-                if (this.backupitem.ItemName == value)
+                if (this.data.ItemName == value)
                 {
                     return;
                 }
-                this.backupitem.ItemName = value;
+                this.data.ItemName = value;
                 RaisePropertyChanged("ItemName");
             }
         }
@@ -135,16 +135,16 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             get
             {
-                return this.backupitem.IsEnabled;
+                return this.data.IsEnabled;
             }
 
             set
             {
-                if (this.backupitem.IsEnabled == value)
+                if (this.data.IsEnabled == value)
                 {
                     return;
                 }
-                this.backupitem.IsEnabled = value;
+                this.data.IsEnabled = value;
                 RaisePropertyChanged("IsEnabled");
             }
         }

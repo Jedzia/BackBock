@@ -10,7 +10,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
                     foreach (BackupItemViewModel item in e.NewItems)
                     {
-                        this.backupdata.BackupItem.Add(item.backupitem);
+                        this.data.BackupItem.Add(item.data);
                     }
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
@@ -18,7 +18,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
                     foreach (BackupItemViewModel item in e.OldItems)
                     {
-                        this.backupdata.BackupItem.Remove(item.backupitem);
+                        this.data.BackupItem.Remove(item.data);
                     }
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:

@@ -173,6 +173,7 @@
     <Compile Include="Util\Guard.cs" />
     <Compile Include="Util\VisualHelper.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Compile Include="ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jedzia.BackBock.CustomControls\Jedzia.BackBock.CustomControls.csproj">

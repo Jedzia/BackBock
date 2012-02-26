@@ -10,7 +10,7 @@ namespace Jedzia.BackBock.ViewModel.Data
     {
         public ExclusionViewModel()
         {
-            this.exclusion = new Wildcard();
+            this.data = new Wildcard();
         }
     }
 }

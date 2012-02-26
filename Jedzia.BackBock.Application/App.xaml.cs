@@ -2,6 +2,8 @@
 {
     using System.Windows;
     using Jedzia.BackBock.ViewModel;
+    using Jedzia.BackBock.ViewModel.MainWindow;
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -24,6 +26,13 @@
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             applicationViewModel = new ApplicationViewModel(new FileIOService());
+            SimpleIoc.Default.Register<MainWindowViewModel>(CreateMainWindowViewModel);
         }
+
+        private MainWindowViewModel CreateMainWindowViewModel()
+        {
+            return new MainWindowViewModel(App.ApplicationViewModel, (IMainWindow)this.MainWindow);
+        }
+
     }
 }

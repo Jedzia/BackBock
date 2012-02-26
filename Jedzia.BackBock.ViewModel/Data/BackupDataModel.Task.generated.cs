@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/26/2012 02:54:05 by 
+This code was automatically generated at 02/26/2012 07:08:41 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -30,11 +30,11 @@ namespace Jedzia.BackBock.ViewModel.Data
     /// </summary>
     public partial class TaskViewModel : ViewModelBase
     {
-        internal TaskType task;
+        internal TaskType data;
 
         public TaskViewModel(TaskType task)
         {
-            this.task = task;
+            this.data = task;
         }
 
         // TypeName. HasFacets: False AttrQName: 
@@ -48,16 +48,16 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             get
             {
-                return this.task.TypeName;
+                return this.data.TypeName;
             }
 
             set
             {
-                if (this.task.TypeName == value)
+                if (this.data.TypeName == value)
                 {
                     return;
                 }
-                this.task.TypeName = value;
+                this.data.TypeName = value;
                 RaisePropertyChanged("TypeName");
             }
         }

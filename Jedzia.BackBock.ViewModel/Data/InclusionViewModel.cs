@@ -10,7 +10,7 @@ namespace Jedzia.BackBock.ViewModel.Data
     {
         public InclusionViewModel()
         {
-            this.inclusion = new Wildcard();
+            this.data = new Wildcard();
         }
     }
 }

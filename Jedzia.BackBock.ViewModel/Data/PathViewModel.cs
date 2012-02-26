@@ -16,8 +16,8 @@ namespace Jedzia.BackBock.ViewModel.Data
     {
         public PathViewModel()
         {
-            path = new PathDataType();
-            path.Path = "Moese, hehehe";
+            data = new PathDataType();
+            data.Path = "Moese, hehehe";
         }
 
         partial void ExclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -28,7 +28,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
                     foreach (ExclusionViewModel item in e.NewItems)
                     {
-                        this.path.Exclusion.Add(item.exclusion);
+                        this.data.Exclusion.Add(item.data);
                     }
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
@@ -36,7 +36,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
                     foreach (ExclusionViewModel item in e.OldItems)
                     {
-                        this.path.Exclusion.Remove(item.exclusion);
+                        this.data.Exclusion.Remove(item.data);
                     }
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
@@ -56,7 +56,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
                     foreach (InclusionViewModel item in e.NewItems)
                     {
-                        this.path.Inclusion.Add(item.inclusion);
+                        this.data.Inclusion.Add(item.data);
                     }
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
@@ -64,7 +64,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
                     foreach (InclusionViewModel item in e.OldItems)
                     {
-                        this.path.Inclusion.Remove(item.inclusion);
+                        this.data.Inclusion.Remove(item.data);
                     }
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:

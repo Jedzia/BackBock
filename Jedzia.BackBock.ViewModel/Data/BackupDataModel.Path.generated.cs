@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/26/2012 02:54:05 by 
+This code was automatically generated at 02/26/2012 07:08:41 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -30,11 +30,11 @@ namespace Jedzia.BackBock.ViewModel.Data
     /// </summary>
     public partial class PathViewModel : ViewModelBase
     {
-        internal PathDataType path;
+        internal PathDataType data;
 
         public PathViewModel(PathDataType path)
         {
-            this.path = path;
+            this.data = path;
         }
 
         // Exclusion. HasFacets: False AttrQName: 
@@ -52,7 +52,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 if (this.exclusion == null)
                 {
                     this.exclusion = new System.Collections.ObjectModel.ObservableCollection<ExclusionViewModel>();
-                    foreach (var item in this.path.Exclusion)
+                    foreach (var item in this.data.Exclusion)
                     {
                         var colItem = new ExclusionViewModel(item);
                         colItem.PropertyChanged += OnDataPropertyChanged;
@@ -86,7 +86,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 if (this.inclusion == null)
                 {
                     this.inclusion = new System.Collections.ObjectModel.ObservableCollection<InclusionViewModel>();
-                    foreach (var item in this.path.Inclusion)
+                    foreach (var item in this.data.Inclusion)
                     {
                         var colItem = new InclusionViewModel(item);
                         colItem.PropertyChanged += OnDataPropertyChanged;
@@ -116,16 +116,16 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             get
             {
-                return this.path.Path;
+                return this.data.Path;
             }
 
             set
             {
-                if (this.path.Path == value)
+                if (this.data.Path == value)
                 {
                     return;
                 }
-                this.path.Path = value;
+                this.data.Path = value;
                 RaisePropertyChanged("Path");
             }
         }
@@ -141,16 +141,16 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             get
             {
-                return this.path.UserData;
+                return this.data.UserData;
             }
 
             set
             {
-                if (this.path.UserData == value)
+                if (this.data.UserData == value)
                 {
                     return;
                 }
-                this.path.UserData = value;
+                this.data.UserData = value;
                 RaisePropertyChanged("UserData");
             }
         }

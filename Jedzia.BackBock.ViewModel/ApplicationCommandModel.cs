@@ -181,6 +181,7 @@ namespace Jedzia.BackBock.ViewModel
         }
 
 
+
         private void OpenExecuted(object o, ExecutedRoutedEventArgs args)
         {
             var path = ApplicationViewModel.MainIOService.OpenFileDialog(string.Empty);

@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/26/2012 02:54:05 by 
+This code was automatically generated at 02/26/2012 07:08:41 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -30,11 +30,11 @@ namespace Jedzia.BackBock.ViewModel.Data
     /// </summary>
     public partial class ExclusionViewModel : ViewModelBase
     {
-        internal Wildcard exclusion;
+        internal Wildcard data;
 
         public ExclusionViewModel(Wildcard exclusion)
         {
-            this.exclusion = exclusion;
+            this.data = exclusion;
         }
 
         // Pattern. HasFacets: False AttrQName: 
@@ -48,16 +48,16 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             get
             {
-                return this.exclusion.Pattern;
+                return this.data.Pattern;
             }
 
             set
             {
-                if (this.exclusion.Pattern == value)
+                if (this.data.Pattern == value)
                 {
                     return;
                 }
-                this.exclusion.Pattern = value;
+                this.data.Pattern = value;
                 RaisePropertyChanged("Pattern");
             }
         }
@@ -73,16 +73,16 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             get
             {
-                return this.exclusion.Enabled;
+                return this.data.Enabled;
             }
 
             set
             {
-                if (this.exclusion.Enabled == value)
+                if (this.data.Enabled == value)
                 {
                     return;
                 }
-                this.exclusion.Enabled = value;
+                this.data.Enabled = value;
                 RaisePropertyChanged("Enabled");
             }
         }

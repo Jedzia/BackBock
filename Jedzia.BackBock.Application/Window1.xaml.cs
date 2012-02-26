@@ -8,6 +8,7 @@
     using System.ComponentModel;
     using System.Collections;
     using Jedzia.BackBock.ViewModel.Data;
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     //    using Jedzia.BackBock.Application.Resources.Styles.Resources.Styles;
 
     public partial class Window1 : MainWindowBase
@@ -21,7 +22,7 @@
             //this.InputBindings
 
         }
-
+        
         protected override IMainWorkArea GetDesigner()
         {
             return this.MyDesigner;
@@ -33,11 +34,12 @@
         {
             get
             {
-                if (mainWindowViewModel == null)
-                {
-                    mainWindowViewModel = new MainWindowViewModel(App.ApplicationViewModel, this);
-                }
-                return mainWindowViewModel;
+                //if (mainWindowViewModel == null)
+                //{
+                    //mainWindowViewModel = new MainWindowViewModel(App.ApplicationViewModel, this);
+                //}
+                //return mainWindowViewModel;
+                    return ViewModelLocator.MainStatic;
             }
         }
 

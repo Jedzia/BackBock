@@ -27,7 +27,7 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// </summary>
         public BackupItemViewModel()
         {
-            this.backupitem = new Jedzia.BackBock.Model.Data.BackupItemType();
+            this.data = new Jedzia.BackBock.Model.Data.BackupItemType();
         }
 
         partial void PathCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -48,7 +48,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
                     foreach (PathViewModel item in e.NewItems)
                     {
-                        backupitem.Path.Add(item.path);
+                        data.Path.Add(item.data);
                     }
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
@@ -56,7 +56,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
                     foreach (PathViewModel item in e.OldItems)
                     {
-                        backupitem.Path.Remove(item.path);
+                        data.Path.Remove(item.data);
                     }
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:

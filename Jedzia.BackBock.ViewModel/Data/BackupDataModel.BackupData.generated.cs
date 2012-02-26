@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 /*
-This code was automatically generated at 02/26/2012 02:54:05 by 
+This code was automatically generated at 02/26/2012 07:08:41 by 
         Jedzia's ViewModel generator.
 Changes to this file may be lost if regeneration occurs.
 http://xxx.com
@@ -30,11 +30,11 @@ namespace Jedzia.BackBock.ViewModel.Data
     /// </summary>
     public partial class BackupDataViewModel : ViewModelBase
     {
-        internal BackupData backupdata;
+        internal BackupData data;
 
         public BackupDataViewModel(BackupData backupData)
         {
-            this.backupdata = backupData;
+            this.data = backupData;
         }
 
         // BackupItem. HasFacets: False AttrQName: 
@@ -52,7 +52,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 if (this.backupitem == null)
                 {
                     this.backupitem = new System.Collections.ObjectModel.ObservableCollection<BackupItemViewModel>();
-                    foreach (var item in this.backupdata.BackupItem)
+                    foreach (var item in this.data.BackupItem)
                     {
                         var colItem = new BackupItemViewModel(item);
                         colItem.PropertyChanged += OnDataPropertyChanged;
@@ -82,16 +82,16 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             get
             {
-                return this.backupdata.DatasetName;
+                return this.data.DatasetName;
             }
 
             set
             {
-                if (this.backupdata.DatasetName == value)
+                if (this.data.DatasetName == value)
                 {
                     return;
                 }
-                this.backupdata.DatasetName = value;
+                this.data.DatasetName = value;
                 RaisePropertyChanged("DatasetName");
             }
         }

@@ -1,7 +1,11 @@
 <Application x:Class="Jedzia.BackBock.Application.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
     xmlns:m="clr-namespace:System;assembly=mscorlib"
+    xmlns:vm="clr-namespace:Jedzia.BackBock.ViewModel;assembly=Jedzia.BackBock.ViewModel"
     xmlns:controls="clr-namespace:Jedzia.BackBock.CustomControls.NavBar;assembly=Jedzia.BackBock.CustomControls"
     StartupUri="Window1.xaml" 
     Startup="Application_Startup">
@@ -14,6 +18,9 @@
    -->
         <ResourceDictionary>
             <m:Boolean x:Key="{x:Static controls:CustomResources.DebugKey}">False</m:Boolean>
+
+            <vm:ViewModelLocator x:Key="Locator"
+                                 d:IsDataSource="True" />
 
             <ResourceDictionary.MergedDictionaries>
                 <!-- Themes -->

@@ -180,7 +180,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         internal void SaveFile(string path)
         {
-            ModelSaver.SaveBackupData(bdvm.backupdata, path);
+            ModelSaver.SaveBackupData(bdvm.data, path);
         }
 
     }
