@@ -7,6 +7,7 @@
     using System.Windows.Controls;
     using System.ComponentModel;
     using System.Collections;
+    using Jedzia.BackBock.ViewModel.Data;
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     //    using Jedzia.BackBock.Application.Resources.Styles.Resources.Styles;
 
@@ -52,8 +53,8 @@
             res.InitializeComponent();
             var exp = res["ClassListDataTemplate-CSharp"];*/
             //wpg.Instance = this.MyDesigner.DataContext;
-            //var modl = (BackupDataViewModel)MyDesigner.DataContext;
-            //ShowDetail(modl.BackupItems[0]);
+            var modl = (BackupDataViewModel)MyDesigner.DataContext;
+            ShowDetail(modl.BackupItems[0]);
         }
 
         private void MainWindowBase_Initialized(object sender, System.EventArgs e)
@@ -65,10 +66,22 @@
 
         static Window1()
         {
-            ApplicationViewModel.RegisterControl(Jedzia.BackBock.ViewModel.MainWindow.MainWindowViewModel.WindowTypes.TaskEditor,
+            ApplicationViewModel.RegisterControl(BackupItemViewModel.WindowTypes.TaskEditor,
                 typeof(Editors.TaskEditorWindow));
         }
 
+        public /*override*/ void ShowDetail(object val)
+        {
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(val);
+            var col = new WPG.Themes.TypeEditors.CollectionEditorControl();
+            col.MyProperty = new WPG.Data.Property(val, properties["Paths"]);
+            //col.MyProperty. IsReadOnly = false;
+            //col.NumerableType = typeof(PathViewModel);
+            col.NumerableType = val.GetType();
+            col.NumerableValue = ((BackupItemViewModel)val).Paths;
+            var pg = new WPG.TypeEditors.CollectionEditorWindow(col);
+            pg.ShowDialog();
+        }
     }
 
 }

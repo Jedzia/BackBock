@@ -84,38 +84,38 @@
     <Compile Include="Converters\EnumTypeConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\ObjectToVisibility.cs" />
-    <None Include="Data\BackupDataModel.BackupData.generated.cs">
+    <Compile Include="Data\BackupDataModel.BackupData.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
-    </None>
-    <None Include="Data\BackupDataModel.BackupItem.generated.cs">
+    </Compile>
+    <Compile Include="Data\BackupDataModel.BackupItem.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
-    </None>
-    <None Include="Data\BackupDataModel.cs">
+    </Compile>
+    <Compile Include="Data\BackupDataModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BackupDataModel.tt</DependentUpon>
-    </None>
-    <None Include="Data\BackupDataModel.Exclusion.generated.cs">
+    </Compile>
+    <Compile Include="Data\BackupDataModel.Exclusion.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
-    </None>
-    <None Include="Data\BackupDataModel.Inclusion.generated.cs">
+    </Compile>
+    <Compile Include="Data\BackupDataModel.Inclusion.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
-    </None>
-    <None Include="Data\BackupDataModel.Path.generated.cs">
+    </Compile>
+    <Compile Include="Data\BackupDataModel.Path.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
-    </None>
-    <None Include="Data\BackupDataModel.Task.generated.cs">
+    </Compile>
+    <Compile Include="Data\BackupDataModel.Task.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
-    </None>
-    <None Include="Data\BackupDataViewModel.cs" />
-    <None Include="Data\BackupItemViewModel.cs" />
-    <None Include="Data\ClassMemberViewModel.cs">
+    </Compile>
+    <Compile Include="Data\BackupDataViewModel.cs" />
+    <Compile Include="Data\BackupItemViewModel.cs" />
+    <Compile Include="Data\ClassMemberViewModel.cs">
       <SubType>Code</SubType>
-    </None>
-    <None Include="Data\ExclusionViewModel.cs" />
-    <None Include="Data\InclusionViewModel.cs" />
-    <None Include="Data\PathViewModel.cs" />
-    <None Include="Data\TaskViewModel.cs" />
+    </Compile>
+    <Compile Include="Data\ExclusionViewModel.cs" />
+    <Compile Include="Data\InclusionViewModel.cs" />
+    <Compile Include="Data\PathViewModel.cs" />
+    <Compile Include="Data\TaskViewModel.cs" />
     <Compile Include="DisplayMode.cs" />
     <Compile Include="DisplayModeViewModel.cs" />
     <Compile Include="Ext\ActivatorExtension.cs" />

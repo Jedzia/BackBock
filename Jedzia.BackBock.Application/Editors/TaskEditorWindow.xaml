@@ -5,10 +5,9 @@
     xmlns:local="clr-namespace:Jedzia.BackBock.Application"
     xmlns:Main="clr-namespace:Jedzia.BackBock.ViewModel.MainWindow;assembly=Jedzia.BackBock.ViewModel" 
         xmlns:wtk="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
-
+xmlns:data="clr-namespace:Jedzia.BackBock.ViewModel.Data;assembly=Jedzia.BackBock.ViewModel"
     xmlns:wpg="clr-namespace:WPG;assembly=WPG"
     Title="TaskEditorWindow" Height="300" Width="300">
-  <!--xmlns:data="clr-namespace:Jedzia.BackBock.ViewModel.Data;assembly=Jedzia.BackBock.ViewModel"-->
     <Window.Resources>
 
 

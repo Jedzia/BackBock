@@ -11,6 +11,16 @@ namespace Jedzia.BackBock.ViewModel.Data
 {
     public partial class BackupItemViewModel
     {
+        public enum WindowTypes
+        { 
+            [CheckType(typeof(Window))]
+            TaskEditor, 
+            ClassFieldOptPage,
+            ClassMethodOptPage,
+            ClassPropertyOptPage,
+            ClassEventOptPage,
+            SettingsPage, 
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:BackupItemViewModel"/> class.
