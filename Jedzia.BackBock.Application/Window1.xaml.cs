@@ -11,7 +11,7 @@
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     //    using Jedzia.BackBock.Application.Resources.Styles.Resources.Styles;
 
-    public partial class Window1 : MainWindowBase
+    public partial class Window1 : Window, IMainWindow
     {
         public Window1()
         {
@@ -22,15 +22,19 @@
             //this.InputBindings
 
         }
-        
-        protected override IMainWorkArea GetDesigner()
+
+        public IMainWorkArea Designer
         {
-            return this.MyDesigner;
+            get
+            {
+                return this.MyDesigner;
+            }
         }
+        
+       
+        //MainWindowViewModel mainWindowViewModel;
 
-        MainWindowViewModel mainWindowViewModel;
-
-        public override MainWindowViewModel MainWindowViewModel
+        /*public MainWindowViewModel MainWindowViewModel
         {
             get
             {
@@ -41,7 +45,7 @@
                 //return mainWindowViewModel;
                     return ViewModelLocator.MainStatic;
             }
-        }
+        }*/
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

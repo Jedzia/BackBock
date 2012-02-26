@@ -22,7 +22,7 @@ namespace Jedzia.BackBock.ViewModel
     using Jedzia.BackBock.ViewModel.Commands;
     using Jedzia.BackBock.ViewModel.MainWindow;
 
-    public sealed class ApplicationCommandModel //: INotifyPropertyChanged
+    public sealed class GeneralCommandsModel //: INotifyPropertyChanged
     {
         //DesignerCanvasCommandModel commands;
 
@@ -40,11 +40,27 @@ namespace Jedzia.BackBock.ViewModel
                 return commands;
             }
         }*/
-
-        private IMainWorkArea mainCanvas;
-        private readonly IMainWindow mainWindow;
-        public ApplicationCommandModel(IMainWindow mainWindow)
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public IMainWindow MainWindow
         {
+            get
+            {
+                return this.mainWindow;
+            }
+
+            /*internal set
+            {
+                this.mainWindow = value;
+            }*/
+        }
+        private ApplicationViewModel applicationViewModel;
+        private IMainWorkArea mainCanvas;
+        private IMainWindow mainWindow;
+        public GeneralCommandsModel(ApplicationViewModel applicationViewModel, IMainWindow mainWindow)
+        {
+            this.applicationViewModel = applicationViewModel;
             this.mainWindow = mainWindow;
             mainWindow.Initialized += this.MainWindowInitialized;
 
@@ -185,13 +201,13 @@ namespace Jedzia.BackBock.ViewModel
         private void OpenExecuted(object o, ExecutedRoutedEventArgs args)
         {
             var path = ApplicationViewModel.MainIOService.OpenFileDialog(string.Empty);
-            this.mainWindow.MainWindowViewModel.OpenFile(path);
+            ViewModelLocator.MainStatic.OpenFile(path);
             //designerCanvas.DesignerCanvasFileProcessor.OpenExecuted(o, args);
         }
         private void SaveExecuted(object o, ExecutedRoutedEventArgs args)
         {
             var path = ApplicationViewModel.MainIOService.SaveFileDialog(string.Empty);
-            this.mainWindow.MainWindowViewModel.SaveFile(path);
+            ViewModelLocator.MainStatic.SaveFile(path);
             //designerCanvas.DesignerCanvasFileProcessor.SaveExecuted(o, args);
         }
 

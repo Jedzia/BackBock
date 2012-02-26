@@ -58,6 +58,8 @@
 
             ApplicationViewModel.ioService = ioService;
             Tasks.TaskRegistry.GetInstance();
+            //this.ApplicationCommands = new ApplicationCommandModel(this);
+
             /*this.parent = parent;
             //ClassData2 = ClassDataProvider.CreateSampleClassData();
             //ICollectionView view = CollectionViewSource.GetDefaultView(ClassData2);
@@ -68,11 +70,11 @@
             this.ClassDataCommands = new ClassDataCommandModel(parent);*/
         }
 
-        public /*ClassDataCommandModel*/ object ApplicationCommands
+        /*public ApplicationCommandModel ApplicationCommands
         {
             get;
             private set;
-        }
+        }*/
 
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -28,7 +28,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         }
 
         private readonly ApplicationViewModel applicationViewModel;
-        private readonly ApplicationCommandModel applicationCommands;
+        private readonly GeneralCommandsModel generalCommands;
 
         //public static readonly DependencyProperty DesignerCommandsProperty = DependencyProperty.Register(
         //"DesignerCommands", typeof(DesignerCanvasCommandModel), typeof(DesignerCanvas));
@@ -56,7 +56,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             this.applicationViewModel = applicationViewModel;
             this.mainWindow = mainWindow;
             this.mainWindow.Initialized += new EventHandler(mainWindow_Initialized);
-            this.applicationCommands = new ApplicationCommandModel(mainWindow);
+            this.generalCommands = new GeneralCommandsModel(applicationViewModel, mainWindow);
         }
 
         void mainWindow_Initialized(object sender, EventArgs e)
@@ -75,7 +75,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #region Properties
 
-        public ApplicationCommandModel MainApplicationCommands
+        public GeneralCommandsModel MainApplicationCommands
         {
             get
             {
@@ -83,7 +83,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
                 {
                     this.applicationCommands = new ApplicationCommandModel(mainWindow);
                 }*/
-                return this.applicationCommands;
+                return this.generalCommands;
             }
         }
 

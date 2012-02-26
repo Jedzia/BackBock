@@ -14,7 +14,7 @@
         #region Properties
 
         IMainWorkArea Designer { get; }
-        MainWindowViewModel MainWindowViewModel { get; }
+        //MainWindowViewModel MainWindowViewModel { get; }
         //void ShowDetail(object val);
 
         #endregion

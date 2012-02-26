@@ -9,17 +9,17 @@
 //   Defines the IMainWindow type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
+/*
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     using System.Windows;
 
     public abstract class MainWindowBase : Window, IMainWindow
     {
-        /*protected virtual IMainWorkArea GetDesigner()
-        {
-            return null;
-        }*/
+        //protected virtual IMainWorkArea GetDesigner()
+        //{
+        //    return null;
+        //}
         #region Properties
 
         public abstract MainWindowViewModel MainWindowViewModel { get; }
@@ -34,10 +34,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #endregion
 
-        /*protected virtual IMainWorkArea GetDesigner()
-        {
-            return null;
-        }*/
+        //protected virtual IMainWorkArea GetDesigner()
+        //{
+        //    return null;
+        //}
         protected abstract IMainWorkArea GetDesigner();
 
         protected void Test()
@@ -52,4 +52,4 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #endregion
     }
-}
+}*/

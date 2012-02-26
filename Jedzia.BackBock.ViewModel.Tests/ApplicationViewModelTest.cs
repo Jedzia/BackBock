@@ -73,7 +73,7 @@ namespace Jedzia.BackBock.ViewModel.Tests
             mocks.VerifyAll();
         }
 
-        /// <summary>
+        /*/// <summary>
         ///A test for ApplicationCommands
         ///</summary>
         [Test]
@@ -84,7 +84,7 @@ namespace Jedzia.BackBock.ViewModel.Tests
             var actual = target.ApplicationCommands;
             Assert.IsNull(actual);
             mocks.VerifyAll();
-        }
+        }*/
 
         /*/// <summary>
         ///A test for NotifyPropertyChanged
