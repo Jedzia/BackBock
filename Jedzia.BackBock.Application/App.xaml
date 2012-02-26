@@ -18,10 +18,7 @@
    -->
         <ResourceDictionary>
             <m:Boolean x:Key="{x:Static controls:CustomResources.DebugKey}">False</m:Boolean>
-
-            <vm:ViewModelLocator x:Key="Locator"
-                                 d:IsDataSource="True" />
-
+           
             <ResourceDictionary.MergedDictionaries>
                 <!-- Themes -->
                 <!--<ResourceDictionary Source="Themes/ExpressionDark/Theme.xaml"/>-->

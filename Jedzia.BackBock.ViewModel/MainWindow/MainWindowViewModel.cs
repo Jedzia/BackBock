@@ -9,16 +9,27 @@ using System;
 using System.Windows;
 using System.Collections.Generic;
 using Jedzia.BackBock.Model;
-using Jedzia.BackBock.ViewModel.Data;
+//using Jedzia.BackBock.ViewModel.Data;
 using Jedzia.BackBock.ViewModel.Commands;
 using System.Windows.Input;
 using Jedzia.BackBock.Model.Data;
+using System.ComponentModel;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     public sealed class MainWindowViewModel : ViewModelBase
     {
+        public enum WindowTypes
+        {
+            [CheckType(typeof(Window))]
+            TaskEditor,
+            ClassFieldOptPage,
+            ClassMethodOptPage,
+            ClassPropertyOptPage,
+            ClassEventOptPage,
+            SettingsPage,
+        }
         #region Fields
-        private BackupDataViewModel bdvm;
+        //private BackupDataViewModel bdvm;
 
         public ApplicationViewModel ApplicationViewModel
         {
@@ -28,7 +39,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
         }
 
-        public BackupDataViewModel Data
+        /*public BackupDataViewModel Data
         {
             get
             {
@@ -43,7 +54,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
                 this.bdvm = value;
                 RaisePropertyChanged("Data");
             }
-        }
+        }*/
 
         private BackupData data2;
         public BackupData Data2
@@ -97,14 +108,14 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         void mainWindow_Initialized(object sender, EventArgs e)
         {
-            Data = GetSampleData();
+            /*Data =*/ GetSampleData();
             //this.mainWindow.Designer.DataContext = bdvm;
         }
 
-        public BackupDataViewModel GetSampleData()
+        public /*BackupDataViewModel*/ void GetSampleData()
         {
             this.Data2 = SampleResourceProvider.GenerateSampleData();
-            return new BackupDataViewModel(this.Data2);
+            //return new BackupDataViewModel(this.Data2);
         }
 
         #endregion
@@ -195,7 +206,8 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         {
             //this.Test();
             //MessageBox.Show("Mooo");
-            Data.BackupItems.Add(new BackupItemViewModel(new Jedzia.BackBock.Model.Data.BackupItemType()));
+            //Data.BackupItems.Add(new BackupItemViewModel(new Jedzia.BackBock.Model.Data.BackupItemType()));
+            Data2.BackupItem.Add(new Jedzia.BackBock.Model.Data.BackupItemType());
         }
 
         private bool TestEnabled(object sender)
@@ -210,14 +222,82 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         internal void OpenFile(string path)
         {
             this.Data2 = ModelLoader.LoadBackupData(path);
-            Data = new BackupDataViewModel(this.Data2);
+            //Data = new BackupDataViewModel(this.Data2);
             //this.mainWindow.Designer.DataContext = bdvm;
         }
 
         internal void SaveFile(string path)
         {
-            ModelSaver.SaveBackupData(bdvm.data, path);
+            //ModelSaver.SaveBackupData(bdvm.data, path);
+            ModelSaver.SaveBackupData(this.Data2, path);
         }
+
+        #region TaskDataClicked Command
+
+        private RelayCommand taskDataClickedCommand;
+
+        public ICommand TaskDataClickedCommand
+        {
+            get
+            {
+                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
+                if (this.taskDataClickedCommand == null)
+                {
+                    this.taskDataClickedCommand = new RelayCommand(this.TaskDataClickedExecuted, this.TaskDataClickedEnabled);
+                }
+
+                return this.taskDataClickedCommand;
+            }
+        }
+
+
+        private void TaskDataClickedExecuted(object o)
+        {
+            var wnd = ApplicationViewModel.GetInstanceFromType<Window>(WindowTypes.TaskEditor);
+            //wnd.DataContext = this.Task;
+            wnd.DataContext = ((BackupItemType)o).Task;
+            wnd.ShowDialog();
+        }
+
+        private bool TaskDataClickedEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
+
+        #region OpenFileClicked Command
+
+        private RelayCommand openFileClickedCommand;
+
+        [EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public ICommand OpenFileClickedCommand
+        {
+            get
+            {
+                if (this.openFileClickedCommand == null)
+                {
+                    this.openFileClickedCommand = new RelayCommand(this.OpenFileClickedExecuted, this.OpenFileClickedEnabled);
+                }
+
+                return this.openFileClickedCommand;
+            }
+        }
+
+
+        private void OpenFileClickedExecuted(object o)
+        {
+            var data = (PathDataType)o;
+            var path = ApplicationViewModel.MainIOService.OpenFileDialog(string.Empty);
+            data.Path = path;
+        }
+
+        private bool OpenFileClickedEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
 
     }
 }

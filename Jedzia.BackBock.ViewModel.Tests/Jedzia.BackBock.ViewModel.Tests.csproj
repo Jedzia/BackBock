@@ -76,7 +76,7 @@
     <Compile Include="Commands\EventToCommandTest.cs" />
     <Compile Include="Commands\RelayCommandGenericTest.cs" />
     <Compile Include="Commands\RelayCommandTest.cs" />
-    <Compile Include="Data\BackupDataViewModelTest.cs" />
+    <None Include="Data\BackupDataViewModelTest.cs" />
     <Compile Include="DisplayModeViewModelTest.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestContains.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestCreationTime.cs" />

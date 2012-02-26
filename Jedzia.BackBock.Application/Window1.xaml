@@ -49,15 +49,15 @@
             <DockPanel Grid.Column="1">
                 <StackPanel DockPanel.Dock="Top" Grid.Row="0" Grid.RowSpan="3" Orientation="Vertical">
                     <Button Command="{Binding TestCommand}">Test</Button>
-                    <StackPanel DataContext="{Binding Data}">
+                    <StackPanel DataContext="{Binding Data2}">
                         <TextBlock Text="{Binding .}"/>
                         <TextBlock Text="{Binding DatasetName}"/>
-                        <TextBlock Text="{Binding BackupItems}"/>
+                        <TextBlock Text="{Binding BackupItem}"/>
                         <TextBlock Text="{Binding MyProperty}"/>
                     </StackPanel>
                 </StackPanel>
                 <!--Background="{StaticResource WindowBackgroundBrush}"-->
-                <local:MyCanvas DataContext="{Binding Data}" DockPanel.Dock="Bottom"  Focusable="true" x:Name="MyDesigner" Margin="10" 
+                <local:MyCanvas DataContext="{Binding Data2}" DockPanel.Dock="Bottom"  Focusable="true" x:Name="MyDesigner" Margin="10" 
                                   
                     ContextMenu="{StaticResource DesignerCanvasContextMenu}">
 
@@ -70,7 +70,7 @@
                         </local:MyCanvas.Background>-->
 
                     <!--<ListView ItemsSource="{Binding BackupItems}" MinHeight="240"  View="{DynamicResource BackupDataViewBase1}"/>-->
-                    <wtk:DataGrid local:MyCanvas.Dock="Bottom" ItemsSource="{Binding BackupItems}"  AutoGenerateColumns="False"
+                    <wtk:DataGrid local:MyCanvas.Dock="Bottom" ItemsSource="{Binding BackupItem}"  AutoGenerateColumns="False"
                                           VerticalScrollBarVisibility="Auto">
                         <wtk:DataGrid.Columns>
                             <wtk:DataGridTextColumn Header="Name" Binding="{Binding ItemName}"/>
@@ -91,15 +91,15 @@
                                             <!--<ListBox Margin="20,2,2,2" ItemsSource="{Binding Paths}" ItemTemplate="{StaticResource PathViewModelDataTemplate}"/>-->
                                             <!--<wpg:PropertyGrid Instance="{Binding Paths}" DataContext="{Binding}"/>-->
                                             <TextBlock Text="{Binding .}"/>
-                                            <wtk:DataGrid ItemsSource="{Binding Paths}" VerticalScrollBarVisibility="Auto">
+                                            <wtk:DataGrid ItemsSource="{Binding Path}" VerticalScrollBarVisibility="Auto">
                                                 <wtk:DataGrid.RowDetailsTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Margin="20,2,2,2">
                                                             <TextBlock Text="Inclusions:" Margin="10" FontWeight="Bold"/>
-                                                            <wtk:DataGrid ItemsSource="{Binding Inclusions}" VerticalScrollBarVisibility="Auto">
+                                                            <wtk:DataGrid ItemsSource="{Binding Inclusion}" VerticalScrollBarVisibility="Auto">
                                                             </wtk:DataGrid>
                                                             <TextBlock Text="Exclusions:" Margin="10" FontWeight="Bold"/>
-                                                            <wtk:DataGrid ItemsSource="{Binding Exclusions}" VerticalScrollBarVisibility="Auto">
+                                                            <wtk:DataGrid ItemsSource="{Binding Exclusion}" VerticalScrollBarVisibility="Auto">
                                                             </wtk:DataGrid>
                                                         </StackPanel>
                                                     </DataTemplate>
