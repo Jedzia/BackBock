@@ -19,7 +19,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
     {
         #region Fields
 
-        private readonly IMainWorkArea mainWorkArea;
+        //private readonly IMainWorkArea mainWorkArea;
         //private DesignerCanvasCommandModel designerCommands;
 
         #endregion
@@ -28,10 +28,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #region Constructors
 
-        public MainWindowCommandModel(IMainWindow mainWindow)
+        public MainWindowCommandModel(/*IMainWindow mainWindow*/)
         {
             //this.mainWindow = mainWindow;
-            this.mainWorkArea = mainWindow.Designer;
+            //this.mainWorkArea = mainWindow.Designer;
         }
 
         #endregion

@@ -1,7 +1,29 @@
+using Jedzia.BackBock.Model.Data;
 namespace Jedzia.BackBock.ViewModel.Data
 {
     public partial class BackupDataViewModel
     {
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public BackupData MyProperty
+        {
+            get
+            {
+                return this.data;
+            }
+
+            set
+            {
+                if (this.data == value)
+                {
+                    return;
+                }
+                this.data = value;
+                RaisePropertyChanged("MyProperty");
+            }
+        }
+
         partial void BackupItemCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             // Reflect the changes to the underlying data.

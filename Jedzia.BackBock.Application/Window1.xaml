@@ -7,9 +7,12 @@
         xmlns:wtk="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
                      xmlns:wpg="clr-namespace:WPG;assembly=WPG"
                      Title="{Binding MainWindowTitle}"
-        Height="850" Width="1200" Background="{DynamicResource ShadeBrush}"
+        Height="850" Width="1200" 
                      Initialized="MainWindowBase_Initialized">
-<!--DataContext="{Binding RelativeSource={RelativeSource Self},Path=MainWindowViewModel}"-->
+<!--
+    DataContext="{Binding RelativeSource={RelativeSource Self},Path=MainWindowViewModel}"
+    Background="{DynamicResource ShadeBrush}"
+-->
     <Window.Resources>
     </Window.Resources>
     <Window.DataContext>
@@ -44,12 +47,17 @@
             <!-- Designer -->
             <!--<GroupBox Header="Diagram" Grid.Column="1" Margin="3,0,0,0" >-->
             <DockPanel Grid.Column="1">
-                <StackPanel DockPanel.Dock="Top" Grid.Row="0" Grid.RowSpan="3">
+                <StackPanel DockPanel.Dock="Top" Grid.Row="0" Grid.RowSpan="3" Orientation="Vertical">
                     <Button Command="{Binding TestCommand}">Test</Button>
-                    <TextBlock Text="{Binding DatasetName}"/>
+                    <StackPanel DataContext="{Binding Data}">
+                        <TextBlock Text="{Binding .}"/>
+                        <TextBlock Text="{Binding DatasetName}"/>
+                        <TextBlock Text="{Binding BackupItems}"/>
+                        <TextBlock Text="{Binding MyProperty}"/>
+                    </StackPanel>
                 </StackPanel>
                 <!--Background="{StaticResource WindowBackgroundBrush}"-->
-                <local:MyCanvas DockPanel.Dock="Bottom"  Focusable="true" x:Name="MyDesigner" Margin="10" 
+                <local:MyCanvas DataContext="{Binding Data}" DockPanel.Dock="Bottom"  Focusable="true" x:Name="MyDesigner" Margin="10" 
                                   
                     ContextMenu="{StaticResource DesignerCanvasContextMenu}">
 

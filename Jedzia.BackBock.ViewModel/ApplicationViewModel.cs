@@ -85,7 +85,7 @@
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
+        // Todo: move this to a little ioc class
         private static Dictionary<Enum, Type> registeredControlTypes = new Dictionary<Enum, Type>();
         public static void RegisterControl(Enum kind, Type type)
         {

@@ -12,9 +12,10 @@ using Jedzia.BackBock.Model;
 using Jedzia.BackBock.ViewModel.Data;
 using Jedzia.BackBock.ViewModel.Commands;
 using System.Windows.Input;
+using Jedzia.BackBock.Model.Data;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
-    public sealed class MainWindowViewModel //: INotifyPropertyChanged
+    public sealed class MainWindowViewModel : ViewModelBase
     {
         #region Fields
         private BackupDataViewModel bdvm;
@@ -24,6 +25,41 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             get
             {
                 return this.applicationViewModel;
+            }
+        }
+
+        public BackupDataViewModel Data
+        {
+            get
+            {
+                return this.bdvm;
+            }
+            set
+            {
+                if (this.bdvm == value)
+                {
+                    return;
+                }
+                this.bdvm = value;
+                RaisePropertyChanged("Data");
+            }
+        }
+
+        private BackupData data2;
+        public BackupData Data2
+        {
+            get
+            {
+                return this.data2;
+            }
+            set
+            {
+                if (this.data2 == value)
+                {
+                    return;
+                }
+                this.data2 = value;
+                RaisePropertyChanged("Data2");
             }
         }
 
@@ -61,14 +97,14 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         void mainWindow_Initialized(object sender, EventArgs e)
         {
-            bdvm = GetSampleData();
-            this.mainWindow.Designer.DataContext = bdvm;
+            Data = GetSampleData();
+            //this.mainWindow.Designer.DataContext = bdvm;
         }
 
-        public static BackupDataViewModel GetSampleData()
+        public BackupDataViewModel GetSampleData()
         {
-            var data = SampleResourceProvider.GenerateSampleData();
-            return new BackupDataViewModel(data);
+            this.Data2 = SampleResourceProvider.GenerateSampleData();
+            return new BackupDataViewModel(this.Data2);
         }
 
         #endregion
@@ -93,7 +129,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
                 if (this.mainWindowCommands == null)
                 {
-                    this.mainWindowCommands = new MainWindowCommandModel(this.mainWindow);
+                    this.mainWindowCommands = new MainWindowCommandModel(/*this.mainWindow*/);
                 }
                 return this.mainWindowCommands;
             }
@@ -159,7 +195,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         {
             //this.Test();
             //MessageBox.Show("Mooo");
-            bdvm.BackupItems.Add(new BackupItemViewModel(new Jedzia.BackBock.Model.Data.BackupItemType()));
+            Data.BackupItems.Add(new BackupItemViewModel(new Jedzia.BackBock.Model.Data.BackupItemType()));
         }
 
         private bool TestEnabled(object sender)
@@ -173,9 +209,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         internal void OpenFile(string path)
         {
-            var data = ModelLoader.LoadBackupData(path);
-            bdvm = new BackupDataViewModel(data);
-            this.mainWindow.Designer.DataContext = bdvm;
+            this.Data2 = ModelLoader.LoadBackupData(path);
+            Data = new BackupDataViewModel(this.Data2);
+            //this.mainWindow.Designer.DataContext = bdvm;
         }
 
         internal void SaveFile(string path)

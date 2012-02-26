@@ -16,7 +16,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         #region Properties
 
         UIElementCollection Children { get; }
-        object DataContext { get; set; }
+        //object DataContext { get; set; }
         #endregion
 
     }
