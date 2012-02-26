@@ -16,7 +16,6 @@ namespace Jedzia.BackBock.ViewModel.Converters
     using System.Windows.Interop;
     using System.Windows.Media.Imaging;
 
-    // Todo: Move this to Jedzia.BackBock.ViewModel.Converters
     [ValueConversion(typeof(Image), typeof(string))]
     public class ImageConverter : IValueConverter
     {

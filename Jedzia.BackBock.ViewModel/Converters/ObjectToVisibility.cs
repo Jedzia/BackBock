@@ -12,7 +12,6 @@ namespace Jedzia.BackBock.ViewModel.Converters
     using System.Windows;
     using System.Windows.Data;
 
-    // Todo: Move this to Jedzia.BackBock.ViewModel.Converters
     public sealed class ObjectToVisibility : DependencyObject, IValueConverter
     {
         #region Fields
