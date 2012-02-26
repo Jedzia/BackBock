@@ -25,6 +25,32 @@
         </StackPanel>
     </DataTemplate>
 
+    <!--<StackPanel x:Key="WildcardData" Orientation="Horizontal">
+        <TextBlock Text="Pattern: '"/>
+        <TextBlock Text="{Binding Pattern}"/>
+        <TextBlock Text="' Enabled: "/>
+        <TextBlock Text="{Binding Enabled}"/>
+    </StackPanel>
+    <ContentControl Content="{DynamicResource WildcardData}" />-->
+
+    <DataTemplate DataType="{x:Type data:ExclusionViewModel}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Pattern: '"/>
+            <TextBlock Text="{Binding Pattern}"/>
+            <TextBlock Text="' Enabled: "/>
+            <TextBlock Text="{Binding Enabled}"/>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type data:InclusionViewModel}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Pattern: '"/>
+            <TextBlock Text="{Binding Pattern}"/>
+            <TextBlock Text="' Enabled: "/>
+            <TextBlock Text="{Binding Enabled}"/>
+        </StackPanel>
+    </DataTemplate>
+
+
     <!-- Obsolete through ResourceId=Namespace.Class.Member form. -->
     <!--<DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
         ResourceId={x:Type data:ExclusionViewModelList}}">

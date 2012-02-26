@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Jedzia.BackBock.ViewModel.Data
 {
-    public class ExclusionViewModelList : List<ExclusionViewModel> { }
+    //public class ExclusionViewModelList : List<ExclusionViewModel> { }
 
     [DisplayName("Path to use")]
     public partial class PathViewModel //: ICustomTypeDescriptor
