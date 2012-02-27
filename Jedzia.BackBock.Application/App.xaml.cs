@@ -15,23 +15,32 @@
             //this.key
         }
 
-        private static ApplicationViewModel applicationViewModel;
+        /*private static ApplicationViewModel applicationViewModel;
 
         public static ApplicationViewModel ApplicationViewModel
         {
             get { return App.applicationViewModel; }
             //set { App.applicationViewModel = value; }
-        }
+        }*/
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            applicationViewModel = new ApplicationViewModel(new FileIOService());
-            SimpleIoc.Default.Register<MainWindowViewModel>(CreateMainWindowViewModel);
+            //applicationViewModel = new ApplicationViewModel(new FileIOService());
+            //SimpleIoc.Default.Register<ApplicationViewModel>(CreateApplicationViewModel);
+
+            //SimpleIoc.Default.Register<MainWindowViewModel>(CreateMainWindowViewModel);
+            SimpleIoc.Default.Register<IOService, FileIOService>();
+            SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
         }
 
-        private MainWindowViewModel CreateMainWindowViewModel()
+        /*private ApplicationViewModel CreateApplicationViewModel()
         {
-            return new MainWindowViewModel(App.ApplicationViewModel, (IMainWindow)this.MainWindow);
+            return new ApplicationViewModel(new FileIOService(), (IMainWindow)this.MainWindow);
+        }*/
+
+        private IMainWindow GetMainWindow()
+        {
+            return (IMainWindow)this.MainWindow;
         }
 
     }

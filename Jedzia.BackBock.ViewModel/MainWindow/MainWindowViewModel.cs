@@ -69,7 +69,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         //public static readonly DependencyProperty DesignerCommandsProperty = DependencyProperty.Register(
         //"DesignerCommands", typeof(DesignerCanvasCommandModel), typeof(DesignerCanvas));
 
-        private readonly IMainWindow mainWindow;
+        //private readonly IMainWindow mainWindow;
         private MainWindowCommandModel mainWindowCommands;
 
         #endregion
@@ -83,16 +83,24 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #region Constructors
 
-        public MainWindowViewModel(ApplicationViewModel applicationViewModel, IMainWindow mainWindow)
+        public MainWindowViewModel(ApplicationViewModel applicationViewModel/*, IMainWindow mainWindow*/)
         {
-            /*if (mainWindow.Designer == null)
+            this.applicationViewModel = applicationViewModel;
+            //this.mainWindow = applicationViewModel.MainWindow;
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                mainWindow_Initialized(null, null);
+            }
+            else
+            {
+                // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
+                applicationViewModel.MainWindow.Initialized += new EventHandler(mainWindow_Initialized);
+                this.generalCommands = new GeneralCommandsModel(/*applicationViewModel,*/ applicationViewModel.MainWindow);
+            }
+            /*if (this.mainWindow.Designer == null)
             {
                 throw new ArgumentNullException("mainWindow", "No Designer!");
             }*/
-            this.applicationViewModel = applicationViewModel;
-            this.mainWindow = mainWindow;
-            this.mainWindow.Initialized += new EventHandler(mainWindow_Initialized);
-            this.generalCommands = new GeneralCommandsModel(applicationViewModel, mainWindow);
         }
 
         void mainWindow_Initialized(object sender, EventArgs e)

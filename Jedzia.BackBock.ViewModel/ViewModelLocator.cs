@@ -13,6 +13,7 @@
 using Microsoft.Practices.ServiceLocation;
 using Jedzia.BackBock.ViewModel.MainWindow;
 using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+using System.Windows;
 
 namespace Jedzia.BackBock.ViewModel
 {
@@ -36,14 +37,29 @@ namespace Jedzia.BackBock.ViewModel
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
+                SimpleIoc.Default.Register<IOService, Design.DesignIOService>();
+                SimpleIoc.Default.Register<IMainWindow, Design.DesignMainWindow>();
+                SimpleIoc.Default.Register<ApplicationViewModel>();
             }
             else
             {
+                SimpleIoc.Default.Register<ApplicationViewModel>();
                 // SimpleIoc.Default.Register<IDataService, DataService>();
             }
 
-            //SimpleIoc.Default.Register<MainWindowViewModel>(CreateMainWindowViewModel);
+            SimpleIoc.Default.Register<MainWindowViewModel>();
         }
+
+        /*private static ApplicationViewModel CreateApplicationViewModel()
+        {
+            //return new ApplicationViewModel(new FileIOService(), (IMainWindow)Application.Current.MainWindow);
+            return new ApplicationViewModel(null, (IMainWindow)Application.Current.MainWindow);
+        }
+        private static ApplicationViewModel CreateApplicationViewModelDesign()
+        {
+            //return new ApplicationViewModel(new FileIOService(), (IMainWindow)Application.Current.MainWindow);
+            return new ApplicationViewModel(new Design.DesignIOService(), null);
+        }*/
 
         //private MainWindowViewModel CreateMainWindowViewModel()
         //{

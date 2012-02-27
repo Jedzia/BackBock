@@ -9,6 +9,7 @@
     using System.Collections;
     using Jedzia.BackBock.ViewModel.Data;
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+    using Microsoft.Practices.ServiceLocation;
     //    using Jedzia.BackBock.Application.Resources.Styles.Resources.Styles;
 
     public partial class Window1 : Window, IMainWindow
@@ -23,7 +24,7 @@
 
         }
 
-        public IMainWorkArea Designer
+        public IMainWorkArea WorkArea
         {
             get
             {
@@ -53,6 +54,12 @@
             res.InitializeComponent();
             var exp = res["ClassListDataTemplate-CSharp"];*/
             //wpg.Instance = this.MyDesigner.DataContext;
+            var main1 = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
+            var main2 = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
+            if (object.ReferenceEquals(main1, main2))
+            {
+                
+            }
             var modl = (BackupDataViewModel)MyDesigner.DataContext;
             ShowDetail(modl.BackupItems[0]);
         }

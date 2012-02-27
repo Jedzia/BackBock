@@ -116,6 +116,8 @@
     <Compile Include="Data\InclusionViewModel.cs" />
     <Compile Include="Data\PathViewModel.cs" />
     <Compile Include="Data\TaskViewModel.cs" />
+    <Compile Include="Design\DesignIOService.cs" />
+    <Compile Include="Design\DesignMainWindow.cs" />
     <Compile Include="DisplayMode.cs" />
     <Compile Include="DisplayModeViewModel.cs" />
     <Compile Include="Ext\ActivatorExtension.cs" />

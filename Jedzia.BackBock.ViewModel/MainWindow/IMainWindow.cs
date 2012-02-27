@@ -13,7 +13,7 @@
 
         #region Properties
 
-        IMainWorkArea Designer { get; }
+        IMainWorkArea WorkArea { get; }
         //MainWindowViewModel MainWindowViewModel { get; }
         //void ShowDetail(object val);
 

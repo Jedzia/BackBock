@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Jedzia.BackBock.ViewModel.MainWindow;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Jedzia.BackBock.Application
 {
@@ -21,7 +22,8 @@ namespace Jedzia.BackBock.Application
     {
         public Window2()
         {
-            this.DataContext = new MainWindowViewModel(App.ApplicationViewModel, this);
+            //App.ApplicationViewModel.MainWindow = this;
+            this.DataContext = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
             InitializeComponent();
         }
 
@@ -33,7 +35,7 @@ namespace Jedzia.BackBock.Application
 
         #region IMainWindow Members
 
-        public IMainWorkArea Designer
+        public IMainWorkArea WorkArea
         {
             get { return this.MyDesigner as IMainWorkArea; }
         }

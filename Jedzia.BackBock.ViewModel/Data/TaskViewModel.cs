@@ -15,6 +15,13 @@ namespace Jedzia.BackBock.ViewModel.Data
     public partial class TaskViewModel
     {
         private MyStructure myProperty = new MyStructure();
+
+        public TaskViewModel()
+        {
+            this.data = new Jedzia.BackBock.Model.Data.TaskType();
+            this.data.TypeName = "NasenBock";
+        }
+
         /// <summary>
         /// Gets or sets 
         /// </summary>

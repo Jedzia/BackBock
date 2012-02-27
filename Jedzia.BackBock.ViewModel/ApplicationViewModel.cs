@@ -16,6 +16,7 @@
     using System;
     using System.Linq;
     using Jedzia.BackBock.ViewModel.Util;
+    using Jedzia.BackBock.ViewModel.MainWindow;
 
     public class ApplicationViewModel : /*IFolderExplorerViewModel,*/ INotifyPropertyChanged
     {
@@ -42,8 +43,28 @@
             initialized = null;
             ioService = null;
         }
+        /// <summary>
+        /// The summary.
+        /// </summary>
+        private IMainWindow mainWindow;
 
-        public ApplicationViewModel(IOService ioService)
+        /// <summary>
+        /// Gets or sets the summary.
+        /// </summary>
+        /// <value>The summary.</value>
+        public IMainWindow MainWindow
+        {
+            get
+            {
+                return this.mainWindow;
+            }
+
+            private set
+            {
+                this.mainWindow = value;
+            }
+        }
+        public ApplicationViewModel(IOService ioService, IMainWindow mainWindow)
         {
             if (initialized != null)
             {
@@ -54,9 +75,10 @@
                 initialized = new object();
             }
 
-            Guard.NotNull(() => ioService, ioService);
+            //Guard.NotNull(() => ioService, ioService);
 
             ApplicationViewModel.ioService = ioService;
+            this.mainWindow = mainWindow;
             Tasks.TaskRegistry.GetInstance();
             //this.ApplicationCommands = new ApplicationCommandModel(this);
 

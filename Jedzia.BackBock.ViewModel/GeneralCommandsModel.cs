@@ -40,7 +40,7 @@ namespace Jedzia.BackBock.ViewModel
                 return commands;
             }
         }*/
-        /// <summary>
+       /* /// <summary>
         /// Gets or sets 
         /// </summary>
         public IMainWindow MainWindow
@@ -50,17 +50,17 @@ namespace Jedzia.BackBock.ViewModel
                 return this.mainWindow;
             }
 
-            /*internal set
-            {
-                this.mainWindow = value;
-            }*/
-        }
-        private ApplicationViewModel applicationViewModel;
-        private IMainWorkArea mainCanvas;
+            //internal set
+            //{
+            //    this.mainWindow = value;
+            //}
+        }*/
+        //private ApplicationViewModel applicationViewModel;
+        //private IMainWorkArea workArea;
         private IMainWindow mainWindow;
-        public GeneralCommandsModel(ApplicationViewModel applicationViewModel, IMainWindow mainWindow)
+        public GeneralCommandsModel(/*ApplicationViewModel applicationViewModel,*/ IMainWindow mainWindow)
         {
-            this.applicationViewModel = applicationViewModel;
+            //this.applicationViewModel = applicationViewModel;
             this.mainWindow = mainWindow;
             mainWindow.Initialized += this.MainWindowInitialized;
 
@@ -69,24 +69,24 @@ namespace Jedzia.BackBock.ViewModel
         /// <exception cref="ArgumentNullException"><paramref name="mainWindow.Designer" /> is <c>null</c>.</exception>
         void MainWindowInitialized(object sender, EventArgs e)
         {
-            if (this.mainWindow.Designer == null)
+            if (this.mainWindow.WorkArea == null)
             {
                 throw new ArgumentNullException("mainWindow", "No Designer!");
             }
-            this.mainCanvas = this.mainWindow.Designer;
+            var workArea = this.mainWindow.WorkArea;
 
             // the global ApplicationCommands adding.
             //this.designerCanvas.CommandBindings.Add(new CommandBinding(ApplicationCommands.New, New_Executed));
-            this.mainCanvas.AddCommandBinding(ApplicationCommands.New, this.NewExecuted);
-            this.mainCanvas.AddCommandBinding(ApplicationCommands.Open, this.OpenExecuted);
-            this.mainCanvas.AddCommandBinding(ApplicationCommands.Save, this.SaveExecuted);
-            this.mainCanvas.AddCommandBinding(ApplicationCommands.Print, this.PrintExecuted);
+            workArea.AddCommandBinding(ApplicationCommands.New, this.NewExecuted);
+            workArea.AddCommandBinding(ApplicationCommands.Open, this.OpenExecuted);
+            workArea.AddCommandBinding(ApplicationCommands.Save, this.SaveExecuted);
+            workArea.AddCommandBinding(ApplicationCommands.Print, this.PrintExecuted);
 
             // this.designerCanvas.CommandBindings.Add(new CommandBinding(this.PasteCommand, this.Paste_Executed, Paste_Enabled));
-            this.mainCanvas.AddCommandBinding(ApplicationCommands.Cut, this.CutExecuted, this.CutEnabled);
-            this.mainCanvas.AddCommandBinding(ApplicationCommands.Copy, this.CopyExecuted, this.CopyEnabled);
-            this.mainCanvas.AddCommandBinding(ApplicationCommands.Paste, this.PasteExecuted, Paste_Enabled);
-            this.mainCanvas.AddCommandBinding(ApplicationCommands.Delete, this.DeleteExecuted, this.DeleteEnabled);
+            workArea.AddCommandBinding(ApplicationCommands.Cut, this.CutExecuted, this.CutEnabled);
+            workArea.AddCommandBinding(ApplicationCommands.Copy, this.CopyExecuted, this.CopyEnabled);
+            workArea.AddCommandBinding(ApplicationCommands.Paste, this.PasteExecuted, Paste_Enabled);
+            workArea.AddCommandBinding(ApplicationCommands.Delete, this.DeleteExecuted, this.DeleteEnabled);
 
             //this.designerCanvas.CommandBindings.Add(new CommandBinding(SelectAllCommand, SelectAll_Executed));
             //SelectAllCommand.InputGestures.Add(new KeyGesture(Key.A, ModifierKeys.Control));
@@ -222,7 +222,7 @@ namespace Jedzia.BackBock.ViewModel
 
             if (true == printDialog.ShowDialog())
             {
-                var visual = this.mainCanvas as Visual;
+                var visual = this.mainWindow.WorkArea as Visual;
                 if (visual == null)
                 {
                     throw new ApplicationException("The DesignerCanvas can't be printed (no cast to Visual).");

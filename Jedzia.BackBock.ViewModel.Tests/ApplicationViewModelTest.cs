@@ -65,7 +65,7 @@ namespace Jedzia.BackBock.ViewModel.Tests
 
             mocks.ReplayAll();
             
-            ApplicationViewModel target = new ApplicationViewModel(ioService);
+            ApplicationViewModel target = new ApplicationViewModel(ioService, null);
 
             actual = ApplicationViewModel.MainIOService;
             Assert.AreSame(ioService, actual);
@@ -103,9 +103,9 @@ namespace Jedzia.BackBock.ViewModel.Tests
         public void ApplicationViewModelConstructorTest()
         {
             mocks.ReplayAll();
-            ApplicationViewModel target = new ApplicationViewModel(ioService);
+            ApplicationViewModel target = new ApplicationViewModel(ioService, null);
             mocks.VerifyAll();
-            Assert.Throws<ApplicationException>(()=> target = new ApplicationViewModel(ioService));
+            Assert.Throws<ApplicationException>(() => target = new ApplicationViewModel(ioService, null));
         }
 
 
