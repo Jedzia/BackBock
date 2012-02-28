@@ -85,6 +85,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         public MainWindowViewModel(ApplicationViewModel applicationViewModel/*, IMainWindow mainWindow*/)
         {
+            //MessageBox.Show("MainWindowViewModel create");
             this.applicationViewModel = applicationViewModel;
             //this.mainWindow = applicationViewModel.MainWindow;
             if (ViewModelBase.IsInDesignModeStatic)
@@ -106,12 +107,15 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         void mainWindow_Initialized(object sender, EventArgs e)
         {
             Data = GetSampleData();
+            //MessageBox.Show("MainWindowViewModel mainWindow_Initialized");
             //this.mainWindow.Designer.DataContext = bdvm;
         }
 
         public BackupDataViewModel GetSampleData()
         {
+            //System.Diagnostics.Debugger.Launch();
             this.Data2 = SampleResourceProvider.GenerateSampleData();
+            //MessageBox.Show("MainWindowViewModel GetSampleData");
             return new BackupDataViewModel(this.Data2);
         }
 

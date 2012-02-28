@@ -8,8 +8,20 @@ namespace Jedzia.BackBock.ViewModel.Data
 {
     public class MyStructure
     {
-        public int ValueOne;
-        public Boolean ValueTwo;
+        private int valueOne;
+
+        public int ValueOne
+        {
+            get { return valueOne; }
+            set { valueOne = value; }
+        }
+        private Boolean valueTwo;
+
+        public Boolean ValueTwo
+        {
+            get { return valueTwo; }
+            set { valueTwo = value; }
+        }
     }
 
     public partial class TaskViewModel

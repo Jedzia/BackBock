@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPG", "WPG\WPG\WPG.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.ViewModel.Tests", "Jedzia.BackBock.ViewModel.Tests\Jedzia.BackBock.ViewModel.Tests.csproj", "{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{a9ca7a7c-5892-4093-aa0e-cc95dbf21afb}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,12 @@ Global
 		{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}.Part1|Any CPU.Build.0 = Release|Any CPU
 		{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Part1|Any CPU.ActiveCfg = Part1|Any CPU
+		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Part1|Any CPU.Build.0 = Part1|Any CPU
+		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
