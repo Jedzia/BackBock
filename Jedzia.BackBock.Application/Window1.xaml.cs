@@ -89,6 +89,35 @@
             var pg = new WPG.TypeEditors.CollectionEditorWindow(col);
             pg.ShowDialog();
         }
+
+        #region ISelectionService Members
+
+        public object SelectedItem
+        {
+            get 
+            {
+                return this.dataGrid.SelectedItem;
+            }
+        }
+
+        #endregion
+
+        #region IDialogServiceProvider Members
+
+        private IDialogService dialogService;
+        public IDialogService DialogService
+        {
+            get 
+            {
+                if (this.dialogService == null)
+                {
+                    this.dialogService = new DialogService();
+                }
+                return this.dialogService;
+            }
+        }
+
+        #endregion
     }
 
 }

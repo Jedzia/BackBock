@@ -20,18 +20,25 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         #region Fields
 
         //private readonly IMainWorkArea mainWorkArea;
-        //private DesignerCanvasCommandModel designerCommands;
+        private WorkAreaCommands workAreaCommands;
+
+        public WorkAreaCommands WorkAreaCommands
+        {
+            get { return workAreaCommands; }
+            private set { workAreaCommands = value; }
+        }
 
         #endregion
 
-        //private IMainWindow mainWindow;
+        private IMainWindow mainWindow;
 
         #region Constructors
 
-        public MainWindowCommandModel(/*IMainWindow mainWindow*/)
+        public MainWindowCommandModel(IMainWindow mainWindow)
         {
-            //this.mainWindow = mainWindow;
+            this.mainWindow = mainWindow;
             //this.mainWorkArea = mainWindow.Designer;
+            this.WorkAreaCommands = new WorkAreaCommands(mainWindow);
         }
 
         #endregion
@@ -106,7 +113,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         private void Test2Executed(object o)
         {
             //ApplicationViewModel.DialogService.ShowError("The message", "The title", "button text", () => { int x = 1; });
-            ApplicationViewModel.DialogService.ShowMessage("The message", "The title", "button confirm", "Cancel", (e) => { int x = 1; });
+            this.mainWindow.DialogService.ShowMessage("The message", "The title", "button confirm", "Cancel", (e) => { int x = 1; });
             //ApplicationViewModel.DialogService.ShowMessageBox("The message", "The title");
             //this.Test2Command();
         }

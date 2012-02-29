@@ -36,5 +36,23 @@ namespace Jedzia.BackBock.ViewModel.Design
         }
 
         #endregion
+
+        #region ISelectionService Members
+
+        public object SelectedItem
+        {
+            get { return null; }
+        }
+
+        #endregion
+
+        #region IDialogServiceProvider Members
+
+        public IDialogService DialogService
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
     }
 }

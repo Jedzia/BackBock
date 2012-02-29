@@ -26,7 +26,7 @@
                 <Button Grid.Column="1" Height="25" Width="60" HorizontalAlignment="Right" Margin="0,0,10,0" Name="cmdRemove" Click="cmdRemove_Click">Remove</Button>
             </Grid>
             
-            <ListBox DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10" Name="myLst" SelectionChanged="myLst_SelectionChanged"></ListBox>
+            <ListBox DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="10" Name="myLst" SelectionChanged="myLst_SelectionChanged" SelectedIndex="0"></ListBox>
             
         </DockPanel>
                 

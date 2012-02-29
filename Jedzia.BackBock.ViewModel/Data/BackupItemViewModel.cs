@@ -12,14 +12,14 @@ namespace Jedzia.BackBock.ViewModel.Data
     public partial class BackupItemViewModel
     {
         public enum WindowTypes
-        { 
+        {
             [CheckType(typeof(Window))]
-            TaskEditor, 
+            TaskEditor,
             ClassFieldOptPage,
             ClassMethodOptPage,
             ClassPropertyOptPage,
             ClassEventOptPage,
-            SettingsPage, 
+            SettingsPage,
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             // Mit ObservableCollection kann das ViewModel automatisch auf entfernen und
             // hinzufügen von Objekten reagieren.
-            
+
             /*if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 foreach (PathViewModel item in e.NewItems)
@@ -209,6 +209,40 @@ namespace Jedzia.BackBock.ViewModel.Data
         private bool TaskDataClickedEnabled(object sender)
         {
             bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
+
+        #region RunTask Command
+
+        private RelayCommand runTaskCommand;
+
+        public ICommand RunTaskCommand
+        {
+            get
+            {
+                if (this.runTaskCommand == null)
+                {
+                    this.runTaskCommand = new RelayCommand(this.RunTaskExecuted, this.RunTaskEnabled);
+                }
+
+                return this.runTaskCommand;
+            }
+        }
+
+
+        private void RunTaskExecuted(object o)
+        {
+            var taskTypeName = this.Task.TypeName;
+            var msg = "Running " + taskTypeName + "-Task: '" + this.ItemName + "'";
+            this.MessengerInstance.Send(msg);
+            //ApplicationViewModel..DialogService.ShowMessage(msg, "Executing Task", "Ok", null);
+            //this.RunTask();
+        }
+
+        private bool RunTaskEnabled(object sender)
+        {
+            bool canExecute = this.IsEnabled;
             return canExecute;
         }
         #endregion

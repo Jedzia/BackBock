@@ -3,7 +3,7 @@
     using System;
     using Jedzia.BackBock.ViewModel.Commands;
 
-    public interface IMainWindow : ICanInputBind, ICanCommandBind
+    public interface IMainWindow : ICanInputBind, ICanCommandBind, ISelectionService, IDialogServiceProvider
     {
         #region Events
 

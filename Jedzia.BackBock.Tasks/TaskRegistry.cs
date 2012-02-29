@@ -5,7 +5,11 @@ using System.Text;
 
 namespace Jedzia.BackBock.Tasks
 {
-    public class TaskRegistry
+    public interface ITaskService : IServiceProvider
+    {
+    }
+
+    public class TaskRegistry : ITaskService
     {
         private readonly Dictionary<string, Type> taskTypes;
         
@@ -44,6 +48,19 @@ namespace Jedzia.BackBock.Tasks
             taskTypes.Add(task.Name, task.GetType());
             return true;
         }
-	
+
+
+        #region IServiceProvider Members
+
+        public object GetService(Type serviceType)
+        {
+            if (serviceType is ITaskService) 
+            {
+                return this;
+            }
+            return null;
+        }
+
+        #endregion
     }
 }

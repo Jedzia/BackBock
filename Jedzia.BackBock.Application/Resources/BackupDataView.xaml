@@ -20,13 +20,13 @@
 
     <DataTemplate DataType="{x:Type data:PathViewModel}">
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Path '"/>
-            <TextBlock Text="{Binding Path}"/>
-            <TextBlock Text="' E:"/>
-            <TextBlock Text="{Binding Exclusions.Count}"/>
-            <TextBlock Text=" I:"/>
-            <TextBlock Text="{Binding Inclusions.Count}"/>
-        </StackPanel>
+    		<TextBlock Text="Path '"/>
+    		<TextBlock Text="{Binding Path}"/>
+    		<TextBlock Text="' E:"/>
+    		<TextBlock Text="{Binding Exclusions.Count}"/>
+    		<TextBlock Text=" I:"/>
+    		<TextBlock Text="{Binding Inclusions.Count}"/>
+    	</StackPanel>
     </DataTemplate>
 
     <!--<StackPanel x:Key="WildcardData" Orientation="Horizontal">
@@ -116,10 +116,16 @@
     </DataTemplate>-->
 
     <DataTemplate x:Key="{ComponentResourceKey ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Exclusions, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}">
-        <StackPanel Orientation="Horizontal">
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="27"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
             <TextBlock Text="{Binding Value.Count}"/>
             <TextBlock Text=" Exclusions  "/>
-            <wpgtt:CollectionEditorControl 
+        </StackPanel>
+            <wpgtt:CollectionEditorControl Grid.Column="1"
                 NumerableValue="{Binding Value}"                                            
                 MyProperty="{Binding .}"
                 NumerableType="{Binding NumerableType}"
@@ -127,14 +133,20 @@
                 AddTypeCommand="{Binding AddTypeCommand}"
                 RemoveTypeCommand="{Binding RemoveTypeCommand}"
                 TextBoxVisible="Collapsed"/>
-        </StackPanel>
+		</Grid>
     </DataTemplate>
     
     <DataTemplate x:Key="{ComponentResourceKey ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Inclusions, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}">
-        <StackPanel Orientation="Horizontal">
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="27"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
             <TextBlock Text="{Binding Value.Count}"/>
             <TextBlock Text=" Inclusions  "/>
-            <wpgtt:CollectionEditorControl 
+        </StackPanel>
+            <wpgtt:CollectionEditorControl Grid.Column="1"
                 NumerableValue="{Binding Value}"                                            
                 MyProperty="{Binding .}"
                 NumerableType="{Binding NumerableType}"
@@ -142,7 +154,7 @@
                 AddTypeCommand="{Binding AddTypeCommand}"
                 RemoveTypeCommand="{Binding RemoveTypeCommand}"
                 TextBoxVisible="Collapsed"/>
-        </StackPanel>
+		</Grid>
     </DataTemplate>
 
     <!--<DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
@@ -163,12 +175,7 @@
                 <ColumnDefinition Width="27"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <!--<TextBlock Text="{Binding Instance}"/>-->
-                <!--<TextBlock Text="{Binding ElementName=MyDesigner, Path=.}"/>-->
-                <!--<TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, 
-                AncestorType={x:Type Window}}, Path=DataContext}"/>-->
                 <TextBox Text="{Binding Value}"/>
-
             </StackPanel>
             <Button Grid.Column="1" HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" 
                     Command="{Binding Instance.OpenFileClickedCommand}" Content="..."/>
@@ -177,46 +184,66 @@
 
 
     <DataTemplate x:Key="{ComponentResourceKey ResourceId={x:Type data:MyStructure}, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}" >
-        <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type data:MyStructure}}">
-            <TextBlock Text="MS: "/>
-            <CheckBox IsChecked="{Binding ValueTwo}" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Text="{Binding ValueOne}"/>
-            <Button HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" 
-                    Command="{Binding ExclusionDataClickedCommand}" Content="..."/>
-        </StackPanel>
+        <Grid >
+    	            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="27"/>
+            </Grid.ColumnDefinitions>
+	<StackPanel Grid.Column="0" Orientation="Horizontal" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type data:MyStructure}}" d:LayoutOverrides="Width, Height">
+    			<TextBlock Text="MS: "/>
+    			<CheckBox IsChecked="{Binding ValueTwo}" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+    			<TextBox Text="{Binding ValueOne}"/>
+    		</StackPanel>
+    		<Button Grid.Column="1" HorizontalAlignment="Right" Height="18" Width="25" Margin="0,1,1,1" 
+    			Command="{Binding ExclusionDataClickedCommand}" Content="..." d:LayoutOverrides="HorizontalAlignment, HorizontalMargin"/>
+    	</Grid>
     </DataTemplate>
     
     <DataTemplate x:Key="TaskDataTemplate" >
-        <StackPanel Orientation="Horizontal">
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="27"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
             <Label Margin="2,0,2,0" Content="Task"/>
             <TextBlock VerticalAlignment="Center" Margin="2,0,2,0" x:Name="cnt" Text="{Binding Task.TypeName}"/>
-            <Button HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" Command="{Binding TaskDataClickedCommand}" Content="..."/>
         </StackPanel>
+            <Button Grid.Column="1" HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" Command="{Binding TaskDataClickedCommand}" Content="..."/>
+			</Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="PathsDataTemplate" >
-        <StackPanel Orientation="Horizontal">
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="27"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center" Margin="2,0,2,0" x:Name="cnt" Text="{Binding Paths.Count}"/>
             <Label Margin="2,0,2,0" Content="Path's"/>
             <!--<TextBlock Text="{Binding .}"/>-->
             <!--<Button Content="..." Command="{Binding EditCollectionCommand}"  Margin="4,0,4,0"/>-->
             <!--<wpg:PropertyGrid Instance="{Binding ElementName=cnt}" />-->
-            <wpgtt:CollectionEditorControl
+        </StackPanel>
+            <wpgtt:CollectionEditorControl 
                 NumerableValue="{Binding Paths}"                                            
                 DataContext="{Binding .}"
                 NumerableType="{Binding NumerableType}"
                 NumerableTypeIdentifier="Paths"
                 AddTypeCommand="{Binding AddTypeCommand}"
                 RemoveTypeCommand="{Binding RemoveTypeCommand}"
-                TextBoxVisible="Collapsed"
+                TextBoxVisible="Collapsed" Grid.Column="1"
                 />
-        </StackPanel>
+		</Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="PathViewModelDataTemplate" DataType="data:PathViewModel">
-        <StackPanel>
-            <TextBlock Text="{Binding Path}"/>
-        </StackPanel>
+        <Border BorderBrush="Black" BorderThickness="1">
+    		<StackPanel>
+    			<TextBlock Text="{Binding Path}"/>
+    		</StackPanel>
+    	</Border>
     </DataTemplate>
 
     <GridView x:Key="BackupDataViewBase1" AllowsColumnReorder="true">
@@ -252,7 +279,7 @@
 		</Grid>
 	</DataTemplate>
 	<DataTemplate x:Key="MainDetailsTemplate">
-		<Expander IsExpanded="True">
+		<Expander IsExpanded="True" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type data:PathViewModel}}">
 			<Border Margin="10,2,2,2" BorderBrush="DarkGray" BorderThickness="2">
 				<StackPanel Margin="20,2,2,2">
 					<!--<ListBox Margin="20,2,2,2" ItemsSource="{Binding Paths}" ItemTemplate="{StaticResource PathViewModelDataTemplate}"/>--><!--<TextBlock Margin="10" FontWeight="Bold">Details go here.</TextBlock>-->

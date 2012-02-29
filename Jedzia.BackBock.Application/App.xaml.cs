@@ -4,6 +4,7 @@
     using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.MainWindow;
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+    using Jedzia.BackBock.Tasks;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -30,7 +31,8 @@
 
             //SimpleIoc.Default.Register<MainWindowViewModel>(CreateMainWindowViewModel);
             SimpleIoc.Default.Register<IOService, FileIOService>();
-            SimpleIoc.Default.Register<IDialogService, DialogService>();
+            //SimpleIoc.Default.Register<IDialogService, DialogService>();
+            SimpleIoc.Default.Register<ITaskService, TaskRegistry>();
             SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
         }
 
@@ -42,6 +44,11 @@
         private IMainWindow GetMainWindow()
         {
             return (IMainWindow)this.MainWindow;
+        }
+
+        private IDialogService GetDialogService()
+        {
+            return (IDialogService)this.MainWindow;
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)

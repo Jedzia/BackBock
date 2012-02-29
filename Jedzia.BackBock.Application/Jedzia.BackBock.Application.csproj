@@ -73,6 +73,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CustomMsgBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Editors\TaskEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -282,6 +286,9 @@
     <Compile Include="CustomMessageBox.xaml.cs">
       <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomMsgBox.xaml.cs">
+      <DependentUpon>CustomMsgBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Editors\TaskEditorWindow.xaml.cs">
       <DependentUpon>TaskEditorWindow.xaml</DependentUpon>
     </Compile>
@@ -357,6 +364,10 @@
       <Project>{B1C6E675-2D2F-4B6A-BB46-2205324AF6E8}</Project>
       <Name>Jedzia.BackBock.SharedTypes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Jedzia.BackBock.Tasks\Jedzia.BackBock.Tasks.csproj">
+      <Project>{07B3FA8E-2DF4-4F3C-A060-E919EB9D3C98}</Project>
+      <Name>Jedzia.BackBock.Tasks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jedzia.BackBock.ViewModel\Jedzia.BackBock.ViewModel.csproj">
       <Project>{BA57B6A9-70FF-4A22-876B-5A8DFE003293}</Project>
       <Name>Jedzia.BackBock.ViewModel</Name>
@@ -375,7 +386,11 @@
   <ItemGroup>
     <Resource Include="Themes\JedBlack\SimpleStyles\preview.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Fonts\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.0\Microsoft.Expression.Blend.WPF.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

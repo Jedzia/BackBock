@@ -70,7 +70,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         //public static readonly DependencyProperty DesignerCommandsProperty = DependencyProperty.Register(
         //"DesignerCommands", typeof(DesignerCanvasCommandModel), typeof(DesignerCanvas));
 
-        //private readonly IMainWindow mainWindow;
+        private readonly IMainWindow mainWindow;
         private MainWindowCommandModel mainWindowCommands;
 
         #endregion
@@ -84,14 +84,19 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #region Constructors
 
-        public MainWindowViewModel(ApplicationViewModel applicationViewModel/*, IMainWindow mainWindow*/)
+        public MainWindowViewModel(ApplicationViewModel applicationViewModel, IMainWindow mainWindow)
         {
-            //MessageBox.Show("MainWindowViewModel create");
+            //MessageBox.Show("MainWindowViewModel create0");
             this.applicationViewModel = applicationViewModel;
-            //this.mainWindow = applicationViewModel.MainWindow;
+            //MessageBox.Show("MainWindowViewModel create1");
+            this.mainWindow = applicationViewModel.MainWindow;
+            //MessageBox.Show("MainWindowViewModel create2");
             if (ViewModelBase.IsInDesignModeStatic)
             {
+                //MessageBox.Show("MainWindowViewModel create3"); 
                 mainWindow_Initialized(null, null);
+                //MessageBox.Show("MainWindowViewModel create4");
+                //MessageBox.Show("MainWindowViewModel mainWindow_Initialized");
             }
             else
             {
@@ -105,12 +110,20 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }*/
 
             //ListBox lb;
-            
+
         }
 
         void mainWindow_Initialized(object sender, EventArgs e)
         {
-            Data = GetSampleData();
+            try
+            {
+                Data = GetSampleData();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("GetSampleData Exception - " + ex.ToString());
+            }
+
             //MessageBox.Show("MainWindowViewModel mainWindow_Initialized");
             //this.mainWindow.Designer.DataContext = bdvm;
         }
@@ -118,8 +131,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         public BackupDataViewModel GetSampleData()
         {
             //System.Diagnostics.Debugger.Launch();
+
+            //MessageBox.Show("Before MainWindowViewModel GetSampleData");
             this.Data2 = SampleResourceProvider.GenerateSampleData();
-            //MessageBox.Show("MainWindowViewModel GetSampleData");
+            //MessageBox.Show("After MainWindowViewModel GetSampleData");
             return new BackupDataViewModel(this.Data2);
         }
 
@@ -145,7 +160,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
                 if (this.mainWindowCommands == null)
                 {
-                    this.mainWindowCommands = new MainWindowCommandModel(/*this.mainWindow*/);
+                    this.mainWindowCommands = new MainWindowCommandModel(this.mainWindow);
                 }
                 return this.mainWindowCommands;
             }
@@ -188,7 +203,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             return canExecute;
         }*/
 
-                #region Test Command
+        #region Test Command
 
         private RelayCommand testCommand;
 
@@ -212,6 +227,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //this.Test();
             //MessageBox.Show("Mooo");
             Data.BackupItems.Add(new BackupItemViewModel(new Jedzia.BackBock.Model.Data.BackupItemType()));
+            this.mainWindow.DialogService.ShowMessage("MainWindowViewModel.TestExecuted", "Test!", "Ok", null);
         }
 
         private bool TestEnabled(object sender)

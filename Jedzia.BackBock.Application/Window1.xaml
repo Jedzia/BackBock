@@ -44,27 +44,31 @@
             <!-- GridSplitter -->
             <GridSplitter Focusable="False" Width="2" Background="LightGray"
               VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
-            <!-- Designer -->
-            <!--<GroupBox Header="Diagram" Grid.Column="1" Margin="3,0,0,0" >-->
             <DockPanel Grid.Column="1">
                 
-            	<DockPanel VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
-            		<ListBox x:Name="lbPaths"  VerticalAlignment="Top" ItemsSource="{Binding SelectedItems[0].Paths, ElementName=dataGrid}" ItemTemplate="{DynamicResource BackupItemsListDataTemplate01}" MinHeight="200" MinWidth="300" SelectionMode="Single" MaxWidth="300"/>
-            		<Grid >
-            			<Grid.RowDefinitions>
-            				<RowDefinition Height="0.13*"/>
-            				<RowDefinition Height="0.87*"/>
-            			</Grid.RowDefinitions>
-            			<Grid.ColumnDefinitions>
-            				<ColumnDefinition Width="0.5*"/>
-            				<ColumnDefinition Width="0.5*"/>
-            			</Grid.ColumnDefinitions>
-            			<Label x:Name="label" Content="Inclusions" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-            			<ListBox x:Name="lbInclusions" ItemsSource="{Binding SelectedItems[0].Inclusions, ElementName=lbPaths}"  Grid.Row="1"/>
-            			<Label x:Name="label1" Content="Exclusions" VerticalAlignment="Bottom" Grid.Column="1" HorizontalAlignment="Center"/>
-            			<ListBox x:Name="lbExclusions" ItemsSource="{Binding SelectedItems[0].Exclusions, ElementName=lbPaths}"  Grid.Column="1" Grid.Row="1"/>
-            		</Grid>
-            	</DockPanel>
+            	<Border DockPanel.Dock="Bottom" MaxHeight="300" MinHeight="300" VerticalAlignment="Bottom" BorderThickness="1" BorderBrush="Black" Margin="10">
+                
+            		<DockPanel Height="300">
+            			<Grid >
+            				<Grid.RowDefinitions>
+            					<RowDefinition Height="0.13*"/>
+            					<RowDefinition Height="0.87*"/>
+            				</Grid.RowDefinitions>
+            				<Grid.ColumnDefinitions>
+            					<ColumnDefinition Width="0.33*"/>
+            					<ColumnDefinition Width="0.33*"/>
+            					<ColumnDefinition Width="0.33*"/>
+            				</Grid.ColumnDefinitions>
+            				<Label x:Name="label2" Content="Paths" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333"/>
+            				<ListBox x:Name="lbPaths"  VerticalAlignment="Top" ItemsSource="{Binding SelectedItems[0].Paths, ElementName=dataGrid}" ItemTemplate="{DynamicResource BackupItemsListDataTemplate01}" MinWidth="300" SelectionMode="Single" MaxWidth="300" MinHeight="300" d:LayoutOverrides="Width" Grid.Row="1"/>
+            				<Label x:Name="label" Content="Inclusions" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Column="1" FontSize="21.333"/>
+            				<ListBox x:Name="lbInclusions" ItemsSource="{Binding SelectedItems[0].Inclusions, ElementName=lbPaths}"  Grid.Row="1" Grid.Column="1"/>
+            				<Label x:Name="label1" Content="Exclusions" VerticalAlignment="Bottom" Grid.Column="3" HorizontalAlignment="Center" FontSize="21.333"/>
+            				<ListBox x:Name="lbExclusions" ItemsSource="{Binding SelectedItems[0].Exclusions, ElementName=lbPaths}"  Grid.Column="2" Grid.Row="1"/>
+            			</Grid>
+            		</DockPanel>
+                
+            	</Border>
                 
             	<StackPanel DockPanel.Dock="Top" Grid.Row="0" Grid.RowSpan="3" Orientation="Vertical">
             		<Button Command="{Binding TestCommand}" Content="Test"/>
@@ -75,7 +79,8 @@
             			<TextBlock Text="{Binding MyProperty}"/>
             		</StackPanel>
             	</StackPanel>
-<!--Background="{StaticResource WindowBackgroundBrush}"-->
+            	<!--</GroupBox>-->
+        <!--Background="{StaticResource WindowBackgroundBrush}"-->
             	<local:MyCanvas DataContext="{Binding Data}" DockPanel.Dock="Bottom"  Focusable="true" x:Name="MyDesigner" Margin="10" 
                                   
             		ContextMenu="{StaticResource DesignerCanvasContextMenu}">
@@ -103,10 +108,10 @@
                             </GridView>
                         </ListView.View>
                     </ListView>-->
-            		<!--<wtk:DataGrid Grid.Row="2" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
+        <!--<wtk:DataGrid Grid.Row="2" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
                     </wtk:DataGrid>-->
             		<wtk:DataGrid x:Name="dataGrid" DockPanel.Dock="Bottom" ItemsSource="{Binding BackupItems}"  AutoGenerateColumns="False"
-            			VerticalScrollBarVisibility="Auto" SelectionMode="Single" RowDetailsTemplate="{DynamicResource MainDetailsTemplateX}">
+            			VerticalScrollBarVisibility="Auto" SelectionMode="Single" RowDetailsTemplate="{DynamicResource MainDetailsTemplateX}" >
             			<wtk:DataGrid.Columns>
             				<wtk:DataGridTextColumn Header="Name" Binding="{Binding ItemName}"/>
             				<!--<wtk:DataGridTextColumn Header="Task" Binding="{Binding Task.TypeName}"/>-->
@@ -119,8 +124,9 @@
             		</wtk:DataGrid>
 
             	</local:MyCanvas>
-                <!--</GroupBox>-->
             </DockPanel>
+            <!-- Designer -->
+            <!--<GroupBox Header="Diagram" Grid.Column="1" Margin="3,0,0,0" >-->
         </Grid>
     </Grid>
 </Window>

@@ -1,12 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BackupData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DatasetName="Daily">
-  <BackupItem ItemName="Firefox">
+  <BackupItem IsEnabled="true" ItemName="Firefox">
     <Path Path="C:\Program Files\Mozilla\config.sql">
       <Exclusion Pattern="*.nfo" />
       <Exclusion Pattern="Bla.*" Enabled="true" />
       <Inclusion Pattern="*.fff" />
       <Inclusion Pattern="All.dir" Enabled="true" />
       <Inclusion Pattern="MyDingens*.cs" />
+      <Inclusion />
+      <Inclusion />
+      <Inclusion />
+      <Inclusion />
+      <Inclusion />
+      <Inclusion />
     </Path>
     <Path Path="Moese, hehehe" />
     <Task TypeName="Backup" />

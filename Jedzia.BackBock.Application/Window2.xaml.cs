@@ -12,19 +12,29 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Jedzia.BackBock.ViewModel.MainWindow;
 using Microsoft.Practices.ServiceLocation;
+using Jedzia.BackBock.ViewModel;
+using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 
 namespace Jedzia.BackBock.Application
 {
     /// <summary>
     /// Interaction logic for Window2.xaml
     /// </summary>
-    public partial class Window2 : Window, IMainWindow
+    public partial class Window2 : DialogServiceBase, IMainWindow, IDialogService
     {
+
+        static Window2()
+        {
+            //SimpleIoc.Default.Register<IDialogService>(GetDialogService);
+        }
+
         public Window2()
         {
             //App.ApplicationViewModel.MainWindow = this;
-            this.DataContext = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
+            //this.DataContext = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
             InitializeComponent();
+            //this.DialogControl = this.msgbox;
+            SimpleIoc.Default.Register<IDialogService>(() => { return this; });
         }
 
         private void Window_Initialized(object sender, EventArgs e)
@@ -48,6 +58,27 @@ namespace Jedzia.BackBock.Application
         public MainWindowViewModel MainWindowViewModel
         {
             get { throw new NotImplementedException(); }
+        }
+
+        #endregion
+
+        #region ISelectionService Members
+
+        public object SelectedItem
+        {
+            get 
+            {
+                return this.dataGrid.SelectedItem;
+            }
+        }
+
+        #endregion
+
+        #region IDialogServiceProvider Members
+
+        public IDialogService DialogService
+        {
+            get { return this; }
         }
 
         #endregion
