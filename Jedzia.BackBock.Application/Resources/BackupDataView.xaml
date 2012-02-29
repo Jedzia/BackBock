@@ -3,13 +3,14 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:data="clr-namespace:Jedzia.BackBock.ViewModel.Data;assembly=Jedzia.BackBock.ViewModel"
     xmlns:generics="clr-namespace:System.Collections.Generic;assembly=mscorlib"
     xmlns:wpg="clr-namespace:WPG;assembly=WPG"
     xmlns:t="clr-namespace:Jedzia.BackBock.ViewModel.Ext;assembly=Jedzia.BackBock.ViewModel"
     xmlns:wpgtt="clr-namespace:WPG.Themes.TypeEditors;assembly=WPG"
+  xmlns:Custom="http://schemas.microsoft.com/wpf/2008/toolkit"
+             mc:Ignorable="d"
   >
     <!--
     ResourceId={x:Type generics:List`1[data:ExclusionViewModel]}}" 
@@ -38,19 +39,45 @@
 
     <DataTemplate DataType="{x:Type data:ExclusionViewModel}">
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Pattern: '"/>
-            <TextBlock Text="{Binding Pattern}"/>
-            <TextBlock Text="' Enabled: "/>
-            <TextBlock Text="{Binding Enabled}"/>
+            <Border BorderBrush="{DynamicResource DefaultedBorderBrush}" BorderThickness="2" Margin="2" >
+            	<Border.Background>
+            		<LinearGradientBrush EndPoint="0.877,0.933" StartPoint="0.212,0.119">
+            			<GradientStop Color="White" Offset="0"/>
+            			<GradientStop Color="#FFC23F57" Offset="1"/>
+            		</LinearGradientBrush>
+            	</Border.Background>
+        		<Label Content="Exc" />
+        	</Border>
+        	<!--<TextBlock x:Name="tbP1" Text="Pattern: " VerticalAlignment="Center"/>-->
+        	<TextBlock x:Name="tbP2" Text="{Binding Pattern}" VerticalAlignment="Center"/>
         </StackPanel>
+    	<DataTemplate.Triggers>
+    		<DataTrigger Binding="{Binding Enabled}" Value="True" >
+    			<!--<Setter TargetName="tbP1" Property="FontWeight" Value="Bold" />-->
+    			<Setter TargetName="tbP2" Property="FontWeight" Value="Bold" />
+  			</DataTrigger>
+    	</DataTemplate.Triggers>
     </DataTemplate>
     <DataTemplate DataType="{x:Type data:InclusionViewModel}">
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Pattern: '"/>
-            <TextBlock Text="{Binding Pattern}"/>
-            <TextBlock Text="' Enabled: "/>
-            <TextBlock Text="{Binding Enabled}"/>
+            <Border BorderBrush="{DynamicResource DefaultedBorderBrush}" BorderThickness="2" Margin="2" >
+            	<Border.Background>
+            		<LinearGradientBrush EndPoint="0.877,0.933" StartPoint="0.212,0.119">
+            			<GradientStop Color="White" Offset="0"/>
+            			<GradientStop Color="#FF54CA3C" Offset="1"/>
+            		</LinearGradientBrush>
+            	</Border.Background>
+        		<Label Content="Inc" />
+        	</Border>
+        	<!--<TextBlock x:Name="tbP1" Text="Pattern: " VerticalAlignment="Center"/>-->
+        	<TextBlock x:Name="tbP2" Text="{Binding Pattern}" VerticalAlignment="Center"/>
         </StackPanel>
+    	<DataTemplate.Triggers>
+    		<DataTrigger Binding="{Binding Enabled}" Value="True" >
+    			<!--<Setter TargetName="tbP1" Property="FontWeight" Value="Bold" />-->
+    			<Setter TargetName="tbP2" Property="FontWeight" Value="Bold" />
+  			</DataTrigger>
+    	</DataTemplate.Triggers>
     </DataTemplate>
 
 
@@ -88,8 +115,7 @@
         </StackPanel>
     </DataTemplate>-->
 
-    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
-        ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Exclusions}">
+    <DataTemplate x:Key="{ComponentResourceKey ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Exclusions, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="{Binding Value.Count}"/>
             <TextBlock Text=" Exclusions  "/>
@@ -104,8 +130,7 @@
         </StackPanel>
     </DataTemplate>
     
-    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
-        ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Inclusions}">
+    <DataTemplate x:Key="{ComponentResourceKey ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Inclusions, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="{Binding Value.Count}"/>
             <TextBlock Text=" Inclusions  "/>
@@ -131,12 +156,11 @@
     </DataTemplate>-->
     
     <!-- ResourceId=Namespace.Class.Member identifies a member specific template.  -->
-    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
-        ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Path}">
+    <DataTemplate x:Key="{ComponentResourceKey ResourceId=Jedzia.BackBock.ViewModel.Data.PathViewModel.Path, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}">
         <Grid HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="27"></ColumnDefinition>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="27"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <!--<TextBlock Text="{Binding Instance}"/>-->
@@ -147,20 +171,18 @@
 
             </StackPanel>
             <Button Grid.Column="1" HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" 
-                    Command="{Binding Instance.OpenFileClickedCommand}">...</Button>
+                    Command="{Binding Instance.OpenFileClickedCommand}" Content="..."/>
         </Grid>
     </DataTemplate>
 
 
-    <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, 
-        ResourceId={x:Type data:MyStructure}}" >
-        <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance Type=data:MyStructure, IsDesignTimeCreatable=True}">
+    <DataTemplate x:Key="{ComponentResourceKey ResourceId={x:Type data:MyStructure}, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}" >
+        <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type data:MyStructure}}">
             <TextBlock Text="MS: "/>
             <CheckBox IsChecked="{Binding ValueTwo}" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Text="{Binding ValueOne}">
-            </TextBox>
+            <TextBox Text="{Binding ValueOne}"/>
             <Button HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" 
-                    Command="{Binding ExclusionDataClickedCommand}">...</Button>
+                    Command="{Binding ExclusionDataClickedCommand}" Content="..."/>
         </StackPanel>
     </DataTemplate>
     
@@ -168,7 +190,7 @@
         <StackPanel Orientation="Horizontal">
             <Label Margin="2,0,2,0" Content="Task"/>
             <TextBlock VerticalAlignment="Center" Margin="2,0,2,0" x:Name="cnt" Text="{Binding Task.TypeName}"/>
-            <Button HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" Command="{Binding TaskDataClickedCommand}">...</Button>
+            <Button HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0" Command="{Binding TaskDataClickedCommand}" Content="..."/>
         </StackPanel>
     </DataTemplate>
 
@@ -215,5 +237,48 @@
         </GridViewColumn>
         <GridViewColumn DisplayMemberBinding="{Binding Test}" Header="Test"/>
     </GridView>
+	<DataTemplate x:Key="BackupItemsListDataTemplate01">
+		<Grid d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type data:PathViewModel}}">
+			<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+				<WrapPanel Orientation="Horizontal" MaxWidth="250" Margin="0,0,5,0">
+					<Label x:Name="label" Content="Path:" FontWeight="Bold"/>
+					<TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="{Binding Path}" VerticalAlignment="Center"/>
+				</WrapPanel>
+				<Label x:Name="label1" Content="I:" FontWeight="Bold"/>
+				<TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="{Binding Inclusions.Count}" VerticalAlignment="Center"/>
+				<Label x:Name="label2" Content="E:" FontWeight="Bold"/>
+				<TextBlock x:Name="textBlock2" TextWrapping="Wrap" Text="{Binding Exclusions.Count}" VerticalAlignment="Center"/>
+			</StackPanel>
+		</Grid>
+	</DataTemplate>
+	<DataTemplate x:Key="MainDetailsTemplate">
+		<Expander IsExpanded="True">
+			<Border Margin="10,2,2,2" BorderBrush="DarkGray" BorderThickness="2">
+				<StackPanel Margin="20,2,2,2">
+					<!--<ListBox Margin="20,2,2,2" ItemsSource="{Binding Paths}" ItemTemplate="{StaticResource PathViewModelDataTemplate}"/>--><!--<TextBlock Margin="10" FontWeight="Bold">Details go here.</TextBlock>-->
+					<TextBlock Text="Details:" Margin="10" FontWeight="Bold" FontFamily="Verdana" FontSize="13.333"/>
+					<TextBlock Text="{Binding .}" Visibility="Collapsed"/>
+					<Custom:DataGrid ItemsSource="{Binding Paths}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+						<Custom:DataGrid.Columns>
+							<Custom:DataGridTextColumn Binding="{Binding Path}" Header="Path"/>
+							<Custom:DataGridTextColumn Header="Inclusions" Binding="{Binding Inclusions.Count, Mode=OneWay}"/>
+							<Custom:DataGridTextColumn Header="Exclusions" Binding="{Binding Exclusions.Count, Mode=OneWay}"/>
+							<Custom:DataGridTextColumn Header="UserData" Binding="{Binding UserData}"/>
+						</Custom:DataGrid.Columns>
+						<Custom:DataGrid.RowDetailsTemplate>
+							<DataTemplate>
+								<StackPanel Margin="20,2,2,2">
+									<TextBlock Text="Inclusions:" Margin="10" FontWeight="Bold"/>
+									<Custom:DataGrid ItemsSource="{Binding Inclusions}" VerticalScrollBarVisibility="Auto"/>
+									<TextBlock Text="Exclusions:" Margin="10" FontWeight="Bold"/>
+									<Custom:DataGrid ItemsSource="{Binding Exclusions}" VerticalScrollBarVisibility="Auto"/>
+								</StackPanel>
+							</DataTemplate>
+						</Custom:DataGrid.RowDetailsTemplate>
+					</Custom:DataGrid>
+				</StackPanel>
+			</Border>
+		</Expander>
+	</DataTemplate>
     <!-- Resource dictionary entries should be defined here. -->
 </ResourceDictionary>

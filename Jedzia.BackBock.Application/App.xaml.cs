@@ -30,6 +30,7 @@
 
             //SimpleIoc.Default.Register<MainWindowViewModel>(CreateMainWindowViewModel);
             SimpleIoc.Default.Register<IOService, FileIOService>();
+            SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
         }
 
@@ -41,6 +42,12 @@
         private IMainWindow GetMainWindow()
         {
             return (IMainWindow)this.MainWindow;
+        }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            // this.Resources["Locator"]
+            ViewModelLocator.Cleanup();
         }
 
     }

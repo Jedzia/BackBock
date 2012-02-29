@@ -13,6 +13,7 @@ using Jedzia.BackBock.ViewModel.Data;
 using Jedzia.BackBock.ViewModel.Commands;
 using System.Windows.Input;
 using Jedzia.BackBock.Model.Data;
+using System.Windows.Controls;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     public sealed class MainWindowViewModel : ViewModelBase
@@ -102,6 +103,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
                 throw new ArgumentNullException("mainWindow", "No Designer!");
             }*/
+
+            //ListBox lb;
+            
         }
 
         void mainWindow_Initialized(object sender, EventArgs e)

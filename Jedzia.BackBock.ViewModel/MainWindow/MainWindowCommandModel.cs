@@ -105,9 +105,15 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private void Test2Executed(object o)
         {
+            //ApplicationViewModel.DialogService.ShowError("The message", "The title", "button text", () => { int x = 1; });
+            ApplicationViewModel.DialogService.ShowMessage("The message", "The title", "button confirm", "Cancel", (e) => { int x = 1; });
+            //ApplicationViewModel.DialogService.ShowMessageBox("The message", "The title");
             //this.Test2Command();
         }
 
+        private void DoNothing()
+        { 
+        }
         private bool Test2Enabled(object sender)
         {
             bool canExecute = true;

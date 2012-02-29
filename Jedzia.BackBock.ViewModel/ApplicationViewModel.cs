@@ -22,7 +22,20 @@
     {
         //public enum ServiceTypes { TaskEditor,  }
         private static IOService ioService;
+        private static IDialogService dialogService;
 
+        public static IDialogService DialogService
+        {
+            get
+            {
+                if (dialogService == null)
+                {
+                    throw new ApplicationException("Fetching the DialogService before an ApplicationViewModel was instantiated.");
+                }
+                return dialogService;
+            }
+        }
+        
         public static IOService MainIOService
         {
             get 
@@ -40,8 +53,10 @@
         
         internal static void Reset()
         {
+            // used in unit tests
             initialized = null;
             ioService = null;
+            dialogService = null;
         }
         /// <summary>
         /// The summary.
@@ -64,7 +79,7 @@
                 this.mainWindow = value;
             }
         }
-        public ApplicationViewModel(IOService ioService, IMainWindow mainWindow)
+        public ApplicationViewModel(IOService ioService, IDialogService dialogService, IMainWindow mainWindow)
         {
             if (initialized != null)
             {
@@ -78,6 +93,7 @@
             //Guard.NotNull(() => ioService, ioService);
 
             ApplicationViewModel.ioService = ioService;
+            ApplicationViewModel.dialogService = dialogService;
             this.mainWindow = mainWindow;
             Tasks.TaskRegistry.GetInstance();
             //this.ApplicationCommands = new ApplicationCommandModel(this);

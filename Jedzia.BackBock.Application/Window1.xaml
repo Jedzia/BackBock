@@ -47,76 +47,48 @@
             <!-- Designer -->
             <!--<GroupBox Header="Diagram" Grid.Column="1" Margin="3,0,0,0" >-->
             <DockPanel Grid.Column="1">
-                <StackPanel DockPanel.Dock="Top" Grid.Row="0" Grid.RowSpan="3" Orientation="Vertical">
-                    <Button Command="{Binding TestCommand}" Content="Test"/>
-                    <StackPanel DataContext="{Binding Data}">
-                        <TextBlock Text="{Binding .}"/>
-                        <TextBlock Text="{Binding DatasetName}"/>
-                        <TextBlock Text="{Binding BackupItems}"/>
-                        <TextBlock Text="{Binding MyProperty}"/>
-                    </StackPanel>
-                </StackPanel>
-                <!--Background="{StaticResource WindowBackgroundBrush}"-->
-                <local:MyCanvas DataContext="{Binding Data}" DockPanel.Dock="Bottom"  Focusable="true" x:Name="MyDesigner" Margin="10" 
+                
+            	<DockPanel VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+            		<ListBox x:Name="lbPaths"  VerticalAlignment="Top" ItemsSource="{Binding SelectedItems[0].Paths, ElementName=dataGrid}" ItemTemplate="{DynamicResource BackupItemsListDataTemplate01}" MinHeight="200" MinWidth="300" SelectionMode="Single" MaxWidth="300"/>
+            		<Grid >
+            			<Grid.RowDefinitions>
+            				<RowDefinition Height="0.13*"/>
+            				<RowDefinition Height="0.87*"/>
+            			</Grid.RowDefinitions>
+            			<Grid.ColumnDefinitions>
+            				<ColumnDefinition Width="0.5*"/>
+            				<ColumnDefinition Width="0.5*"/>
+            			</Grid.ColumnDefinitions>
+            			<Label x:Name="label" Content="Inclusions" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+            			<ListBox x:Name="lbInclusions" ItemsSource="{Binding SelectedItems[0].Inclusions, ElementName=lbPaths}"  Grid.Row="1"/>
+            			<Label x:Name="label1" Content="Exclusions" VerticalAlignment="Bottom" Grid.Column="1" HorizontalAlignment="Center"/>
+            			<ListBox x:Name="lbExclusions" ItemsSource="{Binding SelectedItems[0].Exclusions, ElementName=lbPaths}"  Grid.Column="1" Grid.Row="1"/>
+            		</Grid>
+            	</DockPanel>
+                
+            	<StackPanel DockPanel.Dock="Top" Grid.Row="0" Grid.RowSpan="3" Orientation="Vertical">
+            		<Button Command="{Binding TestCommand}" Content="Test"/>
+            		<StackPanel DataContext="{Binding Data}">
+            			<TextBlock Text="{Binding .}"/>
+            			<TextBlock Text="{Binding DatasetName}"/>
+            			<TextBlock Text="{Binding BackupItems}"/>
+            			<TextBlock Text="{Binding MyProperty}"/>
+            		</StackPanel>
+            	</StackPanel>
+<!--Background="{StaticResource WindowBackgroundBrush}"-->
+            	<local:MyCanvas DataContext="{Binding Data}" DockPanel.Dock="Bottom"  Focusable="true" x:Name="MyDesigner" Margin="10" 
                                   
-                    ContextMenu="{StaticResource DesignerCanvasContextMenu}">
+            		ContextMenu="{StaticResource DesignerCanvasContextMenu}">
 
-                    <!--<local:MyCanvas.Background>
+            		<!--<local:MyCanvas.Background>
                             <DrawingBrush TileMode="Tile" Stretch="Fill" Viewport="0 0 50 50" ViewportUnits="Absolute" ViewboxUnits="Absolute" >
                                 <DrawingBrush.Drawing>
                                     <GeometryDrawing Geometry="M0,0 L0,1 0.03,1 0.03,0.03 1,0.03 1,0 Z" Brush="Gray" />
                                 </DrawingBrush.Drawing>
                             </DrawingBrush>
                         </local:MyCanvas.Background>-->
-
-                    <!--<ListView ItemsSource="{Binding BackupItems}" MinHeight="240"  View="{DynamicResource BackupDataViewBase1}"/>-->
-                    <wtk:DataGrid DockPanel.Dock="Bottom" ItemsSource="{Binding BackupItems}"  AutoGenerateColumns="False"
-                                          VerticalScrollBarVisibility="Auto">
-                        <wtk:DataGrid.Columns>
-                            <wtk:DataGridTextColumn Header="Name" Binding="{Binding ItemName}"/>
-                            <wtk:DataGridTemplateColumn CellTemplate="{DynamicResource TaskDataTemplate}"  Header="Task" />
-                            <!--<wtk:DataGridTextColumn Header="Task" Binding="{Binding Task.TypeName}"/>-->
-                            <!--<wtk:DataGridTemplateColumn Header="Paths"  Binding="{Binding Paths}"/>-->
-                            <wtk:DataGridCheckBoxColumn Header="IsEnabled" Binding="{Binding IsEnabled}"/>
-                            <!--<wtk:DataGridTextColumn IsReadOnly="True" Header="Items" Binding="{Binding Paths.Count}"/>-->
-                            <wtk:DataGridTemplateColumn CellTemplate="{DynamicResource PathsDataTemplate}"  Header="Paths" />
-                        </wtk:DataGrid.Columns>
-                        <wtk:DataGrid.RowDetailsTemplate>
-                            <DataTemplate>
-                                <Expander IsExpanded="True">
-                                    <Border Margin="10,2,2,2" BorderBrush="DarkGray" BorderThickness="2">
-                                        <StackPanel Margin="20,2,2,2">
-                                            <!--<TextBlock Margin="10" FontWeight="Bold">Details go here.</TextBlock>-->
-                                            <TextBlock Text="Details:" Margin="10" FontWeight="Bold" FontFamily="Verdana" FontSize="13.333"/>
-                                            <!--<ListBox Margin="20,2,2,2" ItemsSource="{Binding Paths}" ItemTemplate="{StaticResource PathViewModelDataTemplate}"/>-->
-                                            <!--<wpg:PropertyGrid Instance="{Binding Paths}" DataContext="{Binding}"/>-->
-                                            <TextBlock Text="{Binding .}" Visibility="Collapsed"/>
-                                            <wtk:DataGrid ItemsSource="{Binding Paths}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
-                                            	<wtk:DataGrid.Columns>
-                                            		<wtk:DataGridTextColumn Binding="{Binding Path}" Header="Path"/>
-                                            		<wtk:DataGridTextColumn Header="Inclusions" Binding="{Binding Inclusions.Count, Mode=OneWay}"/>
-                                            		<wtk:DataGridTextColumn Header="Exclusions" Binding="{Binding Exclusions.Count, Mode=OneWay}"/>
-                                            		<wtk:DataGridTextColumn Header="UserData" Binding="{Binding UserData}"/>
-                                            	</wtk:DataGrid.Columns>
-                                                <wtk:DataGrid.RowDetailsTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Margin="20,2,2,2">
-                                                            <TextBlock Text="Inclusions:" Margin="10" FontWeight="Bold"/>
-                                                            <wtk:DataGrid ItemsSource="{Binding Inclusions}" VerticalScrollBarVisibility="Auto"/>
-                                                            <TextBlock Text="Exclusions:" Margin="10" FontWeight="Bold"/>
-                                                            <wtk:DataGrid ItemsSource="{Binding Exclusions}" VerticalScrollBarVisibility="Auto"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </wtk:DataGrid.RowDetailsTemplate>
-                                            </wtk:DataGrid>
-                                        </StackPanel>
-                                    </Border>
-                                </Expander>
-                            </DataTemplate>
-                        </wtk:DataGrid.RowDetailsTemplate>
-                    </wtk:DataGrid>
-                    <!--<ListView Grid.Row="1" ItemsSource="{Binding BackupItems}"  View="{DynamicResource BackupDataViewBase1}"/>-->
-                    <!--<ListView Grid.Row="1" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
+            		<!--<ListView Grid.Row="1" ItemsSource="{Binding BackupItems}"  View="{DynamicResource BackupDataViewBase1}"/>-->
+            		<!--<ListView Grid.Row="1" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Source}" />
@@ -131,10 +103,22 @@
                             </GridView>
                         </ListView.View>
                     </ListView>-->
-                    <!--<wtk:DataGrid Grid.Row="2" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
+            		<!--<wtk:DataGrid Grid.Row="2" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
                     </wtk:DataGrid>-->
+            		<wtk:DataGrid x:Name="dataGrid" DockPanel.Dock="Bottom" ItemsSource="{Binding BackupItems}"  AutoGenerateColumns="False"
+            			VerticalScrollBarVisibility="Auto" SelectionMode="Single" RowDetailsTemplate="{DynamicResource MainDetailsTemplateX}">
+            			<wtk:DataGrid.Columns>
+            				<wtk:DataGridTextColumn Header="Name" Binding="{Binding ItemName}"/>
+            				<!--<wtk:DataGridTextColumn Header="Task" Binding="{Binding Task.TypeName}"/>-->
+            				<wtk:DataGridTemplateColumn CellTemplate="{DynamicResource TaskDataTemplate}"  Header="Task" />
+            				<!--<wtk:DataGridTemplateColumn Header="Paths"  Binding="{Binding Paths}"/>-->
+            				<wtk:DataGridCheckBoxColumn Header="IsEnabled" Binding="{Binding IsEnabled}"/>
+            				<!--<wtk:DataGridTextColumn IsReadOnly="True" Header="Items" Binding="{Binding Paths.Count}"/>-->
+            				<wtk:DataGridTemplateColumn CellTemplate="{DynamicResource PathsDataTemplate}"  Header="Paths" />
+            			</wtk:DataGrid.Columns>
+            		</wtk:DataGrid>
 
-                </local:MyCanvas>
+            	</local:MyCanvas>
                 <!--</GroupBox>-->
             </DockPanel>
         </Grid>

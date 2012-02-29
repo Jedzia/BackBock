@@ -3,12 +3,17 @@
   <BackupItem ItemName="Firefox">
     <Path Path="C:\Program Files\Mozilla\config.sql">
       <Exclusion Pattern="*.nfo" />
+      <Exclusion Pattern="Bla.*" Enabled="true" />
+      <Inclusion Pattern="*.fff" />
+      <Inclusion Pattern="All.dir" Enabled="true" />
+      <Inclusion Pattern="MyDingens*.cs" />
     </Path>
+    <Path Path="Moese, hehehe" />
     <Task TypeName="Backup" />
   </BackupItem>
   <BackupItem ItemName="My Documents">
     <Path Path="C:\Text\notes.txt" />
-    <Path Path="C:\Text\passwords.txt">
+    <Path Path="D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Model\Data\BackupData.Designer.cs">
       <Inclusion Pattern="IIII" />
     </Path>
     <Path Path="C:\Users\root\info.txt">

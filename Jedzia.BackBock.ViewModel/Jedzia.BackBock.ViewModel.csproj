@@ -117,6 +117,7 @@
     <Compile Include="Data\InclusionViewModel.cs" />
     <Compile Include="Data\PathViewModel.cs" />
     <Compile Include="Data\TaskViewModel.cs" />
+    <Compile Include="Design\DesignDialogService.cs" />
     <Compile Include="Design\DesignIOService.cs" />
     <Compile Include="Design\DesignMainWindow.cs" />
     <Compile Include="DisplayMode.cs" />
@@ -129,6 +130,8 @@
     <Compile Include="ForTesting\ProcessStageHelper.cs" />
     <Compile Include="GeneralCommandsModel.cs" />
     <Compile Include="ICleanup.cs" />
+    <Compile Include="IDialogControl.cs" />
+    <Compile Include="IDialogService.cs" />
     <Compile Include="IOService.cs" />
     <Compile Include="MainWindow\IMainWindow.cs">
       <SubType>Code</SubType>

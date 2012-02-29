@@ -38,6 +38,7 @@ namespace Jedzia.BackBock.ViewModel
             {
                 // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
                 SimpleIoc.Default.Register<IOService, Design.DesignIOService>();
+                SimpleIoc.Default.Register<IDialogService, Design.DesignDialogService>();
                 SimpleIoc.Default.Register<IMainWindow, Design.DesignMainWindow>();
                 SimpleIoc.Default.Register<ApplicationViewModel>();
             }
@@ -107,6 +108,12 @@ namespace Jedzia.BackBock.ViewModel
             {
                 return MainStatic;
             }
+        }
+        /// <summary>
+        /// Cleans up all the resources.
+        /// </summary>
+        public static void Cleanup()
+        {
         }
     }
 }

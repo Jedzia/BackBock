@@ -8,7 +8,7 @@
     xmlns:vm="clr-namespace:Jedzia.BackBock.ViewModel;assembly=Jedzia.BackBock.ViewModel"
     xmlns:controls="clr-namespace:Jedzia.BackBock.CustomControls.NavBar;assembly=Jedzia.BackBock.CustomControls"
     StartupUri="Window1.xaml" 
-    Startup="Application_Startup">
+    Startup="Application_Startup" Exit="Application_Exit">
     <Application.Resources>
         <!-- TestImporters       
         StartupUri="Window1.xaml"       
@@ -19,7 +19,7 @@
         <ResourceDictionary>
             <m:Boolean x:Key="{x:Static controls:CustomResources.DebugKey}">False</m:Boolean>
 
-            <vm:ViewModelLocator x:Key="Locator"
+            <vm:ViewModelLocator x:Key="Locator" x:Name="Locator"
                                  d:IsDataSource="True" />
 
             <ResourceDictionary.MergedDictionaries>
