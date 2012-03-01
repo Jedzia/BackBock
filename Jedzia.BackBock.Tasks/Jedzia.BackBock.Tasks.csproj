@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Jedzia.BackBock.Tasks.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -46,10 +47,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackupTask.cs" />
+    <Compile Include="AssemblyResources.cs" />
+    <Compile Include="Backup.cs" />
+    <Compile Include="BuildItem.cs" />
+    <Compile Include="CopyFile.cs" />
+    <Compile Include="ExceptionHandling.cs" />
     <Compile Include="ITask.cs" />
+    <Compile Include="ITaskItem.cs" />
+    <Compile Include="ITaskService.cs" />
+    <Compile Include="MessageImportance.cs" />
+    <Compile Include="OutputAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequiredAttribute.cs" />
+    <Compile Include="Task.cs" />
+    <Compile Include="TaskExtension.cs" />
+    <Compile Include="TaskItem.cs" />
     <Compile Include="TaskRegistry.cs" />
+    <Compile Include="Utilities\TaskLoggingHelper.cs" />
+    <Compile Include="Utilities\TaskLoggingHelperExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

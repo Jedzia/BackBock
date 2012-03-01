@@ -1,6 +1,4 @@
-﻿using Jedzia.BackBock.Tasks;
-using MbUnit.Framework;
-using Gallio.Framework;
+﻿using MbUnit.Framework;
 using Jedzia.BackBock.Tasks.Tests.Stubs;
 namespace Jedzia.BackBock.Tasks.Tests
 {
@@ -58,7 +56,7 @@ namespace Jedzia.BackBock.Tasks.Tests
         [Test]
         public void RegisteredTest()
         {
-            var expected = new string[] { "Backup" };
+            var expected = new[] { "Backup" };
             var actual = tr.GetRegisteredTasks();
             Assert.AreElementsEqualIgnoringOrder(expected, actual);
         }
@@ -90,7 +88,7 @@ namespace Jedzia.BackBock.Tasks.Tests
             Assert.IsNotEmpty(tr.GetRegisteredTasks());
             tr.ResetAll();
             var resetRegged = tr.GetRegisteredTasks();
-            Assert.IsEmpty(tr.GetRegisteredTasks());
+            Assert.IsEmpty(resetRegged);
         }
 
         /// <summary>

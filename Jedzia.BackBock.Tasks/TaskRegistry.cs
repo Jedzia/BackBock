@@ -1,78 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
-
+﻿// <copyright file="$FileName$" company="$Company$">
+// Copyright (c) 2012 All Right Reserved
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// <summary>$summary$</summary>
 namespace Jedzia.BackBock.Tasks
 {
-    public interface ITaskService //: IServiceProvider
-    {
-        bool Register(ITask task);
-        ITask this[string taskName] { get; /*set;*/ }
-        void Reset();
-        void ResetAll();
-        IEnumerable<string> GetRegisteredTasks();
-}
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
-    /// A simple container for ITask items.
+    /// A simple container for <see cref="ITask"/> items.
     /// </summary>
     public class TaskRegistry : ITaskService
     {
+        // declare singleton field
+
+        #region Fields
+
+        private static TaskRegistry instance;
         private readonly Dictionary<string, Type> taskTypes;
 
-        // declare singleton field
-        private static TaskRegistry instance = null;
-        // Protected constructor.
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskRegistry"/> class.
+        /// </summary>
+        static TaskRegistry()
+        {
+            GetInstance().Reset();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskRegistry"/> class.
+        /// </summary>
         protected TaskRegistry()
         {
-            taskTypes = new Dictionary<string, Type>();
+            this.taskTypes = new Dictionary<string, Type>();
         }
+
+        #endregion
+
+        #region Indexers
+
+        /// <summary>
+        /// Gets or sets the <see cref="ITask"/> at the specified index.
+        /// </summary>
+        /// <param name="taskName">The <paramref name="taskName"/> of the element to get.</param>
+        /// <value>The <see cref="ITask"/> with the specified <paramref name="taskName"/>.</value>
+        public ITask this[string taskName]
+        {
+            get
+            {
+                Type ttask;
+                bool found = this.taskTypes.TryGetValue(taskName, out ttask);
+                if (found)
+                {
+                    return (ITask)Activator.CreateInstance(ttask);
+                }
+                return null;
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Gets the instance for this singleton.
         /// </summary>
-        /// <returns>the only TaskRegistry instance.</returns>
+        /// <returns>the only <see cref="TaskRegistry"/> instance.</returns>
         public static ITaskService GetInstance()
         {
-            if (instance == null) instance = new TaskRegistry();
-
-            return instance;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:TaskRegistry"/> class.
-        /// </summary>
-        static TaskRegistry()
-        {
-            TaskRegistry.GetInstance().Reset();
-        }
-
-        /// <summary>
-        /// Registers the specified task.
-        /// </summary>
-        /// <param name="task">The task.</param>
-        /// <returns><c>true</c> if the task was sucessfully registered.</returns>
-        public bool Register(ITask task)
-        {
-            var taskName = task.Name;
-            var taskType = task.GetType();
-
-            Type ttask;
-            bool found = taskTypes.TryGetValue(taskName, out ttask);
-            if (found)
-            {
-                return false;
-            }
-
-            RegisterInternal(taskName, taskType);
-            return true;
-        }
-
-        private void RegisterInternal(string taskName, Type taskType)
-        {
-            taskTypes.Add(taskName, taskType);
+            return instance ?? (instance = new TaskRegistry());
         }
 
         /// <summary>
@@ -81,7 +83,28 @@ namespace Jedzia.BackBock.Tasks
         /// <returns></returns>
         public IEnumerable<string> GetRegisteredTasks()
         {
-            return taskTypes.Keys.ToArray();
+            return this.taskTypes.Keys.ToArray();
+        }
+
+        /// <summary>
+        /// Registers the specified task.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        /// <returns><c>true</c> if the task was successfully registered.</returns>
+        public bool Register(ITask task)
+        {
+            var taskName = task.Name;
+            var taskType = task.GetType();
+
+            Type ttask;
+            bool found = this.taskTypes.TryGetValue(taskName, out ttask);
+            if (found)
+            {
+                return false;
+            }
+
+            this.RegisterInternal(taskName, taskType);
+            return true;
         }
 
         /// <summary>
@@ -89,9 +112,9 @@ namespace Jedzia.BackBock.Tasks
         /// </summary>
         public void Reset()
         {
-            ResetAll();
-            //Register(new BackupTask());
-            RegisterInternal("Backup", typeof(BackupTask));
+            this.ResetAll();
+            //Register(new Backup());
+            this.RegisterInternal("Backup", typeof(Backup));
         }
 
         /// <summary>
@@ -99,28 +122,14 @@ namespace Jedzia.BackBock.Tasks
         /// </summary>
         public void ResetAll()
         {
-            taskTypes.Clear();
+            this.taskTypes.Clear();
         }
 
-
-        /// <summary>
-        /// Gets or sets the <see cref="T:ITask"/> at the specified index.
-        /// </summary>
-        /// <param name="taskName">The taskName of the element to get.</param>
-        /// <value>The <see cref="T:ITask"/> with the specified taskName.</value>
-        public ITask this[string taskName]
+        private void RegisterInternal(string taskName, Type taskType)
         {
-            get
-            {
-                Type ttask;
-                bool found = taskTypes.TryGetValue(taskName, out ttask);
-                if (found)
-                {
-                    return (ITask)Activator.CreateInstance(ttask);
-                }
-                return null;
-            }
+            this.taskTypes.Add(taskName, taskType);
         }
+
 
         /*#region IServiceProvider Members
 
