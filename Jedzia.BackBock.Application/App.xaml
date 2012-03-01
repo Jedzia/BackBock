@@ -7,7 +7,7 @@
     xmlns:m="clr-namespace:System;assembly=mscorlib"
     xmlns:vm="clr-namespace:Jedzia.BackBock.ViewModel;assembly=Jedzia.BackBock.ViewModel"
     xmlns:controls="clr-namespace:Jedzia.BackBock.CustomControls.NavBar;assembly=Jedzia.BackBock.CustomControls"
-    StartupUri="Window2.xaml" 
+    StartupUri="Window1.xaml" 
     Startup="Application_Startup" Exit="Application_Exit">
     <Application.Resources>
         <!-- TestImporters       

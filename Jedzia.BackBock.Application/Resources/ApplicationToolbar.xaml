@@ -66,7 +66,7 @@
 			</Button>
 			<Button Margin="3" Padding="5" HorizontalContentAlignment="Left"
 				Style="{StaticResource ToolBarButtonBaseStyle}"
-				Command="{Binding MainWindowCommands.WorkAreaCommands.DistributeVerticalCommand}"
+				Command="{Binding MainWindowCommands.WorkAreaCommands.RunAllTasksCommand}"
 				CommandTarget="{Binding ElementName=MyDesigner}">
 				<Grid>
 					<Grid.ColumnDefinitions>

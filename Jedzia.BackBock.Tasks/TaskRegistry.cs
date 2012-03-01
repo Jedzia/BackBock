@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace Jedzia.BackBock.Tasks
 {
-    public interface ITaskService : IServiceProvider
+    public interface ITaskService //: IServiceProvider
     {
+        bool Register(ITask task);
+        ITask this[string taskName] { get; /*set;*/ }
     }
 
     public class TaskRegistry : ITaskService
@@ -49,8 +52,26 @@ namespace Jedzia.BackBock.Tasks
             return true;
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="T:ITask"/> at the specified index.
+        /// </summary>
+        /// <param name="taskName">The taskName of the element to get.</param>
+        /// <value>The <see cref="T:ITask"/> with the specified taskName.</value>
+        public ITask this[string taskName]
+        {
+            get
+            {
+                Type ttask;
+                bool found = taskTypes.TryGetValue(taskName, out ttask);
+                if (found)
+                {
+                    return (ITask)Activator.CreateInstance(ttask);
+                }
+                return null;
+            }
+        }
 
-        #region IServiceProvider Members
+        /*#region IServiceProvider Members
 
         public object GetService(Type serviceType)
         {
@@ -61,6 +82,6 @@ namespace Jedzia.BackBock.Tasks
             return null;
         }
 
-        #endregion
+        #endregion*/
     }
 }

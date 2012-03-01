@@ -6,6 +6,13 @@ using Jedzia.BackBock.ViewModel.Commands;
 using System.Windows;
 using System.Windows.Input;
 using System.ComponentModel;
+using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+using Jedzia.BackBock.Tasks;
+using Jedzia.BackBock.ViewModel.Serialization;
+using System.Windows.Markup;
+using System.Xml;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Jedzia.BackBock.ViewModel.Data
 {
@@ -202,8 +209,32 @@ namespace Jedzia.BackBock.ViewModel.Data
         private void TaskDataClickedExecuted(object o)
         {
             var wnd = ApplicationViewModel.GetInstanceFromType<Window>(WindowTypes.TaskEditor);
-            wnd.DataContext = this.Task;
+            var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
+            var task = taskService[this.Task.TypeName];
+
+            //wnd.DataContext = this.Task;
+            //var str = XamlSerializer.Save(task);
+            //SerializeTest(task);
+
+            wnd.DataContext = task;
             wnd.ShowDialog();
+        }
+
+        private static void SerializeTest(ITask task)
+        {
+            var xaml = XamlWriter.Save(task);
+            var doc = new XmlDocument();
+            doc.LoadXml(xaml);
+            doc.Normalize();
+
+            TextWriter wr = new StringWriter();
+            doc.Save(wr);
+            var str = wr.ToString();
+
+            XmlSerializer ser = new XmlSerializer(task.GetType());
+            TextWriter wrx = new StringWriter();
+            ser.Serialize(wrx, task);
+            var strx = wrx.ToString();
         }
 
         private bool TaskDataClickedEnabled(object sender)
@@ -235,9 +266,25 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             var taskTypeName = this.Task.TypeName;
             var msg = "Running " + taskTypeName + "-Task: '" + this.ItemName + "'";
-            this.MessengerInstance.Send(msg);
+            //this.MessengerInstance.Send(msg);
+            this.MessengerInstance.Send(
+                new MVVM.Messaging.DialogMessage(this, msg, null) { Caption = "Executing Task" }
+                );
             //ApplicationViewModel..DialogService.ShowMessage(msg, "Executing Task", "Ok", null);
-            //this.RunTask();
+            this.RunTask();
+        }
+
+        public void RunTask()
+        {
+            if (!this.IsEnabled)
+            {
+                return;
+            }
+
+            // do something.
+            var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
+            var task = taskService[this.Task.TypeName];
+            var success = task.Execute();
         }
 
         private bool RunTaskEnabled(object sender)

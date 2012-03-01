@@ -11,9 +11,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
     using System.Windows.Controls;
     using Jedzia.BackBock.ViewModel.Commands;
 
-    public interface IMainWorkArea : ICanInputBind, ICanCommandBind, IInputElement
+    public interface IMainWorkArea : ICanInputBind, ICanCommandBind, IInputElement, ISelectionService
     {
         #region Properties
+
 
         UIElementCollection Children { get; }
         //object DataContext { get; set; }

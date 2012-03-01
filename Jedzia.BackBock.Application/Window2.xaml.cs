@@ -62,18 +62,6 @@ namespace Jedzia.BackBock.Application
 
         #endregion
 
-        #region ISelectionService Members
-
-        public object SelectedItem
-        {
-            get 
-            {
-                return this.dataGrid.SelectedItem;
-            }
-        }
-
-        #endregion
-
         #region IDialogServiceProvider Members
 
         public IDialogService DialogService

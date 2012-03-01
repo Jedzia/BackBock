@@ -14,6 +14,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
     using System.Xml.Serialization;
     using System.Windows.Controls;
     using System.Collections.Generic;
+    using Jedzia.BackBock.ViewModel.MVVM.Messaging;
 
     public sealed class MainWindowCommandModel //: INotifyPropertyChanged
     {
@@ -30,15 +31,16 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #endregion
 
-        private IMainWindow mainWindow;
-
+        //private IMainWindow mainWindow;
+        //private MainWindowViewModel mainWindowViewModel;
         #region Constructors
 
-        public MainWindowCommandModel(IMainWindow mainWindow)
+        public MainWindowCommandModel(MainWindowViewModel mainWindowViewModel, IMainWindow mainWindow)
         {
-            this.mainWindow = mainWindow;
+            //this.mainWindowViewModel = mainWindowViewModel;
+            //this.mainWindow = mainWindow;
             //this.mainWorkArea = mainWindow.Designer;
-            this.WorkAreaCommands = new WorkAreaCommands(mainWindow);
+            this.WorkAreaCommands = new WorkAreaCommands(mainWindowViewModel, mainWindow.WorkArea);
         }
 
         #endregion
@@ -113,7 +115,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         private void Test2Executed(object o)
         {
             //ApplicationViewModel.DialogService.ShowError("The message", "The title", "button text", () => { int x = 1; });
-            this.mainWindow.DialogService.ShowMessage("The message", "The title", "button confirm", "Cancel", (e) => { int x = 1; });
+            //this.mainWindow.DialogService.ShowMessage("The message", "The title", "button confirm", "Cancel", (e) => { int x = 1; });
+            Messenger.Default.Send(new DialogMessage(this, "The message", null) { Caption = "The title", Button = MessageBoxButton.YesNoCancel }
+    );
+
             //ApplicationViewModel.DialogService.ShowMessageBox("The message", "The title");
             //this.Test2Command();
         }

@@ -10,14 +10,16 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     public class WorkAreaCommands
     {
-        private IMainWindow mainWindow;
+        private IMainWorkArea workArea;
+        private MainWindowViewModel mainWindowViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:WorkAreaCommands"/> class.
         /// </summary>
-        public WorkAreaCommands(IMainWindow mainWindow)
+        public WorkAreaCommands(MainWindowViewModel mainWindowViewModel, IMainWorkArea workArea)
         {
-            this.mainWindow = mainWindow;
+            this.workArea = workArea;
+            this.mainWindowViewModel = mainWindowViewModel;
         }
 
         #region RunTask Command
@@ -41,7 +43,8 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private void RunTaskExecuted(object o)
         {
-            var bivm = this.mainWindow.SelectedItem as BackupItemViewModel;
+            var bivm = this.workArea.SelectedItem as BackupItemViewModel;
+            //var bivm = this.mainWindow.SelectedItem as BackupItemViewModel;
             if (bivm == null)
             {
                 return;
@@ -51,7 +54,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private bool RunTaskEnabled(object sender)
         {
-            var bivm = this.mainWindow.SelectedItem as BackupItemViewModel;
+            var bivm = this.workArea.SelectedItem as BackupItemViewModel;
             bool canExecute = bivm != null && bivm.RunTaskCommand.CanExecute(sender);
             return canExecute;
         }
@@ -78,7 +81,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private void RunAllTasksExecuted(object o)
         {
-            //this.RunAllTasks();
+            this.mainWindowViewModel.RunAllTasks();
         }
 
         private bool RunAllTasksEnabled(object sender)

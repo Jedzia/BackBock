@@ -14,6 +14,7 @@ using Jedzia.BackBock.ViewModel.Commands;
 using System.Windows.Input;
 using Jedzia.BackBock.Model.Data;
 using System.Windows.Controls;
+using System.Xml.Serialization;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     public sealed class MainWindowViewModel : ViewModelBase
@@ -110,7 +111,19 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }*/
 
             //ListBox lb;
+            this.MessengerInstance.Register<string>(this, MainWindowMessageReceived);
+            this.MessengerInstance.Register<MVVM.Messaging.DialogMessage>(this, MainWindowMessageReceived);
 
+        }
+
+        void MainWindowMessageReceived(string e)
+        {
+            this.mainWindow.DialogService.ShowMessage(e, "Message", "Ok", null);
+        }
+
+        void MainWindowMessageReceived(MVVM.Messaging.DialogMessage e)
+        {
+            this.mainWindow.DialogService.ShowMessage(e.Content, e.Caption, "Ok", null);
         }
 
         void mainWindow_Initialized(object sender, EventArgs e)
@@ -160,7 +173,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
                 if (this.mainWindowCommands == null)
                 {
-                    this.mainWindowCommands = new MainWindowCommandModel(this.mainWindow);
+                    this.mainWindowCommands = new MainWindowCommandModel(this, this.mainWindow);
                 }
                 return this.mainWindowCommands;
             }
@@ -227,7 +240,25 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //this.Test();
             //MessageBox.Show("Mooo");
             Data.BackupItems.Add(new BackupItemViewModel(new Jedzia.BackBock.Model.Data.BackupItemType()));
-            this.mainWindow.DialogService.ShowMessage("MainWindowViewModel.TestExecuted", "Test!", "Ok", null);
+            //this.mainWindow.DialogService.ShowMessage("MainWindowViewModel.TestExecuted", "Test!", "Ok", null);
+            var xml = @"<?xml version=""1.0"" encoding=""utf-16""?>" + Environment.NewLine +
+@"<BackupTask AlwaysCreate=""False"" ForceTouch=""False"" Time=""{x:Null}"" " + Environment.NewLine +
+"\t" + @"xmlns=""clr-namespace:Jedzia.BackBock.Tasks;assembly=Jedzia.BackBock.Tasks"" " +
+@"xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"">" + Environment.NewLine +
+@"  <BackupTask.Files>" + Environment.NewLine +
+@"    <x:Array Type=""TaskItem"">" + Environment.NewLine +
+@"      <TaskItem ItemSpec=""C:\tmp\My00.txt"" />" + Environment.NewLine +
+@"      <TaskItem ItemSpec=""C:\tmp\My01.txt"" />" + Environment.NewLine +
+@"      <TaskItem ItemSpec=""C:\tmp\My02.txt"" />" + Environment.NewLine +
+@"      <TaskItem ItemSpec=""C:\tmp\My03.txt"" />" + Environment.NewLine +
+@"      <TaskItem ItemSpec=""C:\tmp\My04.txt"" />" + Environment.NewLine +
+@"    </x:Array>" + Environment.NewLine +
+@"  </BackupTask.Files>" + Environment.NewLine +
+//@"  <BackupTask.TouchedFiles>" + Environment.NewLine +
+                //@"    <x:Null />" + Environment.NewLine +
+                //@"  </BackupTask.TouchedFiles>" + Environment.NewLine +
+@"</BackupTask>";
+            var obj = System.Windows.Markup.XamlReader.Parse(xml);
         }
 
         private bool TestEnabled(object sender)
@@ -249,6 +280,14 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         internal void SaveFile(string path)
         {
             ModelSaver.SaveBackupData(bdvm.data, path);
+        }
+
+        internal void RunAllTasks()
+        {
+            foreach (var item in this.Data.BackupItems)
+            {
+                item.RunTask();
+            }
         }
 
     }

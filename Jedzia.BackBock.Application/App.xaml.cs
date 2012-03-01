@@ -32,7 +32,7 @@
             //SimpleIoc.Default.Register<MainWindowViewModel>(CreateMainWindowViewModel);
             SimpleIoc.Default.Register<IOService, FileIOService>();
             //SimpleIoc.Default.Register<IDialogService, DialogService>();
-            SimpleIoc.Default.Register<ITaskService, TaskRegistry>();
+            SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
             SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
         }
 

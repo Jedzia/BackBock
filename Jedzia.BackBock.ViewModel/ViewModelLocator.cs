@@ -14,6 +14,7 @@ using Microsoft.Practices.ServiceLocation;
 using Jedzia.BackBock.ViewModel.MainWindow;
 using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 using System.Windows;
+using Jedzia.BackBock.Tasks;
 
 namespace Jedzia.BackBock.ViewModel
 {
@@ -37,6 +38,7 @@ namespace Jedzia.BackBock.ViewModel
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
+                SimpleIoc.Default.Register<ITaskService, Design.DesignTaskService>();
                 SimpleIoc.Default.Register<IOService, Design.DesignIOService>();
                 SimpleIoc.Default.Register<IDialogService, Design.DesignDialogService>();
                 SimpleIoc.Default.Register<IMainWindow, Design.DesignMainWindow>();

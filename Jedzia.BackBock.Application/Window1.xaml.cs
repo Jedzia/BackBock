@@ -90,18 +90,6 @@
             pg.ShowDialog();
         }
 
-        #region ISelectionService Members
-
-        public object SelectedItem
-        {
-            get 
-            {
-                return this.dataGrid.SelectedItem;
-            }
-        }
-
-        #endregion
-
         #region IDialogServiceProvider Members
 
         private IDialogService dialogService;

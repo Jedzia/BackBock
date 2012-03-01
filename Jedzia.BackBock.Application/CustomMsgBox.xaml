@@ -56,13 +56,17 @@
         	</ObjectAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="ShowBoxAnimation" x:Name="ShowBoxAnimation">
-        	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[1].(SkewTransform.AngleX)" Storyboard.TargetName="OverlayBorder">
-        		<SplineDoubleKeyFrame KeyTime="0" Value="89"/>
-        		<SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-        	</DoubleAnimationUsingKeyFrames>
         	<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="userControl">
         		<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
         	</ObjectAnimationUsingKeyFrames>
+        	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="MessageBorder">
+        		<SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+        		<SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+        	</DoubleAnimationUsingKeyFrames>
+        	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="MessageBorder">
+        		<SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+        		<SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+        	</DoubleAnimationUsingKeyFrames>
         </Storyboard>
 
         <!--<Storyboard x:Name="ShowBoxAnimation" x:Key="ShowBoxAnimation">
@@ -174,6 +178,14 @@
                 RenderTransformOrigin="0.5,0.5"
                 MaxHeight="470"
                 VerticalAlignment="Center" Background="#FF666666" HorizontalAlignment="Center">
+        	<Border.RenderTransform>
+        		<TransformGroup>
+        			<ScaleTransform/>
+        			<SkewTransform/>
+        			<RotateTransform/>
+        			<TranslateTransform/>
+        		</TransformGroup>
+        	</Border.RenderTransform>
 
             <Grid>
                 <Grid.RowDefinitions>

@@ -3,6 +3,9 @@ using System.Windows;
 
 namespace Jedzia.BackBock.ViewModel
 {
+    /// <summary>
+    /// Base class for Windows with integrated dialog display capability.
+    /// </summary>
     public class DialogServiceBase :  Window, IDialogService
     {
         public IDialogControl DialogControl

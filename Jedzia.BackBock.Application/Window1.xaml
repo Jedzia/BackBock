@@ -83,7 +83,7 @@
         <!--Background="{StaticResource WindowBackgroundBrush}"-->
             	<local:MyCanvas DataContext="{Binding Data}" DockPanel.Dock="Bottom"  Focusable="true" x:Name="MyDesigner" Margin="10" 
                                   
-            		ContextMenu="{StaticResource DesignerCanvasContextMenu}">
+            		ContextMenu="{StaticResource DesignerCanvasContextMenu}" SelectedItem="{Binding SelectedItem, ElementName=dataGrid}">
 
             		<!--<local:MyCanvas.Background>
                             <DrawingBrush TileMode="Tile" Stretch="Fill" Viewport="0 0 50 50" ViewportUnits="Absolute" ViewboxUnits="Absolute" >
