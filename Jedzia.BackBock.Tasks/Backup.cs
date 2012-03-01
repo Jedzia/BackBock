@@ -38,6 +38,7 @@ namespace Jedzia.BackBock.Tasks
         /// </summary>
         public Backup()
         {
+            return;
             this.SourceFiles = new TaskItem[5];
             //FilesXX = new List<object>();
             for (int index = 0; index < 5; index++)

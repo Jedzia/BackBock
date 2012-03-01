@@ -11,9 +11,12 @@ namespace Jedzia.BackBock.Tasks
     using System.Collections;
     using System.ComponentModel;
     using System.Xml;
+    using Jedzia.BackBock.Tasks.BuildEngine;
+    using Jedzia.BackBock.Tasks.Shared;
+    using Jedzia.BackBock.Tasks.Utilities;
 
     [DisplayName("TaskItem")]
-    internal sealed class TaskItem : MarshalByRefObject, ITaskItem
+    public sealed class TaskItem : MarshalByRefObject, ITaskItem
     {
         #region Fields
 
@@ -25,10 +28,10 @@ namespace Jedzia.BackBock.Tasks
 
         #region Constructors
 
-        internal TaskItem()
+        private TaskItem()
         {
             // Todo: after XamlReader testing, make this internal.
-            //ErrorUtilities.VerifyThrow(itemSpec != null, "Need to specify item-spec.");
+            /*ErrorUtilities.VerifyThrow(itemSpec != null, "Need to specify item-spec.");
 
             this.mainProjectEntireContents = new XmlDocument();
             this.mainProjectElement = this.mainProjectEntireContents.CreateElement(
@@ -36,12 +39,24 @@ namespace Jedzia.BackBock.Tasks
             this.mainProjectEntireContents.AppendChild(this.mainProjectElement);
 
 
-            this.item = new BuildItem(null, string.Empty);
+            this.item = new BuildItem(null, string.Empty);*/
         }
-
-        internal TaskItem(string itemSpec)
+        
+        /*internal TaskItem(BuildItem item)
         {
-            //ErrorUtilities.VerifyThrow(itemSpec != null, "Need to specify item-spec.");
+            ErrorUtilities.VerifyThrow(item != null, "Need to specify backing item.");
+            this.item = item.VirtualClone();
+        }*/
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskItem"/> class.
+        /// </summary>
+        /// <param name="itemSpec">The item spec.</param>
+        public TaskItem(string itemSpec)
+        {
+            // Todo: after XamlReader testing, make this internal.
+            ErrorUtilities.VerifyThrow(itemSpec != null, "Need to specify item-spec.");
             this.item = new BuildItem(null, itemSpec);
         }
 
@@ -63,9 +78,8 @@ namespace Jedzia.BackBock.Tasks
             }
             set
             {
-                //ErrorUtilities.VerifyThrowArgumentNull(value, "ItemSpec");
-                //this.item.SetFinalItemSpecEscaped(EscapingUtilities.Escape(value));
-                this.item.SetFinalItemSpecEscaped(value);
+                ErrorUtilities.VerifyThrowArgumentNull(value, "ItemSpec");
+                this.item.SetFinalItemSpecEscaped(EscapingUtilities.Escape(value));
             }
         }
 
@@ -110,7 +124,21 @@ namespace Jedzia.BackBock.Tasks
         /// <param name="destinationItem">The item to copy the metadata entries to.</param>
         public void CopyMetadataTo(ITaskItem destinationItem)
         {
-            throw new NotImplementedException();
+            ErrorUtilities.VerifyThrowArgumentNull(destinationItem, "destinationItem");
+            foreach (DictionaryEntry entry in this.item.GetAllCustomEvaluatedMetadata())
+            {
+                string key = (string)entry.Key;
+                string str2 = destinationItem.GetMetadata(key);
+                if ((str2 == null) || (str2.Length == 0))
+                {
+                    destinationItem.SetMetadata(key, EscapingUtilities.UnescapeAll((string)entry.Value));
+                }
+            }
+            string metadata = destinationItem.GetMetadata("OriginalItemSpec");
+            if ((metadata == null) || (metadata.Length == 0))
+            {
+                destinationItem.SetMetadata("OriginalItemSpec", this.ItemSpec);
+            }
         }
 
         /// <summary>
@@ -120,7 +148,8 @@ namespace Jedzia.BackBock.Tasks
         /// <returns></returns>
         public string GetMetadata(string metadataName)
         {
-            throw new NotImplementedException();
+            ErrorUtilities.VerifyThrowArgumentNull(metadataName, "metadataName");
+            return this.item.GetEvaluatedMetadata(metadataName);
         }
 
         /// <summary>
@@ -139,7 +168,9 @@ namespace Jedzia.BackBock.Tasks
         /// <param name="metadataValue">The value of the metadata entry.</param>
         public void SetMetadata(string metadataName, string metadataValue)
         {
-            throw new NotImplementedException();
+            ErrorUtilities.VerifyThrowArgumentLength(metadataName, "metadataName");
+            ErrorUtilities.VerifyThrowArgumentNull(metadataValue, "metadataValue");
+            this.item.SetMetadata(metadataName, EscapingUtilities.Escape(metadataValue));
         }
     }
 }
