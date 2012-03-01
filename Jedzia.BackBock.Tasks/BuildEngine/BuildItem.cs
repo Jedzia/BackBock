@@ -26,19 +26,22 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
     {
         #region Fields
 
-        private string name;
         private BuildItemGroup childItems;
         private XmlAttribute conditionAttribute;
         private CopyOnWriteHashtable evaluatedCustomMetadata;
         private string evaluatedItemSpecEscaped;
+        private XmlAttribute excludeAttribute;
         private string finalItemSpecEscaped;
         private bool importedFromAnotherProject;
+        private XmlAttribute includeAttribute;
         private XmlElement itemElement;
         private Hashtable itemSpecModifiers;
+        private string name;
         private BuildItem parentPersistedItem;
         private BuildItemGroup parentPersistedItemGroup;
         private string recursivePortionOfFinalItemSpecDirectory;
         private CopyOnWriteHashtable unevaluatedCustomMetadata;
+        private string virtualIncludeAttribute;
 
         #endregion
 
@@ -89,20 +92,20 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
             ErrorUtilities.VerifyThrowArgumentLength(itemInclude, "itemInclude");
             if (itemName != null)
             {
-                //XmlUtilities.VerifyThrowValidElementName(itemName);
+                XmlUtilities.VerifyThrowValidElementName(itemName);
             }
             if (ownerDocument == null)
             {
-                //this.itemElement = null;
-                //this.includeAttribute = null;
-                //this.virtualIncludeAttribute = itemInclude;
+                this.itemElement = null;
+                this.includeAttribute = null;
+                this.virtualIncludeAttribute = itemInclude;
             }
             else
             {
                 ErrorUtilities.VerifyThrowArgumentLength(itemName, "itemType");
-                //this.itemElement = ownerDocument.CreateElement(itemName, "http://schemas.microsoft.com/developer/msbuild/2003");
-                //this.itemElement.SetAttribute("Include", itemInclude);
-                //this.includeAttribute = this.itemElement.Attributes["Include"];
+                this.itemElement = ownerDocument.CreateElement(itemName, "http://schemas.microsoft.com/developer/msbuild/2003");
+                this.itemElement.SetAttribute("Include", itemInclude);
+                this.includeAttribute = this.itemElement.Attributes["Include"];
             }
             if (createCustomMetadataCache)
             {
@@ -111,13 +114,13 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
             this.name = itemName;
             if (this.name != null)
             {
-                //ErrorUtilities.VerifyThrowInvalidOperation(XMakeElements.IllegalItemPropertyNames[this.name] == null, "CannotModifyReservedItem", this.name);
+                ErrorUtilities.VerifyThrowInvalidOperation(XMakeElements.IllegalItemPropertyNames[this.name] == null, "CannotModifyReservedItem", this.name);
             }
-            //this.excludeAttribute = null;
-            //this.conditionAttribute = null;
-            //this.evaluatedItemSpecEscaped = itemInclude;
+            this.excludeAttribute = null;
+            this.conditionAttribute = null;
+            this.evaluatedItemSpecEscaped = itemInclude;
             this.finalItemSpecEscaped = itemInclude;
-            //this.importedFromAnotherProject = false;
+            this.importedFromAnotherProject = false;
         }
 
         #endregion
@@ -166,11 +169,107 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
             }
         }
 
+        public string Include
+        {
+            get
+            {
+                if (this.includeAttribute != null)
+                {
+                    return this.includeAttribute.Value;
+                }
+                if (this.virtualIncludeAttribute != null)
+                {
+                    return this.virtualIncludeAttribute;
+                }
+                ErrorUtilities.VerifyThrow(false, "Item has not been initialized.");
+                return null;
+            }
+            set
+            {
+                ErrorUtilities.VerifyThrowArgument(value != null, "NullIncludeNotAllowed", "Include");
+                ErrorUtilities.VerifyThrowInvalidOperation(
+                    !this.importedFromAnotherProject, "CannotModifyImportedProjects");
+                if (this.includeAttribute != null)
+                {
+                    if ((this.ParentPersistedItem != null) &&
+                        this.ParentPersistedItem.NewItemSpecMatchesExistingWildcard(value))
+                    {
+                        this.MarkItemAsDirtyForReevaluation();
+                    }
+                    else
+                    {
+                        this.SplitChildItemIfNecessary();
+                        this.includeAttribute.Value = value;
+                        this.MarkItemAsDirty();
+                    }
+                }
+                else if (this.virtualIncludeAttribute != null)
+                {
+                    this.virtualIncludeAttribute = value;
+                    this.MarkItemAsDirty();
+                }
+                else
+                {
+                    ErrorUtilities.VerifyThrow(false, "Item has not been initialized.");
+                }
+                this.evaluatedItemSpecEscaped = value;
+                this.finalItemSpecEscaped = value;
+            }
+        }
+
         public bool IsImported
         {
             get
             {
                 return this.importedFromAnotherProject;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                ErrorUtilities.VerifyThrow(this.name != null, "Item has not been initialized.");
+                return this.name;
+            }
+            set
+            {
+                ErrorUtilities.VerifyThrow(this.name != null, "Item has not been initialized.");
+                ErrorUtilities.VerifyThrowArgumentLength(value, "Name");
+                XmlUtilities.VerifyThrowValidElementName(value);
+                ErrorUtilities.VerifyThrowInvalidOperation(
+                    !this.importedFromAnotherProject, "CannotModifyImportedProjects");
+                //ErrorUtilities.VerifyThrowInvalidOperation(XMakeElements.IllegalItemPropertyNames[value] == null, "CannotModifyReservedItem", value);
+                this.SplitChildItemIfNecessary();
+                this.name = value;
+                if (this.itemElement != null)
+                {
+                    this.itemElement = XmlUtilities.RenameXmlElement(
+                        this.itemElement, value, "http://schemas.microsoft.com/developer/msbuild/2003");
+                    this.includeAttribute = this.itemElement.Attributes["Include"];
+                    this.excludeAttribute = this.itemElement.Attributes["Exclude"];
+                    this.conditionAttribute = this.itemElement.Attributes["Condition"];
+                    if (this.ParentPersistedItem != null)
+                    {
+                        this.ParentPersistedItem.name = this.name;
+                        this.ParentPersistedItem.itemElement = this.itemElement;
+                        this.ParentPersistedItem.includeAttribute = this.includeAttribute;
+                        this.ParentPersistedItem.excludeAttribute = this.excludeAttribute;
+                        this.ParentPersistedItem.conditionAttribute = this.conditionAttribute;
+                    }
+                    if (this.childItems != null)
+                    {
+                        foreach(BuildItem item in this.childItems)
+                        {
+                            item.name = this.name;
+                            item.itemElement = this.itemElement;
+                            item.includeAttribute = this.includeAttribute;
+                            item.excludeAttribute = this.excludeAttribute;
+                            item.conditionAttribute = this.conditionAttribute;
+                        }
+                    }
+                }
+                this.MarkItemAsDirty();
             }
         }
 
@@ -243,16 +342,15 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
 
         public void SetMetadata(string metadataName, string metadataValue)
         {
-            // Todo: all XMakeElements and XmlUtilities is commented out. fix it!
             ErrorUtilities.VerifyThrowArgument(
                 !FileUtilities.IsDerivableItemSpecModifier(metadataName),
                 "Shared.CannotChangeItemSpecModifiers",
                 metadataName);
             ErrorUtilities.VerifyThrowArgumentLength(metadataName, "metadataName");
             ErrorUtilities.VerifyThrowArgumentNull(metadataValue, "metadataValue");
-            //XmlUtilities.VerifyThrowValidElementName(metadataName);
-            //ErrorUtilities.VerifyThrowInvalidOperation(XMakeElements.IllegalItemPropertyNames[metadataName] == null, "CannotModifyReservedItemMetadata", metadataName);
-            //ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
+            XmlUtilities.VerifyThrowValidElementName(metadataName);
+            ErrorUtilities.VerifyThrowInvalidOperation(XMakeElements.IllegalItemPropertyNames[metadataName] == null, "CannotModifyReservedItemMetadata", metadataName);
+            ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
             ErrorUtilities.VerifyThrow(
                 (this.unevaluatedCustomMetadata != null) && (this.evaluatedCustomMetadata != null),
                 "Item not initialized properly.");
@@ -313,6 +411,35 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
             return string.Empty;
         }
 
+        internal bool NewItemSpecMatchesExistingWildcard(string newItemSpec)
+        {
+            /*Project parentProject = this.GetParentProject();
+            ErrorUtilities.VerifyThrow(parentProject != null, "This method should only get called on persisted items.");
+            BuildPropertyGroup evaluatedProperties = parentProject.evaluatedProperties;
+            if ((FileMatcher.HasWildcards(this.Include) && (this.Condition.Length == 0)) && ((this.Exclude.Length == 0) && !FileMatcher.HasWildcards(newItemSpec)))
+            {
+                Expander expander = new Expander(evaluatedProperties);
+                string escapedString = expander.ExpandAllIntoStringLeaveEscaped(newItemSpec, null);
+                if (-1 == escapedString.IndexOf(';'))
+                {
+                    string fileToMatch = EscapingUtilities.UnescapeAll(escapedString);
+                    foreach (string str3 in expander.ExpandAllIntoStringListLeaveEscaped(this.Include, this.IncludeAttribute))
+                    {
+                        bool flag = EscapingUtilities.ContainsEscapedWildcards(str3);
+                        if (FileMatcher.HasWildcards(str3) && !flag)
+                        {
+                            FileMatcher.Result result = FileMatcher.FileMatch(EscapingUtilities.UnescapeAll(str3), fileToMatch);
+                            if (result.isLegalFileSpec && result.isMatch)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }*/
+            return false;
+        }
+
         internal void SetFinalItemSpecEscaped(string finalItemSpecValueEscaped)
         {
             this.finalItemSpecEscaped = finalItemSpecValueEscaped;
@@ -350,12 +477,124 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
             this.evaluatedCustomMetadata = new CopyOnWriteHashtable(StringComparer.OrdinalIgnoreCase);
         }
 
+        private void InitializeFromItemElement(XmlElement itemElementToParse)
+        {
+            ErrorUtilities.VerifyThrow(itemElementToParse != null, "Need an XML node representing the item element.");
+            int num = XmlUtilities.LocateFirstInvalidElementNameCharacter(itemElementToParse.Name);
+            if (-1 != num)
+            {
+                ProjectErrorUtilities.VerifyThrowInvalidProject(
+                    false, itemElementToParse, "NameInvalid", itemElementToParse.Name, itemElementToParse.Name[num]);
+            }
+            this.itemElement = itemElementToParse;
+            this.name = itemElementToParse.Name;
+            this.conditionAttribute = null;
+            this.includeAttribute = null;
+            this.virtualIncludeAttribute = null;
+            this.excludeAttribute = null;
+            this.itemSpecModifiers = null;
+            this.recursivePortionOfFinalItemSpecDirectory = null;
+            this.InitializeCustomMetadataCache();
+            foreach(XmlAttribute attribute in itemElementToParse.Attributes)
+            {
+                string name = attribute.Name;
+                if (name == null)
+                {
+                    goto Label_0110;
+                }
+                if (!(name == "Include"))
+                {
+                    if (name == "Exclude")
+                    {
+                        goto Label_00FE;
+                    }
+                    if (name == "Condition")
+                    {
+                        goto Label_0107;
+                    }
+                    goto Label_0110;
+                }
+                this.includeAttribute = attribute;
+                this.evaluatedItemSpecEscaped = attribute.Value;
+                this.finalItemSpecEscaped = attribute.Value;
+                continue;
+                Label_00FE:
+                this.excludeAttribute = attribute;
+                continue;
+                Label_0107:
+                this.conditionAttribute = attribute;
+                continue;
+                Label_0110:
+                ProjectErrorUtilities.VerifyThrowInvalidProject(
+                    false, attribute, "UnrecognizedAttribute", attribute.Name, itemElementToParse.Name);
+            }
+            ProjectErrorUtilities.VerifyThrowInvalidProject(
+                (this.includeAttribute != null) && (this.includeAttribute.Value.Length != 0),
+                itemElementToParse,
+                "MissingRequiredAttribute",
+                "Include",
+                itemElementToParse.Name);
+            foreach(XmlNode node in itemElementToParse)
+            {
+                switch (node.NodeType)
+                {
+                    case XmlNodeType.Element:
+                        {
+                            string str = node.Name;
+                            num = XmlUtilities.LocateFirstInvalidElementNameCharacter(str);
+                            if (-1 != num)
+                            {
+                                ProjectErrorUtilities.VerifyThrowInvalidProject(
+                                    false, node, "NameInvalid", str, str[num]);
+                            }
+                            ProjectErrorUtilities.VerifyThrowInvalidProject(
+                                (node.Prefix.Length == 0) &&
+                                (string.Compare(
+                                    node.NamespaceURI,
+                                    "http://schemas.microsoft.com/developer/msbuild/2003",
+                                    StringComparison.OrdinalIgnoreCase) == 0),
+                                node,
+                                "CustomNamespaceNotAllowedOnThisChildElement",
+                                node.Name,
+                                itemElementToParse.Name);
+                            ProjectErrorUtilities.VerifyThrowInvalidProject(
+                                !FileUtilities.IsItemSpecModifier(str),
+                                node,
+                                "ItemSpecModifierCannotBeCustomAttribute",
+                                str);
+                            ProjectErrorUtilities.VerifyThrowInvalidProject(
+                                XMakeElements.IllegalItemPropertyNames[str] == null,
+                                node,
+                                "CannotModifyReservedItemMetadata",
+                                str);
+                            continue;
+                        }
+                    case XmlNodeType.Comment:
+                    case XmlNodeType.Whitespace:
+                        {
+                            continue;
+                        }
+                }
+                ProjectErrorUtilities.VerifyThrowInvalidProject(
+                    false, node, "UnrecognizedChildElement", node.Name, itemElementToParse.Name);
+            }
+        }
+
         private void MarkItemAsDirty()
         {
             /*Project parentProject = this.GetParentProject();
             if (parentProject != null)
             {
                 parentProject.MarkProjectAsDirty();
+            }*/
+        }
+
+        private void MarkItemAsDirtyForReevaluation()
+        {
+            /*Project parentProject = this.GetParentProject();
+            if (parentProject != null)
+            {
+                parentProject.MarkProjectAsDirtyForReevaluation();
             }*/
         }
 
@@ -431,232 +670,7 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
                 parentPersistedItemGroup.RemoveItem(this);
             }
         }
-        private string virtualIncludeAttribute;
-        public string Include
-        {
-            get
-            {
-                if (this.includeAttribute != null)
-                {
-                    return this.includeAttribute.Value;
-                }
-                if (this.virtualIncludeAttribute != null)
-                {
-                    return this.virtualIncludeAttribute;
-                }
-                ErrorUtilities.VerifyThrow(false, "Item has not been initialized.");
-                return null;
-            }
-            set
-            {
-                ErrorUtilities.VerifyThrowArgument(value != null, "NullIncludeNotAllowed", "Include");
-                ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                if (this.includeAttribute != null)
-                {
-                    if ((this.ParentPersistedItem != null) && this.ParentPersistedItem.NewItemSpecMatchesExistingWildcard(value))
-                    {
-                        this.MarkItemAsDirtyForReevaluation();
-                    }
-                    else
-                    {
-                        this.SplitChildItemIfNecessary();
-                        this.includeAttribute.Value = value;
-                        this.MarkItemAsDirty();
-                    }
-                }
-                else if (this.virtualIncludeAttribute != null)
-                {
-                    this.virtualIncludeAttribute = value;
-                    this.MarkItemAsDirty();
-                }
-                else
-                {
-                    ErrorUtilities.VerifyThrow(false, "Item has not been initialized.");
-                }
-                this.evaluatedItemSpecEscaped = value;
-                this.finalItemSpecEscaped = value;
-            }
-        }
-        private void MarkItemAsDirtyForReevaluation()
-        {
-            /*Project parentProject = this.GetParentProject();
-            if (parentProject != null)
-            {
-                parentProject.MarkProjectAsDirtyForReevaluation();
-            }*/
-        }
-
-
-        internal bool NewItemSpecMatchesExistingWildcard(string newItemSpec)
-        {
-            /*Project parentProject = this.GetParentProject();
-            ErrorUtilities.VerifyThrow(parentProject != null, "This method should only get called on persisted items.");
-            BuildPropertyGroup evaluatedProperties = parentProject.evaluatedProperties;
-            if ((FileMatcher.HasWildcards(this.Include) && (this.Condition.Length == 0)) && ((this.Exclude.Length == 0) && !FileMatcher.HasWildcards(newItemSpec)))
-            {
-                Expander expander = new Expander(evaluatedProperties);
-                string escapedString = expander.ExpandAllIntoStringLeaveEscaped(newItemSpec, null);
-                if (-1 == escapedString.IndexOf(';'))
-                {
-                    string fileToMatch = EscapingUtilities.UnescapeAll(escapedString);
-                    foreach (string str3 in expander.ExpandAllIntoStringListLeaveEscaped(this.Include, this.IncludeAttribute))
-                    {
-                        bool flag = EscapingUtilities.ContainsEscapedWildcards(str3);
-                        if (FileMatcher.HasWildcards(str3) && !flag)
-                        {
-                            FileMatcher.Result result = FileMatcher.FileMatch(EscapingUtilities.UnescapeAll(str3), fileToMatch);
-                            if (result.isLegalFileSpec && result.isMatch)
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }*/
-            return false;
-        }
-
- 
-
- 
-
- 
-
-        private void InitializeFromItemElement(XmlElement itemElementToParse)
-        {
-            ErrorUtilities.VerifyThrow(itemElementToParse != null, "Need an XML node representing the item element.");
-            int num = XmlUtilities.LocateFirstInvalidElementNameCharacter(itemElementToParse.Name);
-            if (-1 != num)
-            {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(false, itemElementToParse, "NameInvalid", itemElementToParse.Name, itemElementToParse.Name[num]);
-            }
-            this.itemElement = itemElementToParse;
-            this.name = itemElementToParse.Name;
-            this.conditionAttribute = null;
-            this.includeAttribute = null;
-            this.virtualIncludeAttribute = null;
-            this.excludeAttribute = null;
-            this.itemSpecModifiers = null;
-            this.recursivePortionOfFinalItemSpecDirectory = null;
-            this.InitializeCustomMetadataCache();
-            foreach (XmlAttribute attribute in itemElementToParse.Attributes)
-            {
-                string name = attribute.Name;
-                if (name == null)
-                {
-                    goto Label_0110;
-                }
-                if (!(name == "Include"))
-                {
-                    if (name == "Exclude")
-                    {
-                        goto Label_00FE;
-                    }
-                    if (name == "Condition")
-                    {
-                        goto Label_0107;
-                    }
-                    goto Label_0110;
-                }
-                this.includeAttribute = attribute;
-                this.evaluatedItemSpecEscaped = attribute.Value;
-                this.finalItemSpecEscaped = attribute.Value;
-                continue;
-            Label_00FE:
-                this.excludeAttribute = attribute;
-                continue;
-            Label_0107:
-                this.conditionAttribute = attribute;
-                continue;
-            Label_0110:
-                ProjectErrorUtilities.VerifyThrowInvalidProject(false, attribute, "UnrecognizedAttribute", attribute.Name, itemElementToParse.Name);
-            }
-            ProjectErrorUtilities.VerifyThrowInvalidProject((this.includeAttribute != null) && (this.includeAttribute.Value.Length != 0), itemElementToParse, "MissingRequiredAttribute", "Include", itemElementToParse.Name);
-            foreach (XmlNode node in itemElementToParse)
-            {
-                switch (node.NodeType)
-                {
-                    case XmlNodeType.Element:
-                        {
-                            string str = node.Name;
-                            num = XmlUtilities.LocateFirstInvalidElementNameCharacter(str);
-                            if (-1 != num)
-                            {
-                                ProjectErrorUtilities.VerifyThrowInvalidProject(false, node, "NameInvalid", str, str[num]);
-                            }
-                            ProjectErrorUtilities.VerifyThrowInvalidProject((node.Prefix.Length == 0) && (string.Compare(node.NamespaceURI, "http://schemas.microsoft.com/developer/msbuild/2003", StringComparison.OrdinalIgnoreCase) == 0), node, "CustomNamespaceNotAllowedOnThisChildElement", node.Name, itemElementToParse.Name);
-                            ProjectErrorUtilities.VerifyThrowInvalidProject(!FileUtilities.IsItemSpecModifier(str), node, "ItemSpecModifierCannotBeCustomAttribute", str);
-                            ProjectErrorUtilities.VerifyThrowInvalidProject(XMakeElements.IllegalItemPropertyNames[str] == null, node, "CannotModifyReservedItemMetadata", str);
-                            continue;
-                        }
-                    case XmlNodeType.Comment:
-                    case XmlNodeType.Whitespace:
-                        {
-                            continue;
-                        }
-                }
-                ProjectErrorUtilities.VerifyThrowInvalidProject(false, node, "UnrecognizedChildElement", node.Name, itemElementToParse.Name);
-            }
-        }
-
- 
-
- 
-
-
-        public string Name
-        {
-            get
-            {
-                ErrorUtilities.VerifyThrow(this.name != null, "Item has not been initialized.");
-                return this.name;
-            }
-            set
-            {
-                ErrorUtilities.VerifyThrow(this.name != null, "Item has not been initialized.");
-                ErrorUtilities.VerifyThrowArgumentLength(value, "Name");
-                XmlUtilities.VerifyThrowValidElementName(value);
-                ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                //ErrorUtilities.VerifyThrowInvalidOperation(XMakeElements.IllegalItemPropertyNames[value] == null, "CannotModifyReservedItem", value);
-                this.SplitChildItemIfNecessary();
-                this.name = value;
-                if (this.itemElement != null)
-                {
-                    this.itemElement = XmlUtilities.RenameXmlElement(this.itemElement, value, "http://schemas.microsoft.com/developer/msbuild/2003");
-                    this.includeAttribute = this.itemElement.Attributes["Include"];
-                    this.excludeAttribute = this.itemElement.Attributes["Exclude"];
-                    this.conditionAttribute = this.itemElement.Attributes["Condition"];
-                    if (this.ParentPersistedItem != null)
-                    {
-                        this.ParentPersistedItem.name = this.name;
-                        this.ParentPersistedItem.itemElement = this.itemElement;
-                        this.ParentPersistedItem.includeAttribute = this.includeAttribute;
-                        this.ParentPersistedItem.excludeAttribute = this.excludeAttribute;
-                        this.ParentPersistedItem.conditionAttribute = this.conditionAttribute;
-                    }
-                    if (this.childItems != null)
-                    {
-                        foreach (BuildItem item in this.childItems)
-                        {
-                            item.name = this.name;
-                            item.itemElement = this.itemElement;
-                            item.includeAttribute = this.includeAttribute;
-                            item.excludeAttribute = this.excludeAttribute;
-                            item.conditionAttribute = this.conditionAttribute;
-                        }
-                    }
-                }
-                this.MarkItemAsDirty();
-            }
-        }
-        private XmlAttribute excludeAttribute;
-        private XmlAttribute includeAttribute;
-
-
- 
-
     }
-
 
 
     internal interface IItemPropertyGrouping
