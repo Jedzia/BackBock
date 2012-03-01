@@ -63,6 +63,7 @@
     <Compile Include="TaskExtension.cs" />
     <Compile Include="TaskItem.cs" />
     <Compile Include="TaskRegistry.cs" />
+    <Compile Include="Utilities\EscapingUtilities.cs" />
     <Compile Include="Utilities\TaskLoggingHelper.cs" />
     <Compile Include="Utilities\TaskLoggingHelperExtension.cs" />
   </ItemGroup>

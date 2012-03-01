@@ -1,12 +1,16 @@
 ﻿using Jedzia.BackBock.Tasks.Utilities;
 namespace Jedzia.BackBock.Tasks
 {
+    /// <summary>
+    /// Contains properties to help extend a task.
+    /// </summary>
     public abstract class TaskExtension : Task
     {
-        // Fields
-        private TaskLoggingHelperExtension logExtension;
+        private readonly TaskLoggingHelperExtension logExtension;
 
-        // Methods
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskExtension"/> class.
+        /// </summary>
         internal TaskExtension()
             : base(AssemblyResources.PrimaryResources, "MSBuild.")
         {
@@ -16,7 +20,7 @@ namespace Jedzia.BackBock.Tasks
         /// <summary>
         /// Gets an instance of a <see cref="TaskLoggingHelperExtension"/> containing task logging methods.
         /// </summary>
-        public TaskLoggingHelper Log
+        public new TaskLoggingHelper Log
         {
             get
             {

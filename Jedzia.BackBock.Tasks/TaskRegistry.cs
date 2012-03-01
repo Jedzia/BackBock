@@ -80,7 +80,7 @@ namespace Jedzia.BackBock.Tasks
         /// <summary>
         /// Gets a list of the registered tasks.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The list of the registered tasks.</returns>
         public IEnumerable<string> GetRegisteredTasks()
         {
             return this.taskTypes.Keys.ToArray();
