@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPG", "WPG\WPG\WPG.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.ViewModel.Tests", "Jedzia.BackBock.ViewModel.Tests\Jedzia.BackBock.ViewModel.Tests.csproj", "{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.Tasks.Tests", "Jedzia.BackBock.Tasks.Tests\Jedzia.BackBock.Tasks.Tests.csproj", "{FFB64E8B-79EB-4996-870B-5620143B5E50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,12 @@ Global
 		{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}.Part1|Any CPU.Build.0 = Release|Any CPU
 		{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFB64E8B-79EB-4996-870B-5620143B5E50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFB64E8B-79EB-4996-870B-5620143B5E50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFB64E8B-79EB-4996-870B-5620143B5E50}.Part1|Any CPU.ActiveCfg = Release|Any CPU
+		{FFB64E8B-79EB-4996-870B-5620143B5E50}.Part1|Any CPU.Build.0 = Release|Any CPU
+		{FFB64E8B-79EB-4996-870B-5620143B5E50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFB64E8B-79EB-4996-870B-5620143B5E50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
