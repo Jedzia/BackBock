@@ -1,12 +1,43 @@
-﻿namespace Jedzia.BackBock.ViewModel
-{
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DisplayModeViewModel.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// --------------------------------------------------------------------------------------------------------------------
 
+namespace Jedzia.BackBock.ViewModel
+{
     public class DisplayModeViewModel : ViewModelBase
     {
+        #region Fields
+
         /// <summary>
         /// The summary.
         /// </summary>
         private DisplayMode displayMode = DisplayMode.Standard;
+
+        #endregion
+
+        #region Properties
+
+        public string DisplayAll
+        {
+            get
+            {
+                return this.IsAllDisplayMode ? "Visible" : "Collapsed";
+            }
+        }
+
+        public string DisplayExpert
+        {
+            get
+            {
+                return this.IsExpertDisplayMode ? "Visible" : "Collapsed";
+            }
+        }
 
         /// <summary>
         /// Gets or sets the summary.
@@ -25,46 +56,13 @@
                 {
                     return;
                 }
+
                 this.displayMode = value;
                 RaisePropertyChanged("DisplayMode");
+
                 // Todo: Transition Logic
                 RaisePropertyChanged("DisplayExpert");
                 RaisePropertyChanged("DisplayAll");
-            }
-        }
-
-        public string DisplayExpert
-        {
-            get
-            {
-                return this.IsExpertDisplayMode ? "Visible" : "Collapsed";
-            }
-        }
-
-        public string DisplayAll
-        {
-            get
-            {
-                return this.IsAllDisplayMode ? "Visible" : "Collapsed";
-            }
-        }
-
-        public bool IsStandardDisplayMode
-        {
-            get
-            {
-                return this.DisplayMode == DisplayMode.Standard |
-                    this.DisplayMode == DisplayMode.Expert |
-                    this.DisplayMode == DisplayMode.All;
-            }
-        }
-
-        public bool IsExpertDisplayMode
-        {
-            get
-            {
-                return this.DisplayMode == DisplayMode.Expert |
-                    this.DisplayMode == DisplayMode.All;
             }
         }
 
@@ -76,9 +74,29 @@
             }
         }
 
+        public bool IsExpertDisplayMode
+        {
+            get
+            {
+                return this.DisplayMode == DisplayMode.Expert |
+                       this.DisplayMode == DisplayMode.All;
+            }
+        }
+
+        public bool IsStandardDisplayMode
+        {
+            get
+            {
+                return this.DisplayMode == DisplayMode.Standard |
+                       this.DisplayMode == DisplayMode.Expert |
+                       this.DisplayMode == DisplayMode.All;
+            }
+        }
+
+        #endregion
     }
 
-   /* public sealed class ClassGeneralOptViewModel : DisplayModeViewModel
+    /* public sealed class ClassGeneralOptViewModel : DisplayModeViewModel
     {
         ClassDataItemListViewModel origClassData;
         ClassDataItemListViewModel workClassData;
@@ -123,7 +141,6 @@
 
     public sealed class ClassFieldOptViewModel : DisplayModeViewModel
     {
-        // Todo: Alle FeldEigenschaften abbilden. (oder autogen?)
         ClassDataItemViewModel origMemberData;
         ClassDataItemViewModel workMemberData;
         public ClassFieldOptViewModel(ClassDataItemViewModel classData)
@@ -405,5 +422,4 @@
             //origClassData.Color = workClassData.Color;
         }
     }*/
-
 }

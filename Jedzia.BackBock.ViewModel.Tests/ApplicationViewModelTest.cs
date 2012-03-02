@@ -42,15 +42,15 @@ namespace Jedzia.BackBock.ViewModel.Tests
         {
             Enum kind = MyEnum.ValueOne; 
             Type type = typeof(MyClass);
+// Todo: move the ControlRegistrator stuff to its own test class.
+            Assert.Throws<ArgumentNullException>(() => ControlRegistrator.RegisterControl(null, type));
+            Assert.Throws<ArgumentNullException>(() => ControlRegistrator.RegisterControl(kind, null));
+            ControlRegistrator.RegisterControl(kind, type);
 
-            Assert.Throws<ArgumentNullException>(() => ApplicationViewModel.RegisterControl(null, type));
-            Assert.Throws<ArgumentNullException>(() => ApplicationViewModel.RegisterControl(kind, null));
-            ApplicationViewModel.RegisterControl(kind, type);
-
-            var instance = ApplicationViewModel.GetInstanceFromType<MyClass>(kind);
+            var instance = ControlRegistrator.GetInstanceOfType<MyClass>(kind);
             Assert.IsInstanceOfType(type, instance);
 
-            Assert.Throws<KeyNotFoundException>(() => ApplicationViewModel.GetInstanceFromType<MyClass>(MyEnum.ValueTwo));
+            Assert.Throws<KeyNotFoundException>(() => ControlRegistrator.GetInstanceOfType<MyClass>(MyEnum.ValueTwo));
         }
 
         /// <summary>

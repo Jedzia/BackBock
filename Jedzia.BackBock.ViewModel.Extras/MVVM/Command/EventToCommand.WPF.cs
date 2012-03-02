@@ -25,7 +25,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Command
 
     /// <summary>
     /// This <see cref="System.Windows.Interactivity.TriggerAction" /> can be
-    /// used to bind any event on any FrameworkElement to an <see cref="ICommand" />.
+    /// used to bind any event on any <see cref="FrameworkElement"/> to an <see cref="ICommand" />.
     /// Typically, this element is used in XAML to connect the attached element
     /// to a command located in a ViewModel. This trigger can only be attached
     /// to a FrameworkElement or a class deriving from FrameworkElement.

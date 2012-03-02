@@ -6,6 +6,7 @@ namespace Jedzia.BackBock.ViewModel.Commands
     /// <summary>
     /// Implements the <see cref="ICommand"/> and wraps up all the verbose stuff so that you can just pass 2 delegates 1 for the CanExecute and one for the Execute
     /// </summary>
+    [Obsolete("SimpleCommand is obsolete, use RelayCommand.")]
     public class SimpleCommand : ICommand
     {
         // Todo: is obsolete, use RelayCommand.

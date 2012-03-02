@@ -1,85 +1,34 @@
-﻿namespace Jedzia.BackBock.ViewModel
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ApplicationViewModel.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Jedzia.BackBock.ViewModel
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.IO;
-    using System.Text;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Input;
-    using System.Windows.Markup;
-    using System.Xml;
-    using Jedzia.BackBock.ViewModel.Commands;
     using System;
-    using System.Linq;
-    using Jedzia.BackBock.ViewModel.Util;
+    using System.ComponentModel;
+    using System.Windows;
+    using Jedzia.BackBock.Tasks;
     using Jedzia.BackBock.ViewModel.MainWindow;
 
     public class ApplicationViewModel : /*IFolderExplorerViewModel,*/ INotifyPropertyChanged
     {
-        //public enum ServiceTypes { TaskEditor,  }
+        // public enum ServiceTypes { TaskEditor,  }
+        #region Fields
+
+        private static object initialized;
         private static IOService ioService;
-        /*private static IDialogService dialogService;
 
-        public static IDialogService DialogService
-        {
-            get
-            {
-                if (dialogService == null)
-                {
-                    throw new ApplicationException("Fetching the DialogService before an ApplicationViewModel was instantiated.");
-                }
-                return dialogService;
-            }
-        }*/
-        
-        public static IOService MainIOService
-        {
-            get 
-            {
-                if (ioService == null)
-                {
-                    throw new ApplicationException("Fetching the MainIOService before an ApplicationViewModel was instantiated.");
-                }
-                return ioService; 
-            }
-            //set { ioService = value; }
-        }
+        #endregion
 
-        private static object initialized = null;
-        
-        internal static void Reset()
-        {
-            // used in unit tests
-            initialized = null;
-            ioService = null;
-            //dialogService = null;
-        }
-        /// <summary>
-        /// The summary.
-        /// </summary>
-        private IMainWindow mainWindow;
+        #region Constructors
 
-        /// <summary>
-        /// Gets or sets the summary.
-        /// </summary>
-        /// <value>The summary.</value>
-        public IMainWindow MainWindow
-        {
-            get
-            {
-                return this.mainWindow;
-            }
-
-            private set
-            {
-                this.mainWindow = value;
-            }
-        }
-        public ApplicationViewModel(IOService ioService/*, IDialogService dialogService*/, IMainWindow mainWindow)
+        public ApplicationViewModel(IOService ioService /*, IDialogService dialogService*/, IMainWindow mainWindow)
         {
             if (initialized != null)
             {
@@ -90,13 +39,14 @@
                 initialized = new object();
             }
 
-            //Guard.NotNull(() => ioService, ioService);
-
+            // Guard.NotNull(() => ioService, ioService);
             ApplicationViewModel.ioService = ioService;
-            //ApplicationViewModel.dialogService = dialogService;
-            this.mainWindow = mainWindow;
-            Tasks.TaskRegistry.GetInstance();
-            //this.ApplicationCommands = new ApplicationCommandModel(this);
+
+// ApplicationViewModel.dialogService = dialogService;
+            this.MainWindow = mainWindow;
+            TaskRegistry.GetInstance();
+
+// this.ApplicationCommands = new ApplicationCommandModel(this);
 
             /*this.parent = parent;
             //ClassData2 = ClassDataProvider.CreateSampleClassData();
@@ -108,108 +58,60 @@
             this.ClassDataCommands = new ClassDataCommandModel(parent);*/
         }
 
+        #endregion
+
         /*public ApplicationCommandModel ApplicationCommands
         {
             get;
             private set;
         }*/
-
+        #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        #endregion
+
+        #region Properties
+
+        public static IOService MainIOService
+        {
+            get
+            {
+                if (ioService == null)
+                {
+                    throw new ApplicationException(
+                        "Fetching the MainIOService before an ApplicationViewModel was instantiated.");
+                }
+
+                return ioService;
+            }
+
+// set { ioService = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the summary.
+        /// </summary>
+        /// <value>The summary.</value>
+        public IMainWindow MainWindow { get; private set; }
+
+        #endregion
+
+        internal static void Reset()
+        {
+            // used in unit tests
+            initialized = null;
+            ioService = null;
+
+// dialogService = null;
+        }
+
         private void NotifyPropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        // Todo: move this to a little ioc class
-        private static Dictionary<Enum, Type> registeredControlTypes = new Dictionary<Enum, Type>();
-        public static void RegisterControl(Enum kind, Type type)
-        {
-            Guard.NotNull(() => kind, kind);
-            Guard.NotNull(() => type, type);
-            // Todo: move this stuff to a ControlRegistrator class.
-            //classSpecificationWindowType = type;
-            //var xxx = Data.BackupItemViewModel.WindowTypes.TaskEditor.GetType();
-            //var yyy = xxx.GetCustomAttributes(false);
-            var kindType = kind.GetType();
-            var member = kindType.GetMembers().FirstOrDefault((e) => e.Name == kind.ToString());
-            if (member != null)
+            if (this.PropertyChanged != null)
             {
-                var attrs = member.GetCustomAttributes(false);
-                var ctattr = attrs.OfType<CheckTypeAttribute>();
-                foreach (var item in ctattr)
-                {
-                    if (!type.IsSubclassOf(item.Type))
-                    {
-                        throw new NotSupportedException("Can't register type. The type "
-                            + type.ToString() + " is no instance of " + item.Type.ToString());
-                    }
-                    /*if (!type.IsInstanceOfType(item.Type))
-                    {
-                        throw new NotSupportedException("Can't register type. The type "
-                            + type.ToString() + " is no instance of " + item.Type.ToString());
-                    }*/
-                }
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-            var values = Enum.GetValues(kindType);
-            //var attrs = kindType.GetCustomAttributes(false);
-            registeredControlTypes.Add(kind, type);
-            //var w = CreateInstanceFromType<Window>(type);
-        }
-
-        public static T GetInstanceFromType<T>(Enum kind) where T : class
-        {
-            return GetInstanceFromType<T>(kind, null);
-        }
-
-        public static T GetInstanceFromType<T>(Enum kind, object[] parameters) where T : class
-        {
-            var t = registeredControlTypes[kind];
-            var instance = CreateInstanceFromType<T>(t, parameters);
-            return instance;
-        }
-
-        private static T CreateInstanceFromType<T>(Type type, object[] parameters) where T : class
-        {
-            Type[] types = new Type[0];
-            if (parameters != null)
-            {
-                types = new Type[parameters.Length];
-
-                for (int index = 0; index < parameters.Length; index++)
-                {
-                    types[index] = parameters[index].GetType();
-                }
-            }
-            var cnstr = type.GetConstructor(types);
-            var instance = cnstr.Invoke(parameters) as T;
-            return instance;
-        }
-
-    }
-
-    /// <summary>
-    /// Summary
-    /// </summary>
-    [global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
-    public sealed class CheckTypeAttribute : Attribute
-    {
-        /// <summary>
-        /// Gets or sets 
-        /// </summary>
-        public Type Type
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:CheckTypeAttribute"/> class. 
-        /// </summary>
-        public CheckTypeAttribute(Type type)
-        {
-            this.Type = type;
         }
     }
 
@@ -218,9 +120,26 @@
     /// </summary>
     public class ControlRepository : DependencyObject
     {
-        public ControlRepository()
-        {
+        // Using a DependencyProperty as the backing store for RegControl.  This enables animation, styling, binding, etc...
+        #region Fields
 
+        public static readonly DependencyProperty RegControlProperty =
+            DependencyProperty.RegisterAttached(
+                "RegControl", 
+                typeof(ControlDescriptor), 
+                typeof(ControlRepository), 
+                new UIPropertyMetadata(null), 
+                CallBack);
+
+        #endregion
+
+        public static bool CallBack(object value)
+        {
+            if (value != null)
+            {
+            }
+
+            return true;
         }
 
         public static ControlDescriptor GetRegControl(DependencyObject obj)
@@ -232,67 +151,62 @@
         {
             obj.SetValue(RegControlProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for RegControl.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RegControlProperty =
-            DependencyProperty.RegisterAttached("RegControl", typeof(ControlDescriptor), typeof(ControlRepository), new UIPropertyMetadata(null), CallBack);
-
-        public static bool CallBack(object value)
-        {
-            if (value != null)
-            {
-
-            }
-            return true;
-        }
-
     }
 
     public class ControlDescriptor : DependencyObject
     {
-
-
-
         /*public DesignerCanvas.WindowTypes Identity
         {
             get { return (DesignerCanvas.WindowTypes)GetValue(IdentityProperty); }
             set { SetValue(IdentityProperty, value); }
         }*/
+        #region Fields
 
-        // Using a DependencyProperty as the backing store for Identity.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ControlTypeProperty =
+            DependencyProperty.Register(
+                "ControlType", typeof(Type), typeof(ControlDescriptor), new UIPropertyMetadata(null));
+
         public static readonly DependencyProperty IdentityProperty =
             DependencyProperty.Register("Identity", typeof(Enum), typeof(ControlDescriptor));
 
+        public static readonly DependencyProperty NameProperty =
+            DependencyProperty.Register(
+                "Name", typeof(string), typeof(ControlDescriptor), new UIPropertyMetadata(string.Empty));
 
+        #endregion
+
+        #region Properties
 
         public Type ControlType
         {
-            get { return (Type)GetValue(ControlTypeProperty); }
-            set { SetValue(ControlTypeProperty, value); }
+            get
+            {
+                return (Type)GetValue(ControlTypeProperty);
+            }
+
+            set
+            {
+                SetValue(ControlTypeProperty, value);
+            }
         }
 
         // Using a DependencyProperty as the backing store for ControlType.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ControlTypeProperty =
-            DependencyProperty.Register("ControlType", typeof(Type), typeof(ControlDescriptor), new UIPropertyMetadata(null));
-
-
 
         public string Name
         {
-            get { return (string)GetValue(NameProperty); }
-            set { SetValue(NameProperty, value); }
+            get
+            {
+                return (string)GetValue(NameProperty);
+            }
+
+            set
+            {
+                SetValue(NameProperty, value);
+            }
         }
+
+        #endregion
 
         // Using a DependencyProperty as the backing store for Name.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty NameProperty =
-            DependencyProperty.Register("Name", typeof(string), typeof(ControlDescriptor), new UIPropertyMetadata(string.Empty));
-
-
-        public ControlDescriptor()
-        {
-
-        }
     }
-
-
 }

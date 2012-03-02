@@ -53,6 +53,7 @@
     <None Include="BuildEngine\BuildItemGroup.cs" />
     <None Include="BuildEngine\CopyOnWriteHashtable.cs" />
     <None Include="BuildEngine\GroupingCollection.cs" />
+    <None Include="Settings.StyleCop" />
     <Compile Include="BuildEngine\XmlSearcher.cs" />
     <Compile Include="CopyFile.cs" />
     <Compile Include="ExceptionHandling.cs" />

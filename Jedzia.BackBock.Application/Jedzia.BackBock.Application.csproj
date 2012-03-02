@@ -320,11 +320,13 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="..\Settings.StyleCop">
+      <Link>Settings.StyleCop</Link>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Settings.StyleCop" />
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -378,7 +380,7 @@
     </ProjectReference>
     <ProjectReference Include="..\WPG\WPG\WPG.csproj">
       <Project>{022EDA6A-0B76-44C3-A530-8312C1B40030}</Project>
-      <Name>WPG %28WPG\WPG%29</Name>
+      <Name>WPG</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

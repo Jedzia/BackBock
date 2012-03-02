@@ -14,7 +14,6 @@ namespace Jedzia.BackBock.ViewModel.Commands
     using System.Windows.Input;
     using Jedzia.BackBock.ViewModel.Util;
 
-    // Todo: move this to Jedzia.BackBock.ViewModel.Commands
     [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = true)]
     public sealed class CommandKeyGestureAttribute : Attribute
     {

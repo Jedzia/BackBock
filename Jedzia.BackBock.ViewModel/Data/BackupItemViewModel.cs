@@ -163,7 +163,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         private void TaskDataClickedExecuted(object o)
         {
-            var wnd = ApplicationViewModel.GetInstanceFromType<Window>(WindowTypes.TaskEditor);
+            var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskEditor);
             var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
             var task = taskService[this.Task.TypeName];
 

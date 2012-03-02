@@ -4,7 +4,7 @@
       <AnalyzerSettings>
         <StringProperty Name="CompanyName">EvePanix</StringProperty>
         <StringProperty Name="Copyright">
-          Copyright (c) Jedzia 2010, EvePanix. All rights reserved.
+          Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
 //   See the license notes shipped with this source and the GNU GPL.</StringProperty>
       </AnalyzerSettings>
     </Analyzer>

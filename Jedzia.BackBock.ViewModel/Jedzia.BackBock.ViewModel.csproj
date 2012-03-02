@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationViewModel.cs" />
+    <Compile Include="CheckTypeAttribute.cs" />
     <Compile Include="Commands\BehaviorBinding.cs" />
     <Compile Include="Commands\ClickCommands.cs" />
     <Compile Include="Commands\CommandBehavior.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayContextMenu.cs" />
     <Compile Include="Commands\SimpleCommand.cs" />
+    <Compile Include="ControlRegistrator.cs" />
     <Compile Include="Converters\BoolToOppositeConverter.cs" />
     <Compile Include="Converters\DisplayModeToVisibility.cs" />
     <Compile Include="Converters\DoubleTypeConverter.cs" />
@@ -206,6 +208,9 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Settings.StyleCop">
+      <Link>Settings.StyleCop</Link>
+    </None>
     <None Include="Data\BackupDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BackupDataModel.cs</LastGenOutput>

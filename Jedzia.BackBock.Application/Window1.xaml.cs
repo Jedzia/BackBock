@@ -72,7 +72,7 @@
 
         static Window1()
         {
-            ApplicationViewModel.RegisterControl(BackupItemViewModel.WindowTypes.TaskEditor,
+            ControlRegistrator.RegisterControl(BackupItemViewModel.WindowTypes.TaskEditor,
                 typeof(Editors.TaskEditorWindow));
         }
 
