@@ -16,7 +16,7 @@ namespace Jedzia.BackBock.TaskTester
             var task = (Backup)service["Backup"];
             var srcFiles = new[]
                                {
-                                   "C:\\Temp\\NStub\\*", 
+                                   "C:\\Temp\\NStub\\**", 
                                    //"C:\\Temp\\raabe.jpg", 
                                    //"C:\\Temp\\NStub"
                                };

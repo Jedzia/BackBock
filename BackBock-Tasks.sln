@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.TaskTester"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.Tasks.Tests", "Jedzia.BackBock.Tasks.Tests\Jedzia.BackBock.Tasks.Tests.csproj", "{FFB64E8B-79EB-4996-870B-5620143B5E50}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{124811DE-AE9D-429C-AD78-5B93F69CED2A}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Devel-Notes.txt = Docs\Devel-Notes.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

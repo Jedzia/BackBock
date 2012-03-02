@@ -1,4 +1,4 @@
-﻿// ****************************************************************************
+// ****************************************************************************
 // <copyright file="SimpleIoc.cs" company="GalaSoft Laurent Bugnion">
 // Copyright © GalaSoft Laurent Bugnion 2011
 // </copyright>
@@ -16,6 +16,7 @@
 
 namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 {
+// Todo: Move this or only the PreferredConstructor.cs to a shared lib. Jedzia.BackBock.ViewModel.Extras
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;

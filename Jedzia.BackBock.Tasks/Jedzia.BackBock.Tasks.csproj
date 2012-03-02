@@ -49,9 +49,9 @@
   <ItemGroup>
     <Compile Include="AssemblyResources.cs" />
     <Compile Include="Backup.cs" />
-    <Compile Include="BuildEngine\BuildItem.cs" />
-    <Compile Include="BuildEngine\BuildItemGroup.cs" />
-    <Compile Include="BuildEngine\CopyOnWriteHashtable.cs" />
+    <None Include="BuildEngine\BuildItem.cs" />
+    <None Include="BuildEngine\BuildItemGroup.cs" />
+    <None Include="BuildEngine\CopyOnWriteHashtable.cs" />
     <None Include="BuildEngine\GroupingCollection.cs" />
     <Compile Include="BuildEngine\XmlSearcher.cs" />
     <Compile Include="CopyFile.cs" />

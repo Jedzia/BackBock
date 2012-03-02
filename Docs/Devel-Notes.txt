@@ -46,3 +46,71 @@ I added support for the
 
 
     <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, ResourceId={x:Type generics:List`1[data:ExclusionViewModel]}}">
+
+
+
+Jedzia.BackBock.Tasks
+=======================
+
+Wildcard resolution
+--------------------
+http://127.0.0.1:47873/help/0-3428/ms.help?method=page&id=C4311F38-979E-4324-B524-9E8C1CBDC41A&product=VS&productVersion=100&topicVersion=100&locale=EN-US&topicLocale=EN-US&embedded=true
+
+public override bool Execute()
+{
+    if (this.Include == null)
+    {
+        this.include = new TaskItem[0];
+        return true;
+    }
+    this.Include = ExpandWildcards(this.Include);
+    this.Exclude = ExpandWildcards(this.Exclude);
+    if ((this.AdditionalMetadata != null) || (this.Exclude != null))
+    {
+        Hashtable hashtable;
+        if (!PropertyParser.GetTable(base.Log, "AdditionalMetadata", this.AdditionalMetadata, out hashtable))
+        {
+            return false;
+        }
+        Hashtable uniqueItems = GetUniqueItems(this.Exclude);
+        ArrayList list = this.CreateOutputItems(hashtable, uniqueItems);
+        this.include = (ITaskItem[]) list.ToArray(typeof(ITaskItem));
+    }
+    return true;
+}
+
+private static ITaskItem[] ExpandWildcards(ITaskItem[] expand)
+{
+    if (expand == null)
+    {
+        return null;
+    }
+    ArrayList list = new ArrayList();
+    foreach (ITaskItem item in expand)
+    {
+        if (FileMatcher.HasWildcards(item.ItemSpec))
+        {
+            foreach (string str in FileMatcher.GetFiles(item.ItemSpec))
+            {
+                TaskItem item2 = new TaskItem(item) {
+                    ItemSpec = str
+                };
+                FileMatcher.Result result = FileMatcher.FileMatch(item.ItemSpec, str);
+                if ((result.isLegalFileSpec && result.isMatch) && ((result.wildcardDirectoryPart != null) && (result.wildcardDirectoryPart.Length > 0)))
+                {
+                    item2.SetMetadata("RecursiveDir", result.wildcardDirectoryPart);
+                }
+                list.Add(item2);
+            }
+        }
+        else
+        {
+            list.Add(new TaskItem(item));
+        }
+    }
+    return (ITaskItem[]) list.ToArray(typeof(ITaskItem));
+}
+
+ 
+
+ 

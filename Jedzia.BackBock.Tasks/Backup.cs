@@ -11,6 +11,7 @@ namespace Jedzia.BackBock.Tasks
     using System.Collections;
     using System.ComponentModel;
     using System.IO;
+    using Jedzia.BackBock.Tasks.Shared;
 
     /// <summary>
     /// A simple backup task.
@@ -51,6 +52,40 @@ namespace Jedzia.BackBock.Tasks
         }
 
         #endregion
+
+
+        private static ITaskItem[] ExpandWildcards(ITaskItem[] expand)
+        {
+            if (expand == null)
+            {
+                return null;
+            }
+            ArrayList list = new ArrayList();
+            foreach (ITaskItem item in expand)
+            {
+                if (FileMatcher.HasWildcards(item.ItemSpec))
+                {
+                    foreach (string str in FileMatcher.GetFiles(item.ItemSpec))
+                    {
+                        TaskItem item2 = new TaskItem(item)
+                        {
+                            ItemSpec = str
+                        };
+                        FileMatcher.Result result = FileMatcher.FileMatch(item.ItemSpec, str);
+                        if ((result.isLegalFileSpec && result.isMatch) && ((result.wildcardDirectoryPart != null) && (result.wildcardDirectoryPart.Length > 0)))
+                        {
+                            item2.SetMetadata("RecursiveDir", result.wildcardDirectoryPart);
+                        }
+                        list.Add(item2);
+                    }
+                }
+                else
+                {
+                    list.Add(new TaskItem(item));
+                }
+            }
+            return (ITaskItem[])list.ToArray(typeof(ITaskItem));
+        }
 
         // Properties
 
@@ -187,6 +222,13 @@ namespace Jedzia.BackBock.Tasks
         /// </returns>
         public override bool Execute()
         {
+            /*if (this.SourceFiles == null)
+            {
+                this.sourceFiles = new TaskItem[0];
+                return true;
+            }
+            this.SourceFiles = ExpandWildcards(this.SourceFiles);*/
+            //this.Exclude = ExpandWildcards(this.Exclude);
             return this.Execute(this.CopyFileWithLogging);
         }
 
