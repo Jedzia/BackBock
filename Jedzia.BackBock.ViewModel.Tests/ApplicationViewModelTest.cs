@@ -13,16 +13,6 @@ namespace Jedzia.BackBock.ViewModel.Tests
     public class ApplicationViewModelTest
     {
 
-        enum MyEnum { ValueOne, ValueTwo }
-
-        /// <summary>
-        /// Summary
-        /// </summary>
-        public class MyClass
-        {
-
-        }
-
         MockRepository mocks;
         IOService ioService;
 
@@ -32,25 +22,6 @@ namespace Jedzia.BackBock.ViewModel.Tests
             mocks = new MockRepository();
             ioService = mocks.StrictMock<IOService>();
             ApplicationViewModel.Reset();
-        }
-
-        /// <summary>
-        ///A test for RegisterControl
-        ///</summary>
-        [Test]
-        public void RegisterControlTest()
-        {
-            Enum kind = MyEnum.ValueOne; 
-            Type type = typeof(MyClass);
-// Todo: move the ControlRegistrator stuff to its own test class.
-            Assert.Throws<ArgumentNullException>(() => ControlRegistrator.RegisterControl(null, type));
-            Assert.Throws<ArgumentNullException>(() => ControlRegistrator.RegisterControl(kind, null));
-            ControlRegistrator.RegisterControl(kind, type);
-
-            var instance = ControlRegistrator.GetInstanceOfType<MyClass>(kind);
-            Assert.IsInstanceOfType(type, instance);
-
-            Assert.Throws<KeyNotFoundException>(() => ControlRegistrator.GetInstanceOfType<MyClass>(MyEnum.ValueTwo));
         }
 
         /// <summary>

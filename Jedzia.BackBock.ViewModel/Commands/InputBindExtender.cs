@@ -8,7 +8,6 @@
                                              ExecutedRoutedEventHandler executed, CanExecuteRoutedEventHandler canExecute)
         {
             // Todo: insert null check guards.
-            // Todo: move to commands namespace.
             binder.CommandBindings.Add(new CommandBinding(pasteCommand, executed, canExecute));
         }
 

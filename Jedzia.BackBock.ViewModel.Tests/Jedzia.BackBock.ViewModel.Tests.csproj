@@ -68,12 +68,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Shadow Include="Test References\Jedzia.BackBock.ViewModel.accessor" />
     <None Include="Util\GuardTestX.cs" />
     <Compile Include="ApplicationViewModelTest.cs" />
     <Compile Include="Commands\CommandKeyGestureAttributeTest.cs" />
     <Compile Include="Commands\EventToCommandTest.cs" />
     <Compile Include="Commands\RelayCommandGenericTest.cs" />
     <Compile Include="Commands\RelayCommandTest.cs" />
+    <Compile Include="ControlRegistratorTest.cs" />
     <Compile Include="Data\BackupDataViewModelTest.cs" />
     <Compile Include="DisplayModeViewModelTest.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestContains.cs" />
