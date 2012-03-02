@@ -47,14 +47,39 @@ namespace Jedzia.BackBock.ViewModel.Tests
 
         enum MyEnum { ValueOne, ValueTwo }
 
-        /// <summary>
-        /// Summary
-        /// </summary>
         public class MyClass
         {
 
         }
 
+        public class MyParameterClass
+        {
+            public string Parameter
+            {
+                get;
+                private set;
+            }
+
+            public MyParameterClass(string parameter)
+            {
+                this.Parameter = parameter;
+            }
+        }
+
+        Enum kind;
+        Type type;
+
+        /// <summary>
+        /// Initializes the fixture
+        /// </summary>
+        [SetUp]
+        public void SetUp()
+        {
+            ControlRegistrator.Reset();
+            kind = MyEnum.ValueOne;
+            type = typeof(MyClass);
+            ControlRegistrator.RegisterControl(kind, type);
+        }
 
         /// <summary>
         ///A test for RegisterControl
@@ -62,75 +87,73 @@ namespace Jedzia.BackBock.ViewModel.Tests
         [Test]
         public void RegisterControlTest()
         {
-            Enum kind = MyEnum.ValueOne;
-            Type type = typeof(MyClass);
             Assert.Throws<ArgumentNullException>(() => ControlRegistrator.RegisterControl(null, type));
             Assert.Throws<ArgumentNullException>(() => ControlRegistrator.RegisterControl(kind, null));
-            ControlRegistrator.RegisterControl(kind, type);
 
-            var instance = ControlRegistrator.GetInstanceOfType<MyClass>(kind);
-            Assert.IsInstanceOfType(type, instance);
-
-            Assert.Throws<KeyNotFoundException>(() => ControlRegistrator.GetInstanceOfType<MyClass>(MyEnum.ValueTwo));
         }
 
 
         /// <summary>
         ///A test for GetInstanceOfType
         ///</summary>
-        public void GetInstanceOfTypeTest1Helper<T>()
+        public T GetInstanceOfTypeTest1Helper<T>(Enum keyToTest, object[] constructorParameters)
             where T : class
         {
-            Enum key = null; // TODO: Initialize to an appropriate value
-            object[] parameters = null; // TODO: Initialize to an appropriate value
-            T expected = null; // TODO: Initialize to an appropriate value
+
+            Enum key = keyToTest;
+            object[] parameters = constructorParameters; 
+
+            // T expected = default(T);
             T actual;
             actual = ControlRegistrator.GetInstanceOfType<T>(key, parameters);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            if (actual != null)
+            {
+                Assert.IsInstanceOfType(typeof(T), actual);
+            }
+            return actual;
         }
 
         [Test]
         public void GetInstanceOfTypeTest1()
         {
-            //GetInstanceOfTypeTest1Helper<GenericParameterHelper>();
+            // Construct with parameter.
+            var kind2 = MyEnum.ValueTwo;
+            var type2 = typeof(MyParameterClass);
+            var parameter = "A String Parameter";
+
+            ControlRegistrator.RegisterControl(kind2, type2);
+            var actual = GetInstanceOfTypeTest1Helper<MyParameterClass>(kind2, new[] { parameter });
+            Assert.IsNotNull(actual);
+            
+            var expected = parameter;
+            Assert.AreEqual(expected, actual.Parameter);
+
+            // wrong parameters.
+            Assert.Throws<NullReferenceException>(
+                () => GetInstanceOfTypeTest1Helper<MyParameterClass>(kind2, null));
+            Assert.Throws<NullReferenceException>(
+                () => GetInstanceOfTypeTest1Helper<MyParameterClass>(kind2, new object[0] ));
+            Assert.Throws<NullReferenceException>(
+                () => GetInstanceOfTypeTest1Helper<MyParameterClass>(kind2, new object[] { 5.5d }));
         }
 
         /// <summary>
         ///A test for GetInstanceOfType
         ///</summary>
-        public void GetInstanceOfTypeTestHelper<T>()
+        public void GetInstanceOfTypeTestHelper<T>(Enum keyToTest)
             where T : class
         {
-            Enum key = null; // TODO: Initialize to an appropriate value
-            T expected = null; // TODO: Initialize to an appropriate value
+            Enum key = keyToTest; 
             T actual;
             actual = ControlRegistrator.GetInstanceOfType<T>(key);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            Assert.IsInstanceOfType(typeof(T), actual);
         }
 
         [Test]
         public void GetInstanceOfTypeTest()
         {
-            //GetInstanceOfTypeTestHelper<GenericParameterHelper>();
-        }
-
-        /// <summary>
-        ///A test for CreateInstanceFromType
-        ///</summary>
-        public void CreateInstanceFromTypeTestHelper<T>()
-            where T : class
-        {
-            // Creation of the private accessor for 'Microsoft.VisualStudio.TestTools.TypesAndSymbols.Assembly' failed
-            Assert.Inconclusive("Creation of the private accessor for \'Microsoft.VisualStudio.TestTools.TypesAndSy" +
-                    "mbols.Assembly\' failed");
-        }
-
-        [Test]
-        public void CreateInstanceFromTypeTest()
-        {
-            //CreateInstanceFromTypeTestHelper<GenericParameterHelper>();
+            GetInstanceOfTypeTestHelper<MyClass>(kind);
+            Assert.Throws<KeyNotFoundException>(() => ControlRegistrator.GetInstanceOfType<MyClass>(MyEnum.ValueTwo));
         }
     }
 }

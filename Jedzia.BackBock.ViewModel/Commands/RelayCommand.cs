@@ -93,11 +93,28 @@
             return lcanExecute;
         }
 
+        private event EventHandler canExecuteChanged;
+
+        /// <summary>
+        /// Raises the <see cref="CanExecuteChanged" /> event.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate",
+            Justification = "This cannot be an event")]
+        public void RaiseCanExecuteChanged()
+        {
+            var handler = canExecuteChanged;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
         public event EventHandler CanExecuteChanged
         {
             add
             {
                 CommandManager.RequerySuggested += value;
+                canExecuteChanged += value;
                 /*var menu = value.Target as MenuItem;
                 if (menu != null)
                 {
@@ -114,7 +131,12 @@
                     }
                 }*/
             }
-            remove { CommandManager.RequerySuggested -= value; }
+
+            remove 
+            { 
+                CommandManager.RequerySuggested -= value;
+                canExecuteChanged -= value;
+            }
         }
 
         public void Execute(object parameter)

@@ -97,6 +97,14 @@ namespace Jedzia.BackBock.ViewModel
             // var w = CreateInstanceFromType<Window>(type);
         }
 
+        /// <summary>
+        /// Resets this instance for test purposes.
+        /// </summary>
+        internal static void Reset()
+        {
+            RegisteredControlTypes.Clear();
+        }
+
         private static T CreateInstanceFromType<T>(Type type, object[] parameters) where T : class
         {
             // Todo: parameter and checks for the type

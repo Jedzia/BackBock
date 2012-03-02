@@ -12,7 +12,7 @@ namespace Jedzia.BackBock.ViewModel.Tests.Command
     [TestFixture]
     public class RelayCommandTest
     {
-        /*[Test]
+        [Test]
         public void TestCanExecuteChanged()
         {
             var command = new RelayCommand((e) =>
@@ -26,17 +26,15 @@ namespace Jedzia.BackBock.ViewModel.Tests.Command
 
             command.CanExecuteChanged += canExecuteChangedEventHandler;
 
-            //command.CanExecute("a");
-            CommandManager.InvalidateRequerySuggested();
-            //command.RaiseCanExecuteChanged();
+            command.RaiseCanExecuteChanged();
 
             Assert.AreEqual(1, canExecuteChangedCalled);
 
             command.CanExecuteChanged -= canExecuteChangedEventHandler;
-            command.CanExecute("b");
+            command.RaiseCanExecuteChanged();
 
             Assert.AreEqual(1, canExecuteChangedCalled);
-        }*/
+        }
 
         [Test]
         public void TestCanExecute()
