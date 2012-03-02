@@ -8,7 +8,6 @@
     using System.ComponentModel;
     using System.Collections;
     using Jedzia.BackBock.ViewModel.Data;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using Microsoft.Practices.ServiceLocation;
     //    using Jedzia.BackBock.Application.Resources.Styles.Resources.Styles;
 

@@ -1,27 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Jedzia.BackBock.ViewModel.Commands;
-using System.Windows;
-using System.Windows.Input;
-using System.ComponentModel;
-using Jedzia.BackBock.ViewModel.MVVM.Ioc;
-using Jedzia.BackBock.Tasks;
-using Jedzia.BackBock.ViewModel.Serialization;
-using System.Windows.Markup;
-using System.Xml;
-using System.IO;
-using System.Xml.Serialization;
-
+﻿// <copyright file="$FileName$" company="$Company$">
+// Copyright (c) 2012 All Right Reserved
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// <summary>$summary$</summary>
 namespace Jedzia.BackBock.ViewModel.Data
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.IO;
+    using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Markup;
+    using System.Xml;
+    using System.Xml.Serialization;
+    using Jedzia.BackBock.Model.Data;
+    using Jedzia.BackBock.Tasks;
+    using Jedzia.BackBock.ViewModel.Commands;
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+    using Jedzia.BackBock.ViewModel.MVVM.Messaging;
+
     public partial class BackupItemViewModel
     {
+        #region WindowTypes enum
+
         public enum WindowTypes
         {
-            [CheckType(typeof(Window))]
-            TaskEditor,
+            [CheckType(typeof(Window))] TaskEditor,
             ClassFieldOptPage,
             ClassMethodOptPage,
             ClassPropertyOptPage,
@@ -29,51 +35,21 @@ namespace Jedzia.BackBock.ViewModel.Data
             SettingsPage,
         }
 
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:BackupItemViewModel"/> class.
         /// </summary>
         public BackupItemViewModel()
         {
-            this.data = new Jedzia.BackBock.Model.Data.BackupItemType();
+            this.data = new BackupItemType();
         }
 
-        partial void PathCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            // Mit ObservableCollection kann das ViewModel automatisch auf entfernen und
-            // hinzufügen von Objekten reagieren.
+        #endregion
 
-            /*if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
-            {
-                foreach (PathViewModel item in e.NewItems)
-                {
-                    backupitem.Path.Add(item.path);
-                }
-            }*/
-            // Reflect the changes to the underlying data.
-            switch (e.Action)
-            {
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-                    foreach (PathViewModel item in e.NewItems)
-                    {
-                        data.Path.Add(item.data);
-                    }
-                    break;
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
-                    break;
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-                    foreach (PathViewModel item in e.OldItems)
-                    {
-                        data.Path.Remove(item.data);
-                    }
-                    break;
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
-                    break;
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
-                    break;
-                default:
-                    break;
-            }
-        }
+        #region Properties
 
         public Type NumerableType
         {
@@ -84,9 +60,17 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        #endregion
+
         #region EditCollection Command
 
+        #region Fields
+
         private RelayCommand editCollectionCommand;
+
+        #endregion
+
+        #region Properties
 
         public ICommand EditCollectionCommand
         {
@@ -95,13 +79,21 @@ namespace Jedzia.BackBock.ViewModel.Data
                 // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
                 if (this.editCollectionCommand == null)
                 {
-                    this.editCollectionCommand = new RelayCommand(this.EditCollectionExecuted, this.EditCollectionEnabled);
+                    this.editCollectionCommand = new RelayCommand(
+                        this.EditCollectionExecuted, this.EditCollectionEnabled);
                 }
 
                 return this.editCollectionCommand;
             }
         }
 
+        #endregion
+
+        private bool EditCollectionEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
 
         private void EditCollectionExecuted(object o)
         {
@@ -117,12 +109,169 @@ namespace Jedzia.BackBock.ViewModel.Data
             pg.ShowDialog();*/
         }
 
-        private bool EditCollectionEnabled(object sender)
+        #endregion
+
+        #region TaskDataClicked Command
+
+        #region Fields
+
+        private RelayCommand taskDataClickedCommand;
+
+        #endregion
+
+        #region Properties
+
+        public ICommand TaskDataClickedCommand
+        {
+            get
+            {
+                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
+                if (this.taskDataClickedCommand == null)
+                {
+                    this.taskDataClickedCommand = new RelayCommand(
+                        this.TaskDataClickedExecuted, this.TaskDataClickedEnabled);
+                }
+
+                return this.taskDataClickedCommand;
+            }
+        }
+
+        #endregion
+
+        private static void SerializeTest(ITask task)
+        {
+            var xaml = XamlWriter.Save(task);
+            var doc = new XmlDocument();
+            doc.LoadXml(xaml);
+            doc.Normalize();
+
+            TextWriter wr = new StringWriter();
+            doc.Save(wr);
+            var str = wr.ToString();
+
+            XmlSerializer ser = new XmlSerializer(task.GetType());
+            TextWriter wrx = new StringWriter();
+            ser.Serialize(wrx, task);
+            var strx = wrx.ToString();
+        }
+
+        private bool TaskDataClickedEnabled(object sender)
         {
             bool canExecute = true;
             return canExecute;
         }
+
+        private void TaskDataClickedExecuted(object o)
+        {
+            var wnd = ApplicationViewModel.GetInstanceFromType<Window>(WindowTypes.TaskEditor);
+            var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
+            var task = taskService[this.Task.TypeName];
+
+            //wnd.DataContext = this.Task;
+            //var str = XamlSerializer.Save(task);
+            //SerializeTest(task);
+
+            wnd.DataContext = task;
+            wnd.ShowDialog();
+        }
+
         #endregion
+
+        #region RunTask Command
+
+        #region Fields
+
+        private RelayCommand runTaskCommand;
+
+        #endregion
+
+        #region Properties
+
+        public ICommand RunTaskCommand
+        {
+            get
+            {
+                if (this.runTaskCommand == null)
+                {
+                    this.runTaskCommand = new RelayCommand(this.RunTaskExecuted, this.RunTaskEnabled);
+                }
+
+                return this.runTaskCommand;
+            }
+        }
+
+        #endregion
+
+        public void RunTask()
+        {
+            if (!this.IsEnabled)
+            {
+                return;
+            }
+
+            // do something.
+            var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
+            var task = taskService[this.Task.TypeName];
+            var success = task.Execute();
+        }
+
+        private bool RunTaskEnabled(object sender)
+        {
+            bool canExecute = this.IsEnabled;
+            return canExecute;
+        }
+
+        private void RunTaskExecuted(object o)
+        {
+            var taskTypeName = this.Task.TypeName;
+            var msg = "Running " + taskTypeName + "-Task: '" + this.ItemName + "'";
+            //this.MessengerInstance.Send(msg);
+            MessengerInstance.Send(
+                new DialogMessage(this, msg, null) { Caption = "Executing Task" }
+                );
+            //ApplicationViewModel..DialogService.ShowMessage(msg, "Executing Task", "Ok", null);
+            this.RunTask();
+        }
+
+        #endregion
+
+        partial void PathCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            // Mit ObservableCollection kann das ViewModel automatisch auf entfernen und
+            // hinzufügen von Objekten reagieren.
+
+            /*if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                foreach (PathViewModel item in e.NewItems)
+                {
+                    backupitem.Path.Add(item.path);
+                }
+            }*/
+            // Reflect the changes to the underlying data.
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach(PathViewModel item in e.NewItems)
+                    {
+                        this.data.Path.Add(item.data);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach(PathViewModel item in e.OldItems)
+                    {
+                        this.data.Path.Remove(item.data);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    break;
+                default:
+                    break;
+            }
+        }
 
         /*#region AddType Command
 
@@ -186,113 +335,5 @@ namespace Jedzia.BackBock.ViewModel.Data
             return canExecute;
         }
         #endregion*/
-
-        #region TaskDataClicked Command
-
-        private RelayCommand taskDataClickedCommand;
-
-        public ICommand TaskDataClickedCommand
-        {
-            get
-            {
-                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
-                if (this.taskDataClickedCommand == null)
-                {
-                    this.taskDataClickedCommand = new RelayCommand(this.TaskDataClickedExecuted, this.TaskDataClickedEnabled);
-                }
-
-                return this.taskDataClickedCommand;
-            }
-        }
-
-
-        private void TaskDataClickedExecuted(object o)
-        {
-            var wnd = ApplicationViewModel.GetInstanceFromType<Window>(WindowTypes.TaskEditor);
-            var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
-            var task = taskService[this.Task.TypeName];
-
-            //wnd.DataContext = this.Task;
-            //var str = XamlSerializer.Save(task);
-            //SerializeTest(task);
-
-            wnd.DataContext = task;
-            wnd.ShowDialog();
-        }
-
-        private static void SerializeTest(ITask task)
-        {
-            var xaml = XamlWriter.Save(task);
-            var doc = new XmlDocument();
-            doc.LoadXml(xaml);
-            doc.Normalize();
-
-            TextWriter wr = new StringWriter();
-            doc.Save(wr);
-            var str = wr.ToString();
-
-            XmlSerializer ser = new XmlSerializer(task.GetType());
-            TextWriter wrx = new StringWriter();
-            ser.Serialize(wrx, task);
-            var strx = wrx.ToString();
-        }
-
-        private bool TaskDataClickedEnabled(object sender)
-        {
-            bool canExecute = true;
-            return canExecute;
-        }
-        #endregion
-
-        #region RunTask Command
-
-        private RelayCommand runTaskCommand;
-
-        public ICommand RunTaskCommand
-        {
-            get
-            {
-                if (this.runTaskCommand == null)
-                {
-                    this.runTaskCommand = new RelayCommand(this.RunTaskExecuted, this.RunTaskEnabled);
-                }
-
-                return this.runTaskCommand;
-            }
-        }
-
-
-        private void RunTaskExecuted(object o)
-        {
-            var taskTypeName = this.Task.TypeName;
-            var msg = "Running " + taskTypeName + "-Task: '" + this.ItemName + "'";
-            //this.MessengerInstance.Send(msg);
-            this.MessengerInstance.Send(
-                new MVVM.Messaging.DialogMessage(this, msg, null) { Caption = "Executing Task" }
-                );
-            //ApplicationViewModel..DialogService.ShowMessage(msg, "Executing Task", "Ok", null);
-            this.RunTask();
-        }
-
-        public void RunTask()
-        {
-            if (!this.IsEnabled)
-            {
-                return;
-            }
-
-            // do something.
-            var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
-            var task = taskService[this.Task.TypeName];
-            var success = task.Execute();
-        }
-
-        private bool RunTaskEnabled(object sender)
-        {
-            bool canExecute = this.IsEnabled;
-            return canExecute;
-        }
-        #endregion
-
     }
 }

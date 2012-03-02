@@ -13,10 +13,11 @@ using System.Windows.Shapes;
 using Jedzia.BackBock.ViewModel.MainWindow;
 using Microsoft.Practices.ServiceLocation;
 using Jedzia.BackBock.ViewModel;
-using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 
 namespace Jedzia.BackBock.Application
 {
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+
     /// <summary>
     /// Interaction logic for Window2.xaml
     /// </summary>

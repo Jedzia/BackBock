@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace Jedzia.BackBock.ViewModel.Commands
 {
     /// <summary>
-    /// Implements the ICommand and wraps up all the verbose stuff so that you can just pass 2 delegates 1 for the CanExecute and one for the Execute
+    /// Implements the <see cref="ICommand"/> and wraps up all the verbose stuff so that you can just pass 2 delegates 1 for the CanExecute and one for the Execute
     /// </summary>
     public class SimpleCommand : ICommand
     {
+        // Todo: is obsolete, use RelayCommand.
         /// <summary>
         /// Gets or sets the Predicate to execute when the CanExecute of the command gets called
         /// </summary>

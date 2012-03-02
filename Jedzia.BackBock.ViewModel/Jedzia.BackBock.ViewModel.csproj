@@ -47,7 +47,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Interactivity" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -69,8 +68,6 @@
     <Compile Include="Commands\CommandBehaviorCollection.cs" />
     <Compile Include="Commands\CommandKeyGestureAttribute.cs" />
     <Compile Include="Commands\EventHandlerGenerator.cs" />
-    <Compile Include="Commands\EventToCommand.cs" />
-    <Compile Include="Commands\EventToCommand.WPF.cs" />
     <Compile Include="Commands\ExecutionStrategy.cs" />
     <Compile Include="Commands\ICanCommandBind.cs" />
     <Compile Include="Commands\ICanInputBind.cs" />
@@ -157,9 +154,6 @@
     <Compile Include="MVVM\Helpers\IExecuteWithObject.cs" />
     <Compile Include="MVVM\Helpers\WeakAction.cs" />
     <Compile Include="MVVM\Helpers\WeakActionGeneric.cs" />
-    <Compile Include="MVVM\Ioc\ISimpleIoc.cs" />
-    <Compile Include="MVVM\Ioc\PreferredConstructor.cs" />
-    <Compile Include="MVVM\Ioc\SimpleIoc.cs" />
     <Compile Include="MVVM\Messaging\DialogMessage.cs" />
     <Compile Include="MVVM\Messaging\GenericMessage.cs" />
     <Compile Include="MVVM\Messaging\IMessenger.cs" />
@@ -202,6 +196,10 @@
     <ProjectReference Include="..\Jedzia.BackBock.Tasks\Jedzia.BackBock.Tasks.csproj">
       <Project>{07B3FA8E-2DF4-4F3C-A060-E919EB9D3C98}</Project>
       <Name>Jedzia.BackBock.Tasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jedzia.BackBock.ViewModel.Extras\Jedzia.BackBock.ViewModel.Extras.csproj">
+      <Project>{1FD5EA5A-029A-4E39-A039-F36F28A6555E}</Project>
+      <Name>Jedzia.BackBock.ViewModel.Extras</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

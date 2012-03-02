@@ -14,15 +14,15 @@
 // <LastBaseLevel>BL0003</LastBaseLevel>
 // ****************************************************************************
 
-using System;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Interactivity;
-
 ////using GalaSoft.Utilities.Attributes;
 
-namespace Jedzia.BackBock.ViewModel.Commands
+namespace Jedzia.BackBock.ViewModel.MVVM.Command
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Interactivity;
+
     /// <summary>
     /// This <see cref="System.Windows.Interactivity.TriggerAction" /> can be
     /// used to bind any event on any FrameworkElement to an <see cref="ICommand" />.

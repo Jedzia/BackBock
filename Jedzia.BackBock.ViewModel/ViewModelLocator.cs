@@ -12,12 +12,13 @@
 
 using Microsoft.Practices.ServiceLocation;
 using Jedzia.BackBock.ViewModel.MainWindow;
-using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 using System.Windows;
 using Jedzia.BackBock.Tasks;
 
 namespace Jedzia.BackBock.ViewModel
 {
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+
     /// <summary>
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.

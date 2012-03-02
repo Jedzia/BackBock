@@ -18,11 +18,11 @@
 // for the Silverlight-only implementation.
 // ****************************************************************************
 
-using System.Windows;
-using System.Windows.Input;
-
-namespace Jedzia.BackBock.ViewModel.Commands
+namespace Jedzia.BackBock.ViewModel.MVVM.Command
 {
+    using System.Windows;
+    using System.Windows.Input;
+
     /// <summary>
     /// This <see cref="System.Windows.Interactivity.TriggerAction" /> can be
     /// used to bind any event on any FrameworkElement to an <see cref="ICommand" />.

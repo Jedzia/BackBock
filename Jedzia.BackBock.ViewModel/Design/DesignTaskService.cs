@@ -19,7 +19,22 @@ namespace Jedzia.BackBock.ViewModel.Design
 
         #region ITaskService Members
 
+        public IEnumerable<string> GetRegisteredTasks()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Register(ITask task)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reset()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ResetAll()
         {
             throw new NotImplementedException();
         }

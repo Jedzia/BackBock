@@ -12,6 +12,8 @@ using MbUnit.Framework;
 
 namespace Jedzia.BackBock.ViewModel.Tests.Command
 {
+    using Jedzia.BackBock.ViewModel.MVVM.Command;
+
     [TestFixture]
     public class EventToCommandTest
     {

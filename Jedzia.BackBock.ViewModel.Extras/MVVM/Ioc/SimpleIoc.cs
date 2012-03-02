@@ -1,4 +1,4 @@
-// ****************************************************************************
+﻿// ****************************************************************************
 // <copyright file="SimpleIoc.cs" company="GalaSoft Laurent Bugnion">
 // Copyright © GalaSoft Laurent Bugnion 2011
 // </copyright>

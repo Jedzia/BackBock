@@ -138,6 +138,10 @@
       <Project>{07B3FA8E-2DF4-4F3C-A060-E919EB9D3C98}</Project>
       <Name>Jedzia.BackBock.Tasks</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Jedzia.BackBock.ViewModel.Extras\Jedzia.BackBock.ViewModel.Extras.csproj">
+      <Project>{1FD5EA5A-029A-4E39-A039-F36F28A6555E}</Project>
+      <Name>Jedzia.BackBock.ViewModel.Extras</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jedzia.BackBock.ViewModel\Jedzia.BackBock.ViewModel.csproj">
       <Project>{BA57B6A9-70FF-4A22-876B-5A8DFE003293}</Project>
       <Name>Jedzia.BackBock.ViewModel</Name>

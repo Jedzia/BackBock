@@ -3,8 +3,8 @@
     using System.Windows;
     using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.MainWindow;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using Jedzia.BackBock.Tasks;
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 
     /// <summary>
     /// Interaction logic for App.xaml
