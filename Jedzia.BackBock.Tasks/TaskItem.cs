@@ -15,6 +15,7 @@ namespace Jedzia.BackBock.Tasks
     using Jedzia.BackBock.Tasks.BuildEngine;
     using Jedzia.BackBock.Tasks.Shared;
     using Jedzia.BackBock.Tasks.Utilities;
+    using System.Text;
 
     [DisplayName("TaskItem")]
     public sealed class TaskItem : MarshalByRefObject, ITaskItem
@@ -74,6 +75,21 @@ namespace Jedzia.BackBock.Tasks
 
         #endregion
 
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("ItemSpec: ");
+            sb.Append(this.ItemSpec);
+            return sb.ToString();
+        }
+
+
         #region Properties
 
         /// <summary>
@@ -98,6 +114,7 @@ namespace Jedzia.BackBock.Tasks
         /// <summary>
         /// Gets the number of metadata entries associated with the item.
         /// </summary>
+        [Browsable(false)]
         public int MetadataCount
         {
             get
@@ -109,6 +126,7 @@ namespace Jedzia.BackBock.Tasks
         /// <summary>
         /// Gets the names of the metadata entries associated with the item.
         /// </summary>
+        [Browsable(false)]
         public ICollection MetadataNames
         {
             get

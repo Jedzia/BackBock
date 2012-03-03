@@ -9,6 +9,7 @@ namespace Jedzia.BackBock.Tasks
 {
     using System.Resources;
     using Jedzia.BackBock.Tasks.Utilities;
+    using System.ComponentModel;
 
     /// <summary>
     /// When overridden in a derived form, provides functionality for tasks.
@@ -78,6 +79,7 @@ namespace Jedzia.BackBock.Tasks
         /// </value>
         /// <remarks>The build engine automatically sets this property to allow tasks to call
         /// back into it.</remarks>
+        [Browsable(false)]
         public IBuildEngine BuildEngine { get; set; }
 
         /// <summary>
@@ -88,6 +90,7 @@ namespace Jedzia.BackBock.Tasks
         /// </value>
         /// <remarks>The build engine automatically sets this property to allow tasks to call
         /// back into it.</remarks>
+        [Browsable(false)]
         public IBuildEngine2 BuildEngine2
         {
             get
@@ -106,11 +109,13 @@ namespace Jedzia.BackBock.Tasks
         /// engine sets this property. The host object is provided by HostServices. Visual Studio determines
         /// the host object via a system registry key. For more information, see IVsMSBuildHostObject.
         /// </remarks>
+        [Browsable(false)]
         public ITaskHost HostObject { get; set; }
 
         /// <summary>
         /// Gets an instance of a <see cref="TaskLoggingHelper"/> class containing task logging methods.
         /// </summary>
+        [Browsable(false)]
         public TaskLoggingHelper Log
         {
             get
@@ -152,6 +157,7 @@ namespace Jedzia.BackBock.Tasks
         /// If derived classes have localized strings, then they should register their 
         /// resources either during construction, or through this property.
         /// </remarks>
+        [Browsable(false)]
         protected ResourceManager TaskResources
         {
             get
@@ -197,5 +203,20 @@ namespace Jedzia.BackBock.Tasks
     /// </summary>
     public interface IBuildEngine
     {
+        void LogMessageEvent(BuildMessageEventArgs e);
+    }
+
+    public class SimpleBuildEngine : IBuildEngine
+    {
+
+        #region IBuildEngine Members
+
+        public void LogMessageEvent(BuildMessageEventArgs e)
+        {
+            System.Console.WriteLine(
+                e.Timestamp + ":[" + e.ThreadId + "." + e.SenderName + "]" + e.Message + e.HelpKeyword);
+        }
+
+        #endregion
     }
 }

@@ -33,6 +33,7 @@ namespace WPG.TypeEditors
             baseControl = ctrl;
             this.DataContext = baseControl.DataContext;
 
+            if(baseControl.NumerableValue != null)
             foreach (var tmp in baseControl.NumerableValue)
             {
                 myLst.Items.Add(tmp);

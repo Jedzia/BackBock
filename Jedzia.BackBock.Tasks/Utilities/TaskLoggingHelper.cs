@@ -9,6 +9,8 @@ namespace Jedzia.BackBock.Tasks.Utilities
 {
     using System;
     using System.Resources;
+    using Jedzia.BackBock.Tasks.Shared;
+    using System.Threading;
 
     /// <summary>
     /// Provides helper logging methods used by tasks.
@@ -30,7 +32,7 @@ namespace Jedzia.BackBock.Tasks.Utilities
         /// <param name="taskInstance">The task containing an instance of this task.</param>
         public TaskLoggingHelper(ITask taskInstance)
         {
-            //ErrorUtilities.VerifyThrowArgumentNull(taskInstance, "taskInstance");
+            ErrorUtilities.VerifyThrowArgumentNull(taskInstance, "taskInstance");
             this.taskInstance = taskInstance;
         }
 
@@ -88,7 +90,7 @@ namespace Jedzia.BackBock.Tasks.Utilities
         /// <param name="commandLine">The command line string.</param>
         public void LogCommandLine(MessageImportance importance, string commandLine)
         {
-            //ErrorUtilities.VerifyThrowArgumentNull(commandLine, "commandLine");
+            ErrorUtilities.VerifyThrowArgumentNull(commandLine, "commandLine");
             //TaskCommandLineEventArgs e = new TaskCommandLineEventArgs(commandLine, this.TaskName, importance);
             //ErrorUtilities.VerifyThrowInvalidOperation(this.BuildEngine != null, "LoggingBeforeTaskInitialization", e.Message);
             //this.BuildEngine.LogMessageEvent(e);
@@ -121,8 +123,148 @@ namespace Jedzia.BackBock.Tasks.Utilities
         public void LogMessageFromResources(
             MessageImportance importance, string messageResourceName, params object[] messageArgs)
         {
-            //ErrorUtilities.VerifyThrowArgumentNull(messageResourceName, "messageResourceName");
-            //this.LogMessage(importance, this.FormatResourceString(messageResourceName, messageArgs), new object[0]);
+            ErrorUtilities.VerifyThrowArgumentNull(messageResourceName, "messageResourceName");
+            this.LogMessage(importance, this.FormatResourceString(messageResourceName, messageArgs), new object[0]);
+        }
+
+        public void LogMessage(MessageImportance importance, string message, params object[] messageArgs)
+        {
+            ErrorUtilities.VerifyThrowArgumentNull(message, "message");
+            BuildMessageEventArgs e = new BuildMessageEventArgs(this.FormatString(message, messageArgs), null, this.TaskName, importance);
+            ErrorUtilities.VerifyThrowInvalidOperation(this.BuildEngine != null, "LoggingBeforeTaskInitialization", e.Message);
+            this.BuildEngine.LogMessageEvent(e);
+        }
+
+
+        public virtual string FormatString(string unformatted, params object[] args)
+        {
+            ErrorUtilities.VerifyThrowArgumentNull(unformatted, "unformatted");
+            return ResourceUtilities.FormatString(unformatted, args);
+        }
+
+
+        private string taskName;
+ 
+
+        protected string TaskName
+        {
+            get
+            {
+                if (this.taskName == null)
+                {
+                    this.taskName = this.taskInstance.GetType().Name;
+                }
+                return this.taskName;
+            }
+        }
+ 
+
+ 
+
+        protected IBuildEngine BuildEngine
+        {
+            get
+            {
+                return this.taskInstance.BuildEngine;
+            }
+        }
+
+    }
+
+
+    [Serializable]
+    public abstract class BuildEventArgs : EventArgs
+    {
+        // Fields
+        private string helpKeyword;
+        private string message;
+        private string senderName;
+        private int threadId;
+        private DateTime timestamp;
+
+        // Methods
+        protected BuildEventArgs()
+        {
+            this.timestamp = DateTime.Now;
+            this.threadId = Thread.CurrentThread.GetHashCode();
+        }
+
+        protected BuildEventArgs(string message, string helpKeyword, string senderName)
+            : this()
+        {
+            this.message = message;
+            this.helpKeyword = helpKeyword;
+            this.senderName = senderName;
+        }
+
+        // Properties
+        public string HelpKeyword
+        {
+            get
+            {
+                return this.helpKeyword;
+            }
+        }
+
+        public string Message
+        {
+            get
+            {
+                return this.message;
+            }
+        }
+
+        public string SenderName
+        {
+            get
+            {
+                return this.senderName;
+            }
+        }
+
+        public int ThreadId
+        {
+            get
+            {
+                return this.threadId;
+            }
+        }
+
+        public DateTime Timestamp
+        {
+            get
+            {
+                return this.timestamp;
+            }
         }
     }
+
+    [Serializable]
+    public class BuildMessageEventArgs : BuildEventArgs
+    {
+        // Fields
+        private MessageImportance importance;
+
+        // Methods
+        protected BuildMessageEventArgs()
+        {
+        }
+
+        public BuildMessageEventArgs(string message, string helpKeyword, string senderName, MessageImportance importance)
+            : base(message, helpKeyword, senderName)
+        {
+            this.importance = importance;
+        }
+
+        // Properties
+        public MessageImportance Importance
+        {
+            get
+            {
+                return this.importance;
+            }
+        }
+    }
+
+
 }

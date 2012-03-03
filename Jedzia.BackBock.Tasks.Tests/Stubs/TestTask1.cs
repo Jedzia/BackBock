@@ -27,5 +27,22 @@ namespace Jedzia.BackBock.Tasks.Tests.Stubs
         }
 
         #endregion
+
+        #region ITask Members
+
+
+        public IBuildEngine BuildEngine
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
     }
 }

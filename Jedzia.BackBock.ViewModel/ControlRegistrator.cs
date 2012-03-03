@@ -14,6 +14,172 @@ namespace Jedzia.BackBock.ViewModel
     using System.Collections.Generic;
     using System.Linq;
     using Jedzia.BackBock.ViewModel.Util;
+    using System.Text;
+
+    public interface IInstanceLifetime
+    {
+        object CreateInstance(object initial);
+    }
+
+    /// <summary>
+    /// SingletonInstance.
+    /// </summary>
+    [Serializable]
+    public class SingletonInstance : IInstanceLifetime
+    {
+        #region Properties
+        /// <summary>
+        /// Gets or sets the Instance.
+        /// </summary>
+        /// <value>The Instance.</value>
+        //internal object Instance { get; private set; }
+        private static Dictionary<Type, object> instances;
+        #endregion
+        #region Constructors
+
+        static SingletonInstance()
+        {
+            instances = new Dictionary<Type, object>();
+        }
+        /// <summary>
+        /// Initializes a new fully specified instance of the <see cref="SingletonInstance"/> class.
+        /// </summary>
+        /// <param name="Instance">The Instance</param>
+        public SingletonInstance()
+        {
+        }
+        #endregion
+
+        #region IInstanceLifetime Members
+
+        public object CreateInstance(object initial)
+        {
+            var instanceType = initial.GetType();
+            if (!instances.ContainsKey(instanceType))
+            {
+                instances.Add(instanceType, initial);
+            }
+            return instances[instanceType];
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// SingletonInstance.
+    /// </summary>
+    [Serializable]
+    public class NormalInstance : IInstanceLifetime
+    {
+        #region Properties
+        /// <summary>
+        /// Gets or sets the Instance.
+        /// </summary>
+        /// <value>The Instance.</value>
+        //internal object Instance { get; private set; }
+        #endregion
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new fully specified instance of the <see cref="SingletonInstance"/> class.
+        /// </summary>
+        /// <param name="Instance">The Instance</param>
+        public NormalInstance()
+        {
+            //Instance = instance;
+        }
+        #endregion
+
+        #region IInstanceLifetime Members
+
+        public object CreateInstance(object initial)
+        {
+            return initial;
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// InstanceInfo.
+    /// </summary>
+    [Serializable]
+    internal class InstanceInfo : IEquatable<InstanceInfo>
+    {
+        #region Properties
+        /// <summary>
+        /// Gets or sets the Instance.
+        /// </summary>
+        /// <value>The Instance.</value>
+        internal Type InstanceType { get; private set; }
+        /// <summary>
+        /// Gets or sets the Lifetime.
+        /// </summary>
+        /// <value>The Lifetime.</value>
+        internal IInstanceLifetime Lifetime { get; private set; }
+        #endregion
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InstanceInfo"/> class.
+        /// </summary>
+        internal InstanceInfo() { }
+        /// <summary>
+        /// Initializes a new fully specified instance of the <see cref="InstanceInfo"/> class.
+        /// </summary>
+        /// <param name="Instance">The Instance</param>
+        /// <param name="Lifetime">The Lifetime</param>
+        internal InstanceInfo(Type instanceType, IInstanceLifetime lifetime)
+        {
+            this.InstanceType = instanceType;
+            this.Lifetime = lifetime;
+        }
+        #endregion
+        #region Methods
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.</param>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+        /// </returns>
+        /// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
+        public override bool Equals(object obj)
+        {
+            InstanceInfo other = obj as InstanceInfo;
+            if (other != null)
+                return Equals(other);
+            return false;
+        }
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        public bool Equals(InstanceInfo other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return
+              InstanceType == other.InstanceType &&
+              Lifetime == other.Lifetime;
+        }
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("InstanceType = " + InstanceType + ";");
+            sb.Append("Lifetime = " + Lifetime);
+            return sb.ToString();
+        }
+        #endregion
+    }
 
     /// <summary>
     /// Central point for registering controls, that can be requested by demand.
@@ -22,7 +188,7 @@ namespace Jedzia.BackBock.ViewModel
     {
         #region Fields
 
-        private static readonly Dictionary<Enum, Type> RegisteredControlTypes = new Dictionary<Enum, Type>();
+        private static readonly Dictionary<Enum, InstanceInfo> RegisteredControlTypes = new Dictionary<Enum, InstanceInfo>();
 
         #endregion
 
@@ -47,9 +213,23 @@ namespace Jedzia.BackBock.ViewModel
         /// <returns>A new instance of the requested type.</returns>
         public static T GetInstanceOfType<T>(Enum key, object[] parameters) where T : class
         {
-            var t = RegisteredControlTypes[key];
-            var instance = CreateInstanceFromType<T>(t, parameters);
+            var iinfo = RegisteredControlTypes[key];
+            var type = iinfo.InstanceType;
+            var instance = (T)iinfo.Lifetime.CreateInstance(CreateInstanceFromType<T>(type, parameters));
             return instance;
+        }
+
+                /// <summary>
+        /// Registers a control into the global <see cref="ControlRegistrator"/>.
+        /// </summary>
+        /// <param name="key">The key, that should identify the registered control.</param>
+        /// <param name="type">The type to register.</param>
+        /// <exception cref="NotSupportedException">Can't register type. The type is no instance of the
+        /// registered type identified by <see cref="CheckTypeAttribute"/>.</exception>
+        public static void RegisterControl(Enum key, Type type)
+        {
+            var lifetime = new NormalInstance();
+            RegisterControl(key, type, lifetime);
         }
 
         /// <summary>
@@ -59,10 +239,11 @@ namespace Jedzia.BackBock.ViewModel
         /// <param name="type">The type to register.</param>
         /// <exception cref="NotSupportedException">Can't register type. The type is no instance of the
         /// registered type identified by <see cref="CheckTypeAttribute"/>.</exception>
-        public static void RegisterControl(Enum key, Type type)
+        public static void RegisterControl(Enum key, Type type, IInstanceLifetime lifetime)
         {
             Guard.NotNull(() => key, key);
             Guard.NotNull(() => type, type);
+            Guard.NotNull(() => lifetime, lifetime);
 
             // classSpecificationWindowType = type;
             // var xxx = Data.BackupItemViewModel.WindowTypes.TaskEditor.GetType();
@@ -92,7 +273,7 @@ namespace Jedzia.BackBock.ViewModel
 
             // var values = Enum.GetValues(kindType);
             // var attrs = kindType.GetCustomAttributes(false);
-            RegisteredControlTypes.Add(key, type);
+            RegisteredControlTypes.Add(key, new InstanceInfo(type, lifetime));
 
             // var w = CreateInstanceFromType<Window>(type);
         }

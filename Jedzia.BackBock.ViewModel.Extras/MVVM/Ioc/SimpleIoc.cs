@@ -29,7 +29,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
     /// InstanceInfo.
     /// </summary>
     [Serializable]
-    internal class InstanceInfo : IEquatable<InstanceInfo>
+    internal class InstanceInfo //: IEquatable<InstanceInfo>
     {
         #region Properties
         /// <summary>
@@ -60,7 +60,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         }
         #endregion
         #region Methods
-        /// <summary>
+        /*/// <summary>
         /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
         /// </summary>
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.</param>
@@ -102,7 +102,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             sb.Append("InstanceType = " + InstanceType + ";");
             sb.Append("Lifetime = " + Lifetime);
             return sb.ToString();
-        }
+        }*/
         #endregion
     }
 
@@ -133,8 +133,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             = new Dictionary<Type, Dictionary<string, Delegate>>();
         private readonly Dictionary<Type, Dictionary<string, object>> _instancesRegistry
             = new Dictionary<Type, Dictionary<string, object>>();
-        private readonly Dictionary<Type, InstanceInfo> _instanceInfos
-    = new Dictionary<Type, InstanceInfo>();
+        // private readonly Dictionary<Type, InstanceInfo> _instanceInfos = new Dictionary<Type, InstanceInfo>();
 
         /// <summary>
         /// This class' default instance.
@@ -232,8 +231,8 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 else
                 {
                     _interfaceToClassMap.Add(interfaceType, classType);
-                    var ii = new InstanceInfo(classType, new NormalInstance());
-                    this._instanceInfos.Add(classType, ii);
+                    //var ii = new InstanceInfo(classType, new NormalInstance());
+                    //this._instanceInfos.Add(classType, ii);
                 }
 
                 if (_factories.ContainsKey(interfaceType))
@@ -273,8 +272,8 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 else
                 {
                     _interfaceToClassMap.Add(classType, null);
-                    var ii = new InstanceInfo(classType, new NormalInstance());
-                    this._instanceInfos.Add(classType, ii);
+                    //var ii = new InstanceInfo(classType, new NormalInstance());
+                    //this._instanceInfos.Add(classType, ii);
                 }
 
                 if (_factories.ContainsKey(classType))
@@ -315,8 +314,8 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 else
                 {
                     _interfaceToClassMap.Add(classType, null);
-                    var ii = new InstanceInfo(classType, new NormalInstance());
-                    this._instanceInfos.Add(classType, ii);
+                    //var ii = new InstanceInfo(classType, new NormalInstance());
+                    //this._instanceInfos.Add(classType, ii);
                 }
 
                 if (_instancesRegistry.ContainsKey(classType)
@@ -358,7 +357,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         public void Reset()
         {
             _interfaceToClassMap.Clear();
-            _instanceInfos.Clear();
+            //_instanceInfos.Clear();
             _instancesRegistry.Clear();
             _factories.Clear();
         }
@@ -386,7 +385,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 if (_interfaceToClassMap.ContainsKey(classType))
                 {
                     _interfaceToClassMap.Remove(classType);
-                    _instanceInfos.Remove(classType);
+                    //_instanceInfos.Remove(classType);
                 }
 
                 if (_factories.ContainsKey(classType))

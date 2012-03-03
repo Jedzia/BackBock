@@ -8,6 +8,7 @@
 namespace Jedzia.BackBock.ViewModel.Data
 {
     using System;
+    using System.Linq;
     using System.Collections.Specialized;
     using System.IO;
     using System.Windows;
@@ -166,7 +167,7 @@ namespace Jedzia.BackBock.ViewModel.Data
             var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskEditor);
             var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
             var task = taskService[this.Task.TypeName];
-
+            PrepareTask(task);
             //wnd.DataContext = this.Task;
             //var str = XamlSerializer.Save(task);
             //SerializeTest(task);
@@ -175,6 +176,36 @@ namespace Jedzia.BackBock.ViewModel.Data
             wnd.ShowDialog();
         }
 
+        private void PrepareTask(ITask task)
+        {
+            if (task is Backup)
+            {
+                var btask = (Backup)task;
+                for (int index = 0; index < this.Paths.Count; index++)
+                {
+                    var item = this.Paths[index];
+                }
+                int xasd = 0;
+                var result = this.Paths.Select((e) =>
+                {
+                    var cr = new CreateItem();
+                    cr.Include = e.Inclusions.Select((t) => { return new TaskItem(e.Path + "\\" + t.Pattern); }).ToArray();
+                    cr.Exclude = e.Exclusions.Select((t) => { return new TaskItem(e.Path + "\\" + t.Pattern); }).ToArray();
+
+                    cr.Execute();
+
+                    return cr;
+                }
+                );
+
+                //var res = result.ToArray();
+                var includes = result.SelectMany((e) => e.Include);
+                btask.SourceFiles = includes.ToArray();
+                btask.DestinationFolder = new TaskItem(@"C:\tmp\");
+                btask.BuildEngine = buildEngine;
+            }
+        }
+        private static readonly IBuildEngine buildEngine = new SimpleBuildEngine();
         #endregion
 
         #region RunTask Command
@@ -212,7 +243,11 @@ namespace Jedzia.BackBock.ViewModel.Data
             // do something.
             var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
             var task = taskService[this.Task.TypeName];
-            var success = task.Execute();
+            if (task != null)
+            {
+                PrepareTask(task);
+                var success = task.Execute();
+            }
         }
 
         private bool RunTaskEnabled(object sender)

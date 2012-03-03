@@ -115,6 +115,7 @@ namespace Jedzia.BackBock.Tasks
             this.ResetAll();
             //Register(new Backup());
             this.RegisterInternal("Backup", typeof(Backup));
+            this.RegisterInternal("Touch", typeof(Touch));
         }
 
         /// <summary>

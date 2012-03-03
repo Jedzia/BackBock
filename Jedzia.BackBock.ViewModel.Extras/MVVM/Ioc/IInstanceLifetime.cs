@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 {
-    public interface IInstanceLifetime
+    internal interface IInstanceLifetime
     {
         object CreateInstance(object initial);
     }
@@ -14,7 +14,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
     /// SingletonInstance.
     /// </summary>
     [Serializable]
-    public class SingletonInstance : IInstanceLifetime
+    internal class SingletonInstance : IInstanceLifetime
     {
         #region Properties
         /// <summary>
@@ -58,7 +58,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
     /// SingletonInstance.
     /// </summary>
     [Serializable]
-    public class NormalInstance : IInstanceLifetime
+    internal class NormalInstance : IInstanceLifetime
     {
         #region Properties
         /// <summary>

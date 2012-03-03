@@ -1,20 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BackupData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DatasetName="Daily">
   <BackupItem IsEnabled="true" ItemName="Firefox">
-    <Path Path="C:\Program Files\Mozilla\config.sql">
-      <Exclusion Pattern="*.nfo" />
+    <Path Path="C:\Temp\">
+      <Exclusion Pattern="*.nfo" Enabled="true" />
       <Exclusion Pattern="Bla.*" Enabled="true" />
-      <Inclusion Pattern="*.fff" />
-      <Inclusion Pattern="All.dir" Enabled="true" />
-      <Inclusion Pattern="MyDingens*.cs" />
-      <Inclusion />
-      <Inclusion />
-      <Inclusion />
-      <Inclusion />
-      <Inclusion />
-      <Inclusion />
+      <Exclusion Pattern="*.msi" Enabled="true" />
+      <Inclusion Pattern="**" Enabled="true" />
     </Path>
-    <Path Path="Moese, hehehe" />
+    <Path Path="D:\Temp" />
     <Task TypeName="Backup" />
   </BackupItem>
   <BackupItem ItemName="My Documents">
@@ -25,13 +18,13 @@
     <Path Path="C:\Users\root\info.txt">
       <Exclusion Pattern="AAA" />
     </Path>
-    <Task TypeName="Backup" />
+    <Task TypeName="Touch" />
   </BackupItem>
   <BackupItem IsEnabled="true" ItemName="From Dusk till D:\">
     <Path Path="D:\">
       <Exclusion Pattern="D:\Temp\**" />
       <Inclusion Pattern="*.txt" />
     </Path>
-    <Task TypeName="Backup" />
+    <Task TypeName="None" />
   </BackupItem>
 </BackupData>

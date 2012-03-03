@@ -19,6 +19,8 @@ namespace Jedzia.BackBock.Tasks
         /// </summary>
         string Name { get; }
 
+        IBuildEngine BuildEngine { get; set; }
+
         #endregion
 
         /// <summary>

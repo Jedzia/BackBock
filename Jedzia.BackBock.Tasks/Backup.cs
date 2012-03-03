@@ -13,10 +13,33 @@ namespace Jedzia.BackBock.Tasks
     using System.IO;
     using Jedzia.BackBock.Tasks.Shared;
 
+        /// <summary>
+    /// A simple backup task.
+    /// </summary>
+    [DisplayName("Touch Task")]
+    public class Touch : TaskExtension
+    {
+        /// <summary>
+        /// Gets the name of the Task.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return "Touch";
+            }
+        }
+
+        public override bool Execute()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     /// <summary>
     /// A simple backup task.
     /// </summary>
-    [DisplayName("BackupTask")]
+    [DisplayName("Backup Task")]
     public class Backup : TaskExtension
     {
         // Fields
@@ -95,6 +118,7 @@ namespace Jedzia.BackBock.Tasks
         /// Gets the items that were successfully copied.
         /// </summary>
         [Output]
+        [Browsable(false)]
         public ITaskItem[] CopiedFiles
         {
             get
@@ -147,6 +171,7 @@ namespace Jedzia.BackBock.Tasks
         /// <summary>
         /// Gets the name of the Task.
         /// </summary>
+        [Browsable(false)]
         public override string Name
         {
             get
@@ -161,6 +186,7 @@ namespace Jedzia.BackBock.Tasks
         /// <value>
         /// <c>true</c> if the <see cref="Backup"/> task should overwrite files even if they are marked as read only files; otherwise, <c>false</c>.
         /// </value>
+        [Browsable(false)]
         public bool OverwriteReadOnlyFiles
         {
             get
@@ -300,7 +326,8 @@ namespace Jedzia.BackBock.Tasks
             {
                 Log.LogMessageFromResources(
                     MessageImportance.Normal, "Copy.CreatesDirectory", new object[] { directoryName });
-                Directory.CreateDirectory(directoryName);
+                // Todo: commented out for testing.
+                // Directory.CreateDirectory(directoryName);
             }
             if (this.overwriteReadOnlyFiles)
             {
@@ -310,7 +337,8 @@ namespace Jedzia.BackBock.Tasks
                 MessageImportance.Normal, "Copy.FileComment", new object[] { sourceFile, destinationFile });
             Log.LogMessageFromResources(MessageImportance.Low, "Shared.ExecCommand", new object[0]);
             Log.LogCommandLine(MessageImportance.Low, "copy /y \"" + sourceFile + "\" \"" + destinationFile + "\"");
-            File.Copy(sourceFile, destinationFile, true);
+            // Todo: commented out for testing.
+            // File.Copy(sourceFile, destinationFile, true);
             this.MakeFileWriteable(destinationFile, false);
             return true;
         }
@@ -404,7 +432,8 @@ namespace Jedzia.BackBock.Tasks
                     Log.LogMessageFromResources(
                         MessageImportance.Low, "Copy.RemovingReadOnlyAttribute", new object[] { file });
                 }
-                File.SetAttributes(file, FileAttributes.Normal);
+                // Todo: commented out for testing.
+                // File.SetAttributes(file, FileAttributes.Normal);
             }
         }
 

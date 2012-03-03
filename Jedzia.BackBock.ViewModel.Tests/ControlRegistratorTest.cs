@@ -64,6 +64,36 @@ namespace Jedzia.BackBock.ViewModel.Tests
             {
                 this.Parameter = parameter;
             }
+            #region Methods
+            /// <summary>
+            /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+            /// </summary>
+            /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.</param>
+            /// <returns>
+            /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+            /// </returns>
+            /// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
+            public override bool Equals(object obj)
+            {
+                MyParameterClass other = obj as MyParameterClass;
+                if (other != null)
+                    return Equals(other);
+                return false;
+            }
+            /// <summary>
+            /// Indicates whether the current object is equal to another object of the same type.
+            /// </summary>
+            /// <param name="other">An object to compare with this object.</param>
+            /// <returns>
+            /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+            /// </returns>
+            public bool Equals(MyParameterClass other)
+            {
+                if (ReferenceEquals(null, other)) return false;
+                if (ReferenceEquals(this, other)) return true;
+                return Parameter == other.Parameter;
+            }
+            #endregion
         }
 
         Enum kind;
@@ -140,13 +170,14 @@ namespace Jedzia.BackBock.ViewModel.Tests
         /// <summary>
         ///A test for GetInstanceOfType
         ///</summary>
-        public void GetInstanceOfTypeTestHelper<T>(Enum keyToTest)
+        public T GetInstanceOfTypeTestHelper<T>(Enum keyToTest)
             where T : class
         {
             Enum key = keyToTest; 
             T actual;
             actual = ControlRegistrator.GetInstanceOfType<T>(key);
             Assert.IsInstanceOfType(typeof(T), actual);
+            return actual;
         }
 
         [Test]
@@ -155,5 +186,42 @@ namespace Jedzia.BackBock.ViewModel.Tests
             GetInstanceOfTypeTestHelper<MyClass>(kind);
             Assert.Throws<KeyNotFoundException>(() => ControlRegistrator.GetInstanceOfType<MyClass>(MyEnum.ValueTwo));
         }
+
+        [Test]
+        public void GetMultipleInstancesTest()
+        {
+            var first = GetInstanceOfTypeTestHelper<MyClass>(kind);
+            var second = GetInstanceOfTypeTestHelper<MyClass>(kind);
+            Assert.AreNotEqual(first, second);
+            Assert.AreNotSame(first, second);
+
+            ControlRegistrator.Reset();
+            kind = MyEnum.ValueOne;
+            type = typeof(MyClass);
+            ControlRegistrator.RegisterControl(kind, type, new SingletonInstance());
+
+            first = GetInstanceOfTypeTestHelper<MyClass>(kind);
+            second = GetInstanceOfTypeTestHelper<MyClass>(kind);
+            Assert.AreEqual(first, second);
+            Assert.AreSame(first, second);
+        }
+
+        [Test]
+        public void GetMultipleInstancesTest1()
+        {
+            var kind2 = MyEnum.ValueTwo;
+            var type2 = typeof(MyParameterClass);
+            var parameter = "A String Parameter";
+
+            ControlRegistrator.RegisterControl(kind2, type2);
+
+            var first = GetInstanceOfTypeTest1Helper<MyParameterClass>(kind2, new[] { parameter });
+            var second =GetInstanceOfTypeTest1Helper<MyParameterClass>(kind2, new[] { parameter });
+            Assert.AreEqual(first, second);
+            Assert.AreNotSame(first, second);
+        }
+
     }
+
+
 }
