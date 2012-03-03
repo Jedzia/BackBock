@@ -21,6 +21,8 @@ namespace Jedzia.BackBock.ViewModel.Data
     using Jedzia.BackBock.ViewModel.Commands;
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using Jedzia.BackBock.ViewModel.MVVM.Messaging;
+    using Jedzia.BackBock.Tasks.Utilities;
+    using Jedzia.BackBock.ViewModel.Util;
 
     public partial class BackupItemViewModel
     {
@@ -28,7 +30,8 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         public enum WindowTypes
         {
-            [CheckType(typeof(Window))] TaskEditor,
+            [CheckType(typeof(Window))]
+            TaskEditor,
             ClassFieldOptPage,
             ClassMethodOptPage,
             ClassPropertyOptPage,
@@ -49,6 +52,11 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
 
         #endregion
+
+        /*private void LogMessageEvent(BuildMessageEventArgs e)
+        {
+            MessengerInstance.Send(e);
+        }*/
 
         #region Properties
 
@@ -175,9 +183,11 @@ namespace Jedzia.BackBock.ViewModel.Data
             wnd.DataContext = task;
             wnd.ShowDialog();
         }
+        const string fullrecursivePattern = "**";
 
         private void PrepareTask(ITask task)
         {
+            // Todo: put this task generation extra.
             if (task is Backup)
             {
                 var btask = (Backup)task;
@@ -189,7 +199,27 @@ namespace Jedzia.BackBock.ViewModel.Data
                 var result = this.Paths.Select((e) =>
                 {
                     var cr = new CreateItem();
-                    cr.Include = e.Inclusions.Select((t) => { return new TaskItem(e.Path + "\\" + t.Pattern); }).ToArray();
+                    if (e.Inclusions.Count > 0)
+                    {
+                        cr.Include = e.Inclusions.Select((t) => { return new TaskItem(e.Path + "\\" + t.Pattern); }).ToArray();
+                    }
+                    else
+                    {
+                        ITaskItem taskItem;
+                        var finfo = new FileInfo(e.Path);
+                        if (Directory.Exists(e.Path))
+                        {
+                            // a directory
+                            taskItem = new TaskItem(e.Path + "\\" + fullrecursivePattern);
+                        }
+                        else
+                        {
+                            // a file
+                            taskItem = new TaskItem(e.Path);
+                        }
+                        cr.Include = new[] { taskItem };
+                    }
+
                     cr.Exclude = e.Exclusions.Select((t) => { return new TaskItem(e.Path + "\\" + t.Pattern); }).ToArray();
 
                     cr.Execute();
@@ -202,10 +232,25 @@ namespace Jedzia.BackBock.ViewModel.Data
                 var includes = result.SelectMany((e) => e.Include);
                 btask.SourceFiles = includes.ToArray();
                 btask.DestinationFolder = new TaskItem(@"C:\tmp\");
-                btask.BuildEngine = buildEngine;
+                btask.BuildEngine = this.BuildEngine;
             }
         }
-        private static readonly IBuildEngine buildEngine = new SimpleBuildEngine();
+        private IBuildEngine buildEngine;
+
+        public IBuildEngine BuildEngine
+        {
+            get
+            {
+                if (this.buildEngine == null)
+                {
+                    //this.buildEngine = new SimpleBuildEngine(LogMessageEvent);
+                    var vmb = new ViewModelBuildEngine(this.MessengerInstance);
+                    //vmb.Enabled = true;
+                    this.buildEngine = vmb;
+                }
+                return buildEngine;
+            }
+        }
         #endregion
 
         #region RunTask Command
@@ -246,7 +291,15 @@ namespace Jedzia.BackBock.ViewModel.Data
             if (task != null)
             {
                 PrepareTask(task);
+                string add = string.Empty;
                 var success = task.Execute();
+                if (task is Backup)
+                {
+                    var tbackup = (Backup)task;
+                    add += " Copied:" + tbackup.CopiedFiles.Count();
+                }
+                
+                MessengerInstance.Send("Finished Task: " + success + add);
             }
         }
 
@@ -261,9 +314,10 @@ namespace Jedzia.BackBock.ViewModel.Data
             var taskTypeName = this.Task.TypeName;
             var msg = "Running " + taskTypeName + "-Task: '" + this.ItemName + "'";
             //this.MessengerInstance.Send(msg);
-            MessengerInstance.Send(
-                new DialogMessage(this, msg, null) { Caption = "Executing Task" }
-                );
+            //MessengerInstance.Send(
+            //    new DialogMessage(this, msg, null) { Caption = "Executing Task" }
+             //   );
+            MessengerInstance.Send("Executing Task" + msg);
             //ApplicationViewModel..DialogService.ShowMessage(msg, "Executing Task", "Ok", null);
             this.RunTask();
         }
@@ -286,7 +340,7 @@ namespace Jedzia.BackBock.ViewModel.Data
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach(PathViewModel item in e.NewItems)
+                    foreach (PathViewModel item in e.NewItems)
                     {
                         this.data.Path.Add(item.data);
                     }
@@ -294,7 +348,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 case NotifyCollectionChangedAction.Move:
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach(PathViewModel item in e.OldItems)
+                    foreach (PathViewModel item in e.OldItems)
                     {
                         this.data.Path.Remove(item.data);
                     }
@@ -371,4 +425,94 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
         #endregion*/
     }
+
+    /*public class SimpleBuildEngine : IBuildEngine
+    {
+        Action<BuildMessageEventArgs> messageCallback;
+        Action<BuildErrorEventArgs> errorCallback;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimpleBuildEngine"/> class.
+        /// </summary>
+        public SimpleBuildEngine(Action<BuildMessageEventArgs> messageCallback)
+        {
+            Guard.NotNull(() => messageCallback, messageCallback);
+            this.messageCallback = messageCallback;
+        }
+        #region IBuildEngine Members
+
+        public void LogMessageEvent(BuildMessageEventArgs e)
+        {
+
+            messageCallback(e);
+            //System.Console.WriteLine(
+            //    e.Timestamp + ":[" + e.ThreadId + "." + e.SenderName + "]" + e.Message + e.HelpKeyword);
+        }
+
+        #endregion
+
+        #region IBuildEngine Members
+
+
+        public void LogErrorEvent(BuildErrorEventArgs e)
+        {
+            errorCallback(e);
+        }
+
+        public bool ContinueOnError
+        {
+            get { return false; }
+        }
+
+        #endregion
+    }*/
+
+    public class ViewModelBuildEngine : IBuildEngine
+    {
+        IMessenger messengerInstance;
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public bool Enabled
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimpleBuildEngine"/> class.
+        /// </summary>
+        public ViewModelBuildEngine(IMessenger messengerInstance)
+        {
+            Guard.NotNull(() => messengerInstance, messengerInstance);
+            this.messengerInstance = messengerInstance;
+            //this.Enabled = true;
+        }
+
+        #region IBuildEngine Members
+
+        public void LogMessageEvent(BuildMessageEventArgs e)
+        {
+            if (this.Enabled)
+                messengerInstance.Send(e);
+        }
+
+        #endregion
+
+        #region IBuildEngine Members
+
+
+        public void LogErrorEvent(BuildErrorEventArgs e)
+        {
+            if (this.Enabled)
+                messengerInstance.Send(e);
+        }
+
+        public bool ContinueOnError
+        {
+            get { return false; }
+        }
+
+        #endregion
+    }
+
 }

@@ -1,6 +1,8 @@
 ﻿namespace Jedzia.BackBock.Tasks.Utilities
 {
     using System.Resources;
+    using Jedzia.BackBock.Tasks.Shared;
+    using System.Globalization;
 
     /// <summary>
     /// Enables logging of various messages. Also, enables loading and formatting of resources.
@@ -46,17 +48,16 @@
         /// </remarks>
         public override string FormatResourceString(string resourceName, params object[] args)
         {
-            //ErrorUtilities.VerifyThrowArgumentNull(resourceName, "resourceName");
-            //ErrorUtilities.VerifyThrowInvalidOperation(base.TaskResources != null, "Shared.TaskResourcesNotRegistered", base.TaskName);
-            //ErrorUtilities.VerifyThrowInvalidOperation(this.TaskSharedResources != null, "Shared.TaskResourcesNotRegistered", base.TaskName);
-            //string unformatted = base.TaskResources.GetString(resourceName, CultureInfo.CurrentUICulture);
-            //if (unformatted == null)
-            //{
-            //    unformatted = this.TaskSharedResources.GetString(resourceName, CultureInfo.CurrentUICulture);
-            // }
-            //ErrorUtilities.VerifyThrowArgument(unformatted != null, "Shared.TaskResourceNotFound", resourceName, base.TaskName);
-            //return this.FormatString(unformatted, args);
-            return resourceName;
+            ErrorUtilities.VerifyThrowArgumentNull(resourceName, "resourceName");
+            ErrorUtilities.VerifyThrowInvalidOperation(base.TaskResources != null, "Shared.TaskResourcesNotRegistered", base.TaskName);
+            ErrorUtilities.VerifyThrowInvalidOperation(this.TaskSharedResources != null, "Shared.TaskResourcesNotRegistered", base.TaskName);
+            string unformatted = base.TaskResources.GetString(resourceName, CultureInfo.CurrentUICulture);
+            if (unformatted == null)
+            {
+                unformatted = this.TaskSharedResources.GetString(resourceName, CultureInfo.CurrentUICulture);
+            }
+            ErrorUtilities.VerifyThrowArgument(unformatted != null, "Shared.TaskResourceNotFound", resourceName, base.TaskName);
+            return this.FormatString(unformatted, args);
         }
 
         // Properties

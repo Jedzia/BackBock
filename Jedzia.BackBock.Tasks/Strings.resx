@@ -1,0 +1,1056 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ResolveComReference.TypeLibAttrId" xml:space="preserve">
+    <value>{0} {1}.{2}</value>
+  </data>
+  <data name="GenerateResource.UnexpectedInfBracket" xml:space="preserve">
+    <value>MSB3563: Unsupported square bracket keyword, "{0}".</value>
+  </data>
+  <data name="VCBuild.NotFoundAt" xml:space="preserve">
+    <value>Locating vcbuild.exe: not found at "{0}".</value>
+  </data>
+  <data name="General.MalformedAssemblyName" xml:space="preserve">
+    <value>MSB3106: Assembly strong name "{0}" is badly formed. It may contain characters that need to be escaped with backslash(\). Those characters are Equals(=), Comma(,), Quote("), Apostrophe('), Backslash(\).</value>
+  </data>
+  <data name="ResolveAssemblyReference.ConflictUnsolvable" xml:space="preserve">
+    <value>MSB3243: No way to resolve conflict between "{0}" and "{1}". Choosing "{0}" arbitrarily.</value>
+  </data>
+  <data name="RegisterAssembly.RegisteringTypeLib" xml:space="preserve">
+    <value>Exporting and registering type library "{0}".</value>
+  </data>
+  <data name="GenerateManifest.AssemblyAsFile" xml:space="preserve">
+    <value>MSB3178: Assembly '{0}' is incorrectly specified as a file.</value>
+  </data>
+  <data name="AspNetCompiler.MissingTargetPathForOverwrittenApplication" xml:space="preserve">
+    <value>MSB3464: The TargetPath parameter must be specified if the target directory needs to be overwritten.</value>
+  </data>
+  <data name="ResolveVCProjectOutput.ProjectReferenceResolutionSuccess" xml:space="preserve">
+    <value>VC project reference "{0}" resolved as "{1}".</value>
+  </data>
+  <data name="GenerateBootstrapper.PackageFileNotFound" xml:space="preserve">
+    <value>MSB3152: The install location for prerequisites has not been set to 'component vendor's web site' and the file '{0}' in item '{1}' can not be located on disk. See Help for more information.</value>
+  </data>
+  <data name="ResolveAssemblyReference.InvalidParameter" xml:space="preserve">
+    <value>MSB3248: Parameter "{0}" has invalid value "{1}". {2}</value>
+  </data>
+  <data name="ResolveAssemblyReference.UnifiedPrimaryReference" xml:space="preserve">
+    <value>Unified primary reference "{0}".</value>
+  </data>
+  <data name="VCBuild.FoundAt" xml:space="preserve">
+    <value>Locating vcbuild.exe: found at "{0}".</value>
+  </data>
+  <data name="ResolveAssemblyReference.FoundScatterFile" xml:space="preserve">
+    <value>Found embedded scatter file "{0}".</value>
+  </data>
+  <data name="ResolveComReference.NoComReferencesSpecified" xml:space="preserve">
+    <value>MSB3297: No COM references have been passed into the task, exiting.</value>
+  </data>
+  <data name="GenerateManifest.PlatformMismatch" xml:space="preserve">
+    <value>MSB3187: Referenced assembly '{0}' targets a different processor than the application.</value>
+  </data>
+  <data name="UnregisterAssembly.UnregisteringTypeLib" xml:space="preserve">
+    <value>Unregistering type library "{0}".</value>
+  </data>
+  <data name="UnregisterAssembly.UnauthorizedAccess" xml:space="preserve">
+    <value>MSB3392: Cannot unregister assembly "{0}" - access denied. {1}</value>
+  </data>
+  <data name="ResolveVCProjectOutput.ProjectReferenceResolutionStarting" xml:space="preserve">
+    <value>Resolving VC project reference "{0}".</value>
+  </data>
+  <data name="Message.InvalidImportance" xml:space="preserve">
+    <value>MSB3511: "{0}" is an invalid value for the "Importance" parameter. Valid values are: High, Normal and Low.</value>
+  </data>
+  <data name="Touch.TimeSyntaxIncorrect" xml:space="preserve">
+    <value>MSB3376: The syntax of the Time parameter is incorrect. {0}</value>
+  </data>
+  <data name="GenerateManifest.ResolveFailedInReadOnlyMode" xml:space="preserve">
+    <value>MSB3114: Could not find file '{0}' referenced by assembly '{1}'.</value>
+  </data>
+  <data name="ResolveAssemblyReference.IgnoringBecauseNonEmptySubtype" xml:space="preserve">
+    <value>Ignoring "{0}" because it has a non-empty subtype "{1}".</value>
+  </data>
+  <data name="General.ExpectedFileGotDirectory" xml:space="preserve">
+    <value>Expected a file but got directory "{0}".</value>
+  </data>
+  <data name="ResolveComReference.CannotGetPathForTypeLib" xml:space="preserve">
+    <value>MSB3284: Cannot get the file path for type library "{0}" version {1}.{2}. {3}</value>
+  </data>
+  <data name="GenerateManifest.ResolveFailedInReadWriteMode" xml:space="preserve">
+    <value>MSB3113: Could not find file '{0}'.</value>
+  </data>
+  <data name="ResolveComReference.Resolving" xml:space="preserve">
+    <value>Resolving COM reference for item "{0}" with a wrapper "{1}".</value>
+  </data>
+  <data name="SignFile.CertificateError" xml:space="preserve">
+    <value>MSB3486: Cannot get certificate from store '{0}'.</value>
+  </data>
+  <data name="GenerateResource.ReferencedAssemblyNotFound" xml:space="preserve">
+    <value>MSB3551: Unable to load referenced assembly "{0}". {1}</value>
+  </data>
+  <data name="General.ExpectedFileMissing" xml:space="preserve">
+    <value>Expected file "{0}" does not exist.</value>
+  </data>
+  <data name="Touch.FileDoesNotExist" xml:space="preserve">
+    <value>MSB3375: The file "{0}" does not exist.</value>
+  </data>
+  <data name="GenerateBootstrapper.InvalidComponentsLocation" xml:space="preserve">
+    <value>MSB3163: Build input parameter 'ComponentsLocation={0}' is not valid. The value must be one of 'HomeSite', 'Relative', or 'Absolute'. Defaulting to 'HomeSite'.</value>
+  </data>
+  <data name="GenerateBootstrapper.UsingResourcesCulture" xml:space="preserve">
+    <value>MSB3158: Could not find resources for culture '{0}'. Using culture '{1}' instead.</value>
+  </data>
+  <data name="Touch.Touching" xml:space="preserve">
+    <value>Touching "{0}".</value>
+  </data>
+  <data name="AppConfig.BindingRedirectMissingOldVersion" xml:space="preserve">
+    <value>BindingRedirect is missing required field 'oldVersion'.</value>
+  </data>
+  <data name="GenerateManifest.PrerequisiteNotSigned" xml:space="preserve">
+    <value>MSB3188: Assembly '{0}' must be strong signed in order to be marked as a prerequisite.</value>
+  </data>
+  <data name="GenerateResource.ProcessingFile" xml:space="preserve">
+    <value>Processing resource file "{0}" into "{1}".</value>
+  </data>
+  <data name="GenerateManifest.GreaterMinimumRequiredVersion" xml:space="preserve">
+    <value>MSB3176: Specified minimum required version is greater than the current publish version. Please specify a version less than or equal to the current publish version.</value>
+  </data>
+  <data name="GenerateBootstrapper.CopyPackageError" xml:space="preserve">
+    <value>MSB3143: An error occurred trying to copy '{0}' for item '{1}': {2}</value>
+  </data>
+  <data name="ResolveAssemblyReference.ConflictRedirectSuggestion" xml:space="preserve">
+    <value>Consider app.config remapping of assembly "{0}" from Version "{1}" [{2}] to Version "{3}" [{4}] to solve conflict and get rid of warning.</value>
+  </data>
+  <data name="Touch.CannotTouch" xml:space="preserve">
+    <value>MSB3374: The last access/last write time on file "{0}" cannot be set. {1}</value>
+  </data>
+  <data name="ResolveComReference.FailedToRemapAdoTypeLib" xml:space="preserve">
+    <value>MSB3292: Failed to remap ADO reference version {0}.{1} to version 2.7 - "{2}".</value>
+  </data>
+  <data name="ResolveKeySource.KeyImportError" xml:space="preserve">
+    <value>MSB3321: Importing key file "{0}" was canceled.</value>
+  </data>
+  <data name="GenerateManifest.ReadInputManifestFailed" xml:space="preserve">
+    <value>MSB3172: Unable to read manifest '{0}'. {1}</value>
+  </data>
+  <data name="SignFile.SignToolWarning" xml:space="preserve">
+    <value>MSB3483: SignTool reported a warning '{0}'.</value>
+  </data>
+  <data name="GenerateResource.CannotWriteSTRFile" xml:space="preserve">
+    <value>MSB3570: Cannot write to the Strongly Typed Resource class file "{0}". {1}</value>
+  </data>
+  <data name="GenerateResource.MessageTunnel" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="ResolveComReference.CannotLoadTypeLibItemSpec" xml:space="preserve">
+    <value>MSB3287: Cannot load type library for reference "{0}". {1}</value>
+  </data>
+  <data name="GenerateBootstrapper.UsingProductCulture" xml:space="preserve">
+    <value>MSB3157: Could not match culture '{0}' for item '{1}'. Using culture '{2}' instead.</value>
+  </data>
+  <data name="GenerateResource.SeparateAppDomainBecauseOfType" xml:space="preserve">
+    <value>Creating a separate AppDomain because of resource "{0}" of type "{1}" in "{2}" on line {3}.</value>
+  </data>
+  <data name="WriteLinesToFile.ErrorOrWarning" xml:space="preserve">
+    <value>MSB3491: Could not write lines to file "{0}". {1}</value>
+  </data>
+  <data name="SignFile.TargetFileNotFound" xml:space="preserve">
+    <value>MSB3484: Signing target '{0}' could not be found.</value>
+  </data>
+  <data name="GenerateManifest.AllowPartiallyTrustedCallers" xml:space="preserve">
+    <value>MSB3177: Reference '{0}' does not allow partially trusted callers.</value>
+  </data>
+  <data name="GenerateResource.ObsoleteStringsTag" xml:space="preserve">
+    <value>MSB3562: The "[strings]" tag is no longer necessary in text resources; please remove it.</value>
+  </data>
+  <data name="GenerateBootstrapper.CopyError" xml:space="preserve">
+    <value>MSB3142: An error occurred trying to copy '{0}' to '{1}': {2}</value>
+  </data>
+  <data name="ResolveAssemblyReference.LogTaskPropertyFormat" xml:space="preserve">
+    <value>{0}:</value>
+  </data>
+  <data name="GenerateResource.ErrorFromCodeDom" xml:space="preserve">
+    <value>MSB3557: Error(s) generating strongly typed resources for file "{0}".</value>
+  </data>
+  <data name="Touch.CannotRestoreAttributes" xml:space="preserve">
+    <value>MSB3373: The attributes on file "{0}" cannot be restored to their original value. {1}</value>
+  </data>
+  <data name="Exec.AllDriveLettersMappedError" xml:space="preserve">
+    <value>MSB3071: All drive letters from A: through Z: are currently in use. Since the working directory "{0}" is a UNC path, the "Exec" task needs a free drive letter to map the UNC path to. Disconnect from one or more shared resources to free up drive letters, or specify a local working directory before attempting this command again.</value>
+  </data>
+  <data name="ResolveNonMSBuildProjectOutput.ProjectReferenceResolutionSuccess" xml:space="preserve">
+    <value>Project reference "{0}" resolved as "{1}".</value>
+  </data>
+  <data name="ResolveAssemblyReference.Dependency" xml:space="preserve">
+    <value>Dependency "{0}".</value>
+  </data>
+  <data name="ResolveAssemblyReference.ConflictFound" xml:space="preserve">
+    <value>There was a conflict between "{0}" and "{1}".</value>
+  </data>
+  <data name="Csc.InvalidParameter" xml:space="preserve">
+    <value>MSB3051: The parameter to the compiler is invalid.  {0}</value>
+  </data>
+  <data name="GetFrameworkSdkPath.FoundSDK" xml:space="preserve">
+    <value>Found the .NET Framework SDK installed at "{0}".</value>
+  </data>
+  <data name="GenerateResource.UnknownFileExtension" xml:space="preserve">
+    <value>MSB3558: Unsupported file extension "{0}" on file "{1}".</value>
+  </data>
+  <data name="ResolveAssemblyReference.ResolvedFrom" xml:space="preserve">
+    <value>Reference found at search path location "{0}".</value>
+  </data>
+  <data name="ResolveVCProjectOutput.ProjectReferenceResolutionFailure" xml:space="preserve">
+    <value>MSB3425: Could not resolve VC project reference "{0}".</value>
+  </data>
+  <data name="GenerateBootstrapper.ProductCultureNotFound" xml:space="preserve">
+    <value>MSB3154: Could not find string resources for item '{0}'.</value>
+  </data>
+  <data name="GenerateManifest.InvalidInputManifest" xml:space="preserve">
+    <value>MSB3184: Input manifest is invalid.</value>
+  </data>
+  <data name="FindUnderPath.InvalidParameter" xml:space="preserve">
+    <value>MSB3541: {0} has invalid value "{1}". {2}</value>
+  </data>
+  <data name="Csc.AssemblyAliasContainsIllegalCharacters" xml:space="preserve">
+    <value>MSB3053: The assembly alias "{1}" on reference "{0}" contains illegal characters.</value>
+  </data>
+  <data name="AssignProjectConfiguration.ProjectConfigurationUnresolved" xml:space="preserve">
+    <value>Project reference "{0}" has not been resolved.</value>
+  </data>
+  <data name="GenerateBootstrapper.PackageResourceFileNotFound" xml:space="preserve">
+    <value>MSB3166: Could not find required file '{0}' for item '{1}'.</value>
+  </data>
+  <data name="RegisterAssembly.TypeLibUpToDate" xml:space="preserve">
+    <value>Type library "{0}" is up to date, skipping regeneration.</value>
+  </data>
+  <data name="MSBuild.SkippingRemainingProjects" xml:space="preserve">
+    <value>The MSBuild task is skipping the remaining targets and projects because the StopOnFirstFailure parameter was set to true.</value>
+  </data>
+  <data name="ResolveComReference.ResolvedReference" xml:space="preserve">
+    <value>Resolved COM reference for item "{0}": "{1}".</value>
+  </data>
+  <data name="GenerateBootstrapper.InvalidInput" xml:space="preserve">
+    <value>MSB3144: Not enough data was provided to generate a bootstrapper. Please provide a value for at least one of the parameters: 'ApplicationFile' or 'BootstrapperItems'.</value>
+  </data>
+  <data name="AspNetCompiler.CannotCombineMetabaseAndVirtualPathOrPhysicalPath" xml:space="preserve">
+    <value>MSB3461: The MetabasePath parameter cannot be combined with VirtualPath or PhysicalPath.</value>
+  </data>
+  <data name="General.TwoVectorsMustHaveSameLength" xml:space="preserve">
+    <value>MSB3094: "{2}" refers to {0} item(s), and "{3}" refers to {1} item(s). They must have the same number of items.</value>
+  </data>
+  <data name="General.IncorrectHostObject" xml:space="preserve">
+    <value>MSB3087: An incompatible host object was passed into the "{0}" task.  The host object for this task must implement the "{1}" interface.</value>
+  </data>
+  <data name="Exec.MissingCommandError" xml:space="preserve">
+    <value>MSB3072: The "Exec" task needs a command to execute.</value>
+  </data>
+  <data name="Exec.CommandFailed" xml:space="preserve">
+    <value>MSB3073: The command "{0}" exited with code {1}.</value>
+  </data>
+  <data name="CreateManifestResourceName.Error" xml:space="preserve">
+    <value>MSB3041: Unable to create a manifest resource name for "{0}". {1}</value>
+  </data>
+  <data name="AssignProjectConfiguration.ProjectConfigurationResolutionSuccess" xml:space="preserve">
+    <value>Project reference "{0}" has been assigned the "{1}" configuration.</value>
+  </data>
+  <data name="GenerateManifest.ConfigBindingRedirectsWithPartialTrust" xml:space="preserve">
+    <value>MSB3111: Use of app.config binding redirects requires full trust.</value>
+  </data>
+  <data name="ResolveAssemblyReference.ConflictHigherVersionChosen" xml:space="preserve">
+    <value>"{0}" was chosen because it had a higher version.</value>
+  </data>
+  <data name="GenerateResource.STRClassNamespaceOrFilenameWithoutLanguage" xml:space="preserve">
+    <value>MSB3572: StronglyTypedClassName, StronglyTypedNamespace, and/or StronglyTypedFileName parameters were passed in, but no StronglyTypedLanguage. If you want to create a strongly typed resource class, please specify a language. Otherwise remove all class, file name, and namespace parameters.</value>
+  </data>
+  <data name="GenerateBootstrapper.InvalidUrl" xml:space="preserve">
+    <value>MSB3145: Build input parameter '{0}={1}' is not a web url or UNC share.</value>
+  </data>
+  <data name="GetFrameworkSdkPath.CouldNotFindSDK" xml:space="preserve">
+    <value>Could not locate the .NET Framework SDK.  The task is looking for the path to the .NET Framework SDK at the location specified in the {0} value of the registry key {1}.  You may be able to solve the problem by doing one of the following:  1.) Install the .NET Framework SDK.  2.) Manually set the above registry key to the correct location.</value>
+  </data>
+  <data name="ResolveAssemblyReference.PrimaryReference" xml:space="preserve">
+    <value>Primary reference "{0}".</value>
+  </data>
+  <data name="General.InvalidArgument" xml:space="preserve">
+    <value>MSB3095: Invalid argument. {0}</value>
+  </data>
+  <data name="Touch.CannotCreateFile" xml:space="preserve">
+    <value>MSB3371: The file "{0}" cannot be created. {1}</value>
+  </data>
+  <data name="ResolveAssemblyReference.NotCopyLocalBecauseConflictVictim" xml:space="preserve">
+    <value>This reference is not "CopyLocal" because it conflicted with another reference with the same name and lost the conflict.</value>
+  </data>
+  <data name="GenerateManifest.InvalidItemValue" xml:space="preserve">
+    <value>MSB3175: Invalid value for '{0}' of item '{1}'.</value>
+  </data>
+  <data name="GenerateResource.SeparateAppDomainBecauseOfExceptionLineNumber" xml:space="preserve">
+    <value>Creating a separate AppDomain because of error parsing "{0}" on line {1}. {2}</value>
+  </data>
+  <data name="CreateManifestResourceName.DependsUpon" xml:space="preserve">
+    <value>Resource file '{0}' depends on '{1}'.</value>
+  </data>
+  <data name="General.InvalidAssemblyName" xml:space="preserve">
+    <value>MSB3099: Invalid assembly name "{0}". {1}</value>
+  </data>
+  <data name="RegisterAssembly.NoValidTypes" xml:space="preserve">
+    <value>MSB3214: "{0}" does not contain any types that can be registered for COM Interop.</value>
+  </data>
+  <data name="ResolveKeySource.CertificateNotInStore" xml:space="preserve">
+    <value>MSB3323: Unable to find manifest signing certificate in the certificate store.</value>
+  </data>
+  <data name="GenerateManifest.ComImport" xml:space="preserve">
+    <value>MSB3179: Problem isolating COM reference '{0}': {1}</value>
+  </data>
+  <data name="GenerateResource.CouldNotLoadType" xml:space="preserve">
+    <value>Could not load type {0} which is used in the .RESX file.  Ensure that the necessary references have been added to your project.</value>
+  </data>
+  <data name="GenerateManifest.InvalidDeploymentProvider" xml:space="preserve">
+    <value>MSB3189: The update location for this application is a local path.</value>
+  </data>
+  <data name="ResolveAssemblyReference.UnificationByAutoUnify" xml:space="preserve">
+    <value>Using this version instead of original version "{0}" because AutoUnify is 'true'.</value>
+  </data>
+  <data name="SGen.ResourceNotFound" xml:space="preserve">
+    <value>MSB3471: Non-existent reference "{0}" passed to the SGen task.</value>
+  </data>
+  <data name="General.InvalidAttributeMetadata" xml:space="preserve">
+    <value>Item "{0}" has attribute "{1}" with value "{2}" that could not be converted to "{3}".</value>
+  </data>
+  <data name="General.ErrorExecutingTask" xml:space="preserve">
+    <value>MSB3108: Error executing the {0} task. {1}</value>
+  </data>
+  <data name="Copy.CreatesDirectory" xml:space="preserve">
+    <value>Creating directory "{0}".</value>
+  </data>
+  <data name="ResolveComReference.CannotSpecifyBothKeyFileAndKeyContainer" xml:space="preserve">
+    <value>MSB3300: Cannot specify values for both KeyFile and KeyContainer.</value>
+  </data>
+  <data name="MakeDir.Comment" xml:space="preserve">
+    <value>Creating directory "{0}".</value>
+  </data>
+  <data name="MakeDir.Error" xml:space="preserve">
+    <value>MSB3191: Unable to create directory "{0}". {1}</value>
+  </data>
+  <data name="UnregisterAssembly.UnregisterTlbCantLoadFile" xml:space="preserve">
+    <value>MSB3397: Cannot unregister type library "{0}" - cannot load file, check to make sure it's a valid type library.</value>
+  </data>
+  <data name="GenerateResource.ResourceNotFound" xml:space="preserve">
+    <value>MSB3552: Resource file "{0}" cannot be found.</value>
+  </data>
+  <data name="GenerateResource.NoEqualsInLine" xml:space="preserve">
+    <value>MSB3564: Resource line without an equals sign, "{0}".</value>
+  </data>
+  <data name="GenerateBootstrapper.IncludedProductIncluded" xml:space="preserve">
+    <value>MSB3151: Item '{0}' already includes '{1}'.</value>
+  </data>
+  <data name="GenerateManifest.General" xml:space="preserve">
+    <value>MSB3171: Problem generating manifest. {0}</value>
+  </data>
+  <data name="GenerateResource.SeparateAppDomainBecauseNeverLockTypeAssembliesTrue" xml:space="preserve">
+    <value>Creating a separate AppDomain because "NeverLockTypeAssemblies" evaluated to 'true'.</value>
+  </data>
+  <data name="GenerateResource.CannotLoadStateFile" xml:space="preserve">
+    <value>MSB3561: Cannot load StateFile "{0}". {1}</value>
+  </data>
+  <data name="RemoveDir.Removing" xml:space="preserve">
+    <value>Removing directory "{0}".</value>
+  </data>
+  <data name="Copy.Error" xml:space="preserve">
+    <value>MSB3021: Unable to copy file "{0}" to "{1}". {2}</value>
+  </data>
+  <data name="ResolveVCProjectOutput.ErrorAccessingVCProjectInfo" xml:space="preserve">
+    <value>MSB3422: Failed to retrieve VC project information through the VC project engine object model. {0}</value>
+  </data>
+  <data name="General.CouldNotDeleteStateFile" xml:space="preserve">
+    <value>MSB3102: Could not delete state file "{0}". {1}</value>
+  </data>
+  <data name="ResolveAssemblyReference.FailedToFindDependentFiles" xml:space="preserve">
+    <value>MSB3244: Could not find dependent files. {0}</value>
+  </data>
+  <data name="RegisterAssembly.CantRegisterTypeLib" xml:space="preserve">
+    <value>MSB3213: Cannot register type library "{0}". {1}</value>
+  </data>
+  <data name="SignFile.SignToolError" xml:space="preserve">
+    <value>MSB3482: SignTool reported an error '{0}'.</value>
+  </data>
+  <data name="AspNetCompiler.MissingTargetPathForUpdatableApplication" xml:space="preserve">
+    <value>MSB3463: The TargetPath parameter must be specified if the application is updatable.</value>
+  </data>
+  <data name="Touch.CreatingFile" xml:space="preserve">
+    <value>Creating "{0}" because "{1}" was specified.</value>
+  </data>
+  <data name="GenerateManifest.TargetPathTooLong" xml:space="preserve">
+    <value>MSB3182: File name '{0}' exceeds {1} characters.</value>
+  </data>
+  <data name="ResolveVCProjectOutput.CouldNotLoadVCComponentSystemPath" xml:space="preserve">
+    <value>MSB3428: Could not load the Visual C++ component "{0}". To fix this, 1) install the .NET Framework 2.0 SDK, 2) install Microsoft Visual Studio 2005 or 3) add the location of the component to the system path if it is installed elsewhere. {1}</value>
+  </data>
+  <data name="RemoveDir.SkippingNonexistentDirectory" xml:space="preserve">
+    <value>Directory "{0}" doesn't exist. Skipping.</value>
+  </data>
+  <data name="GenerateResource.CorruptOutput" xml:space="preserve">
+    <value>MSB3555: Output file "{0}" is possibly corrupt.</value>
+  </data>
+  <data name="ResolveVCProjectOutput.MissingConfigurationValue" xml:space="preserve">
+    <value>MSB3423: The Configuration parameter was not set. Unable to determine the output path without the VC configuration name.</value>
+  </data>
+  <data name="StrongNameUtils.NoPublicKeySpecified" xml:space="preserve">
+    <value>MSB3353: Public key necessary for delay signing was not specified.</value>
+  </data>
+  <data name="ResolveAssemblyReference.ConsideredAndRejectedBecauseNotInGac" xml:space="preserve">
+    <value>Considered "{0}", which was not found in the GAC.</value>
+  </data>
+  <data name="General.InvalidAssembly" xml:space="preserve">
+    <value>MSB3097: File "{0}" is not a valid assembly.</value>
+  </data>
+  <data name="ResolveComReference.ResolvedDependentComReferenceByAssemblyName" xml:space="preserve">
+    <value>Resolved dependent COM reference "{0}".</value>
+  </data>
+  <data name="General.PlatformSDKFileNotFound" xml:space="preserve">
+    <value>MSB3091: Task failed because "{0}" was not found, or the .NET Framework SDK {1} is not installed.  The task is looking for "{0}" in the "bin" subdirectory beneath the location specified in the {2} value of the registry key {3}.  You may be able to solve the problem by doing one of the following:  1.) Install the .NET Framework SDK {1}.  2.) Manually set the above registry key to the correct location.  3.) Pass the correct location into the "ToolPath" parameter of the task.</value>
+  </data>
+  <data name="GenerateResource.SeparateAppDomainBecauseOfException" xml:space="preserve">
+    <value>Creating a separate AppDomain because of error parsing "{0}". {1}</value>
+  </data>
+  <data name="GenerateResource.STRLanguageButNotExactlyOneSourceFile" xml:space="preserve">
+    <value>MSB3573: The language for a strongly typed resource class was specified, but more than one source file was passed in. Please pass in only one source file at a time if you want to generate strongly typed resource classes.</value>
+  </data>
+  <data name="ResolveAssemblyReference.NotCopyLocalBecausePrerequisite" xml:space="preserve">
+    <value>This reference is not "CopyLocal" because it's a prerequisite file.</value>
+  </data>
+  <data name="GenerateResource.InvalidEscape" xml:space="preserve">
+    <value>MSB3566: Unsupported or invalid escape character in resource "{0}", char '{1}'.</value>
+  </data>
+  <data name="GenerateBootstrapper.DifferingPublicKeys" xml:space="preserve">
+    <value>MSB3165: The value of the '{0}' attribute in '{1}' does not match that of file '{2}'.</value>
+  </data>
+  <data name="GenerateResource.CodeDomError" xml:space="preserve">
+    <value>MSB3567: Could not generate property on class "{0}".</value>
+  </data>
+  <data name="ResolveAssemblyReference.FoundSatelliteFile" xml:space="preserve">
+    <value>Found satellite file "{0}".</value>
+  </data>
+  <data name="ResolveKeySource.KeyMD5SumError" xml:space="preserve">
+    <value>MSB3322: Unable to get MD5 checksum for the key file "{0}". {1}</value>
+  </data>
+  <data name="ResolveComReference.CannotAccessTypeLibName" xml:space="preserve">
+    <value>MSB3282: Cannot access type library name for library "{0}". {1}</value>
+  </data>
+  <data name="GenerateResource.SeparateAppDomainBecauseOfErrorDeserializingLineNumber" xml:space="preserve">
+    <value>Creating a separate AppDomain because while parsing "{0}" the serialized type "{1}" on line {2} could not be loaded. {3}</value>
+  </data>
+  <data name="ResolveAssemblyReference.SuggestedRedirects" xml:space="preserve">
+    <value>MSB3247: Found conflicts between different versions of the same dependent assembly.</value>
+  </data>
+  <data name="ResolveAssemblyReference.FailedWithException" xml:space="preserve">
+    <value>MSB3246: Resolved file has a bad image, no metadata, or is otherwise inaccessible. {0}</value>
+  </data>
+  <data name="StrongNameUtils.KeyFileReadFailure" xml:space="preserve">
+    <value>MSB3352: The specified key file '{0}' could not be read.</value>
+  </data>
+  <data name="Touch.CannotMakeFileWritable" xml:space="preserve">
+    <value>MSB3372: The file "{0}" cannot be made writable. {1}</value>
+  </data>
+  <data name="FindUnderPath.ComparisonPath" xml:space="preserve">
+    <value>Comparison path is "{0}".</value>
+  </data>
+  <data name="GenerateResource.STRCodeDomProviderFailed" xml:space="preserve">
+    <value>MSB3559: The code DOM provider for the "{0}" language failed. {1}</value>
+  </data>
+  <data name="RegisterAssembly.UnauthorizedAccess" xml:space="preserve">
+    <value>MSB3216: Cannot register assembly "{0}" - access denied. {1}</value>
+  </data>
+  <data name="Delete.Error" xml:space="preserve">
+    <value>MSB3061: Unable to delete file "{0}". {1}</value>
+  </data>
+  <data name="ResolveComReference.CannotGetTypeLibAttrForTypeLib" xml:space="preserve">
+    <value>MSB3285: Cannot get type library attributes for a dependent type library!</value>
+  </data>
+  <data name="Al.ExecutableNotFound" xml:space="preserve">
+    <value>MSB3011: "{0}" was not found. Either 1) Install the .NET Framework SDK, which will install AL.exe. Or 2) Pass the correct location of AL.exe into the "ToolPath" parameter of the AL task.</value>
+  </data>
+  <data name="UnregisterAssembly.UnregisterAsmFileDoesNotExist" xml:space="preserve">
+    <value>MSB3393: Cannot unregister assembly "{0}" - file doesn't exist.</value>
+  </data>
+  <data name="ResolveAssemblyReference.ConsideredAndRejectedBecauseTargetDidntHaveFusionName" xml:space="preserve">
+    <value>Considered "{0}", which existed but didn't have a valid fusion identity. This may not be an assembly.</value>
+  </data>
+  <data name="GenerateBootstrapper.CircularIncludes" xml:space="preserve">
+    <value>MSB3167: A circular inclusion was detected between the following built packages: {0}.</value>
+  </data>
+  <data name="ResolveAssemblyReference.ConsideredAndRejectedBecauseFusionNamesDidntMatch" xml:space="preserve">
+    <value>Considered "{0}", but its name "{1}" didn't match.</value>
+  </data>
+  <data name="ResolveAssemblyReference.FailedToResolveReference" xml:space="preserve">
+    <value>MSB3245: Could not resolve this reference. {0} If this reference is required by your code, you may get compilation errors.</value>
+  </data>
+  <data name="ResolveVCProjectOutput.FailureRestoringEnvironmentVariables" xml:space="preserve">
+    <value>MSB3427: Failed to restore solution file related environment variables. {0}</value>
+  </data>
+  <data name="VCBuild.FallingBackToPathVar" xml:space="preserve">
+    <value>Locating vcbuild.exe: falling back to the system PATH variable.</value>
+  </data>
+  <data name="VCBuild.UserEnvironmentPropertyObsolete" xml:space="preserve">
+    <value>MSB3413: The "UserEnvironment" parameter is no longer supported by the VCBuild task, and specifying will not affect the vcbuild.exe command line. Consider using "UseEnvironment" instead.</value>
+  </data>
+  <data name="CreateManifestResourceName.DependsUponNothing" xml:space="preserve">
+    <value>Resource file '{0}' doesn't depend on any other file.</value>
+  </data>
+  <data name="GenerateBootstrapper.PackageHomeSiteMissing" xml:space="preserve">
+    <value>MSB3164: No 'HomeSite' attribute has been provided for '{0}', so the package will be published to the same location as the bootstrapper.</value>
+  </data>
+  <data name="GenerateManifest.InvalidEntryPoint" xml:space="preserve">
+    <value>MSB3115: File '{0}' is not a valid entry point.</value>
+  </data>
+  <data name="ResolveAssemblyReference.ConflictPrimaryChosen" xml:space="preserve">
+    <value>"{0}" was chosen because it was primary and "{1}" was not.</value>
+  </data>
+  <data name="Delete.DeletingFile" xml:space="preserve">
+    <value>Deleting file "{0}".</value>
+  </data>
+  <data name="RegisterAssembly.RegisterAsmFileDoesNotExist" xml:space="preserve">
+    <value>MSB3215: Cannot register assembly "{0}" - file doesn't exist.</value>
+  </data>
+  <data name="Copy.DestinationIsDirectory" xml:space="preserve">
+    <value>MSB3024: Could not copy the file "{0}" to the destination file "{1}", because the destination is a folder instead of a file. To copy the source file into a folder, consider using the DestinationFolder parameter instead of DestinationFiles.</value>
+  </data>
+  <data name="RemoveDir.Error" xml:space="preserve">
+    <value>MSB3231: Unable to remove directory "{0}". {1}</value>
+  </data>
+  <data name="UnregisterAssembly.CantUnregisterAssembly" xml:space="preserve">
+    <value>MSB3395: Cannot unregister assembly "{0}". {1}</value>
+  </data>
+  <data name="UnregisterAssembly.UnregisterTlbFileNotRegistered" xml:space="preserve">
+    <value>MSB3394: Type library "{0}" is not registered, cannot unregister.</value>
+  </data>
+  <data name="GenerateResource.SeparateAppDomainBecauseOfMimeType" xml:space="preserve">
+    <value>Creating a separate AppDomain because of resource "{0}" representing a serialized type "{1}" in "{2}" on line {3}.</value>
+  </data>
+  <data name="ResolveComReference.StrongNameUtils.NoKeyPairInContainer" xml:space="preserve">
+    <value>MSB3298: The key container '{0}' does not contain a public/private key pair.</value>
+  </data>
+  <data name="ResolveComReference.ErrorCreatingWrapperAssembly" xml:space="preserve">
+    <value>MSB3290: Failed to create the wrapper assembly for type library "{0}". {1}</value>
+  </data>
+  <data name="ResolveComReference.MissingOrUnknownComReferenceAttribute" xml:space="preserve">
+    <value>MSB3296: The specified COM reference meta-data for the reference "{1}" is missing or has an invalid value: "{0}".</value>
+  </data>
+  <data name="GenerateBootstrapper.ProductValidation" xml:space="preserve">
+    <value>MSB3156: Xml validation did not pass for item '{0}' located at '{1}'.</value>
+  </data>
+  <data name="ResolveKeySource.MsgBoxTitleImportKeyError" xml:space="preserve">
+    <value>Error importing key</value>
+  </data>
+  <data name="Copy.DidNotCopyBecauseOfFileMatch" xml:space="preserve">
+    <value>Did not copy from file "{0}" to file "{1}" because the "{2}" parameter was set to "{3}" in the project and the files' sizes and timestamps match.</value>
+  </data>
+  <data name="ResolveAssemblyReference.FoundRelatedFile" xml:space="preserve">
+    <value>Found related file "{0}".</value>
+  </data>
+  <data name="UnregisterAssembly.UnregisterTlbFileDoesNotExist" xml:space="preserve">
+    <value>Cannot unregister type library "{0}" - file doesn't exist.</value>
+  </data>
+  <data name="General.CouldNotSetHostObjectParameter" xml:space="preserve">
+    <value>MSB3081: A problem occurred while trying to set the "{0}" parameter for the IDE's in-process compiler. {1}</value>
+  </data>
+  <data name="General.CallingHostCompiler" xml:space="preserve">
+    <value>The task is invoking the IDE's in-process compiler to perform the equivalent of the above command-line.</value>
+  </data>
+  <data name="GenerateResource.ReadResourceMessage" xml:space="preserve">
+    <value>Processing {0} resources from file "{1}".</value>
+  </data>
+  <data name="GenerateResource.DuplicateResourceName" xml:space="preserve">
+    <value>MSB3568: Duplicate resource name "{0}" is not allowed, ignored.</value>
+  </data>
+  <data name="ResolveAssemblyReference.ConsideredAndRejectedBecauseNoFile" xml:space="preserve">
+    <value>Considered "{0}", but it didn't exist.</value>
+  </data>
+  <data name="GenerateResource.OnlyStringsSupported" xml:space="preserve">
+    <value>MSB3556: Only strings can be written to a .txt file, resource "{0}" is type {1}.</value>
+  </data>
+  <data name="GetAssemblyIdentity.CouldNotGetAssemblyName" xml:space="preserve">
+    <value>MSB3441: Cannot get assembly name for "{0}". {1}</value>
+  </data>
+  <data name="UnregisterAssembly.AssemblyPathOrStateFileIsRequired" xml:space="preserve">
+    <value>MSB3396: The "{0}" task needs either an assembly path or state file path.</value>
+  </data>
+  <data name="GenerateResource.CannotWriteOutput" xml:space="preserve">
+    <value>MSB3554: Cannot write to the output file "{0}". {1}</value>
+  </data>
+  <data name="ResolveAssemblyReference.ConsideredAndRejectedBecauseNotAFileNameOnDisk" xml:space="preserve">
+    <value>Considered treating "{0}" as a file name, but it didn't exist.</value>
+  </data>
+  <data name="Vbc.ParameterHasInvalidValue" xml:space="preserve">
+    <value>"{1}" is an invalid value for the "{0}" parameter.</value>
+  </data>
+  <data name="GenerateBootstrapper.NoStringsForCulture" xml:space="preserve">
+    <value>MSB3150: No string resources available for building a bootstrapper with culture '{0}'.</value>
+  </data>
+  <data name="GenerateBootstrapper.ValidationError" xml:space="preserve">
+    <value>MSB3159: Xml Validation error in file '{0}': {1}</value>
+  </data>
+  <data name="GenerateManifest.IdentityFileNameMismatch" xml:space="preserve">
+    <value>MSB3110: Assembly '{0}' has mismatched identity '{1}', expected file name: '{2}'.</value>
+  </data>
+  <data name="General.SystemErrorCode" xml:space="preserve">
+    <value>System error code: {0}.</value>
+  </data>
+  <data name="ResolveComReference.RemappingAdoTypeLib" xml:space="preserve">
+    <value>Remapping ADO reference version {0}.{1} to version 2.7.</value>
+  </data>
+  <data name="GenerateBootstrapper.General" xml:space="preserve">
+    <value>MSB3169: An error occurred generating a bootstrapper: {0}</value>
+  </data>
+  <data name="VCBuild.CannotSpecifyBothCleanAndRebuild" xml:space="preserve">
+    <value>MSB3412: Only one of the Clean and Rebuild switches can be set to true.</value>
+  </data>
+  <data name="General.IncompatibleStateFileType" xml:space="preserve">
+    <value>The format of this state file is not valid.</value>
+  </data>
+  <data name="ResolveNativeReference.Comment" xml:space="preserve">
+    <value>Processing manifest file "{0}".</value>
+  </data>
+  <data name="AssignCulture.CannotExtractCulture" xml:space="preserve">
+    <value>MSB3001: Cannot extract culture information from file name "{0}". {1}</value>
+  </data>
+  <data name="ResolveAssemblyReference.SearchPath" xml:space="preserve">
+    <value>For SearchPath "{0}".</value>
+  </data>
+  <data name="ResolveAssemblyReference.UnificationByAppConfig" xml:space="preserve">
+    <value>Using this version instead of original version "{0}" because of a binding redirect entry in the file "{1}".</value>
+  </data>
+  <data name="General.InvalidValue" xml:space="preserve">
+    <value>MSB3098: Invalid value for "{0}" of task "{1}".</value>
+  </data>
+  <data name="GenerateResource.InvalidHexEscapeValue" xml:space="preserve">
+    <value>MSB3569: Invalid hex value after '\u' in resource "{0}", value '{1}'.</value>
+  </data>
+  <data name="GenerateBootstrapper.MissingVerificationInformation" xml:space="preserve">
+    <value>MSB3141: No 'PublicKey' or 'Hash' attribute specified for file '{0}' in item '{1}'.</value>
+  </data>
+  <data name="ResolveComReference.LoadingDelaySignedAssemblyWithStrongNameVerificationEnabled" xml:space="preserve">
+    <value>MSB3295: Failed to load an assembly. Please make sure you have disabled strong name verification for your public key if you want to generate delay signed wrappers. {0}</value>
+  </data>
+  <data name="ResolveAssemblyReference.LogAttributeFormat" xml:space="preserve">
+    <value>{0} = '{1}'</value>
+  </data>
+  <data name="ResolveAssemblyReference.UnifiedDependency" xml:space="preserve">
+    <value>Unified Dependency "{0}".</value>
+  </data>
+  <data name="ResolveAssemblyReference.NotCopyLocalBecauseFrameworksFiles" xml:space="preserve">
+    <value>This reference is not "CopyLocal" because it's in a Frameworks directory.</value>
+  </data>
+  <data name="GenerateBootstrapper.DependencyNotFound" xml:space="preserve">
+    <value>MSB3162: Item '{0}' could not find dependent item '{1}'.</value>
+  </data>
+  <data name="ResolveKeySource.InvalidKeyName" xml:space="preserve">
+    <value>MSB3324: Invalid key file name "{0}". {1}</value>
+  </data>
+  <data name="Csc.InvalidParameterWarning" xml:space="preserve">
+    <value>MSB3052: The parameter to the compiler is invalid, '{0}{1}' will be ignored.</value>
+  </data>
+  <data name="ResolveComReference.CannotSpecifyDelaySignWithoutEitherKeyFileAndKeyContainer" xml:space="preserve">
+    <value>MSB3301: DelaySign parameter is true, but no KeyFile or KeyContainer was specified.</value>
+  </data>
+  <data name="GenerateManifest.NoIdentity" xml:space="preserve">
+    <value>MSB3186: Unable to infer an assembly identity for generated manifest from task input parameters.</value>
+  </data>
+  <data name="GenerateManifest.DuplicateComDefinition" xml:space="preserve">
+    <value>MSB3180: COM component '{1}' is defined in both '{3}' and '{4}', {0}="{2}".</value>
+  </data>
+  <data name="CreateManifestResourceName.AssignedName" xml:space="preserve">
+    <value>Resource file '{0}' gets manifest resource name '{1}'.</value>
+  </data>
+  <data name="ResolveManifestFiles.PublishFileNotFound" xml:space="preserve">
+    <value>MSB3331: Unable to apply publish properties for item "{0}".</value>
+  </data>
+  <data name="GenerateManifest.InvalidValue" xml:space="preserve">
+    <value>MSB3174: Invalid value for '{0}'.</value>
+  </data>
+  <data name="General.ParameterUnsupportedOnHostCompiler" xml:space="preserve">
+    <value>The IDE's in-process compiler does not support the specified values for the "{0}" parameter.  Therefore, this task will fallback to using the command-line compiler.</value>
+  </data>
+  <data name="GenerateResource.CreatingSTR" xml:space="preserve">
+    <value>Creating strongly typed resources class "{0}".</value>
+  </data>
+  <data name="ResolveNonMSBuildProjectOutput.ProjectReferenceUnresolved" xml:space="preserve">
+    <value>Project reference "{0}" has not been resolved.</value>
+  </data>
+  <data name="GenerateManifest.DuplicateTargetPath" xml:space="preserve">
+    <value>MSB3181: Two or more files have the same target path '{0}'.</value>
+  </data>
+  <data name="General.FrameworksFileNotFound" xml:space="preserve">
+    <value>MSB3082: Task failed because "{0}" was not found, or the .NET Framework {1} is not installed.  Please install the .NET Framework {1}.</value>
+  </data>
+  <data name="ResolveComReference.CannotFindWrapperForTypeLib" xml:space="preserve">
+    <value>MSB3283: Cannot find wrapper assembly for type library "{0}".</value>
+  </data>
+  <data name="ResolveAssemblyReference.EightSpaceIndent" xml:space="preserve">
+    <value>        {0}</value>
+  </data>
+  <data name="ResolveNonMSBuildProjectOutput.ProjectReferenceResolutionStarting" xml:space="preserve">
+    <value>Resolving project reference "{0}".</value>
+  </data>
+  <data name="GenerateBootstrapper.CircularDependency" xml:space="preserve">
+    <value>MSB3161: A circular dependency was detected between the following built packages: {0}.</value>
+  </data>
+  <data name="Copy.NeedsDestination" xml:space="preserve">
+    <value>MSB3023: No destination specified for Copy. Please supply either "{0}" or "{1}".</value>
+  </data>
+  <data name="CreateManifestResourceName.DefinitionFoundWithinConditionalDirective" xml:space="preserve">
+    <value>MSB3042: A namespace or class definition was found within a conditional compilation directive in the file "{0}".  This may lead to an incorrect choice for the manifest resource name for resource "{1}".</value>
+  </data>
+  <data name="General.CouldNotReadStateFile" xml:space="preserve">
+    <value>MSB3088: Could not read state file "{0}". {1}</value>
+  </data>
+  <data name="CreateManifestResourceName.RootNamespace" xml:space="preserve">
+    <value>Root namespace is '{0}'.</value>
+  </data>
+  <data name="GenerateManifest.UnmanagedCodePermission" xml:space="preserve">
+    <value>MSB3183: Reference '{0}' is an interop assembly requiring full trust.</value>
+  </data>
+  <data name="SGen.CouldNotDeleteSerializer" xml:space="preserve">
+    <value>MSB3472: We were unable to delete the existing serializer "{0}" before creating a new one: {1}  </value>
+  </data>
+  <data name="ResolveAssemblyReference.InvalidInstalledAssemblyTablesFile" xml:space="preserve">
+    <value>MSB3250: Could not read a file passed in to 'InstalledAssemblyTables'. Ignoring file '{0}'. {1}</value>
+  </data>
+  <data name="RegisterAssembly.AssemblyNotRegisteredForComInterop" xml:space="preserve">
+    <value>MSB3211: The assembly '{0}' is not registered for COM Interop. Please register it with regasm.exe /tlb.</value>
+  </data>
+  <data name="ResolveComReference.FailedToResolveDependentComReference" xml:space="preserve">
+    <value>MSB3293: Could not resolve dependent COM reference "{0}" version {1}.{2}.</value>
+  </data>
+  <data name="GenerateResource.DeleteCorruptOutputFailed" xml:space="preserve">
+    <value>MSB3560: Could not delete the possibly corrupt output file "{0}". {1}</value>
+  </data>
+  <data name="AppConfig.InvalidAssemblyIdentityFields" xml:space="preserve">
+    <value>Some attributes of the assemblyIdentity element are incorrect.</value>
+  </data>
+  <data name="GenerateBootstrapper.ProductNotFound" xml:space="preserve">
+    <value>MSB3155: Item '{0}' could not be located in '{1}'.</value>
+  </data>
+  <data name="ResolveComReference.ResolvedDependentComReference" xml:space="preserve">
+    <value>Resolved dependent COM reference "{0}" version {1}.{2}.</value>
+  </data>
+  <data name="UnregisterAssembly.NoValidTypes" xml:space="preserve">
+    <value>MSB3391: "{0}" does not contain any types that can be unregistered for COM Interop.</value>
+  </data>
+  <data name="ResolveAssemblyReference.FourSpaceIndent" xml:space="preserve">
+    <value>    {0}</value>
+  </data>
+  <data name="ResolveAssemblyReference.UnificationByFrameworkRetarget" xml:space="preserve">
+    <value>Using this version instead of original version "{0}" because there is a more recent version of this framework file.</value>
+  </data>
+  <data name="GenerateBootstrapper.NoOutputPath" xml:space="preserve">
+    <value>MSB3148: No output path specified in build settings.</value>
+  </data>
+  <data name="General.DuplicateItemsNotSupported" xml:space="preserve">
+    <value>MSB3105: The item "{0}" was specified more than once in the "{1}" parameter.  Duplicate items are not supported by the "{1}" parameter.</value>
+  </data>
+  <data name="StrongNameUtils.BadKeyContainer" xml:space="preserve">
+    <value>MSB3351: Unable to create a strong name key pair from key container '{0}'.</value>
+  </data>
+  <data name="CreateTemporaryVCProject.CreatingTemporaryProject" xml:space="preserve">
+    <value>MSBuild is creating a temporary VC project file "{0}" for the project "{1}", with project references replaced by assembly references. This step is necessary to resolve project references of this project. If you want to avoid this step in the future, please use file references instead of project references in this project.</value>
+  </data>
+  <data name="VCBuild.VCExpressNotFound" xml:space="preserve">
+    <value>Locating vcbuild.exe: Visual C++ Express is not installed on this computer.</value>
+  </data>
+  <data name="Exec.UnexpectedFailure" xml:space="preserve">
+    <value>MSB3074: "Exec" task failed unexpectedly. {0}</value>
+  </data>
+  <data name="ResolveAssemblyReference.InvalidAppConfig" xml:space="preserve">
+    <value>MSB3249: Application Configuration file "{0}" is invalid. {1}</value>
+  </data>
+  <data name="GenerateBootstrapper.MissingSetupBin" xml:space="preserve">
+    <value>MSB3147: Could not find required file '{0}' in '{1}'.</value>
+  </data>
+  <data name="Exec.CommandFailedNoErrorCode" xml:space="preserve">
+    <value>The command "{0}" exited with code {1}.</value>
+  </data>
+  <data name="General.InvalidResxFile" xml:space="preserve">
+    <value>MSB3103: Invalid Resx file. {0}</value>
+  </data>
+  <data name="General.InvalidValueMessage" xml:space="preserve">
+    <value>MSB3109: Invalid value for "{0}" of task "{1}". {2}</value>
+  </data>
+  <data name="AspNetCompiler.MissingMetabasePathAndVirtualPath" xml:space="preserve">
+    <value>MSB3462: Either MetabasePath or VirtualPath must be specified.</value>
+  </data>
+  <data name="Copy.ExactlyOneTypeOfDestination" xml:space="preserve">
+    <value>MSB3022: Both "{0}" and "{1}" were specified as input parameters in the project file. Please choose one or the other.</value>
+  </data>
+  <data name="ResolveAssemblyReference.ConflictBetweenAppConfigAndAutoUnify" xml:space="preserve">
+    <value>MSB3242: Conflict between mutually exclusive parameters. AutoUnify was 'true' and AppConfigFile was set.</value>
+  </data>
+  <data name="VCBuild.VSNotFound" xml:space="preserve">
+    <value>Locating vcbuild.exe: Visual Studio Professional or higher is not installed on this computer.</value>
+  </data>
+  <data name="Vbc.EnumParameterHasInvalidValue" xml:space="preserve">
+    <value>MSB3401: "{1}" is an invalid value for the "{0}" parameter.  The valid values are: {2}</value>
+  </data>
+  <data name="MSBuild.CannotRebaseOutputItemPath" xml:space="preserve">
+    <value>MSB3203: The output path "{0}" cannot be rebased. {1}</value>
+  </data>
+  <data name="ResolveAssemblyReference.Resolved" xml:space="preserve">
+    <value>Resolved file path is "{0}".</value>
+  </data>
+  <data name="Copy.FileComment" xml:space="preserve">
+    <value>Copying file from "{0}" to "{1}".</value>
+  </data>
+  <data name="ResolveComReference.CannotLoadTypeLib" xml:space="preserve">
+    <value>MSB3286: Cannot load type library "{0}" version {1}.{2}. {3}</value>
+  </data>
+  <data name="Delete.SkippingNonexistentFile" xml:space="preserve">
+    <value>File "{0}" doesn't exist. Skipping.</value>
+  </data>
+  <data name="GenerateResource.NothingOutOfDate" xml:space="preserve">
+    <value>No resources are out of date with respect to their source files. Skipping resource generation.</value>
+  </data>
+  <data name="General.InvalidPropertyError" xml:space="preserve">
+    <value>MSB3100: Syntax for {0} parameter is not valid ({1}).  Correct syntax is {0}="&lt;name&gt;=&lt;value&gt;".</value>
+  </data>
+  <data name="AssignCulture.Comment" xml:space="preserve">
+    <value>Culture of "{0}" was assigned to file "{1}".</value>
+  </data>
+  <data name="MSBuild.ProjectFileNotFound" xml:space="preserve">
+    <value>MSB3202: The project file "{0}" was not found.</value>
+  </data>
+  <data name="SignFile.CertNotInStore" xml:space="preserve">
+    <value>MSB3481: The signing certificate could not be located. Ensure that it is in the current user's personal store.</value>
+  </data>
+  <data name="General.ReferenceDoesNotExist" xml:space="preserve">
+    <value>MSB3104: The referenced assembly "{0}" was not found. If this assembly is produced by another one of your projects, please make sure to build that project before building this one.</value>
+  </data>
+  <data name="GenerateBootstrapper.DuplicateItems" xml:space="preserve">
+    <value>MSB3168: Duplicate item '{0}' will be ignored.</value>
+  </data>
+  <data name="RegisterAssembly.RegisteringAssembly" xml:space="preserve">
+    <value>Registering assembly "{0}" for COM Interop.</value>
+  </data>
+  <data name="ReadLinesFromFile.ErrorOrWarning" xml:space="preserve">
+    <value>MSB3501: Could not read lines from file "{0}". {1}</value>
+  </data>
+  <data name="GenerateBootstrapper.MissingDependency" xml:space="preserve">
+    <value>MSB3146: Item '{0}' is required by '{1}', but was not included.</value>
+  </data>
+  <data name="ResolveAssemblyReference.NotCopyLocalBecauseReferenceFoundInGAC" xml:space="preserve">
+    <value>This reference is not "CopyLocal" because it's registered in the GAC.</value>
+  </data>
+  <data name="GenerateBootstrapper.NoResources" xml:space="preserve">
+    <value>MSB3149: No resources available for building a bootstrapper.</value>
+  </data>
+  <data name="GenerateResource.CannotCreateSTR" xml:space="preserve">
+    <value>MSB3571: Cannot create the Strongly Typed Resource class "{0}". {1}</value>
+  </data>
+  <data name="Copy.SourceIsDirectory" xml:space="preserve">
+    <value>MSB3025: The source file "{0}" is actually a directory.  The "Copy" task does not support copying directories.</value>
+  </data>
+  <data name="GenerateResource.NoSources" xml:space="preserve">
+    <value>No resources specified in "Sources". Skipping resource generation.</value>
+  </data>
+  <data name="GenerateManifest.WriteOutputManifestFailed" xml:space="preserve">
+    <value>MSB3173: Unable to write manifest '{0}'. {1}</value>
+  </data>
+  <data name="ResolveComReference.AddingMissingTlbReference" xml:space="preserve">
+    <value>Adding a matching tlbimp reference for the aximp reference "{0}".</value>
+  </data>
+  <data name="FindUnderPath.PathOutOfCone" xml:space="preserve">
+    <value>Path "{0}" is outside the comparison path.</value>
+  </data>
+  <data name="ResolveComReference.FailedToFindDependentNetAssembly" xml:space="preserve">
+    <value>MSB3291: Could not resolve dependent .NET assembly "{0}". Please make sure this assembly is included in the references section of the project file.</value>
+  </data>
+  <data name="ResolveComReference.ConflictingReferences" xml:space="preserve">
+    <value>MSB3288: COM reference "{0}" conflicts with reference "{1}" - the project references different type libraries with the same type library names. Ignoring reference "{0}".</value>
+  </data>
+  <data name="General.MissingOrUnknownProjectReferenceAttribute" xml:space="preserve">
+    <value>MSB3107: The specified project reference metadata for the reference "{0}" is missing or has an invalid value: {1}</value>
+  </data>
+  <data name="ResolveAssemblyReference.NotCopyLocalBecauseNoFrameworkPath" xml:space="preserve">
+    <value>This reference is not "CopyLocal" because no path was passed in to "TargetFrameworksDirectory".</value>
+  </data>
+  <data name="ResolveNonMSBuildProjectOutput.ProjectReferenceResolutionFailure" xml:space="preserve">
+    <value>MSB3582: Could not resolve project reference "{0}".</value>
+  </data>
+  <data name="ResolveComReference.FailedToResolveDependentComReferenceByAssemblyName" xml:space="preserve">
+    <value>MSB3294: Could not resolve dependent COM reference "{0}".</value>
+  </data>
+  <data name="GenerateResource.InvalidFilename" xml:space="preserve">
+    <value>MSB3553: Resource file "{0}" has an invalid name. {1}</value>
+  </data>
+  <data name="ResolveVCProjectOutput.CouldNotLoadVCEnginePIA" xml:space="preserve">
+    <value>MSB3421: Could not load the Visual C++ component "{0}". To fix this, 1) install the .NET Framework 2.0 SDK or 2) install Microsoft Visual Studio 2005. {1}</value>
+  </data>
+  <data name="RegisterAssembly.CantRegisterAssembly" xml:space="preserve">
+    <value>MSB3217: Cannot register assembly "{0}". {1}</value>
+  </data>
+  <data name="ResolveAssemblyReference.RequiredBy" xml:space="preserve">
+    <value>Required by "{0}".</value>
+  </data>
+  <data name="ResolveComReference.BadAssemblyImage" xml:space="preserve">
+    <value>MSB3281: The assembly "{0}" is not a valid assembly file.</value>
+  </data>
+  <data name="GenerateManifest.DuplicateAssemblyIdentity" xml:space="preserve">
+    <value>MSB3112: Two or more assemblies have the same identity '{0}'.</value>
+  </data>
+  <data name="General.ToolCommandFailed" xml:space="preserve">
+    <value>MSB3093: The command exited with code {0}.</value>
+  </data>
+  <data name="GenerateResource.NoNameInLine" xml:space="preserve">
+    <value>MSB3565: Resource line without a name.</value>
+  </data>
+  <data name="ResolveComReference.StrongNameUtils.NoKeyPairInFile" xml:space="preserve">
+    <value>MSB3299: The key file '{0}' does not contain a public/private key pair.</value>
+  </data>
+  <data name="GenerateManifest.NoEntryPoint" xml:space="preserve">
+    <value>MSB3185: EntryPoint not specified for manifest.</value>
+  </data>
+  <data name="GenerateBootstrapper.PackageValidation" xml:space="preserve">
+    <value>MSB3153: Xml validation did not pass for item '{0}' located at '{1}'.</value>
+  </data>
+  <data name="General.CouldNotWriteStateFile" xml:space="preserve">
+    <value>MSB3101: Could not write state file "{0}". {1}</value>
+  </data>
+  <data name="GenerateBootstrapper.ValidationWarning" xml:space="preserve">
+    <value>MSB3160: Xml Validation warning in file '{0}': {1}</value>
+  </data>
+  <data name="RegisterAssembly.CantExportTypeLib" xml:space="preserve">
+    <value>MSB3212: The assembly "{0}" could not be converted to a type library. {1}</value>
+  </data>
+  <data name="CreateManifestResourceName.NoRootNamespace" xml:space="preserve">
+    <value>Root namespace is empty.</value>
+  </data>
+  <data name="General.CouldNotLocateAssembly" xml:space="preserve">
+    <value>Could not locate the assembly "{0}". Check to make sure the assembly exists on disk.</value>
+  </data>
+  <data name="SignFile.BadTimestampUrl" xml:space="preserve">
+    <value>MSB3485: The timestamp URL is invalid.</value>
+  </data>
+  <data name="ResolveAssemblyReference.NotCopyLocalBecauseIncomingItemAttributeOverrode" xml:space="preserve">
+    <value>This reference is not "CopyLocal" because at least one source item had "Private" set to "false" and no source items had "Private" set to "true".</value>
+  </data>
+  <data name="FindUnderPath.PathInCone" xml:space="preserve">
+    <value>Path "{0}" is inside the comparison path.</value>
+  </data>
+  <data name="UnregisterAssembly.UnregisteringAssembly" xml:space="preserve">
+    <value>Unregistering assembly "{0}" for COM Interop.</value>
+  </data>
+</root>

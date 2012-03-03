@@ -7,8 +7,8 @@
     internal static class AssemblyResources
     {
         // Fields
-        private static readonly ResourceManager resources = new ResourceManager("Microsoft.Build.Tasks.Strings", Assembly.GetExecutingAssembly());
-        private static readonly ResourceManager sharedResources = new ResourceManager("Microsoft.Build.Tasks.Strings.shared", Assembly.GetExecutingAssembly());
+        private static readonly ResourceManager resources = new ResourceManager("Jedzia.BackBock.Tasks.Strings", Assembly.GetExecutingAssembly());
+        private static readonly ResourceManager sharedResources = new ResourceManager("Jedzia.BackBock.Tasks.Strings.shared", Assembly.GetExecutingAssembly());
 
         // Methods
         internal static string GetString(string name)

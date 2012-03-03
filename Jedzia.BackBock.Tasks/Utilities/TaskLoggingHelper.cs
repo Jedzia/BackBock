@@ -11,6 +11,8 @@ namespace Jedzia.BackBock.Tasks.Utilities
     using System.Resources;
     using Jedzia.BackBock.Tasks.Shared;
     using System.Threading;
+    using System.Globalization;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Provides helper logging methods used by tasks.
@@ -80,8 +82,13 @@ namespace Jedzia.BackBock.Tasks.Utilities
         /// </remarks>
         public virtual string FormatResourceString(string resourceName, params object[] args)
         {
-            return resourceName;
+            ErrorUtilities.VerifyThrowArgumentNull(resourceName, "resourceName");
+            ErrorUtilities.VerifyThrowInvalidOperation(this.TaskResources != null, "Shared.TaskResourcesNotRegistered", this.TaskName);
+            string unformatted = this.TaskResources.GetString(resourceName, CultureInfo.CurrentUICulture);
+            ErrorUtilities.VerifyThrowArgument(unformatted != null, "Shared.TaskResourceNotFound", resourceName, this.TaskName);
+            return this.FormatString(unformatted, args);
         }
+ 
 
         /// <summary>
         /// Logs the command line for an underlying tool, executable file, or shell command of a task using the specified importance level.
@@ -91,9 +98,9 @@ namespace Jedzia.BackBock.Tasks.Utilities
         public void LogCommandLine(MessageImportance importance, string commandLine)
         {
             ErrorUtilities.VerifyThrowArgumentNull(commandLine, "commandLine");
-            //TaskCommandLineEventArgs e = new TaskCommandLineEventArgs(commandLine, this.TaskName, importance);
-            //ErrorUtilities.VerifyThrowInvalidOperation(this.BuildEngine != null, "LoggingBeforeTaskInitialization", e.Message);
-            //this.BuildEngine.LogMessageEvent(e);
+            TaskCommandLineEventArgs e = new TaskCommandLineEventArgs(commandLine, this.TaskName, importance);
+            ErrorUtilities.VerifyThrowInvalidOperation(this.BuildEngine != null, "LoggingBeforeTaskInitialization", e.Message);
+            this.BuildEngine.LogMessageEvent(e);
         }
 
         /// <summary>
@@ -110,7 +117,63 @@ namespace Jedzia.BackBock.Tasks.Utilities
         /// </remarks>
         public void LogErrorWithCodeFromResources(string messageResourceName, params object[] messageArgs)
         {
-            //this.LogErrorWithCodeFromResources(null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
+            this.LogErrorWithCodeFromResources(null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
+            //throw new NotImplementedException("LogErrorWithCodeFromResources not implemented.");
+        }
+        public void LogErrorWithCodeFromResources(string subcategoryResourceName, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string messageResourceName, params object[] messageArgs)
+        {
+            string str2;
+            ErrorUtilities.VerifyThrowArgumentNull(messageResourceName, "messageResourceName");
+            string subcategory = null;
+            if (subcategoryResourceName != null)
+            {
+                subcategory = this.FormatResourceString(subcategoryResourceName, new object[0]);
+            }
+            string errorCode = this.ExtractMessageCode(this.FormatResourceString(messageResourceName, messageArgs), false, out str2);
+            string helpKeyword = null;
+            if (this.HelpKeywordPrefix != null)
+            {
+                helpKeyword = this.HelpKeywordPrefix + messageResourceName;
+            }
+            this.LogError(subcategory, errorCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, str2, new object[0]);
+        }
+        public void LogError(string subcategory, string errorCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
+        {
+            ErrorUtilities.VerifyThrowArgumentNull(message, "message");
+            ErrorUtilities.VerifyThrowInvalidOperation(this.BuildEngine != null, "LoggingBeforeTaskInitialization", message);
+            if (((file == null) || (file.Length == 0)) && (((lineNumber == 0) && (columnNumber == 0)) && !this.BuildEngine.ContinueOnError))
+            {
+                //file = this.BuildEngine.ProjectFileOfTaskNode;
+                file = "NO FILE";
+                //lineNumber = this.BuildEngine.LineNumberOfTaskNode;
+                lineNumber = 0;
+                //columnNumber = this.BuildEngine.ColumnNumberOfTaskNode;
+                columnNumber = 0;
+            }
+            BuildErrorEventArgs e = new BuildErrorEventArgs(subcategory, errorCode, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, this.FormatString(message, messageArgs), helpKeyword, this.TaskName);
+            this.BuildEngine.LogErrorEvent(e);
+            this.hasLoggedErrors = true;
+        }
+
+        private bool hasLoggedErrors;
+
+        internal string ExtractMessageCode(string message, bool filterMSBuildOnlyMessages, out string messageWithoutCodePrefix)
+        {
+            string str;
+            ErrorUtilities.VerifyThrowArgumentNull(message, "message");
+            if (filterMSBuildOnlyMessages)
+            {
+                messageWithoutCodePrefix = ResourceUtilities.ExtractMessageCode(null, message, out str);
+                return str;
+            }
+            messageWithoutCodePrefix = ResourceUtilities.ExtractMessageCode(messageCodePattern, message, out str);
+            return str;
+        }
+
+        private static readonly Regex messageCodePattern;
+        static TaskLoggingHelper()
+        {
+            messageCodePattern = new Regex(@"^\s*(?<CODE>[A-Za-z]+\d+):\s*(?<MESSAGE>.*)$", RegexOptions.Singleline);
         }
 
         /// <summary>
@@ -174,7 +237,7 @@ namespace Jedzia.BackBock.Tasks.Utilities
 
     [Serializable]
     public abstract class BuildEventArgs : EventArgs
-    {
+    { 
         // Fields
         private string helpKeyword;
         private string message;
@@ -266,5 +329,121 @@ namespace Jedzia.BackBock.Tasks.Utilities
         }
     }
 
+    [Serializable]
+    public class TaskCommandLineEventArgs : BuildMessageEventArgs
+    {
+        // Methods
+        protected TaskCommandLineEventArgs()
+        {
+        }
+
+        public TaskCommandLineEventArgs(string commandLine, string taskName, MessageImportance importance)
+            : base(commandLine, null, taskName, importance)
+        {
+        }
+
+        // Properties
+        public string CommandLine
+        {
+            get
+            {
+                return base.Message;
+            }
+        }
+
+        public string TaskName
+        {
+            get
+            {
+                return base.SenderName;
+            }
+        }
+    }
+
+[Serializable]
+public class BuildErrorEventArgs : BuildEventArgs
+{
+    // Fields
+    private string code;
+    private int columnNumber;
+    private int endColumnNumber;
+    private int endLineNumber;
+    private string file;
+    private int lineNumber;
+    private string subcategory;
+
+    // Methods
+    protected BuildErrorEventArgs()
+    {
+    }
+
+    public BuildErrorEventArgs(string subcategory, string code, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, string helpKeyword, string senderName) : base(message, helpKeyword, senderName)
+    {
+        this.subcategory = subcategory;
+        this.code = code;
+        this.file = file;
+        this.lineNumber = lineNumber;
+        this.columnNumber = columnNumber;
+        this.endLineNumber = endLineNumber;
+        this.endColumnNumber = endColumnNumber;
+    }
+
+    // Properties
+    public string Code
+    {
+        get
+        {
+            return this.code;
+        }
+    }
+
+    public int ColumnNumber
+    {
+        get
+        {
+            return this.columnNumber;
+        }
+    }
+
+    public int EndColumnNumber
+    {
+        get
+        {
+            return this.endColumnNumber;
+        }
+    }
+
+    public int EndLineNumber
+    {
+        get
+        {
+            return this.endLineNumber;
+        }
+    }
+
+    public string File
+    {
+        get
+        {
+            return this.file;
+        }
+    }
+
+    public int LineNumber
+    {
+        get
+        {
+            return this.lineNumber;
+        }
+    }
+
+    public string Subcategory
+    {
+        get
+        {
+            return this.subcategory;
+        }
+    }
+}
 
 }

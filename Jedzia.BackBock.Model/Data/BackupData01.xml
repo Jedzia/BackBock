@@ -1,13 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BackupData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DatasetName="Daily">
-  <BackupItem IsEnabled="true" ItemName="Firefox">
+  <BackupItem IsEnabled="true" ItemName="All from Temp, exclude *.msi;B* ">
     <Path Path="C:\Temp\">
-      <Exclusion Pattern="*.nfo" Enabled="true" />
-      <Exclusion Pattern="Bla.*" Enabled="true" />
+      <Exclusion Pattern="B*" Enabled="true" />
       <Exclusion Pattern="*.msi" Enabled="true" />
       <Inclusion Pattern="**" Enabled="true" />
     </Path>
     <Path Path="D:\Temp" />
+    <Task TypeName="Backup" />
+  </BackupItem>
+  <BackupItem IsEnabled="true" ItemName="Only one file">
+    <Path Path="C:\Temp\Raabe.png" />
+    <Task TypeName="Backup" />
+  </BackupItem>
+  <BackupItem IsEnabled="true" ItemName="Firefox">
+    <Path Path="C:\Temp\" />
+    <Path Path="D:\Tmp">
+      <Exclusion Pattern="*.cs" Enabled="true" />
+    </Path>
     <Task TypeName="Backup" />
   </BackupItem>
   <BackupItem ItemName="My Documents">

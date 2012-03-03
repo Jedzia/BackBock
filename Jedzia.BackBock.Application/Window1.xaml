@@ -9,7 +9,7 @@
                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Jedzia.BackBock.Application.Window1"
         WindowStartupLocation="CenterScreen"
                      Title="{Binding MainWindowTitle}"
-        Height="850" Width="1200" 
+        Height="900" Width="1200" 
                      Initialized="MainWindowBase_Initialized">
 <!--
     DataContext="{Binding RelativeSource={RelativeSource Self},Path=MainWindowViewModel}"
@@ -46,10 +46,15 @@
               VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
             <DockPanel Grid.Column="1">
                 
+                <DockPanel DockPanel.Dock="Bottom">
+                <Button DockPanel.Dock="Right" Command="{Binding ClearLogCommand}" ><StackPanel><TextBlock Text="Clear"/><TextBlock Text="Log"/></StackPanel></Button>
+            	<TextBox VerticalAlignment="Stretch"  x:Name="logtext" Text="{Binding LogText}" MinHeight="150" MaxHeight="150" Margin="10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+                </DockPanel>
+                
             	<Border DockPanel.Dock="Bottom" MaxHeight="300" MinHeight="300" VerticalAlignment="Bottom" BorderThickness="1" BorderBrush="Black" Margin="10">
                 
             		<DockPanel Height="300">
-            			<Grid >
+            			<Grid DockPanel.Dock="Bottom" >
             				<Grid.RowDefinitions>
             					<RowDefinition Height="0.13*"/>
             					<RowDefinition Height="0.87*"/>
@@ -79,7 +84,6 @@
             			<TextBlock Text="{Binding MyProperty}"/>
             		</StackPanel>
             	</StackPanel>
-            	<!--</GroupBox>-->
         <!--Background="{StaticResource WindowBackgroundBrush}"-->
             	<local:MyCanvas DataContext="{Binding Data}" DockPanel.Dock="Bottom"  Focusable="true" x:Name="MyDesigner" Margin="10" 
                                   
@@ -122,7 +126,6 @@
             				<wtk:DataGridTemplateColumn CellTemplate="{DynamicResource PathsDataTemplate}"  Header="Paths" />
             			</wtk:DataGrid.Columns>
             		</wtk:DataGrid>
-            		<TextBlock DockPanel.Dock="Bottom" x:Name="logtext" Text="Dreck" />
 
             	</local:MyCanvas>
             </DockPanel>

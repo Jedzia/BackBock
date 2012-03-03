@@ -204,9 +204,13 @@ namespace Jedzia.BackBock.Tasks
     public interface IBuildEngine
     {
         void LogMessageEvent(BuildMessageEventArgs e);
+
+        void LogErrorEvent(BuildErrorEventArgs e);
+        
+        bool ContinueOnError { get; }
     }
 
-    public class SimpleBuildEngine : IBuildEngine
+    public class ConsoleBuildEngine : IBuildEngine
     {
 
         #region IBuildEngine Members
@@ -215,6 +219,27 @@ namespace Jedzia.BackBock.Tasks
         {
             System.Console.WriteLine(
                 e.Timestamp + ":[" + e.ThreadId + "." + e.SenderName + "]" + e.Message + e.HelpKeyword);
+        }
+
+        #endregion
+
+        #region IBuildEngine Members
+
+
+        public void LogErrorEvent(BuildErrorEventArgs e)
+        {
+            System.Console.WriteLine("ERROR:" + 
+                e.Timestamp + ":[" + e.ThreadId + "." + e.SenderName + "]" + e.Message + e.HelpKeyword);
+        }
+
+        #endregion
+
+        #region IBuildEngine Members
+
+
+        public bool ContinueOnError
+        {
+            get { return false; }
         }
 
         #endregion

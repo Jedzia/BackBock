@@ -15,6 +15,8 @@ using System.Windows.Input;
 using Jedzia.BackBock.Model.Data;
 using System.Windows.Controls;
 using System.Xml.Serialization;
+using Jedzia.BackBock.Tasks.Utilities;
+using System.Text;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     public sealed class MainWindowViewModel : ViewModelBase
@@ -111,10 +113,70 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }*/
 
             //ListBox lb;
-            this.MessengerInstance.Register<string>(this, MainWindowMessageReceived);
+            this.MessengerInstance.Register<BuildMessageEventArgs>(this, LogMessageEvent);
+            //this.MessengerInstance.Register<TaskCommandLineEventArgs>(this, LogMessageEvent);
+            //this.MessengerInstance.Register<string>(this, MainWindowMessageReceived);
+            this.MessengerInstance.Register<string>(this, LogMessageEvent);
             this.MessengerInstance.Register<MVVM.Messaging.DialogMessage>(this, MainWindowMessageReceived);
 
         }
+
+        private void LogMessageEvent(string e)
+        {
+            logsb.Append(DateTime.Now);
+            logsb.Append(": ");
+            logsb.Append(e);
+            logsb.Append(Environment.NewLine);
+            RaisePropertyChanged(LogTextPropertyName);
+        }
+
+        private void LogMessageEvent(BuildMessageEventArgs e)
+        {
+            //var text = e.Timestamp + ":[" + e.ThreadId + "." + e.SenderName + "]" + e.Message + e.HelpKeyword;
+            logsb.Append(e.Timestamp);
+            logsb.Append(":[");
+            logsb.Append(e.ThreadId);
+            logsb.Append(".");
+            logsb.Append(e.SenderName);
+            logsb.Append("]");
+            logsb.Append(" ");
+            logsb.Append(e.Message);
+            logsb.Append("    (");
+            logsb.Append(e.HelpKeyword);
+            logsb.Append(")");
+            logsb.Append(Environment.NewLine);
+            RaisePropertyChanged(LogTextPropertyName);
+            //this.LogText += text + Environment.NewLine;
+        }
+        private StringBuilder logsb = new StringBuilder();
+
+
+        /// <summary>
+        /// The <see cref="LogText" /> property's name.
+        /// </summary>
+        public const string LogTextPropertyName = "LogText";
+
+        private string logText = "";
+
+        /// <summary>
+        /// Sets and gets the LogText property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string LogText
+        {
+            get
+            {
+                //return logText;
+                return logsb.ToString();
+            }
+            set
+            {
+                //Set(LogTextPropertyName, ref logText, value);
+                //
+            }
+        }
+
+
 
         void MainWindowMessageReceived(string e)
         {
@@ -188,6 +250,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         }
 
         #endregion
+
 
         /*private RelayCommand addAttributeCommand;
         public ICommand AddAttributeCommand
@@ -267,6 +330,44 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             return canExecute;
         }
         #endregion
+
+                #region ClearLog Command
+
+        private RelayCommand clearLogCommand;
+
+        public ICommand ClearLogCommand
+        {
+            get
+            {
+                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
+                if (this.clearLogCommand == null)
+                {
+                    this.clearLogCommand = new RelayCommand(this.ClearLogExecuted, this.ClearLogEnabled);
+                }
+
+                return this.clearLogCommand;
+            }
+        }
+
+
+        private void ClearLogExecuted(object o)
+        {
+            this.ClearLog();
+        }
+
+        private void ClearLog()
+        {
+            this.logsb.Length = 0;
+            RaisePropertyChanged(LogTextPropertyName);
+        }
+
+        private bool ClearLogEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
+
 
         //private Type classSpecificationWindowType;
 
