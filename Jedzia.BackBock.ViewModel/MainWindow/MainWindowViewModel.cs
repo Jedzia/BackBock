@@ -17,6 +17,8 @@ using System.Windows.Controls;
 using System.Xml.Serialization;
 using Jedzia.BackBock.Tasks.Utilities;
 using System.Text;
+using System.Xml;
+using System.IO;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     public sealed class MainWindowViewModel : ViewModelBase
@@ -305,22 +307,37 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             Data.BackupItems.Add(new BackupItemViewModel(new Jedzia.BackBock.Model.Data.BackupItemType()));
             //this.mainWindow.DialogService.ShowMessage("MainWindowViewModel.TestExecuted", "Test!", "Ok", null);
             var xml = @"<?xml version=""1.0"" encoding=""utf-16""?>" + Environment.NewLine +
-@"<Backup AlwaysCreate=""False"" ForceTouch=""False"" Time=""{x:Null}"" " + Environment.NewLine +
-"\t" + @"xmlns=""clr-namespace:Jedzia.BackBock.Tasks;assembly=Jedzia.BackBock.Tasks"" " +
-@"xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"">" + Environment.NewLine +
-@"  <Backup.Files>" + Environment.NewLine +
-@"    <x:Array Type=""TaskItem"">" + Environment.NewLine +
-@"      <TaskItem ItemSpec=""C:\tmp\My00.txt"" />" + Environment.NewLine +
-@"      <TaskItem ItemSpec=""C:\tmp\My01.txt"" />" + Environment.NewLine +
-@"      <TaskItem ItemSpec=""C:\tmp\My02.txt"" />" + Environment.NewLine +
-@"      <TaskItem ItemSpec=""C:\tmp\My03.txt"" />" + Environment.NewLine +
-@"      <TaskItem ItemSpec=""C:\tmp\My04.txt"" />" + Environment.NewLine +
-@"    </x:Array>" + Environment.NewLine +
-@"  </Backup.Files>" + Environment.NewLine +
-//@"  <BackupTask.TouchedFiles>" + Environment.NewLine +
-                //@"    <x:Null />" + Environment.NewLine +
-                //@"  </BackupTask.TouchedFiles>" + Environment.NewLine +
-@"</Backup>";
+@"<Project>" + Environment.NewLine +
+@"<CreateItem Include=""C:\Temp\*.*"" Exclude=""*.abc"" Condition=""'$(FuckReports)'==''"" >" +
+//@"<Output TaskParameter=""TargetOutputs"" ItemName=""SandcastleOut"" " +
+//@"xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"" />" +
+@"</CreateItem>" +
+@"</Project>";
+            
+            var xdoc = new XmlDocument();
+            try
+            {
+                xdoc.LoadXml(xml);
+                var ele = xdoc.CreateElement("TheElement");
+                var bi = new Jedzia.BackBock.Tasks.BuildEngine.BuildItem(xdoc, "CreateItem", "TheItemInclude");
+                var itemEle = xdoc["Project"]["CreateItem"];
+                bi.InitializeFromItemElement(itemEle);
+                bi.Include = "C:\\Temp\\*.*";
+                bi.Exclude = "*.txt";
+                bi.Condition = "'$(ShowReports)'==''";
+                //Jedzia.BackBock.Tasks.TaskExtension bu = new ;
+                
+                
+                var eleStr = bi.ItemElement.OuterXml;
+                xdoc.DocumentElement.AppendChild(bi.ItemElement);
+                var sw = new StringWriter();
+                xdoc.Save(sw);
+                var str = sw.ToString();
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
             //var obj = System.Windows.Markup.XamlReader.Parse(xml);
         }
 

@@ -51,7 +51,9 @@
     <Compile Include="Backup.cs" />
     <None Include="BuildEngine\BuildItem.cs" />
     <None Include="BuildEngine\BuildItemGroup.cs" />
-    <None Include="BuildEngine\CopyOnWriteHashtable.cs" />
+    <None Include="BuildEngine\ItemExpander.cs" />
+    <None Include="BuildEngine\Expander.cs" />
+    <Compile Include="BuildEngine\CopyOnWriteHashtable.cs" />
     <None Include="BuildEngine\GroupingCollection.cs" />
     <None Include="Settings.StyleCop" />
     <Compile Include="BuildEngine\XmlSearcher.cs" />

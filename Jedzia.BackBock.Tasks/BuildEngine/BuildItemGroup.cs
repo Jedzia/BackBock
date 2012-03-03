@@ -42,6 +42,50 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
             return item;
         }
 
+        internal BuildItemGroup(XmlDocument ownerDocument, bool importedFromAnotherProject)
+        {
+            ErrorUtilities.VerifyThrow(ownerDocument != null, "Need valid XmlDocument owner for this item group.");
+            this.itemGroupElement = ownerDocument.CreateElement("ItemGroup", "http://schemas.microsoft.com/developer/msbuild/2003");
+            this.importedFromAnotherProject = importedFromAnotherProject;
+            this.ownerDocument = ownerDocument;
+            this.conditionAttribute = null;
+            this.items = new ArrayList();
+            this.MustBePersisted("InvalidInVirtualItemGroup");
+        }
+        public BuildItemGroup()
+        {
+            this.itemGroupElement = null;
+            this.importedFromAnotherProject = false;
+            this.conditionAttribute = null;
+            this.items = new ArrayList();
+        }
+
+
+        public BuildItemGroup Clone(bool deepClone)
+        {
+            BuildItemGroup group;
+            if (this.IsPersisted())
+            {
+                this.MustBePersisted("InvalidInVirtualItemGroup");
+                ErrorUtilities.VerifyThrowInvalidOperation(deepClone, "ShallowCloneNotAllowed");
+                group = new BuildItemGroup(this.ownerDocument, this.importedFromAnotherProject)
+                {
+                    Condition = this.Condition
+                };
+            }
+            else
+            {
+                this.MustBeVirtual("InvalidInPersistedItemGroup");
+                group = new BuildItemGroup();
+            }
+            foreach (BuildItem item in this)
+            {
+                group.AddItem(deepClone ? item.Clone() : item);
+            }
+            return group;
+        }
+
+
         public void RemoveItem(BuildItem itemToRemove)
         {
             ErrorUtilities.VerifyThrow(this.items != null, "BuildItemGroup object not initialized.");
@@ -196,30 +240,48 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
             }
         }
 
+        public string Condition
+        {
+            get
+            {
+                if (this.conditionAttribute != null)
+                {
+                    return this.conditionAttribute.Value;
+                }
+                return string.Empty;
+            }
+            set
+            {
+                this.MustBePersisted("CannotSetCondition");
+                ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
+                if ((value == null) || (value.Length == 0))
+                {
+                    this.itemGroupElement.RemoveAttribute("Condition");
+                    this.conditionAttribute = null;
+                }
+                else
+                {
+                    this.itemGroupElement.SetAttribute("Condition", value);
+                    this.conditionAttribute = this.itemGroupElement.Attributes["Condition"];
+                }
+                this.MarkItemGroupAsDirty();
+            }
+        }
+
+        internal XmlAttribute ConditionAttribute
+        {
+            get
+            {
+                return this.conditionAttribute;
+            }
+        }
+
+
         /* // Fields
         private GroupingCollection parentCollection;
         private Project parentProject;
 
         // Methods
-        public BuildItemGroup()
-        {
-            this.itemGroupElement = null;
-            this.importedFromAnotherProject = false;
-            this.conditionAttribute = null;
-            this.items = new ArrayList();
-        }
-
-        internal BuildItemGroup(XmlDocument ownerDocument, bool importedFromAnotherProject)
-        {
-            ErrorUtilities.VerifyThrow(ownerDocument != null, "Need valid XmlDocument owner for this item group.");
-            this.itemGroupElement = ownerDocument.CreateElement("ItemGroup", "http://schemas.microsoft.com/developer/msbuild/2003");
-            this.importedFromAnotherProject = importedFromAnotherProject;
-            this.ownerDocument = ownerDocument;
-            this.conditionAttribute = null;
-            this.items = new ArrayList();
-            this.MustBePersisted("InvalidInVirtualItemGroup");
-        }
-
         internal BuildItemGroup(XmlElement itemGroupElement, bool importedFromAnotherProject)
         {
             ErrorUtilities.VerifyThrow(itemGroupElement != null, "Need a valid XML node.");
@@ -351,29 +413,6 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
             this.MarkItemGroupAsDirty();
         }
 
-        public BuildItemGroup Clone(bool deepClone)
-        {
-            BuildItemGroup group;
-            if (this.IsPersisted())
-            {
-                this.MustBePersisted("InvalidInVirtualItemGroup");
-                ErrorUtilities.VerifyThrowInvalidOperation(deepClone, "ShallowCloneNotAllowed");
-                group = new BuildItemGroup(this.ownerDocument, this.importedFromAnotherProject) {
-                                                                                                    Condition = this.Condition
-                                                                                                };
-            }
-            else
-            {
-                this.MustBeVirtual("InvalidInPersistedItemGroup");
-                group = new BuildItemGroup();
-            }
-            foreach (BuildItem item in this)
-            {
-                group.AddItem(deepClone ? item.Clone() : item);
-            }
-            return group;
-        }
-
         internal void Evaluate(BuildPropertyGroup parentPropertyBag, bool ignoreCondition, bool honorCondition, Hashtable conditionedPropertiesTable, ProcessingPass pass)
         {
             ErrorUtilities.VerifyThrow(pass == ProcessingPass.Pass2, "Pass should be Pass2 for ItemGroups.");
@@ -430,41 +469,6 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
         }
 
         // Properties
-        public string Condition
-        {
-            get
-            {
-                if (this.conditionAttribute != null)
-                {
-                    return this.conditionAttribute.Value;
-                }
-                return string.Empty;
-            }
-            set
-            {
-                this.MustBePersisted("CannotSetCondition");
-                ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                if ((value == null) || (value.Length == 0))
-                {
-                    this.itemGroupElement.RemoveAttribute("Condition");
-                    this.conditionAttribute = null;
-                }
-                else
-                {
-                    this.itemGroupElement.SetAttribute("Condition", value);
-                    this.conditionAttribute = this.itemGroupElement.Attributes["Condition"];
-                }
-                this.MarkItemGroupAsDirty();
-            }
-        }
-
-        internal XmlAttribute ConditionAttribute
-        {
-            get
-            {
-                return this.conditionAttribute;
-            }
-        }
 
         public int Count
         {

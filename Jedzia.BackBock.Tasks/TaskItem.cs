@@ -227,7 +227,16 @@ namespace Jedzia.BackBock.Tasks
 
         public IEnumerable<DictionaryEntry> GetAllCustomEvaluatedMetadata()
         {
-            return new DictionaryEntry[0];
+            //List<DictionaryEntry> dl = new List<DictionaryEntry>();
+            foreach (var item in metadata)
+            {
+                var de = new DictionaryEntry(item.Key, item.Value);
+                //dl.Add(de);
+                yield return de;
+            }
+
+            //return dl;
+            //return new DictionaryEntry[0];
         }
 
         public void SetFinalItemSpecEscaped(string escape)
@@ -237,11 +246,26 @@ namespace Jedzia.BackBock.Tasks
 
         public string GetEvaluatedMetadata(string metadataName)
         {
-            return null;
-        }
+            string result = null;
+            var found = metadata.TryGetValue(metadataName, out result);
+            if (found)
+            {
 
+            }
+            return result;
+        }
+        //Hashtable metadata = new Hashtable();
+        //HashSet<string> metadata = new HashSet<string>();
+        Dictionary<string,string> metadata = new Dictionary<string,string>();
         public void SetMetadata(string metadataName, string escape)
         {
+            metadata[metadataName] = escape;
+            string result;
+            var found = metadata.TryGetValue(metadataName, out result);
+            if (found)
+            {
+                
+            }
         }
 
         public BuildItem2 VirtualClone()

@@ -23,6 +23,8 @@ namespace Jedzia.BackBock.ViewModel.Data
     using Jedzia.BackBock.ViewModel.MVVM.Messaging;
     using Jedzia.BackBock.Tasks.Utilities;
     using Jedzia.BackBock.ViewModel.Util;
+    using Jedzia.BackBock.Tasks.BuildEngine;
+    using System.Collections;
 
     public partial class BackupItemViewModel
     {
@@ -231,7 +233,13 @@ namespace Jedzia.BackBock.ViewModel.Data
                 //var res = result.ToArray();
                 var includes = result.SelectMany((e) => e.Include);
                 btask.SourceFiles = includes.ToArray();
-                btask.DestinationFolder = new TaskItem(@"C:\tmp\");
+                btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
+                var itemsByType = new Hashtable();
+                foreach (var item in btask.SourceFiles)
+                {
+                    //itemsByType.Add(
+                }
+                var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
                 btask.BuildEngine = this.BuildEngine;
             }
         }
@@ -245,7 +253,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 {
                     //this.buildEngine = new SimpleBuildEngine(LogMessageEvent);
                     var vmb = new ViewModelBuildEngine(this.MessengerInstance);
-                    //vmb.Enabled = true;
+                    vmb.Enabled = true;
                     this.buildEngine = vmb;
                 }
                 return buildEngine;

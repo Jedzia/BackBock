@@ -14,6 +14,8 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
     using System.Xml;
     using Jedzia.BackBock.Tasks.Shared;
     using Jedzia.BackBock.Tasks.Utilities;
+using System.Collections.Generic;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Represents a single item in an Task project.
@@ -79,9 +81,10 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
         }
 
 
-        internal BuildItem(XmlDocument ownerDocument, string itemName, string itemInclude)
+        public BuildItem(XmlDocument ownerDocument, string itemName, string itemInclude)
             : this(ownerDocument, itemName, itemInclude, true)
         {
+            //Todo: Set this to internal after testing
         }
 
 
@@ -126,6 +129,35 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
         #endregion
 
         #region Properties
+
+        public string Exclude
+        {
+            get
+            {
+                if (this.excludeAttribute != null)
+                {
+                    return this.excludeAttribute.Value;
+                }
+                return string.Empty;
+            }
+            set
+            {
+                ErrorUtilities.VerifyThrowInvalidOperation(this.itemElement != null, "CannotSetExcludeOnVirtualItem", "Exclude");
+                ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
+                ErrorUtilities.VerifyThrowInvalidOperation(this.ParentPersistedItem == null, "CannotSetExcludeOnEvaluatedItem", "Exclude");
+                if ((value == null) || (value.Length == 0))
+                {
+                    this.itemElement.RemoveAttribute("Exclude");
+                    this.excludeAttribute = null;
+                }
+                else
+                {
+                    this.itemElement.SetAttribute("Exclude", value);
+                    this.excludeAttribute = this.itemElement.Attributes["Exclude"];
+                }
+                this.MarkItemAsDirty();
+            }
+        }
 
         public string Condition
         {
@@ -293,8 +325,9 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
             }
         }
 
-        internal XmlElement ItemElement
+        public XmlElement ItemElement
         {
+            //Todo: Set this to internal after testing
             get
             {
                 return this.itemElement;
@@ -477,8 +510,9 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
             this.evaluatedCustomMetadata = new CopyOnWriteHashtable(StringComparer.OrdinalIgnoreCase);
         }
 
-        private void InitializeFromItemElement(XmlElement itemElementToParse)
+        public void InitializeFromItemElement(XmlElement itemElementToParse)
         {
+            // Todo: after testing make this private.
             ErrorUtilities.VerifyThrow(itemElementToParse != null, "Need an XML node representing the item element.");
             int num = XmlUtilities.LocateFirstInvalidElementNameCharacter(itemElementToParse.Name);
             if (-1 != num)
@@ -670,10 +704,62 @@ namespace Jedzia.BackBock.Tasks.BuildEngine
                 parentPersistedItemGroup.RemoveItem(this);
             }
         }
+
+        internal BuildItem VirtualClone()
+        {
+            BuildItem item = new BuildItem(null, this.Name, this.Include, false);
+            item.SetEvaluatedItemSpecEscaped(this.evaluatedItemSpecEscaped);
+            item.SetFinalItemSpecEscaped(this.FinalItemSpecEscaped);
+            item.itemSpecModifiers = this.itemSpecModifiers;
+            item.recursivePortionOfFinalItemSpecDirectory = this.recursivePortionOfFinalItemSpecDirectory;
+            ErrorUtilities.VerifyThrow(this.unevaluatedCustomMetadata != null, "Item is not initialized properly.");
+            ErrorUtilities.VerifyThrow(this.evaluatedCustomMetadata != null, "Item is not initialized properly.");
+            item.unevaluatedCustomMetadata = (CopyOnWriteHashtable)this.unevaluatedCustomMetadata.Clone();
+            item.evaluatedCustomMetadata = (CopyOnWriteHashtable)this.evaluatedCustomMetadata.Clone();
+            return item;
+        }
+
+
+        internal void SetEvaluatedItemSpecEscaped(string evaluatedItemSpecValueEscaped)
+        {
+            this.evaluatedItemSpecEscaped = evaluatedItemSpecValueEscaped;
+        }
+
+        public BuildItem Clone()
+        {
+            if (this.itemElement != null)
+            {
+                BuildItem item = new BuildItem(this.itemElement, this.importedFromAnotherProject);
+                item.SetEvaluatedItemSpecEscaped(this.evaluatedItemSpecEscaped);
+                item.SetFinalItemSpecEscaped(this.FinalItemSpecEscaped);
+                item.itemSpecModifiers = this.itemSpecModifiers;
+                item.recursivePortionOfFinalItemSpecDirectory = this.recursivePortionOfFinalItemSpecDirectory;
+                item.evaluatedCustomMetadata = this.evaluatedCustomMetadata;
+                item.unevaluatedCustomMetadata = this.unevaluatedCustomMetadata;
+                return item;
+            }
+            return this.VirtualClone();
+        }
+        
+        internal BuildItem(XmlElement itemElement, bool importedFromAnotherProject)
+        {
+            this.finalItemSpecEscaped = string.Empty;
+            this.InitializeFromItemElement(itemElement);
+            this.importedFromAnotherProject = importedFromAnotherProject;
+            ProjectErrorUtilities.VerifyThrowInvalidProject(XMakeElements.IllegalItemPropertyNames[this.Name] == null, this.ItemElement, "CannotModifyReservedItem", this.Name);
+        }
+
+ 
+
+ 
+
+
     }
 
 
     internal interface IItemPropertyGrouping
     {
     }
+
+
 }

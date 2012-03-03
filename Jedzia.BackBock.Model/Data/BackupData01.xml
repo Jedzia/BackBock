@@ -14,9 +14,11 @@
     <Task TypeName="Backup" />
   </BackupItem>
   <BackupItem IsEnabled="true" ItemName="Firefox">
-    <Path Path="C:\Temp\" />
+    <Path Path="C:\Temp\">
+      <Inclusion Pattern="**\*.cs" Enabled="true" />
+    </Path>
     <Path Path="D:\Tmp">
-      <Exclusion Pattern="*.cs" Enabled="true" />
+      <Exclusion Pattern="**\*.*" Enabled="true" />
     </Path>
     <Task TypeName="Backup" />
   </BackupItem>
