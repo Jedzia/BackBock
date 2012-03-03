@@ -242,10 +242,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             Data.BackupItems.Add(new BackupItemViewModel(new Jedzia.BackBock.Model.Data.BackupItemType()));
             //this.mainWindow.DialogService.ShowMessage("MainWindowViewModel.TestExecuted", "Test!", "Ok", null);
             var xml = @"<?xml version=""1.0"" encoding=""utf-16""?>" + Environment.NewLine +
-@"<BackupTask AlwaysCreate=""False"" ForceTouch=""False"" Time=""{x:Null}"" " + Environment.NewLine +
+@"<Backup AlwaysCreate=""False"" ForceTouch=""False"" Time=""{x:Null}"" " + Environment.NewLine +
 "\t" + @"xmlns=""clr-namespace:Jedzia.BackBock.Tasks;assembly=Jedzia.BackBock.Tasks"" " +
 @"xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"">" + Environment.NewLine +
-@"  <BackupTask.Files>" + Environment.NewLine +
+@"  <Backup.Files>" + Environment.NewLine +
 @"    <x:Array Type=""TaskItem"">" + Environment.NewLine +
 @"      <TaskItem ItemSpec=""C:\tmp\My00.txt"" />" + Environment.NewLine +
 @"      <TaskItem ItemSpec=""C:\tmp\My01.txt"" />" + Environment.NewLine +
@@ -253,12 +253,12 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 @"      <TaskItem ItemSpec=""C:\tmp\My03.txt"" />" + Environment.NewLine +
 @"      <TaskItem ItemSpec=""C:\tmp\My04.txt"" />" + Environment.NewLine +
 @"    </x:Array>" + Environment.NewLine +
-@"  </BackupTask.Files>" + Environment.NewLine +
+@"  </Backup.Files>" + Environment.NewLine +
 //@"  <BackupTask.TouchedFiles>" + Environment.NewLine +
                 //@"    <x:Null />" + Environment.NewLine +
                 //@"  </BackupTask.TouchedFiles>" + Environment.NewLine +
-@"</BackupTask>";
-            var obj = System.Windows.Markup.XamlReader.Parse(xml);
+@"</Backup>";
+            //var obj = System.Windows.Markup.XamlReader.Parse(xml);
         }
 
         private bool TestEnabled(object sender)

@@ -23,6 +23,88 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
     using System.Linq;
     using System.Reflection;
     using Microsoft.Practices.ServiceLocation;
+    using System.Text;
+
+    /// <summary>
+    /// InstanceInfo.
+    /// </summary>
+    [Serializable]
+    internal class InstanceInfo : IEquatable<InstanceInfo>
+    {
+        #region Properties
+        /// <summary>
+        /// Gets or sets the Instance.
+        /// </summary>
+        /// <value>The Instance.</value>
+        internal Type InstanceType { get; private set; }
+        /// <summary>
+        /// Gets or sets the Lifetime.
+        /// </summary>
+        /// <value>The Lifetime.</value>
+        internal IInstanceLifetime Lifetime { get; private set; }
+        #endregion
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InstanceInfo"/> class.
+        /// </summary>
+        internal InstanceInfo() { }
+        /// <summary>
+        /// Initializes a new fully specified instance of the <see cref="InstanceInfo"/> class.
+        /// </summary>
+        /// <param name="Instance">The Instance</param>
+        /// <param name="Lifetime">The Lifetime</param>
+        internal InstanceInfo(Type instanceType, IInstanceLifetime lifetime)
+        {
+            this.InstanceType = instanceType;
+            this.Lifetime = lifetime;
+        }
+        #endregion
+        #region Methods
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.</param>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+        /// </returns>
+        /// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
+        public override bool Equals(object obj)
+        {
+            InstanceInfo other = obj as InstanceInfo;
+            if (other != null)
+                return Equals(other);
+            return false;
+        }
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        public bool Equals(InstanceInfo other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return
+              InstanceType == other.InstanceType &&
+              Lifetime == other.Lifetime;
+        }
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("InstanceType = " + InstanceType + ";");
+            sb.Append("Lifetime = " + Lifetime);
+            return sb.ToString();
+        }
+        #endregion
+    }
 
     /// <summary>
     /// A very simple IOC container with basic functionality needed to register and resolve
@@ -51,6 +133,8 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             = new Dictionary<Type, Dictionary<string, Delegate>>();
         private readonly Dictionary<Type, Dictionary<string, object>> _instancesRegistry
             = new Dictionary<Type, Dictionary<string, object>>();
+        private readonly Dictionary<Type, InstanceInfo> _instanceInfos
+    = new Dictionary<Type, InstanceInfo>();
 
         /// <summary>
         /// This class' default instance.
@@ -148,6 +232,8 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 else
                 {
                     _interfaceToClassMap.Add(interfaceType, classType);
+                    var ii = new InstanceInfo(classType, new NormalInstance());
+                    this._instanceInfos.Add(classType, ii);
                 }
 
                 if (_factories.ContainsKey(interfaceType))
@@ -187,6 +273,8 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 else
                 {
                     _interfaceToClassMap.Add(classType, null);
+                    var ii = new InstanceInfo(classType, new NormalInstance());
+                    this._instanceInfos.Add(classType, ii);
                 }
 
                 if (_factories.ContainsKey(classType))
@@ -227,6 +315,8 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 else
                 {
                     _interfaceToClassMap.Add(classType, null);
+                    var ii = new InstanceInfo(classType, new NormalInstance());
+                    this._instanceInfos.Add(classType, ii);
                 }
 
                 if (_instancesRegistry.ContainsKey(classType)
@@ -268,6 +358,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         public void Reset()
         {
             _interfaceToClassMap.Clear();
+            _instanceInfos.Clear();
             _instancesRegistry.Clear();
             _factories.Clear();
         }
@@ -295,6 +386,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 if (_interfaceToClassMap.ContainsKey(classType))
                 {
                     _interfaceToClassMap.Remove(classType);
+                    _instanceInfos.Remove(classType);
                 }
 
                 if (_factories.ContainsKey(classType))
@@ -445,7 +537,10 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                     }
                 }
 
+                //var lifetime = new NormalInstance();
+                //var lifetime = new SingletonInstance();
                 instances.Add(key, instance);
+                //instances.Add(key, new InstanceInfo(lifetime.CreateInstance(instance), lifetime));
                 return instance;
             }
         }

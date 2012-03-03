@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="MVVM\Command\EventToCommand.cs" />
     <Compile Include="MVVM\Command\EventToCommand.WPF.cs" />
+    <Compile Include="MVVM\Ioc\IInstanceLifetime.cs" />
     <Compile Include="MVVM\Ioc\ISimpleIoc.cs" />
     <Compile Include="MVVM\Ioc\PreferredConstructor.cs" />
     <Compile Include="MVVM\Ioc\SimpleIoc.cs" />

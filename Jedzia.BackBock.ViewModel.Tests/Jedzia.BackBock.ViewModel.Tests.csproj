@@ -46,7 +46,10 @@
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL" />
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BuildTools\rhino-mocks\Rhino.Mocks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -70,13 +73,18 @@
   <ItemGroup>
     <None Include="Util\GuardTestX.cs" />
     <Compile Include="ApplicationViewModelTest.cs" />
+    <Compile Include="Converters\BoolToOppositeConverterTest.cs" />
     <Compile Include="Commands\CommandKeyGestureAttributeTest.cs" />
     <Compile Include="Commands\EventToCommandTest.cs" />
     <Compile Include="Commands\RelayCommandGenericTest.cs" />
     <Compile Include="Commands\RelayCommandTest.cs" />
     <Compile Include="ControlRegistratorTest.cs" />
     <Compile Include="Data\BackupDataViewModelTest.cs" />
+    <Compile Include="Converters\DisplayModeToVisibilityTest.cs" />
     <Compile Include="DisplayModeViewModelTest.cs" />
+    <Compile Include="Converters\DoubleTypeConverterTest.cs" />
+    <Compile Include="Converters\EnumTypeConverterTest.cs" />
+    <Compile Include="Converters\ImageConverterTest.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestContains.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestCreationTime.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestIsRegistered.cs" />
