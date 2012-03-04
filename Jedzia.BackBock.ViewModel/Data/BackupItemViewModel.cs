@@ -234,12 +234,12 @@ namespace Jedzia.BackBock.ViewModel.Data
                 var includes = result.SelectMany((e) => e.Include);
                 btask.SourceFiles = includes.ToArray();
                 btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
-                var itemsByType = new Hashtable();
+                //var itemsByType = new Hashtable();
                 foreach (var item in btask.SourceFiles)
-                {
+                //{
                     //itemsByType.Add(
-                }
-                var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
+                //}
+                //var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
                 btask.BuildEngine = this.BuildEngine;
             }
         }

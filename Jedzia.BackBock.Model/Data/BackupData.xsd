@@ -33,5 +33,6 @@
     <xs:element name="Path" type="PathDataType"/>
     <xs:complexType name="TaskType">
         <xs:attribute name="TypeName" type="xs:string"/>
+        <xs:anyAttribute namespace=""/>
     </xs:complexType>
 </xs:schema>

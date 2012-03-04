@@ -319,7 +319,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
                 xdoc.LoadXml(xml);
                 var ele = xdoc.CreateElement("TheElement");
-                var bi = new Jedzia.BackBock.Tasks.BuildEngine.BuildItem(xdoc, "CreateItem", "TheItemInclude");
+                /*var bi = new Jedzia.BackBock.Tasks.BuildEngine.BuildItem(xdoc, "CreateItem", "TheItemInclude");
                 var itemEle = xdoc["Project"]["CreateItem"];
                 bi.InitializeFromItemElement(itemEle);
                 bi.Include = "C:\\Temp\\*.*";
@@ -329,7 +329,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
                 
                 
                 var eleStr = bi.ItemElement.OuterXml;
-                xdoc.DocumentElement.AppendChild(bi.ItemElement);
+                xdoc.DocumentElement.AppendChild(bi.ItemElement);*/
                 var sw = new StringWriter();
                 xdoc.Save(sw);
                 var str = sw.ToString();

@@ -33,6 +33,7 @@ namespace Jedzia.BackBock.Tasks
         public override bool Execute()
         {
             throw new NotImplementedException();
+            //return false;
         }
     }
 
@@ -404,8 +405,18 @@ namespace Jedzia.BackBock.Tasks
                     string str;
                     try
                     {
-                        str = Path.Combine(
-                            this.destinationFolder.ItemSpec, Path.GetFileName(this.sourceFiles[i].ItemSpec));
+                        string destination = this.destinationFolder.ItemSpec;
+                        //var ee2 = this.sourceFiles[i].GetAllCustomEvaluatedMetadata();
+                        foreach (string item in this.sourceFiles[i].MetadataNames)
+                        {
+                            var match = "%(" + item + ")";
+                            if (destination.Contains(match))
+                            {
+                                var meta = this.sourceFiles[i].GetMetadata(item);
+                                destination = destination.Replace(match, meta);
+                            }
+                        }
+                        str = Path.Combine( destination, Path.GetFileName(this.sourceFiles[i].ItemSpec));
                     }
                     catch (ArgumentException exception)
                     {

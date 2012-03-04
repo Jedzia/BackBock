@@ -8,6 +8,7 @@
 namespace Jedzia.BackBock.Tasks
 {
     using System;
+    using System.Linq;
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -119,7 +120,7 @@ namespace Jedzia.BackBock.Tasks
         {
             get
             {
-                throw new NotImplementedException();
+                return (this.item.GetCustomMetadataCount() + FileUtilities.ItemSpecModifiers.All.Length);
             }
         }
 
@@ -131,7 +132,12 @@ namespace Jedzia.BackBock.Tasks
         {
             get
             {
-                throw new NotImplementedException();
+                ArrayList allCustomMetadataNames = this.item.GetAllCustomMetadataNames();
+                // Todo: check the correctness of this comment, the custom names are not exposed now.
+                allCustomMetadataNames.AddRange(FileUtilities.ItemSpecModifiers.All);
+                var distinct = allCustomMetadataNames.ToArray().Distinct();
+                return distinct.ToList();
+                //return allCustomMetadataNames;
             }
         }
 
@@ -225,6 +231,12 @@ namespace Jedzia.BackBock.Tasks
             }
         }
 
+        internal ArrayList GetAllCustomMetadataNames()
+        {
+            ErrorUtilities.VerifyThrow(this.metadata != null, "Item not initialized properly. unevaluatedCustomAttributes is null.");
+            return new ArrayList(this.metadata.Keys);
+        }
+
         public IEnumerable<DictionaryEntry> GetAllCustomEvaluatedMetadata()
         {
             //List<DictionaryEntry> dl = new List<DictionaryEntry>();
@@ -242,6 +254,11 @@ namespace Jedzia.BackBock.Tasks
         public void SetFinalItemSpecEscaped(string escape)
         {
             FinalItemSpec = escape;
+        }
+        internal int GetCustomMetadataCount()
+        {
+            ErrorUtilities.VerifyThrow(this.metadata != null, "Item not initialized properly. unevaluatedCustomAttributes is null.");
+            return this.metadata.Count;
         }
 
         public string GetEvaluatedMetadata(string metadataName)

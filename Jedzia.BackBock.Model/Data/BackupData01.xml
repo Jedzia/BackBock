@@ -1,42 +1,42 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BackupData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DatasetName="Daily">
-  <BackupItem IsEnabled="true" ItemName="All from Temp, exclude *.msi;B* ">
-    <Path Path="C:\Temp\">
-      <Exclusion Pattern="B*" Enabled="true" />
-      <Exclusion Pattern="*.msi" Enabled="true" />
-      <Inclusion Pattern="**" Enabled="true" />
-    </Path>
-    <Path Path="D:\Temp" />
-    <Task TypeName="Backup" />
-  </BackupItem>
-  <BackupItem IsEnabled="true" ItemName="Only one file">
-    <Path Path="C:\Temp\Raabe.png" />
-    <Task TypeName="Backup" />
-  </BackupItem>
-  <BackupItem IsEnabled="true" ItemName="Firefox">
-    <Path Path="C:\Temp\">
-      <Inclusion Pattern="**\*.cs" Enabled="true" />
-    </Path>
-    <Path Path="D:\Tmp">
-      <Exclusion Pattern="**\*.*" Enabled="true" />
-    </Path>
-    <Task TypeName="Backup" />
-  </BackupItem>
-  <BackupItem ItemName="My Documents">
-    <Path Path="C:\Text\notes.txt" />
-    <Path Path="D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Model\Data\BackupData.Designer.cs">
-      <Inclusion Pattern="IIII" />
-    </Path>
-    <Path Path="C:\Users\root\info.txt">
-      <Exclusion Pattern="AAA" />
-    </Path>
-    <Task TypeName="Touch" />
-  </BackupItem>
-  <BackupItem IsEnabled="true" ItemName="From Dusk till D:\">
-    <Path Path="D:\">
-      <Exclusion Pattern="D:\Temp\**" />
-      <Inclusion Pattern="*.txt" />
-    </Path>
-    <Task TypeName="None" />
-  </BackupItem>
+<?xml version="1.0" encoding="utf-8"?>
+<BackupData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DatasetName="Daily" xsi:noNamespaceSchemaLocation="BackupData.xsd">
+	<BackupItem IsEnabled="true" ItemName="All from Temp, exclude *.msi;B* ">
+		<Path Path="C:\Temp\">
+			<Exclusion Pattern="B*" Enabled="true"/>
+			<Exclusion Pattern="*.msi" Enabled="true"/>
+			<Inclusion Pattern="**" Enabled="true"/>
+		</Path>
+		<Path Path="D:\Temp"/>
+		<Task TypeName="Backup"/>
+	</BackupItem>
+	<BackupItem IsEnabled="true" ItemName="Only one file">
+		<Path Path="C:\Temp\Raabe.png"/>
+		<Task TypeName="Backup"/>
+	</BackupItem>
+	<BackupItem IsEnabled="true" ItemName="Firefox">
+		<Path Path="C:\Temp\">
+			<Inclusion Pattern="**\*.cs" Enabled="true"/>
+		</Path>
+		<Path Path="D:\Tmp">
+			<Exclusion Pattern="**\*.*" Enabled="true"/>
+		</Path>
+		<Task TypeName="Backup"/>
+	</BackupItem>
+	<BackupItem ItemName="My Documents">
+		<Path Path="C:\Text\notes.txt"/>
+		<Path Path="D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Model\Data\BackupData.Designer.cs">
+			<Inclusion Pattern="IIII"/>
+		</Path>
+		<Path Path="C:\Users\root\info.txt">
+			<Exclusion Pattern="AAA"/>
+		</Path>
+		<Task TypeName="Backup"/>
+	</BackupItem>
+	<BackupItem IsEnabled="true" ItemName="From Dusk till D:\">
+		<Path Path="D:\">
+			<Exclusion Pattern="D:\Temp\**"/>
+			<Inclusion Pattern="*.txt"/>
+		</Path>
+		<Task TypeName="None"/>
+	</BackupItem>
 </BackupData>
