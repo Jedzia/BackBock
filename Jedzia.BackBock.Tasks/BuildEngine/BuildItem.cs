@@ -472,7 +472,7 @@ using System.Collections.Generic;
             }*/
             return false;
         }
-
+         
         internal void SetFinalItemSpecEscaped(string finalItemSpecValueEscaped)
         {
             this.finalItemSpecEscaped = finalItemSpecValueEscaped;

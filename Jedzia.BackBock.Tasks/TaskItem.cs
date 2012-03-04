@@ -18,6 +18,9 @@ namespace Jedzia.BackBock.Tasks
     using Jedzia.BackBock.Tasks.Utilities;
     using System.Text;
 
+    /// <summary>
+    /// Defines a single item of the project as it is passed into a task.
+    /// </summary>
     [DisplayName("TaskItem")]
     public sealed class TaskItem : MarshalByRefObject, ITaskItem
     {
@@ -31,6 +34,10 @@ namespace Jedzia.BackBock.Tasks
 
         #region Constructors
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="TaskItem"/> class from being created.
+        /// </summary>
+        /// <remarks>This constructor enables this type to be COM-creatable.</remarks>
         private TaskItem()
         {
             // Todo: after XamlReader testing, make this internal.
@@ -51,6 +58,11 @@ namespace Jedzia.BackBock.Tasks
             this.item = item.VirtualClone();
         }*/
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskItem"/> class
+        /// using the specified source ITaskItem.
+        /// </summary>
+        /// <param name="sourceItem">The item to copy.</param>
         public TaskItem(ITaskItem sourceItem)
             : this(sourceItem.ItemSpec)
         {
@@ -64,9 +76,10 @@ namespace Jedzia.BackBock.Tasks
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TaskItem"/> class.
+        /// Initializes a new instance of the <see cref="TaskItem"/> class
+        /// using the specified item-specification string.
         /// </summary>
-        /// <param name="itemSpec">The item spec.</param>
+        /// <param name="itemSpec">The item specification.</param>
         public TaskItem(string itemSpec)
         {
             // Todo: after XamlReader testing, make this internal.
@@ -94,11 +107,22 @@ namespace Jedzia.BackBock.Tasks
         #region Properties
 
         /// <summary>
-        /// Gets or sets the item spec.
+        /// Gets or sets the item specification.
         /// </summary>
         /// <value>
-        /// The item specification.
+        /// A String that represents the item specification.
         /// </value>
+        /// <remarks>
+        /// The ItemSpec for the following item declaration in a project file is File.cs
+        /// <example>
+        /// <code><![CDATA[
+        /// <ItemGroup>
+        ///    <Compile Include="File.cs"/>
+        /// </ItemGroup>
+        /// ]]>
+        /// </code>
+        /// </example>
+        /// </remarks>
         public string ItemSpec
         {
             get
@@ -125,7 +149,7 @@ namespace Jedzia.BackBock.Tasks
         }
 
         /// <summary>
-        /// Gets the names of the metadata entries associated with the item.
+        /// Gets the names of all the metadata on the item.
         /// </summary>
         [Browsable(false)]
         public ICollection MetadataNames
@@ -210,6 +234,151 @@ namespace Jedzia.BackBock.Tasks
         }
     }
 
+    /// <summary>
+    /// Represents a single item in an MSBuild project. This is a placeholder class.
+    /// </summary>
+    /// <remarks>
+    /// An Item element in a project can represent multiple items through the use of
+    /// wildcards. Therefore, each BuildItem object does not necessarily represent an
+    /// Item element in the project.
+    /// </remarks>
+    /// <example>
+    /// The following example creates a Project object and uses the LoadXml method to
+    /// add content to the project. The BuildItem, BuildItemGroup, and
+    /// BuildItemGroupCollection classes are used to add, remove, and change items in
+    /// the project. 
+    /// <code lang="C#">
+    /// using System;
+    /// using System.Collections.Generic;
+    /// using System.Text;
+    /// 
+    /// using Microsoft.Build.BuildEngine;
+    /// 
+    /// namespace AddNewItem
+    /// {
+    ///     class Program
+    ///     {
+    ///         /// &lt;summary&gt;
+    ///         /// This code demonstrates the use of the following methods:
+    ///         ///     Engine constructor
+    ///         ///     Project constructor
+    ///         ///     Project.LoadFromXml
+    ///         ///     Project.Xml
+    ///         ///     BuildItemGroupCollection.GetEnumerator
+    ///         ///     BuildItemGroup.GetEnumerator
+    ///         ///     BuildItem.Name (get)
+    ///         ///     BuildItem.Include (set)
+    ///         ///     BuildItem.GetMetadata
+    ///         ///     BuildItem.SetMetadata
+    ///         ///     BuildItemGroup.RemoveItem
+    ///         ///     BuildItemGroup.AddNewItem
+    ///         /// &lt;/summary&gt;
+    ///         /// &lt;param name=&quot;args&quot;&gt;&lt;/param&gt;
+    ///         static void Main(string[] args)
+    ///         {
+    ///             // Create a new Engine object.
+    ///             Engine engine = new Engine(Environment.CurrentDirectory);
+    /// 
+    ///             // Create a new Project object.
+    ///             Project project = new Project(engine);
+    /// 
+    ///             // Load the project with the following XML, which contains
+    ///             // two ItemGroups.
+    ///             project.LoadXml(@&quot;
+    ///                 &lt;Project
+    /// xmlns='http://schemas.microsoft.com/developer/msbuild/2003'&gt;
+    /// 
+    ///                     &lt;ItemGroup&gt;
+    ///                         &lt;Compile Include='Program.cs'/&gt;
+    ///                         &lt;Compile Include='Class1.cs'/&gt;
+    ///                         &lt;RemoveThisItemPlease Include='readme.txt'/&gt;
+    ///                     &lt;/ItemGroup&gt;
+    /// 
+    ///                     &lt;ItemGroup&gt;
+    ///                         &lt;EmbeddedResource Include='Strings.resx'&gt;
+    /// 
+    /// &lt;LogicalName&gt;Strings.resources&lt;/LogicalName&gt;
+    ///                             &lt;Culture&gt;fr-fr&lt;/Culture&gt;
+    ///                         &lt;/EmbeddedResource&gt;
+    ///                     &lt;/ItemGroup&gt;
+    /// 
+    ///                 &lt;/Project&gt;
+    ///                 &quot;);
+    /// 
+    ///             // Iterate through each ItemGroup in the Project.  There are two.
+    ///             foreach (BuildItemGroup ig in project.ItemGroups)
+    ///             {
+    ///                 BuildItem itemToRemove = null;
+    /// 
+    ///                 // Iterate through each Item in the ItemGroup.
+    ///                 foreach (BuildItem item in ig)
+    ///                 {
+    ///                     // If the item's name is &quot;RemoveThisItemPlease&quot;,
+    /// then
+    ///                     // store a reference to this item in a local variable,
+    ///                     // so we can remove it later.
+    ///                     if (item.Name == &quot;RemoveThisItemPlease&quot;)
+    ///                     {
+    ///                         itemToRemove = item;
+    ///                     }
+    /// 
+    ///                     // If the item's name is &quot;EmbeddedResource&quot; and it
+    /// has a metadata Culture
+    ///                     // set to &quot;fr-fr&quot;, then ...
+    ///                     if ((item.Name == &quot;EmbeddedResource&quot;) &amp;&amp;
+    /// (item.GetMetadata(&quot;Culture&quot;) == &quot;fr-fr&quot;))
+    ///                     {
+    ///                         // Change the item's Include path to
+    /// &quot;FrenchStrings.fr.resx&quot;,
+    ///                         // and add a new metadata Visiable=&quot;false&quot;.
+    ///                         item.Include = @&quot;FrenchStrings.fr.resx&quot;;
+    ///                         item.SetMetadata(&quot;Visible&quot;,
+    /// &quot;false&quot;);
+    ///                     }
+    ///                 }
+    /// 
+    ///                 // Remove the item named &quot;RemoveThisItemPlease&quot; from
+    /// the
+    ///                 // ItemGroup
+    ///                 if (itemToRemove != null)
+    ///                 {
+    ///                     ig.RemoveItem(itemToRemove);
+    ///                 }
+    /// 
+    ///                 // For each ItemGroup that we found, add to the end of it
+    ///                 // a new item Content with Include=&quot;SplashScreen.bmp&quot;.
+    ///                 ig.AddNewItem(&quot;Content&quot;,
+    /// &quot;SplashScreen.bmp&quot;);
+    ///             }
+    /// 
+    ///             // The project now looks like this:
+    ///             //
+    ///             //     &lt;?xml version=&quot;1.0&quot;
+    /// encoding=&quot;utf-16&quot;?&gt;
+    ///             //     &lt;Project
+    /// xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+    ///             //       &lt;ItemGroup&gt;
+    ///             //         &lt;Compile Include=&quot;Program.cs&quot; /&gt;
+    ///             //         &lt;Compile Include=&quot;Class1.cs&quot; /&gt;
+    ///             //         &lt;Content Include=&quot;SplashScreen.bmp&quot; /&gt;
+    ///             //       &lt;/ItemGroup&gt;
+    ///             //       &lt;ItemGroup&gt;
+    ///             //         &lt;EmbeddedResource
+    /// Include=&quot;FrenchStrings.fr.resx&quot;&gt;
+    ///             //
+    /// &lt;LogicalName&gt;Strings.resources&lt;/LogicalName&gt;
+    ///             //           &lt;Culture&gt;fr-fr&lt;/Culture&gt;
+    ///             //           &lt;Visible&gt;false&lt;/Visible&gt;
+    ///             //         &lt;/EmbeddedResource&gt;
+    ///             //         &lt;Content Include=&quot;SplashScreen.bmp&quot; /&gt;
+    ///             //       &lt;/ItemGroup&gt;
+    ///             //     &lt;/Project&gt;
+    ///             //
+    ///             Console.WriteLine(project.Xml);
+    ///         }
+    ///     }
+    /// }</code>
+    /// </example>
     internal class BuildItem2
     {
         private string finalItemSpec;

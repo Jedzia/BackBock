@@ -181,6 +181,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         }
 
 
+        /// <summary>
+        /// Gets the list of available task types.
+        /// </summary>
         public IEnumerable<string> TaskList
         {
             get

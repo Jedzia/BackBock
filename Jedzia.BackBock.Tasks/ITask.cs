@@ -19,6 +19,12 @@ namespace Jedzia.BackBock.Tasks
         /// </summary>
         string Name { get; }
 
+        /// <summary>
+        /// Gets or sets the build engine associated with the task.
+        /// </summary>
+        /// <value>
+        /// The build engine associated with the task.
+        /// </value>
         IBuildEngine BuildEngine { get; set; }
 
         #endregion

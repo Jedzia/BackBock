@@ -28,3 +28,5 @@ _ReSharper*/
 *.tss
 /BuildTools
 /output
+/Jedzia.BackBock.Tasks/VSdoc
+/Docs/Help

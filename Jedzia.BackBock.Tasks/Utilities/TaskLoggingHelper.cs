@@ -1,11 +1,4 @@
-﻿// <copyright file="$FileName$" company="$Company$">
-// Copyright (c) 2012 All Right Reserved
-// </copyright>
-// <author>Jedzia</author>
-// <email>jed69@gmx.de</email>
-// <date>$date$</date>
-// <summary>$summary$</summary>
-namespace Jedzia.BackBock.Tasks.Utilities
+﻿namespace Jedzia.BackBock.Tasks.Utilities
 {
     using System;
     using System.Resources;
@@ -17,6 +10,120 @@ namespace Jedzia.BackBock.Tasks.Utilities
     /// <summary>
     /// Provides helper logging methods used by tasks.
     /// </summary>
+    /// <example>
+    /// The following example shows the code for a task that creates one or more directories. 
+    /// <para> </para>
+    /// <code lang="C#">
+    /// using System;
+    /// using System.IO;
+    /// using System.Security;
+    /// using System.Collections;
+    /// using Microsoft.Build.Framework;
+    /// using Microsoft.Build.Utilities;
+    /// 
+    /// namespace Microsoft.Build.Tasks
+    /// {
+    ///     /*
+    ///      * Class: MakeDir
+    ///      *
+    ///      * An MSBuild task that creates one or more directories.
+    ///      *
+    ///      */
+    ///     public class MakeDir : Task
+    ///     {
+    ///         // The Required attribute indicates the following to MSBuild:
+    ///         //         - if the parameter is a scalar type, and it is not supplied, fail the build immediately
+    ///         //         - if the parameter is an array type, and it is not supplied, pass in an empty array
+    ///         // In this case the parameter is an array type, so if a project fails to pass in a value for the 
+    ///             // Directories parameter, the task will get invoked, but this implementation will do nothing,
+    ///             // because the array will be empty.
+    ///         [Required]
+    ///             // Directories to create.
+    ///         public ITaskItem[] Directories
+    ///         {
+    ///             get
+    ///             {
+    ///                 return directories;
+    ///             }
+    /// 
+    ///             set
+    ///             {
+    ///                 directories = value;
+    ///             }
+    ///         }
+    /// 
+    ///         // The Output attribute indicates to MSBuild that the value of this property can be gathered after the
+    ///         // task has returned from Execute(), if the project has an &lt;Output&gt; tag under this task's element for 
+    ///         // this property.
+    ///         [Output]
+    ///         // A project may need the subset of the inputs that were actually created, so make that available here.
+    ///         public ITaskItem[] DirectoriesCreated
+    ///         {
+    ///             get
+    ///             {
+    ///                 return directoriesCreated;
+    ///             }
+    ///         }
+    /// 
+    ///         private ITaskItem[] directories;
+    ///         private ITaskItem[] directoriesCreated;
+    /// 
+    ///         /// &lt;summary&gt;
+    ///         /// Execute is part of the Microsoft.Build.Framework.ITask interface.
+    ///         /// When it's called, any input parameters have already been set on the task's properties.
+    ///         /// It returns true or false to indicate success or failure.
+    ///         /// &lt;/summary&gt;
+    ///         public override bool Execute()
+    ///         {
+    ///             ArrayList items = new ArrayList();
+    ///             foreach (ITaskItem directory in Directories)
+    ///             {
+    ///                 // ItemSpec holds the filename or path of an Item
+    ///                 if (directory.ItemSpec.Length &gt; 0)
+    ///                 {
+    ///                     try
+    ///                     {
+    ///                         // Only log a message if we actually need to create the folder
+    ///                         if (!Directory.Exists(directory.ItemSpec))
+    ///                         {
+    ///                             Log.LogMessage(MessageImportance.Normal, &quot;Creating directory &quot; + directory.ItemSpec);
+    ///                             Directory.CreateDirectory(directory.ItemSpec);
+    ///                         }
+    /// 
+    ///                         // Add to the list of created directories
+    ///                         items.Add(directory);
+    ///                     }
+    ///                     // If a directory fails to get created, log an error, but proceed with the remaining 
+    ///                     // directories.
+    ///                     catch (Exception ex)
+    ///                     {
+    ///                         if (ex is IOException
+    ///                             || ex is UnauthorizedAccessException
+    ///                             || ex is PathTooLongException
+    ///                             || ex is DirectoryNotFoundException
+    ///                             || ex is SecurityException)
+    ///                         {
+    ///                             Log.LogError(&quot;Error trying to create directory &quot; + directory.ItemSpec + &quot;. &quot; + ex.Message);
+    ///                         }
+    ///                         else
+    ///                         {
+    ///                             throw;
+    ///                         }
+    ///                     }
+    ///                 }
+    ///             }
+    /// 
+    ///             // Populate the &quot;DirectoriesCreated&quot; output items.
+    ///             directoriesCreated = (ITaskItem[])items.ToArray(typeof(ITaskItem));
+    /// 
+    ///             // Log.HasLoggedErrors is true if the task logged any errors -- even if they were logged 
+    ///             // from a task's constructor or property setter. As long as this task is written to always log an error
+    ///             // when it fails, we can reliably return HasLoggedErrors.
+    ///             return !Log.HasLoggedErrors;
+    ///         }
+    ///     }
+    /// }</code>
+    /// </example>
     public class TaskLoggingHelper : MarshalByRefObject
     {
         #region Fields
@@ -120,6 +227,27 @@ namespace Jedzia.BackBock.Tasks.Utilities
             this.LogErrorWithCodeFromResources(null, null, 0, 0, 0, 0, messageResourceName, messageArgs);
             //throw new NotImplementedException("LogErrorWithCodeFromResources not implemented.");
         }
+        /// <summary>
+        /// Logs an error using the specified resource string and other error details.
+        /// </summary>
+        /// <remarks>
+        /// If the message begins with an error code, the code is extracted and logged with the message. 
+        /// <para> </para>
+        /// <para>If a Help keyword prefix has been provided, it is also logged with the message. The Help keyword is composed by appending the string resource name to the Help keyword prefix. A task can provide a Help keyword prefix with either the Task base class constructor, or the HelpKeywordPrefix property.</para>
+        /// <para> </para>
+        /// <para>The parameters subCategoryResourceName, and file can be a null reference (Nothing in Visual Basic).</para>
+        /// <para> </para>
+        /// <para>The parameters lineNumber, columnNumber, endLineNumber, and endColumnNumber should be set to 0 if they are not available.</para>
+        /// </remarks>
+        /// <param name="subcategoryResourceName">The name of the string resource that describes the error type.</param>
+        /// <param name="file">The path to the file containing the error.</param>
+        /// <param name="lineNumber">The line in the file where the error occurs.</param>
+        /// <param name="columnNumber">The column in the file where the error occurs.</param>
+        /// <param name="endLineNumber">The end line in the file where the error occurs.</param>
+        /// <param name="endColumnNumber">The end column in the file where the error occurs.</param>
+        /// <param name="messageResourceName">The name of the string resource to load.</param>
+        /// <param name="messageArgs">The arguments for formatting the loaded string.</param>
+        /// <exception cref="ArgumentNullException">messageResourceName is a null reference (Nothing in Visual Basic).</exception>
         public void LogErrorWithCodeFromResources(string subcategoryResourceName, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string messageResourceName, params object[] messageArgs)
         {
             string str2;
@@ -137,6 +265,26 @@ namespace Jedzia.BackBock.Tasks.Utilities
             }
             this.LogError(subcategory, errorCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, str2, new object[0]);
         }
+
+        /// <summary>
+        /// Logs the error.
+        /// </summary>
+        /// <remarks>
+        /// The parameters subCategory, errorCode, helpKeyword, and file can be a null reference (Nothing in Visual Basic).
+        /// <para></para>
+        /// <para>The parameters lineNumber, columnNumber, endLineNumber, and endColumnNumber should be set to 0 if they are not available.</para>
+        /// </remarks>
+        /// <param name="subcategory">The description of the error type.</param>
+        /// <param name="errorCode">The error code.</param>
+        /// <param name="helpKeyword">The Help keyword to associate with the error.</param>
+        /// <param name="file">The path to the file containing the error.</param>
+        /// <param name="lineNumber">The line in the file where the error occurs.</param>
+        /// <param name="columnNumber">The column in the file where the error occurs.</param>
+        /// <param name="endLineNumber">The end line in the file where the error occurs.</param>
+        /// <param name="endColumnNumber">The end column in the file where the error occurs.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="messageArgs">The arguments for formatting the loaded string.</param>
+        /// <exception cref="ArgumentNullException">messageResourceName is a null reference (Nothing in Visual Basic).</exception>
         public void LogError(string subcategory, string errorCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
         {
             ErrorUtilities.VerifyThrowArgumentNull(message, "message");
@@ -190,6 +338,13 @@ namespace Jedzia.BackBock.Tasks.Utilities
             this.LogMessage(importance, this.FormatResourceString(messageResourceName, messageArgs), new object[0]);
         }
 
+        /// <summary>
+        /// Logs a message with the specified string and importance.
+        /// </summary>
+        /// <param name="importance">One of the enumeration values that specifies the importance of the message.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="messageArgs">The arguments for formatting the message.</param>
+        /// <exception cref="ArgumentNullException">messageResourceName is a null reference (Nothing in Visual Basic).</exception>
         public void LogMessage(MessageImportance importance, string message, params object[] messageArgs)
         {
             ErrorUtilities.VerifyThrowArgumentNull(message, "message");
@@ -199,6 +354,13 @@ namespace Jedzia.BackBock.Tasks.Utilities
         }
 
 
+        /// <summary>
+        /// Formats the given string using the given arguments.
+        /// </summary>
+        /// <param name="unformatted">The string to format.</param>
+        /// <param name="args">Arguments for formatting.</param>
+        /// <returns>The formatted string.</returns>
+        /// <exception cref="ArgumentNullException">unformatted is a null reference (Nothing in Visual Basic).</exception>
         public virtual string FormatString(string unformatted, params object[] args)
         {
             ErrorUtilities.VerifyThrowArgumentNull(unformatted, "unformatted");
@@ -207,8 +369,14 @@ namespace Jedzia.BackBock.Tasks.Utilities
 
 
         private string taskName;
- 
 
+
+        /// <summary>
+        /// Gets the name of the parent task.
+        /// </summary>
+        /// <value>
+        /// The name of the task.
+        /// </value>
         protected string TaskName
         {
             get
@@ -220,10 +388,13 @@ namespace Jedzia.BackBock.Tasks.Utilities
                 return this.taskName;
             }
         }
- 
 
- 
 
+
+
+        /// <summary>
+        /// Gets the build engine that is associated with the task.
+        /// </summary>
         protected IBuildEngine BuildEngine
         {
             get
@@ -235,6 +406,17 @@ namespace Jedzia.BackBock.Tasks.Utilities
     }
 
 
+    /// <summary>
+    /// Provides data for the AnyEventRaised event
+    /// </summary>
+    /// <remarks>
+    /// The BuildEventArgs class is an abstract base class for all Microsoft.Build.Framework event argument classes.
+    /// </remarks>
+    /// <example>
+    /// The following example shows how to write a basic logger that responds to build events.
+    /// <para></para>
+    /// <code source="..\Jedzia.BackBock.Tasks\Docs\Examples\BuildEventArgs-Summary.cs" lang="cs" title="The following example shows how to write a basic logger that responds to build events."/>
+    /// </example>
     [Serializable]
     public abstract class BuildEventArgs : EventArgs
     { 

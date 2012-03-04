@@ -27,6 +27,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.ViewModel.E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tasks Library", "Tasks Library", "{BB5D3705-A380-4C5E-BE1E-557D55281BF0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EF00F336-4D81-4240-8E23-AFD7EBA8485E}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Devel-Notes.txt = Docs\Devel-Notes.txt
+		build\README = build\README
+		Readme.txt = Readme.txt
+		output\target\docs\Tasks-Library API-Documentation\Tasks-Library API-Documentation-1.0.0.0.chm = output\target\docs\Tasks-Library API-Documentation\Tasks-Library API-Documentation-1.0.0.0.chm
+		Temp.txt = Temp.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,9 +114,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{FFB64E8B-79EB-4996-870B-5620143B5E50} = {BB5D3705-A380-4C5E-BE1E-557D55281BF0}
+		{07B3FA8E-2DF4-4F3C-A060-E919EB9D3C98} = {BB5D3705-A380-4C5E-BE1E-557D55281BF0}
 		{E26BC89B-3B66-4E96-8FE2-655BD10CFB1B} = {FCA79B06-D7E1-48B2-9C0E-84D07B3FC51B}
 		{022EDA6A-0B76-44C3-A530-8312C1B40030} = {FCA79B06-D7E1-48B2-9C0E-84D07B3FC51B}
-		{07B3FA8E-2DF4-4F3C-A060-E919EB9D3C98} = {BB5D3705-A380-4C5E-BE1E-557D55281BF0}
-		{FFB64E8B-79EB-4996-870B-5620143B5E50} = {BB5D3705-A380-4C5E-BE1E-557D55281BF0}
 	EndGlobalSection
 EndGlobal
