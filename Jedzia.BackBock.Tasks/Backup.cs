@@ -157,6 +157,7 @@ namespace Jedzia.BackBock.Tasks
         /// The directory to which you want to copy the files.
         /// </value>
         /// <remarks>The destination folder must be a directory, not a file. If the directory does not exist, it is created automatically.</remarks>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public ITaskItem DestinationFolder
         {
             get
@@ -208,6 +209,7 @@ namespace Jedzia.BackBock.Tasks
         /// <see langword="true"/> if the <see cref="Backup"/> task should skip the copying of files that
         ///  are unchanged between the source and destination; otherwise, <c>false</c>.
         /// </value>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public bool SkipUnchangedFiles
         {
             get
@@ -405,17 +407,8 @@ namespace Jedzia.BackBock.Tasks
                     string str;
                     try
                     {
-                        string destination = this.destinationFolder.ItemSpec;
-                        //var ee2 = this.sourceFiles[i].GetAllCustomEvaluatedMetadata();
-                        foreach (string item in this.sourceFiles[i].MetadataNames)
-                        {
-                            var match = "%(" + item + ")";
-                            if (destination.Contains(match))
-                            {
-                                var meta = this.sourceFiles[i].GetMetadata(item);
-                                destination = destination.Replace(match, meta);
-                            }
-                        }
+                        ITaskItem srcFile = this.sourceFiles[i];
+                        var destination = ExpandMetadata(srcFile, this.destinationFolder.ItemSpec);
                         str = Path.Combine( destination, Path.GetFileName(this.sourceFiles[i].ItemSpec));
                     }
                     catch (ArgumentException exception)
@@ -432,6 +425,21 @@ namespace Jedzia.BackBock.Tasks
                 }
             }
             return true;
+        }
+
+        private static string ExpandMetadata(ITaskItem srcFile, string template)
+        {
+            //var ee2 = this.sourceFiles[i].GetAllCustomEvaluatedMetadata();
+            foreach (string item in srcFile.MetadataNames)
+            {
+                var match = "%(" + item + ")";
+                if (template.Contains(match))
+                {
+                    var meta = srcFile.GetMetadata(item);
+                    template = template.Replace(match, meta);
+                }
+            }
+            return template;
         }
 
         private void MakeFileWriteable(string file, bool logActivity)

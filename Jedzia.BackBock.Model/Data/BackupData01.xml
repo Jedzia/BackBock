@@ -30,7 +30,7 @@
 		<Path Path="C:\Users\root\info.txt">
 			<Exclusion Pattern="AAA"/>
 		</Path>
-		<Task TypeName="Backup"/>
+		<Task TypeName="Backup"  DestinationFolder="C:\tmp\any" SkipUnchangedFiles="true"/>
 	</BackupItem>
 	<BackupItem IsEnabled="true" ItemName="From Dusk till D:\">
 		<Path Path="D:\">

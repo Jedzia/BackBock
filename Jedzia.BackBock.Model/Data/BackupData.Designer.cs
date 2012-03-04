@@ -1079,7 +1079,17 @@ namespace Jedzia.BackBock.Model.Data {
         [EditorBrowsable(EditorBrowsableState.Never)]
         private string typeNameField;
         
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private List<System.Xml.XmlAttribute> anyAttrField;
+        
         private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        /// <summary>
+        /// TaskType class constructor
+        /// </summary>
+        public TaskType() {
+            this.anyAttrField = new List<System.Xml.XmlAttribute>();
+        }
         
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string TypeName {
@@ -1096,6 +1106,25 @@ namespace Jedzia.BackBock.Model.Data {
                 else {
                     this.typeNameField = value;
                     this.OnPropertyChanged("TypeName");
+                }
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAnyAttributeAttribute()]
+        public List<System.Xml.XmlAttribute> AnyAttr {
+            get {
+                return this.anyAttrField;
+            }
+            set {
+                if ((this.anyAttrField != null)) {
+                    if ((anyAttrField.Equals(value) != true)) {
+                        this.anyAttrField = value;
+                        this.OnPropertyChanged("AnyAttr");
+                    }
+                }
+                else {
+                    this.anyAttrField = value;
+                    this.OnPropertyChanged("AnyAttr");
                 }
             }
         }

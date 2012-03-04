@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using Jedzia.BackBock.Tasks;
 
 namespace Jedzia.BackBock.ViewModel.Data
 {
@@ -33,7 +34,44 @@ namespace Jedzia.BackBock.ViewModel.Data
             this.data = new Jedzia.BackBock.Model.Data.TaskType();
             this.data.TypeName = "NasenBock";
         }
+        /*/// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public List<System.Xml.XmlAttribute> Attributes
+        {
+            get
+            {
+                return this.data.AnyAttr;
+            }
 
+            set
+            {
+                this.data.AnyAttr = value;
+            }
+        }*/
+
+        /// <summary>
+        /// The summary.
+        /// </summary>
+        private ITask taskInstance;
+
+        /// <summary>
+        /// Gets or sets the Task.
+        /// </summary>
+        /// <value>The Task.</value>
+        [Browsable(false)]
+        public ITask TaskInstance
+        {
+            get
+            {
+                return this.taskInstance;
+            }
+
+            set
+            {
+                this.taskInstance = value;
+            }
+        }
         /// <summary>
         /// Gets or sets 
         /// </summary>

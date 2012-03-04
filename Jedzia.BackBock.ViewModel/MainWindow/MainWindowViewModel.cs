@@ -19,6 +19,8 @@ using Jedzia.BackBock.Tasks.Utilities;
 using System.Text;
 using System.Xml;
 using System.IO;
+using Jedzia.BackBock.Tasks;
+using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     public sealed class MainWindowViewModel : ViewModelBase
@@ -179,6 +181,15 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         }
 
 
+        public IEnumerable<string> TaskList
+        {
+            get
+            {
+                var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
+                var taskList = taskService.GetRegisteredTasks();
+                return taskList;
+            }
+        }
 
         void MainWindowMessageReceived(string e)
         {
@@ -309,11 +320,11 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             var xml = @"<?xml version=""1.0"" encoding=""utf-16""?>" + Environment.NewLine +
 @"<Project>" + Environment.NewLine +
 @"<CreateItem Include=""C:\Temp\*.*"" Exclude=""*.abc"" Condition=""'$(FuckReports)'==''"" >" +
-//@"<Output TaskParameter=""TargetOutputs"" ItemName=""SandcastleOut"" " +
-//@"xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"" />" +
+                //@"<Output TaskParameter=""TargetOutputs"" ItemName=""SandcastleOut"" " +
+                //@"xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"" />" +
 @"</CreateItem>" +
 @"</Project>";
-            
+
             var xdoc = new XmlDocument();
             try
             {
@@ -348,7 +359,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         }
         #endregion
 
-                #region ClearLog Command
+        #region ClearLog Command
 
         private RelayCommand clearLogCommand;
 

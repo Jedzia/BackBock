@@ -177,13 +177,44 @@ namespace Jedzia.BackBock.ViewModel.Data
             var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskEditor);
             var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
             var task = taskService[this.Task.TypeName];
+            if (task == null)
+            {
+                return;
+            }
+            
+            this.Task.TaskInstance = task;
+
+            foreach (var item in this.Task.data.AnyAttr)
+            {
+                var taskType = task.GetType();
+                var property = taskType.GetProperty(item.Name);
+                if (property != null)
+                {
+                    object val = item.Value;
+                    if (property.PropertyType.Name == "ITaskItem")
+                    {
+                        val = new TaskItem(item.Value);
+                    }
+                    else
+                    {
+                        val = Convert.ChangeType(item.Value, property.PropertyType);
+                    }
+                    property.SetValue(task, val, null);
+                }
+            }
+
+            var dst = this.Task.data.AnyAttr.Where((e) => e.Name == "DestinationFolder").FirstOrDefault();
+            if (dst != null)
+            {
+                var val = dst.Value;
+            }
             PrepareTask(task);
-            //wnd.DataContext = this.Task;
             //var str = XamlSerializer.Save(task);
             //SerializeTest(task);
 
-            wnd.DataContext = task;
-            wnd.ShowDialog();
+            wnd.DataContext = this;
+            //wnd.DataContext = task;
+            var result = wnd.ShowDialog();
         }
         const string fullrecursivePattern = "**";
 

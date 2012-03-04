@@ -25,7 +25,7 @@ namespace Jedzia.BackBock.Application.Editors
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            wpg.Instance = this.DataContext;
+            wpg2.Instance = this.DataContext;
         }
     }
 }
