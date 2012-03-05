@@ -13,6 +13,8 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>key.sn.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,7 +30,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET_1_1;NET_2_0;NET_3_5</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -52,6 +54,10 @@
     <None Include="BuildEngine\ChangeLog" />
     <None Include="BuildEngine\conditions.jay" />
     <None Include="Framework\ChangeLog" />
+    <None Include="key.sn.snk" />
+    <Content Include="Microsoft.Common.Tasks">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Settings.StyleCop" />
     <Compile Include="BuildEngine\BatchingImplBase.cs" />
     <Compile Include="BuildEngine\BuildChoose.cs" />
@@ -117,6 +123,7 @@
     <Compile Include="BuildEngine\UsingTaskCollection.cs" />
     <Compile Include="BuildEngine\Utilities.cs" />
     <Compile Include="BuildEngine\WriteHandler.cs" />
+    <Compile Include="Copy.cs" />
     <Compile Include="CreateItem.cs" />
     <Compile Include="Mono.XBuild.Utilities\AssemblyLoadInfo.cs" />
     <Compile Include="Mono.XBuild.Utilities\MonoLocationHelper.cs" />

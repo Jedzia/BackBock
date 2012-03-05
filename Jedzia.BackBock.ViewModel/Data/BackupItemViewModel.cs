@@ -8,9 +8,11 @@
 namespace Jedzia.BackBock.ViewModel.Data
 {
     using System;
+    using System.Collections;
     using System.Linq;
     using System.Collections.Specialized;
     using System.IO;
+    using System.Text;
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Markup;
@@ -20,14 +22,13 @@ namespace Jedzia.BackBock.ViewModel.Data
     using Jedzia.BackBock.Tasks;
     using Jedzia.BackBock.ViewModel.Commands;
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
-    using Jedzia.BackBock.ViewModel.MVVM.Messaging;
-    using Jedzia.BackBock.ViewModel.Util;
-    using System.Collections;
+    using Jedzia.BackBock.ViewModel.Tasks;
+    using Microsoft.Build.BuildEngine;
     using Microsoft.Build.Framework;
     using Microsoft.Build.Tasks;
     using Microsoft.Build.Utilities;
 
-    public partial class BackupItemViewModel
+    public partial class BackupItemViewModel : ILogger
     {
         #region WindowTypes enum
 
@@ -285,6 +286,125 @@ namespace Jedzia.BackBock.ViewModel.Data
                 btask.BuildEngine = this.BuildEngine;
             }
         }
+        private bool PrepareTask2(ITask task)
+        {
+            bool res = false;
+            string xml =
+                @"<Project ToolsVersion=""3.5"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">" +
+                Environment.NewLine +
+                "\t" + @"<UsingTask AssemblyFile=""C:\Program Files\MSBuild\ExtensionPack\MSBuild.ExtensionPack.dll"" " +
+                @"TaskName=""MSBuild.ExtensionPack.Compression.Zip"" />" + Environment.NewLine +
+                "\t" + @"<Target Name=""Target1"">" + Environment.NewLine +
+                "\t" + @"" + "\t" + @"<ItemGroup>" + Environment.NewLine +
+                "\t" + @"" + "\t" + @"" + "\t" + @"<FilesToZip Include=""C:\Temp\**"" />" + Environment.NewLine +
+                "\t" + @"" + "\t" + @"</ItemGroup>" + Environment.NewLine +
+                "\t" + @"" + "\t" +
+                @"<MSBuild.ExtensionPack.Compression.Zip ZipFileName=""D:\TestZip.zip"" TaskAction=""Create"" " +
+                @"CompressFiles=""@(FilesToZip)"" />" + Environment.NewLine +
+                "\t" + @"</Target>" + Environment.NewLine +
+                @"</Project>";
+            //var proj2 = new Project();
+            //var engine = new Engine(Consts.BinPath);
+            var engine = new Engine(@"D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Application\bin\Debug");
+            engine.RegisterLogger(this);
+            //var proj2 = engine.CreateNewProject();
+
+            //proj2.LoadXml(xml);
+            //proj2.Build();
+
+            // Todo: put this task generation extra.);
+            if (task is Backup)
+            {
+                var btask = (Backup)task;
+                for (int index = 0; index < this.Paths.Count; index++)
+                {
+                    var item = this.Paths[index];
+                }
+
+                btask.SourceFiles = new[] { new TaskItem(@"C:\Temp\raabeXX.jpg"), };
+                btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
+                btask.BuildEngine = this.BuildEngine;
+                var proj = engine.CreateNewProject();
+                proj.DefaultToolsVersion = "3.5";
+                //var proj = new Project(this.buildEngine, "3.5");
+                //var proj = new Project(Engine.GlobalEngine, "3.5");
+                var target = proj.Targets.AddNewTarget("mainTarget");
+                //var grp = target.AddNewTask("ItemGroup");
+                var big = proj.AddNewItemGroup();
+                //var cr = new BuildItem("Item","");
+                //var big = new BuildItemGroup();
+
+                //cr = big.AddNewItem("FilesToZip", @"C:\Temp\FolderB\**\*.*");
+                //cr.Exclude = @"*.msi";
+
+                foreach (var path in this.Paths)
+                {
+                    //var cr = big.AddNewItem("FilesToZip", @"C:\Temp\**;C:\Temp\FolderB\**\*.*");
+                    BuildItem cr;
+                    //cr.Exclude = @"*.msi";
+                    if (path.Inclusions.Count > 0)
+                    {
+                        //var inclEle = string.Empty;
+                        var inclEle = new StringBuilder();
+                        for (int index = 0; index < path.Inclusions.Count; index++)
+                        {
+                            var incl = path.Inclusions[index];
+                            inclEle.Append(path.Path);
+                            inclEle.Append(incl.Pattern);
+                            if (index != path.Inclusions.Count - 1)
+                                inclEle.Append(";");
+                        }
+                        cr = big.AddNewItem("FilesToZip", inclEle.ToString());
+                        var exclEle = new StringBuilder();
+                        for (int index = 0; index < path.Exclusions.Count; index++)
+                        {
+                            var excl = path.Exclusions[index];
+                            exclEle.Append(path.Path);
+                            exclEle.Append(excl.Pattern);
+                            if (index != path.Exclusions.Count - 1)
+                                exclEle.Append(";");
+                        }
+                        cr.Exclude = exclEle.ToString();
+                    }
+                    else
+                    {
+                        var strit = path.Path + @"\**\*.*";
+                        cr = big.AddNewItem("FilesToZip", strit);
+                        var exclEle = new StringBuilder();
+                        for (int index = 0; index < path.Exclusions.Count; index++)
+                        {
+                            var excl = path.Exclusions[index];
+                            exclEle.Append(path.Path);
+                            exclEle.Append(excl.Pattern);
+                            if (index != path.Exclusions.Count - 1)
+                                exclEle.Append(";");
+                        }
+                        cr.Exclude = exclEle.ToString();
+                    }
+                    //cr.Exclude = @"*.msi";
+                }
+
+                //Type btasktype = typeof(Backup);
+                Type btasktype = task.GetType();
+                proj.AddNewUsingTaskFromAssemblyName(btasktype.FullName, btasktype.Assembly.FullName);
+                var batask = target.AddNewTask(btasktype.FullName);
+                //batask.SetParameterValue("SourceFiles", @"C:\Temp\company.xmi");
+                batask.SetParameterValue("SourceFiles", @"@(FilesToZip)");
+                var pars = batask.GetParameterNames();
+                res = proj.Build("mainTarget");
+                
+                //var res = result.ToArray();
+                //var includes = result.SelectMany((e) => e.Include);
+                //btask.SourceFiles = includes.ToArray();
+                //var itemsByType = new Hashtable();
+                //foreach (var item in btask.SourceFiles)
+                //{
+                //itemsByType.Add(
+                //}
+                //var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
+            }
+            return res;
+        }
         private IBuildEngine buildEngine;
 
         public IBuildEngine BuildEngine
@@ -308,6 +428,7 @@ namespace Jedzia.BackBock.ViewModel.Data
         #region Fields
 
         private RelayCommand runTaskCommand;
+        private bool Enabled = true;
 
         #endregion
 
@@ -334,23 +455,22 @@ namespace Jedzia.BackBock.ViewModel.Data
             {
                 return;
             }
+            try
+            {
 
             // do something.
             var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
-            var task = taskService[this.Task.TypeName];
-            if (task != null)
+            var task1 = taskService[this.Task.TypeName];
+            if (task1 != null)
             {
-                PrepareTask(task);
-                string add = string.Empty;
-                var success = task.Execute();
-                if (task is Backup)
-                {
-                    var tbackup = (Backup)task;
-                    if(tbackup.CopiedFiles != null)
-                        add += " Copied:" + tbackup.CopiedFiles.Count();
-                }
-                
-                MessengerInstance.Send("Finished Task: " + success + add);
+                var success = PrepareTask2(task1);
+                MessengerInstance.Send("Finished Task: " + success);
+                //return;
+            }
+            }
+            catch (Exception e  )
+            {
+                MessengerInstance.Send("Exception: " + e);
             }
         }
 
@@ -475,6 +595,53 @@ namespace Jedzia.BackBock.ViewModel.Data
             return canExecute;
         }
         #endregion*/
+        /// <summary>
+        /// Initializes the specified event source.
+        /// </summary>
+        /// <param name="eventSource">The event source.</param>
+        public void Initialize(IEventSource eventSource)
+        {
+            eventSource.MessageRaised += Log;
+            eventSource.ErrorRaised += Log;
+        }
+
+        private void Log(object sender, BuildErrorEventArgs e)
+        {
+            if (this.Enabled)
+                MessengerInstance.Send(e);
+        }
+
+        public void Log(object sender, BuildMessageEventArgs buildMessageEventArgs)
+        {
+            if (this.Enabled)
+                MessengerInstance.Send(buildMessageEventArgs);
+        }
+
+        public void Shutdown()
+        {
+        }
+
+        public string Parameters
+        {
+            get
+            {
+                return string.Empty;
+            }
+            set
+            {
+            }
+        }
+
+        public LoggerVerbosity Verbosity
+        {
+            get
+            {
+                return  LoggerVerbosity.Detailed;
+            }
+            set
+            {
+            }
+        }
     }
 
     /*public class SimpleBuildEngine : IBuildEngine
@@ -517,91 +684,4 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #endregion
     }*/
-
-    public class ViewModelBuildEngine : IBuildEngine
-    {
-        IMessenger messengerInstance;
-        /// <summary>
-        /// Gets or sets 
-        /// </summary>
-        public bool Enabled
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleBuildEngine"/> class.
-        /// </summary>
-        public ViewModelBuildEngine(IMessenger messengerInstance)
-        {
-            Guard.NotNull(() => messengerInstance, messengerInstance);
-            this.messengerInstance = messengerInstance;
-            //this.Enabled = true;
-        }
-
-        #region IBuildEngine Members
-
-        public void LogMessageEvent(BuildMessageEventArgs e)
-        {
-            if (this.Enabled)
-                messengerInstance.Send(e);
-        }
-
-        public void LogWarningEvent(BuildWarningEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int ColumnNumberOfTaskNode
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        #endregion
-
-        #region IBuildEngine Members
-
-        public bool BuildProjectFile(string projectFileName, string[] targetNames, IDictionary globalProperties, IDictionary targetOutputs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void LogCustomEvent(CustomBuildEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void LogErrorEvent(BuildErrorEventArgs e)
-        {
-            if (this.Enabled)
-                messengerInstance.Send(e);
-        }
-
-        public bool ContinueOnError
-        {
-            get { return false; }
-        }
-
-        public int LineNumberOfTaskNode
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string ProjectFileOfTaskNode
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        #endregion
-    }
-
 }

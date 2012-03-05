@@ -1,9 +1,9 @@
 <Project ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<UsingTask AssemblyFile="C:\Program Files\MSBuild\ExtensionPack\MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.Compression.Zip" />
 	<Target Name="Target1">
 		<ItemGroup>
-			<Item Include="" />
+			<FilesToZip Include="C:\Temp\**" />
 		</ItemGroup>
-		<Copy />
-		<CreateItem />
+		<MSBuild.ExtensionPack.Compression.Zip ZipFileName="D:\TestZip.zip" TaskAction="Create" CompressFiles="@(FilesToZip)" />
 	</Target>
 </Project>

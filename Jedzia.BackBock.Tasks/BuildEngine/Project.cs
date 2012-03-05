@@ -1581,7 +1581,12 @@ namespace Microsoft.Build.BuildEngine {
 			get { return taskDatabase; }
 		}
 		
-		internal XmlDocument XmlDocument {
+        public void AddToTaskDatabase()
+        {
+            //taskDatabase.RegisterTask();
+        }
+
+	    internal XmlDocument XmlDocument {
 			get { return xmlDocument; }
 		}
 		

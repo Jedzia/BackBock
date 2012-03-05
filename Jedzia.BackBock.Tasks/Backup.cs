@@ -231,20 +231,26 @@ namespace Jedzia.BackBock.Tasks
         /// </returns>
         public override bool Execute()
         {
-            /*if (this.SourceFiles == null)
+            if (this.SourceFiles == null)
             {
                 this.sourceFiles = new TaskItem[0];
                 return true;
             }
-            this.SourceFiles = ExpandWildcards(this.SourceFiles);*/
+            /*this.SourceFiles = ExpandWildcards(this.SourceFiles);*/
             //this.Exclude = ExpandWildcards(this.Exclude);
             //return this.Execute(this.CopyFileWithLogging);
-            foreach(var sourceFile in SourceFiles)
+            foreach (var sourceFile in SourceFiles)
             {
-                BuildEngine.LogMessageEvent(new BuildMessageEventArgs(sourceFile.ItemSpec,"","", MessageImportance.High));
+                BuildEngine.LogMessageEvent(new BuildMessageEventArgs(sourceFile.ItemSpec, "", "", MessageImportance.High));
             }
             this.copiedFiles = this.SourceFiles;
-            return false;
+            string add = string.Empty;
+            //var success = task.Execute();
+            if (this.CopiedFiles != null)
+                add += " Copied:" + this.CopiedFiles.Length + " Files.";
+            var msg = "Backup Finished: " + add;
+            BuildEngine.LogMessageEvent(new BuildMessageEventArgs(msg, "", "", MessageImportance.High));
+            return true;
         }
 
         /*internal bool Execute(CopyFile copyFile)

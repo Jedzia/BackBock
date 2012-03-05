@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET_1_1;NET_2_0;NET_3_5</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -27,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET_1_1;NET_2_0;NET_3_5</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -177,6 +177,8 @@
     <Compile Include="Serialization\ItemsControlCustomTypeDescriptor.cs" />
     <Compile Include="Serialization\ItemsControlTypeDescriptionProvider.cs" />
     <Compile Include="Serialization\XamlSerializer.cs" />
+    <Compile Include="Tasks\Consts.cs" />
+    <Compile Include="Tasks\ViewModelBuildEngine.cs" />
     <Compile Include="Util\Guard.cs" />
     <Compile Include="Util\VisualHelper.cs" />
     <Compile Include="ViewModelBase.cs" />
