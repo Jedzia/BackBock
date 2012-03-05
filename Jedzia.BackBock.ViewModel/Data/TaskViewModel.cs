@@ -71,7 +71,12 @@ namespace Jedzia.BackBock.ViewModel.Data
 
             set
             {
+                if (this.taskInstance == value)
+                {
+                    return;
+                }
                 this.taskInstance = value;
+                RaisePropertyChanged("TaskInstance");
             }
         }
         /// <summary>

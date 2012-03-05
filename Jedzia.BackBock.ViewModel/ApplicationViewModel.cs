@@ -15,6 +15,11 @@ namespace Jedzia.BackBock.ViewModel
     using System.Windows;
     using Jedzia.BackBock.Tasks;
     using Jedzia.BackBock.ViewModel.MainWindow;
+    using Microsoft.Build.Utilities;
+
+    internal sealed class KDA : TypeDescriptionProvider
+    {
+    }
 
     public class ApplicationViewModel : /*IFolderExplorerViewModel,*/ INotifyPropertyChanged
     {
@@ -27,7 +32,11 @@ namespace Jedzia.BackBock.ViewModel
         #endregion
 
         #region Constructors
-
+        static ApplicationViewModel()
+        {
+            //TypeDescriptor.AddProvider(xxx, typeof(TaskItem));
+            var conv = TypeDescriptor.GetConverter(typeof(TaskItem));
+        }
         public ApplicationViewModel(IOService ioService /*, IDialogService dialogService*/, IMainWindow mainWindow)
         {
             if (initialized != null)

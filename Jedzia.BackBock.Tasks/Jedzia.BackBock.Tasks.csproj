@@ -35,10 +35,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -50,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyResources.cs" />
+    <Compile Include="Attributes.cs" />
     <Compile Include="Backup.cs" />
     <None Include="BuildEngine\ChangeLog" />
     <None Include="BuildEngine\conditions.jay" />
@@ -59,6 +65,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Settings.StyleCop" />
+    <Compile Include="BaseTask.cs" />
     <Compile Include="BuildEngine\BatchingImplBase.cs" />
     <Compile Include="BuildEngine\BuildChoose.cs" />
     <Compile Include="BuildEngine\BuildEngine.cs" />
@@ -123,8 +130,10 @@
     <Compile Include="BuildEngine\UsingTaskCollection.cs" />
     <Compile Include="BuildEngine\Utilities.cs" />
     <Compile Include="BuildEngine\WriteHandler.cs" />
+    <Compile Include="Cab.cs" />
     <Compile Include="Copy.cs" />
     <Compile Include="CreateItem.cs" />
+    <Compile Include="DNZip.cs" />
     <Compile Include="Mono.XBuild.Utilities\AssemblyLoadInfo.cs" />
     <Compile Include="Mono.XBuild.Utilities\MonoLocationHelper.cs" />
     <Compile Include="Mono.XBuild.Utilities\MonoTODO.cs" />
@@ -199,6 +208,7 @@
     <Compile Include="Utilities\ToolLocationHelper.cs" />
     <Compile Include="Utilities\ToolTask.cs" />
     <Compile Include="TaskRegistry.cs" />
+    <Compile Include="Zip.cs" />
     <None Include="Utilities\ChangeLog" />
   </ItemGroup>
   <ItemGroup>

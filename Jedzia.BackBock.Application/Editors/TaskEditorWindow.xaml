@@ -9,12 +9,16 @@
         xmlns:wtk="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
 xmlns:data="clr-namespace:Jedzia.BackBock.ViewModel.Data;assembly=Jedzia.BackBock.ViewModel"
 xmlns:task="clr-namespace:Jedzia.BackBock.Tasks;assembly=Jedzia.BackBock.Tasks"
+xmlns:taskx="clr-namespace:Microsoft.Build.Utilities;assembly=Jedzia.BackBock.Tasks"
+xmlns:taskfr="clr-namespace:Microsoft.Build.Framework;assembly=Jedzia.BackBock.Tasks"
     xmlns:wpg="clr-namespace:WPG;assembly=WPG"
-    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:im="clr-namespace:Microsoft.Expression.Interactivity.Media;assembly=Microsoft.Expression.Interactions" x:Class="Jedzia.BackBock.Application.Editors.TaskEditorWindow"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:im="clr-namespace:Microsoft.Expression.Interactivity.Media;assembly=Microsoft.Expression.Interactions" xmlns:Jedzia_BackBock_ViewModel_Converters="clr-namespace:Jedzia.BackBock.ViewModel.Converters;assembly=Jedzia.BackBock.ViewModel" x:Class="Jedzia.BackBock.Application.Editors.TaskEditorWindow"
              mc:Ignorable="d"
     Title="TaskEditorWindow" Height="600" Width="300"
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type data:BackupItemViewModel}}">
 	<Window.Resources>
+		
+		<Jedzia_BackBock_ViewModel_Converters:TaskItemConverter x:Key="TaskItemConverter"/>
 		
 		    <DataTemplate x:Key="{ComponentResourceKey ResourceId=Jedzia.BackBock.ViewModel.Data.TaskViewModel.TypeName, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}" >
         <Grid HorizontalAlignment="Stretch" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type data:BackupItemViewModel}}" d:DesignWidth="150">
@@ -31,7 +35,22 @@ xmlns:task="clr-namespace:Jedzia.BackBock.Tasks;assembly=Jedzia.BackBock.Tasks"
         		Command="{Binding Instance.OpenFileClickedCommand}" Content="..."/>
         </Grid>
     </DataTemplate>
-
+<!--taskx:TaskItem-->
+    <DataTemplate x:Key="{ComponentResourceKey ResourceId={x:Type taskfr:ITaskItem}, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}" >
+    	<Grid d:DesignWidth="200">
+    		<Grid.ColumnDefinitions>
+    			<ColumnDefinition Width="*"/>
+    			<ColumnDefinition Width="27"/>
+    		</Grid.ColumnDefinitions>
+    		<StackPanel Grid.Column="0" Orientation="Horizontal" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type taskx:TaskItem}}" >
+    			<TextBlock Text="Moooo: " Visibility="Collapsed"/>
+    			<TextBlock Text="{Binding Value}" Visibility="Collapsed"/>
+    			<TextBox Text="{Binding Value, Converter={StaticResource TaskItemConverter}}"/>
+    		</StackPanel>
+    		<Button Grid.Column="1" HorizontalAlignment="Right" Height="18" Width="25" Margin="0,1,1,1" 
+    			Command="{Binding ExclusionDataClickedCommand}" Content="..." d:LayoutOverrides="HorizontalAlignment, HorizontalMargin"/>
+    	</Grid>
+    </DataTemplate>
 
 	</Window.Resources>
     

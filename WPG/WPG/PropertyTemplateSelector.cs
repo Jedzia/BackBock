@@ -71,10 +71,10 @@ namespace WPG
 
 		private static DataTemplate TryFindDataTemplate(FrameworkElement element, object dataTemplateKey)
 		{
-            /*if (dataTemplateKey.ToString() == "Jedzia.BackBock.ViewModel.Data.MyStructure")
+            if (dataTemplateKey.ToString().Contains("Task"))
             {
-                
-            }*/
+                // Todo: remove me after testing.
+            }
 			object dataTemplate = element.TryFindResource(dataTemplateKey);
 			if (dataTemplate == null)
 			{

@@ -27,6 +27,9 @@ namespace Jedzia.BackBock.ViewModel.Data
     using Microsoft.Build.Framework;
     using Microsoft.Build.Tasks;
     using Microsoft.Build.Utilities;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using System.ComponentModel;
 
     public partial class BackupItemViewModel : ILogger
     {
@@ -176,20 +179,44 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         private void TaskDataClickedExecuted(object o)
         {
+
+            var task = InitTaskEditor();
+            this.Task.TaskInstance = task;
+
             var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskEditor);
+            wnd.DataContext = this;
+            //wnd.DataContext = task;
+            this.Task.PropertyChanged += Task_PropertyChanged;
+            var result = wnd.ShowDialog();
+            this.Task.PropertyChanged -= Task_PropertyChanged;
+
+            AfterTask(task);
+
+        }
+
+        private ITask InitTaskEditor()
+        {
             var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
             var task = taskService[this.Task.TypeName];
             if (task == null)
             {
-                return;
+                return null;
             }
-            
-            this.Task.TaskInstance = task;
 
             foreach (var item in this.Task.data.AnyAttr)
             {
                 var taskType = task.GetType();
                 var property = taskType.GetProperty(item.Name);
+                if (property == null)
+                {
+                    // Log property not found.
+                    continue;
+                }
+                if (property.PropertyType.IsArray)
+                {
+                    // Log skipping array type.
+                    continue;
+                }
                 if (property != null)
                 {
                     object val = item.Value;
@@ -199,7 +226,13 @@ namespace Jedzia.BackBock.ViewModel.Data
                     }
                     else
                     {
+                        // try
+                        //{
                         val = Convert.ChangeType(item.Value, property.PropertyType);
+                        //}
+                        //catch (Exception ex)
+                        // {
+                        // }
                     }
                     property.SetValue(task, val, null);
                 }
@@ -211,13 +244,105 @@ namespace Jedzia.BackBock.ViewModel.Data
                 var val = dst.Value;
             }
             PrepareTask(task);
+            return task;
             //var str = XamlSerializer.Save(task);
             //SerializeTest(task);
-
-            wnd.DataContext = this;
-            //wnd.DataContext = task;
-            var result = wnd.ShowDialog();
         }
+
+        void Task_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "TypeName")
+            {
+                var tvm = (TaskViewModel)sender;
+                tvm.data.AnyAttr.Clear();
+
+                var task = InitTaskEditor();
+                this.Task.TaskInstance = task;
+                
+                tvm.data.OnPropertyChanged("AnyAttr");
+            }
+        }
+
+        private void AfterTask(ITask task)
+        {
+            if (task is Backup)
+            {
+                //var btask = (Backup)task;
+                //btask.SourceFiles = new[] { new TaskItem(@"C:\Fuck\der.txt") };
+            }
+
+            try
+            {
+                /*var prj = new Project(Engine.GlobalEngine, "3.5");
+                Target target = prj.Targets.AddNewTarget("target");
+                var te = new TaskEngine(prj);
+                var parameters = new Dictionary<string, string>();
+                te.Prepare(task, target.TargetElement, parameters, task.GetType());
+                te.PublishOutput();*/
+
+                var properties = task.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance
+                        | BindingFlags.IgnoreCase);
+                foreach (PropertyInfo pi in properties)
+                {
+                    bool is_required = pi.IsDefined(typeof(RequiredAttribute), false);
+                    bool is_output = pi.IsDefined(typeof(OutputAttribute), false);
+                    Type prop_type = pi.PropertyType;
+                    if (prop_type.IsArray)
+                        prop_type = prop_type.GetElementType();
+                    if (!prop_type.IsPrimitive && prop_type != typeof(string) && prop_type != typeof(ITaskItem))
+                    {
+                        continue;
+                    }
+
+                    if (!is_output)
+                    {
+                        var val = pi.GetValue(task, null);
+                        if (val != null)
+                        {
+                            if (pi.PropertyType.IsArray)
+                            {
+                                continue;
+                            }
+                            TypeConverter converter = TypeDescriptor.GetConverter(val.GetType());
+                            var lattr = SelectMatchingAttribute(this.task.data.AnyAttr, pi.Name);
+                            if (lattr != null)
+                            {
+                                //TaskItem x = new TaskItem();
+                                
+                                var xxxy = val.GetType();
+                                if (val == null)
+                                {
+                                    //Todo: default value exclusion.
+                                }
+                                lattr.Value = (string)converter.ConvertTo(val, typeof(string));
+                            }
+                            else
+                            {
+                                var xdoc = new XmlDocument();
+                                var attr = xdoc.CreateAttribute(pi.Name);
+                                if (pi.PropertyType.Name == "ITaskItem")
+                                {
+                                }
+                                attr.Value = (string)converter.ConvertTo(val, typeof(string));
+                                this.task.data.AnyAttr.Add(attr);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+
+        }
+
+        private XmlAttribute SelectMatchingAttribute(List<System.Xml.XmlAttribute> attributes, string name)
+        {
+            var lattr = attributes.Where(e => e.Name == name).FirstOrDefault();
+            return lattr;
+        }
+
         const string fullrecursivePattern = "**";
 
         private void PrepareTask(ITask task)
@@ -238,14 +363,14 @@ namespace Jedzia.BackBock.ViewModel.Data
                     {
                         cr.Include = e.Inclusions.Select(
                             (t) =>
+                            {
+                                if (e.Path.EndsWith("\\"))
                                 {
-                                    if (e.Path.EndsWith("\\"))
-                                    {
-                                        return new TaskItem(e.Path + t.Pattern);
-                                    }
-                                    else
-                                        return new TaskItem(e.Path + "\\" + t.Pattern);
+                                    return new TaskItem(e.Path + t.Pattern);
                                 }
+                                else
+                                    return new TaskItem(e.Path + "\\" + t.Pattern);
+                            }
                             ).ToArray();
                     }
                     else
@@ -267,7 +392,8 @@ namespace Jedzia.BackBock.ViewModel.Data
 
                     cr.Exclude = e.Exclusions.Select((t) => { return new TaskItem(e.Path + "\\" + t.Pattern); }).ToArray();
 
-                    cr.Execute();
+                    // at the moment, do not execute the items.
+                    //cr.Execute();
 
                     return cr;
                 }
@@ -276,11 +402,11 @@ namespace Jedzia.BackBock.ViewModel.Data
                 //var res = result.ToArray();
                 var includes = result.SelectMany((e) => e.Include);
                 btask.SourceFiles = includes.ToArray();
-                btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
+                //btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
                 //var itemsByType = new Hashtable();
                 //foreach (var item in btask.SourceFiles)
                 //{
-                    //itemsByType.Add(
+                //itemsByType.Add(
                 //}
                 //var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
                 btask.BuildEngine = this.BuildEngine;
@@ -311,19 +437,24 @@ namespace Jedzia.BackBock.ViewModel.Data
 
             //proj2.LoadXml(xml);
             //proj2.Build();
-
+            var sourceParameter = string.Empty;
             // Todo: put this task generation extra.);
             if (task is Backup)
             {
-                var btask = (Backup)task;
-                for (int index = 0; index < this.Paths.Count; index++)
+                //var btask = (Backup)task;
+                /*for (int index = 0; index < this.Paths.Count; index++)
                 {
                     var item = this.Paths[index];
-                }
-
-                btask.SourceFiles = new[] { new TaskItem(@"C:\Temp\raabeXX.jpg"), };
-                btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
-                btask.BuildEngine = this.BuildEngine;
+                }*/
+                sourceParameter = "SourceFiles";
+            }
+            else if (task is Zip)
+            {
+                sourceParameter = "CompressFiles";
+            }
+                //btask.SourceFiles = new[] { new TaskItem(@"C:\Temp\raabeXX.jpg"), };
+                //btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
+                //btask.BuildEngine = this.BuildEngine;
                 var proj = engine.CreateNewProject();
                 proj.DefaultToolsVersion = "3.5";
                 //var proj = new Project(this.buildEngine, "3.5");
@@ -368,7 +499,16 @@ namespace Jedzia.BackBock.ViewModel.Data
                     }
                     else
                     {
-                        var strit = path.Path + @"\**\*.*";
+                        var strit = string.Empty;
+                        if (path.Path.EndsWith("\\"))
+                        {
+                            strit = path.Path + @"\**\*.*";
+                        }
+                        else
+                        {
+                            strit = path.Path;
+                        }
+
                         cr = big.AddNewItem("FilesToZip", strit);
                         var exclEle = new StringBuilder();
                         for (int index = 0; index < path.Exclusions.Count; index++)
@@ -389,10 +529,26 @@ namespace Jedzia.BackBock.ViewModel.Data
                 proj.AddNewUsingTaskFromAssemblyName(btasktype.FullName, btasktype.Assembly.FullName);
                 var batask = target.AddNewTask(btasktype.FullName);
                 //batask.SetParameterValue("SourceFiles", @"C:\Temp\company.xmi");
-                batask.SetParameterValue("SourceFiles", @"@(FilesToZip)");
+                batask.SetParameterValue(sourceParameter, @"@(FilesToZip)");
                 var pars = batask.GetParameterNames();
+
+                foreach (var item in this.Task.data.AnyAttr)
+                {
+                    batask.SetParameterValue(item.Name, item.Value);
+                    this.Log(this, new BuildMessageEventArgs("Setting parameter " + item.Name +
+                        " to " + item.Value, "", this.Task.TypeName, MessageImportance.Low));
+                }
+
                 res = proj.Build("mainTarget");
-                
+
+                var doc = new XmlDocument();
+                doc.LoadXml(proj.Xml);
+                doc.Normalize();
+
+                TextWriter wr = new StringWriter();
+                doc.Save(wr);
+                var str = wr.ToString();
+
                 //var res = result.ToArray();
                 //var includes = result.SelectMany((e) => e.Include);
                 //btask.SourceFiles = includes.ToArray();
@@ -402,7 +558,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 //itemsByType.Add(
                 //}
                 //var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
-            }
+            
             return res;
         }
         private IBuildEngine buildEngine;
@@ -458,17 +614,17 @@ namespace Jedzia.BackBock.ViewModel.Data
             try
             {
 
-            // do something.
-            var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
-            var task1 = taskService[this.Task.TypeName];
-            if (task1 != null)
-            {
-                var success = PrepareTask2(task1);
-                MessengerInstance.Send("Finished Task: " + success);
-                //return;
+                // do something.
+                var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
+                var task1 = taskService[this.Task.TypeName];
+                if (task1 != null)
+                {
+                    var success = PrepareTask2(task1);
+                    MessengerInstance.Send("Finished Task: " + success);
+                    //return;
+                }
             }
-            }
-            catch (Exception e  )
+            catch (Exception e)
             {
                 MessengerInstance.Send("Exception: " + e);
             }
@@ -487,7 +643,7 @@ namespace Jedzia.BackBock.ViewModel.Data
             //this.MessengerInstance.Send(msg);
             //MessengerInstance.Send(
             //    new DialogMessage(this, msg, null) { Caption = "Executing Task" }
-             //   );
+            //   );
             MessengerInstance.Send("Executing Task" + msg);
             //ApplicationViewModel..DialogService.ShowMessage(msg, "Executing Task", "Ok", null);
             this.RunTask();
@@ -636,7 +792,7 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             get
             {
-                return  LoggerVerbosity.Detailed;
+                return LoggerVerbosity.Detailed;
             }
             set
             {

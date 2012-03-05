@@ -49,7 +49,17 @@ namespace Microsoft.Build.BuildEngine {
 		XmlElement	targetElement;
 		List <XmlElement>	onErrorElements;
 		List <BuildTask>	buildTasks;
-		
+        
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public XmlElement TargetElement
+        {
+            get
+            {
+                return this.targetElement;
+            }
+        }
 		internal Target (XmlElement targetElement, Project project, ImportedProject importedProject)
 		{
 			if (project == null)

@@ -6,20 +6,19 @@
       <Exclusion Pattern="*.msi" Enabled="true" />
       <Inclusion Pattern="**\*.*" Enabled="true" />
     </Path>
-    <Task TypeName="Backup" />
+    <Task TypeName="Backup" DestinationFolder="C:\tmp\%(RecursiveDir)" OverwriteReadOnlyFiles="False" SkipUnchangedFiles="False" />
   </BackupItem>
   <BackupItem IsEnabled="true" ItemName="Only one file">
     <Path Path="C:\Temp\Raabe.png" />
-    <Task TypeName="Backup" />
+    <Task TypeName="Backup" DestinationFolder="C:\tmp\%(RecursiveDir)" OverwriteReadOnlyFiles="False" SkipUnchangedFiles="False" />
   </BackupItem>
   <BackupItem IsEnabled="true" ItemName="Firefox">
     <Path Path="C:\Temp\">
-      <Inclusion Pattern="**\*.cs" Enabled="true" />
+      <Exclusion Pattern="*.msi" />
+      <Exclusion />
+      <Inclusion Pattern="**\*.*" />
     </Path>
-    <Path Path="D:\Tmp">
-      <Exclusion Pattern="**\*.*" Enabled="true" />
-    </Path>
-    <Task TypeName="Backup" />
+    <Task TypeName="Zip" TaskAction="Create" CompressionLevel="Default" MaxOutputSegmentSize="0" UseZip64WhenSaving="Never" MachineName="PUBSI" AuthenticationLevel="Default" LogExceptionStack="False" SuppressTaskMessages="False" ErrorOnDeprecated="False" ZipFileName="D:\TestZip.zip" />
   </BackupItem>
   <BackupItem ItemName="My Documents">
     <Path Path="C:\Text\notes.txt" />

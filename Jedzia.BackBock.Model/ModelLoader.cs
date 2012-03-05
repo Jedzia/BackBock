@@ -20,11 +20,19 @@ namespace Jedzia.BackBock.Model
     {
         public static void SaveBackupData(BackupData data, string path)
         {
-            var xml = data.Serialize();
-            var doc = new XmlDocument();
-            doc.LoadXml(xml);
-            doc.Normalize();
-            doc.Save(path);
+            try
+            {
+                var xml = data.Serialize();
+                var doc = new XmlDocument();
+                doc.LoadXml(xml);
+                doc.Normalize();
+                doc.Save(path);
+
+            }
+            catch (Exception ex)
+            {
+                // Todo: remove this after testing. ! evil. no one knows when no save occurs.
+            }   
             //data.SaveToFile(path);
         }
     }

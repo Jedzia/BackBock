@@ -143,7 +143,14 @@ namespace WPG.TypeEditors
             }
             else
             {
-                newElem = System.Activator.CreateInstance(baseControl.MyProperty.PropertyType.GetGenericArguments()[0]);
+                try
+                {
+                    newElem = System.Activator.CreateInstance(baseControl.MyProperty.PropertyType.GetGenericArguments()[0]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("error in WPG-newElem: " + baseControl.MyProperty.PropertyType);
+                }
             }
 
             if (baseControl.AddTypeCommand != null)

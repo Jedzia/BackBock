@@ -103,9 +103,24 @@ namespace WPG.Data
 				else
 				{
 					TypeConverter converter = TypeDescriptor.GetConverter(_property.PropertyType);
+                    if (_property.PropertyType.IsInterface)
+                    {
+                        // try to get the underlying type.
+                        var val = _property.GetValue(_instance);
+                        if (val != null)
+                        {
+                            var valtype = val.GetType();
+                            converter = TypeDescriptor.GetConverter(valtype);
+                            //converter = null;
+                        }
+                    }
                     try
                     {
-                        object convertedValue = converter.ConvertFrom(value);
+                        object convertedValue = value;
+                        if (converter != null)
+                        {
+                            convertedValue = converter.ConvertFrom(value);
+                        }
                         _property.SetValue(_instance, convertedValue);
                     }
                     catch (Exception)

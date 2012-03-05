@@ -30,6 +30,7 @@
 using System;
 using System.Resources;
 using Microsoft.Build.Framework;
+using System.ComponentModel;
 
 namespace Microsoft.Build.Utilities
 {
@@ -60,7 +61,9 @@ namespace Microsoft.Build.Utilities
 
 		public abstract bool Execute();
 
-		public IBuildEngine BuildEngine	{
+        [Browsable(false)]
+        public IBuildEngine BuildEngine
+        {
 			get {
 				return buildEngine;
 			}
@@ -70,7 +73,9 @@ namespace Microsoft.Build.Utilities
 			}
 		}
 
-		public IBuildEngine2 BuildEngine2 {
+        [Browsable(false)]
+        public IBuildEngine2 BuildEngine2
+        {
 			get { return buildEngine as IBuildEngine2; }
 		}
 
@@ -83,7 +88,9 @@ namespace Microsoft.Build.Utilities
 			}
 		}
 
-		public ITaskHost HostObject {
+        [Browsable(false)]
+        public ITaskHost HostObject
+        {
 			get {
 				return hostObject;
 			}
@@ -92,7 +99,9 @@ namespace Microsoft.Build.Utilities
 			}
 		}
 
-		public TaskLoggingHelper Log {
+        [Browsable(false)]
+        public TaskLoggingHelper Log
+        {
 			get {
 				return log;
 			}

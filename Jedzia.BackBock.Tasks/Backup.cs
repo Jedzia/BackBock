@@ -43,6 +43,8 @@ namespace Jedzia.BackBock.Tasks
         /// </summary>
         public Backup()
         {
+            //this.SourceFiles = new TaskItem[0];
+            this.DestinationFolder = new TaskItem();
             return;
             this.SourceFiles = new TaskItem[5];
             //FilesXX = new List<object>();
@@ -236,12 +238,29 @@ namespace Jedzia.BackBock.Tasks
                 this.sourceFiles = new TaskItem[0];
                 return true;
             }
+            if (this.DestinationFolder == null)
+            {
+                this.destinationFolder = new TaskItem();
+                //return true;
+            }
+
             /*this.SourceFiles = ExpandWildcards(this.SourceFiles);*/
             //this.Exclude = ExpandWildcards(this.Exclude);
             //return this.Execute(this.CopyFileWithLogging);
             foreach (var sourceFile in SourceFiles)
             {
-                BuildEngine.LogMessageEvent(new BuildMessageEventArgs(sourceFile.ItemSpec, "", "", MessageImportance.High));
+                FileInfo f = new FileInfo(sourceFile.ItemSpec);
+                if (!f.Exists)
+                {
+                    BuildEngine.LogMessageEvent(new BuildMessageEventArgs(
+                        "File '" + f.FullName + "' does not exist.", "", this.GetType().Name, MessageImportance.High));
+                    continue;
+                }
+
+                var dst = Path.Combine(this.DestinationFolder.ItemSpec, f.Name);
+                BuildEngine.LogMessageEvent(new BuildMessageEventArgs(
+                    "copy from " + f.FullName + " to " + dst 
+                    , "", this.GetType().Name, MessageImportance.High));
             }
             this.copiedFiles = this.SourceFiles;
             string add = string.Empty;

@@ -3,6 +3,7 @@
 	<Target Name="Target1">
 		<ItemGroup>
 			<FilesToZip Include="C:\Temp\**" />
+			<Item Include="M*" />
 		</ItemGroup>
 		<MSBuild.ExtensionPack.Compression.Zip ZipFileName="D:\TestZip.zip" TaskAction="Create" CompressFiles="@(FilesToZip)" />
 	</Target>
