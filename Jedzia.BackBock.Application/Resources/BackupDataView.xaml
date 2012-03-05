@@ -50,7 +50,7 @@
         		<Label Content="Exc" />
         	</Border>
         	<!--<TextBlock x:Name="tbP1" Text="Pattern: " VerticalAlignment="Center"/>-->
-        	<TextBlock x:Name="tbP2" Text="{Binding Pattern}" VerticalAlignment="Center"/>
+        	<TextBox x:Name="tbP2" Text="{Binding Pattern}" VerticalAlignment="Center"/>
         </StackPanel>
     	<DataTemplate.Triggers>
     		<DataTrigger Binding="{Binding Enabled}" Value="True" >

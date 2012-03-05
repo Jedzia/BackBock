@@ -17,6 +17,11 @@ namespace Jedzia.BackBock.ViewModel.Design
             get { throw new NotImplementedException(); }
         }
 
+        public void UpdateLogText()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region ICanInputBind Members

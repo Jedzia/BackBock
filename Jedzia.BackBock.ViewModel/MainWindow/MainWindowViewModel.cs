@@ -109,7 +109,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             else
             {
                 // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-                applicationViewModel.MainWindow.Initialized += new EventHandler(mainWindow_Initialized);
+                applicationViewModel.MainWindow.Initialized += this.mainWindow_Initialized;
                 this.generalCommands = new GeneralCommandsModel(/*applicationViewModel,*/ applicationViewModel.MainWindow);
             }
             /*if (this.mainWindow.Designer == null)
@@ -133,6 +133,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             logsb.Append(e);
             logsb.Append(Environment.NewLine);
             RaisePropertyChanged(LogTextPropertyName);
+            mainWindow.UpdateLogText();
         }
 
         private void LogMessageEvent(BuildMessageEventArgs e)
@@ -151,6 +152,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             logsb.Append(")");
             logsb.Append(Environment.NewLine);
             RaisePropertyChanged(LogTextPropertyName);
+            mainWindow.UpdateLogText();
             //this.LogText += text + Environment.NewLine;
         }
         private StringBuilder logsb = new StringBuilder();

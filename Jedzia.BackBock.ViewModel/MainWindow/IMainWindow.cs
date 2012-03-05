@@ -18,7 +18,7 @@
 
         IMainWorkArea WorkArea { get; }
         //MainWindowViewModel MainWindowViewModel { get; }
-        //void ShowDetail(object val);
+        void UpdateLogText();
 
         #endregion
     }

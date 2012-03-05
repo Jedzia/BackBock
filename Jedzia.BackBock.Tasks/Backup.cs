@@ -243,6 +243,7 @@ namespace Jedzia.BackBock.Tasks
             {
                 BuildEngine.LogMessageEvent(new BuildMessageEventArgs(sourceFile.ItemSpec,"","", MessageImportance.High));
             }
+            this.copiedFiles = this.SourceFiles;
             return false;
         }
 

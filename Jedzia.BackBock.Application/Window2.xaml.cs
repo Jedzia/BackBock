@@ -51,6 +51,10 @@ namespace Jedzia.BackBock.Application
             get { return this.MyDesigner as IMainWorkArea; }
         }
 
+        public void UpdateLogText()
+        {
+        }
+
         #endregion
 
         #region IMainWindow Members

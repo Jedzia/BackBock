@@ -36,7 +36,9 @@ using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
 namespace Microsoft.Build.BuildEngine {
-	public class BuildItemGroup : IEnumerable {
+    using Mono.XBuild.Utilities;
+
+    public class BuildItemGroup : IEnumerable {
 	
 		List <BuildItem>	buildItems;
 		ImportedProject		importedProject;

@@ -20,7 +20,19 @@
 
             //this.DataContext = this;
             //this.InputBindings
+            //logtext.TextChanged += this.logtext_TextChanged;
+            //logtext.SourceUpdated += this.logtext_SourceUpdated;
 
+        }
+
+        void logtext_SourceUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
+        {
+            logtext.CaretIndex = logtext.Text.Length;
+        }
+
+        void logtext_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            logtext.CaretIndex = logtext.Text.Length;
         }
 
         public IMainWorkArea WorkArea
@@ -102,6 +114,17 @@
                 }
                 return this.dialogService;
             }
+        }
+
+        #endregion
+
+        #region IMainWindow Members
+
+
+        public void UpdateLogText()
+        {
+            logtext.CaretIndex = logtext.Text.Length-1;
+            logtext.Focus();
         }
 
         #endregion

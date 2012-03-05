@@ -31,6 +31,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Xml;
+    using Mono.XBuild.Utilities;
 
 namespace Microsoft.Build.BuildEngine {
 	[Serializable]
