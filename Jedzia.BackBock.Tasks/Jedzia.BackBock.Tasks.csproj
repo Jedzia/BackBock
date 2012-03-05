@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET_1_1;NET_2_0;NET_3_5</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Jedzia.BackBock.Tasks.XML</DocumentationFile>
@@ -49,44 +49,90 @@
   <ItemGroup>
     <Compile Include="AssemblyResources.cs" />
     <Compile Include="Backup.cs" />
-    <None Include="BuildEngine\BuildItem.cs" />
-    <None Include="BuildEngine\BuildItemGroup.cs" />
-    <None Include="BuildEngine\ItemExpander.cs" />
-    <None Include="BuildEngine\Expander.cs" />
-    <Compile Include="BuildEngine\CopyOnWriteHashtable.cs" />
-    <None Include="BuildEngine\GroupingCollection.cs" />
+    <None Include="Framework\ChangeLog" />
     <None Include="Settings.StyleCop" />
-    <Compile Include="BuildEngine\XmlSearcher.cs" />
-    <Compile Include="CopyFile.cs" />
-    <Compile Include="ExceptionHandling.cs" />
-    <Compile Include="ITask.cs" />
-    <Compile Include="ITaskItem.cs" />
+    <Compile Include="BuildEngine\BuildItem.cs" />
+    <Compile Include="BuildEngine\BuildItemGroup.cs" />
+    <Compile Include="BuildEngine\DirectoryScanner.cs" />
+    <Compile Include="BuildEngine\InvalidProjectFileException.cs" />
+    <Compile Include="CreateItem.cs" />
+    <Compile Include="Mono.XBuild.Utilities\MonoLocationHelper.cs" />
+    <Compile Include="Mono.XBuild.Utilities\MonoTODO.cs" />
     <Compile Include="ITaskService.cs" />
-    <Compile Include="MessageImportance.cs" />
-    <Compile Include="OutputAttribute.cs" />
+    <Compile Include="Framework\AnyEventHandler.cs" />
+    <Compile Include="Framework\BuildErrorEventArgs.cs" />
+    <Compile Include="Framework\BuildErrorEventHandler.cs" />
+    <Compile Include="Framework\BuildEventArgs.cs" />
+    <Compile Include="Framework\BuildFinishedEventArgs.cs" />
+    <Compile Include="Framework\BuildFinishedEventHandler.cs" />
+    <Compile Include="Framework\BuildMessageEventArgs.cs" />
+    <Compile Include="Framework\BuildMessageEventHandler.cs" />
+    <Compile Include="Framework\BuildStartedEventArgs.cs" />
+    <Compile Include="Framework\BuildStartedEventHandler.cs" />
+    <Compile Include="Framework\BuildStatusEventArgs.cs" />
+    <Compile Include="Framework\BuildStatusEventHandler.cs" />
+    <Compile Include="Framework\BuildWarningEventArgs.cs" />
+    <Compile Include="Framework\BuildWarningEventHandler.cs" />
+    <Compile Include="Framework\CustomBuildEventArgs.cs" />
+    <Compile Include="Framework\CustomBuildEventHandler.cs" />
+    <Compile Include="Framework\ExternalProjectFinishedEventArgs.cs" />
+    <Compile Include="Framework\ExternalProjectStartedEventArgs.cs" />
+    <Compile Include="Framework\IBuildEngine.cs" />
+    <Compile Include="Framework\IBuildEngine2.cs" />
+    <Compile Include="Framework\IEventSource.cs" />
+    <Compile Include="Framework\ILogger.cs" />
+    <Compile Include="Framework\INodeLogger.cs" />
+    <Compile Include="Framework\ITask.cs" />
+    <Compile Include="Framework\ITaskHost.cs" />
+    <Compile Include="Framework\ITaskItem.cs" />
+    <Compile Include="Framework\ITaskItem2.cs" />
+    <Compile Include="Framework\LoadInSeparateAppDomainAttribute.cs" />
+    <Compile Include="Framework\LoggerException.cs" />
+    <Compile Include="Framework\LoggerVerbosity.cs" />
+    <Compile Include="Framework\MessageImportance.cs" />
+    <Compile Include="Framework\OutputAttribute.cs" />
+    <Compile Include="Framework\ProjectFinishedEventArgs.cs" />
+    <Compile Include="Framework\ProjectFinishedEventHandler.cs" />
+    <Compile Include="Framework\ProjectStartedEventArgs.cs" />
+    <Compile Include="Framework\ProjectStartedEventHandler.cs" />
+    <Compile Include="Framework\RequiredAttribute.cs" />
+    <Compile Include="Framework\TargetFinishedEventArgs.cs" />
+    <Compile Include="Framework\TargetFinishedEventHandler.cs" />
+    <Compile Include="Framework\TargetStartedEventArgs.cs" />
+    <Compile Include="Framework\TargetStartedEventHandler.cs" />
+    <Compile Include="Framework\TaskCommandLineEventArgs.cs" />
+    <Compile Include="Framework\TaskFinishedEventArgs.cs" />
+    <Compile Include="Framework\TaskFinishedEventHandler.cs" />
+    <Compile Include="Framework\TaskStartedEventArgs.cs" />
+    <Compile Include="Framework\TaskStartedEventHandler.cs" />
+    <Compile Include="Mono.XBuild.Utilities\MSBuildUtils.cs" />
+    <Compile Include="Mono.XBuild.Utilities\ReservedNameUtils.cs" />
+    <Compile Include="ProcessStringDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequiredAttribute.cs" />
-    <Compile Include="Shared\BuildEventFileInfo.cs" />
-    <Compile Include="Shared\ErrorUtilities.cs" />
-    <Compile Include="Shared\FileMatcher.cs" />
-    <Compile Include="Shared\FileUtilities.cs" />
-    <Compile Include="Shared\FileUtilitiesRegex.cs" />
-    <Compile Include="Shared\InvalidProjectFileException.cs" />
-    <Compile Include="Shared\ProjectErrorUtilities.cs" />
-    <Compile Include="Shared\ResourceUtilities.cs" />
-    <Compile Include="Shared\XMakeElements.cs" />
-    <Compile Include="Shared\XmlUtilities.cs" />
-    <Compile Include="Task.cs" />
     <Compile Include="TaskExtension.cs" />
-    <Compile Include="TaskItem.cs" />
-    <Compile Include="TaskRegistry.cs" />
-    <Compile Include="Utilities\EscapingUtilities.cs" />
+    <Compile Include="Touch.cs" />
+    <Compile Include="Utilities\AppDomainIsolatedTask.cs" />
+    <Compile Include="Utilities\CommandLineBuilder.cs" />
+    <Compile Include="Utilities\ConcurrentLoggingHelper.cs" />
+    <Compile Include="Utilities\HostObjectInitializationStatus.cs" />
+    <Compile Include="Utilities\IAsyncOperation.cs" />
+    <Compile Include="Utilities\IProcessAsyncOperation.cs" />
+    <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="Utilities\ProcessService.cs" />
+    <Compile Include="Utilities\ProcessWrapper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utilities\TargetDotNetFrameworkVersion.cs" />
+    <Compile Include="Utilities\Task.cs" />
+    <Compile Include="Utilities\TaskItem.cs" />
     <Compile Include="Utilities\TaskLoggingHelper.cs" />
-    <Compile Include="Utilities\TaskLoggingHelperExtension.cs" />
+    <Compile Include="Utilities\ToolLocationHelper.cs" />
+    <Compile Include="Utilities\ToolTask.cs" />
+    <Compile Include="TaskRegistry.cs" />
+    <None Include="Utilities\ChangeLog" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Strings.resx" />
-    <EmbeddedResource Include="Strings.shared.resx" />
+    <Folder Include="Shared\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

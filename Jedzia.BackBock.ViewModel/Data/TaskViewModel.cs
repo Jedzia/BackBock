@@ -7,6 +7,8 @@ using Jedzia.BackBock.Tasks;
 
 namespace Jedzia.BackBock.ViewModel.Data
 {
+    using Microsoft.Build.Framework;
+
     public class MyStructure
     {
         private int valueOne;

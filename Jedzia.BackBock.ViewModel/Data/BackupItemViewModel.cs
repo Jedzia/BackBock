@@ -21,10 +21,11 @@ namespace Jedzia.BackBock.ViewModel.Data
     using Jedzia.BackBock.ViewModel.Commands;
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using Jedzia.BackBock.ViewModel.MVVM.Messaging;
-    using Jedzia.BackBock.Tasks.Utilities;
     using Jedzia.BackBock.ViewModel.Util;
-    using Jedzia.BackBock.Tasks.BuildEngine;
     using System.Collections;
+    using Microsoft.Build.Framework;
+    using Microsoft.Build.Tasks;
+    using Microsoft.Build.Utilities;
 
     public partial class BackupItemViewModel
     {
@@ -234,7 +235,17 @@ namespace Jedzia.BackBock.ViewModel.Data
                     var cr = new CreateItem();
                     if (e.Inclusions.Count > 0)
                     {
-                        cr.Include = e.Inclusions.Select((t) => { return new TaskItem(e.Path + "\\" + t.Pattern); }).ToArray();
+                        cr.Include = e.Inclusions.Select(
+                            (t) =>
+                                {
+                                    if (e.Path.EndsWith("\\"))
+                                    {
+                                        return new TaskItem(e.Path + t.Pattern);
+                                    }
+                                    else
+                                        return new TaskItem(e.Path + "\\" + t.Pattern);
+                                }
+                            ).ToArray();
                     }
                     else
                     {
@@ -266,7 +277,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 btask.SourceFiles = includes.ToArray();
                 btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
                 //var itemsByType = new Hashtable();
-                foreach (var item in btask.SourceFiles)
+                //foreach (var item in btask.SourceFiles)
                 //{
                     //itemsByType.Add(
                 //}
@@ -335,7 +346,8 @@ namespace Jedzia.BackBock.ViewModel.Data
                 if (task is Backup)
                 {
                     var tbackup = (Backup)task;
-                    add += " Copied:" + tbackup.CopiedFiles.Count();
+                    if(tbackup.CopiedFiles != null)
+                        add += " Copied:" + tbackup.CopiedFiles.Count();
                 }
                 
                 MessengerInstance.Send("Finished Task: " + success + add);
@@ -535,10 +547,32 @@ namespace Jedzia.BackBock.ViewModel.Data
                 messengerInstance.Send(e);
         }
 
+        public void LogWarningEvent(BuildWarningEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int ColumnNumberOfTaskNode
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         #endregion
 
         #region IBuildEngine Members
 
+        public bool BuildProjectFile(string projectFileName, string[] targetNames, IDictionary globalProperties, IDictionary targetOutputs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LogCustomEvent(CustomBuildEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         public void LogErrorEvent(BuildErrorEventArgs e)
         {
@@ -549,6 +583,22 @@ namespace Jedzia.BackBock.ViewModel.Data
         public bool ContinueOnError
         {
             get { return false; }
+        }
+
+        public int LineNumberOfTaskNode
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string ProjectFileOfTaskNode
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         #endregion

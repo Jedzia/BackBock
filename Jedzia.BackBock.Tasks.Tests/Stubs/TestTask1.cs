@@ -5,6 +5,8 @@ using System.Text;
 
 namespace Jedzia.BackBock.Tasks.Tests.Stubs
 {
+    using Microsoft.Build.Framework;
+
     class TestTask1 : ITask
     {
         public bool HasExecuted
@@ -32,6 +34,18 @@ namespace Jedzia.BackBock.Tasks.Tests.Stubs
 
 
         public IBuildEngine BuildEngine
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public ITaskHost HostObject
         {
             get
             {

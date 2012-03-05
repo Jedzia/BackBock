@@ -15,7 +15,6 @@ using System.Windows.Input;
 using Jedzia.BackBock.Model.Data;
 using System.Windows.Controls;
 using System.Xml.Serialization;
-using Jedzia.BackBock.Tasks.Utilities;
 using System.Text;
 using System.Xml;
 using System.IO;
@@ -23,6 +22,8 @@ using Jedzia.BackBock.Tasks;
 using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
+    using Microsoft.Build.Framework;
+
     public sealed class MainWindowViewModel : ViewModelBase
     {
         #region Fields

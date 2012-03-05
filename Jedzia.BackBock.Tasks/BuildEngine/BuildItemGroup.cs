@@ -1,542 +1,325 @@
-﻿// <copyright file="$FileName$" company="$Company$">
-// Copyright (c) 2012 All Right Reserved
-// </copyright>
-// <author>Jedzia</author>
-// <email>jed69@gmx.de</email>
-// <date>$date$</date>
-// <summary>$summary$</summary>
-namespace Jedzia.BackBock.Tasks.BuildEngine
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Xml;
-    using Jedzia.BackBock.Tasks.Shared;
+//
+// BuildItemGroup.cs: Represents a group of build items.
+//
+// Author:
+//   Marek Sieradzki (marek.sieradzki@gmail.com)
+// 
+// (C) 2005 Marek Sieradzki
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-    [DebuggerDisplay("BuildItemGroup (Count = { Count }, Condition = { Condition })")]
-    public class BuildItemGroup : List<BuildItem>, IItemPropertyGrouping, IEnumerable
-    {
-        #region Fields
+#if NET_2_0
 
-        private XmlAttribute conditionAttribute;
-        private bool importedFromAnotherProject;
-        private XmlElement itemGroupElement;
-        private ArrayList items;
-        private XmlDocument ownerDocument;
+using System;
+using System.Reflection;
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 
-        #endregion
+namespace Microsoft.Build.BuildEngine {
+	public class BuildItemGroup : IEnumerable {
+	
+		List <BuildItem>	buildItems;
+		ImportedProject		importedProject;
+		XmlElement		itemGroupElement;
+		GroupingCollection	parentCollection;
+		Project			parentProject;
+		bool			read_only;
+		bool evaluated;
 
-        public BuildItem AddNewItem(string itemName, string itemInclude)
-        {
-            BuildItem item;
-            if (this.IsPersisted())
-            {
-                item = new BuildItem(this.ownerDocument, itemName, itemInclude);
-            }
-            else
-            {
-                item = new BuildItem(itemName, itemInclude);
-            }
-            Add(item);
-            return item;
-        }
+		public BuildItemGroup ()
+			: this (null, null, null, false)
+		{
+		}
 
-        internal BuildItemGroup(XmlDocument ownerDocument, bool importedFromAnotherProject)
-        {
-            ErrorUtilities.VerifyThrow(ownerDocument != null, "Need valid XmlDocument owner for this item group.");
-            this.itemGroupElement = ownerDocument.CreateElement("ItemGroup", "http://schemas.microsoft.com/developer/msbuild/2003");
-            this.importedFromAnotherProject = importedFromAnotherProject;
-            this.ownerDocument = ownerDocument;
-            this.conditionAttribute = null;
-            this.items = new ArrayList();
-            this.MustBePersisted("InvalidInVirtualItemGroup");
-        }
-        public BuildItemGroup()
-        {
-            this.itemGroupElement = null;
-            this.importedFromAnotherProject = false;
-            this.conditionAttribute = null;
-            this.items = new ArrayList();
-        }
+		internal BuildItemGroup (Project project)
+			: this (null, project, null, false)
+		{
+		}
 
+		internal BuildItemGroup (XmlElement xmlElement, Project project, ImportedProject importedProject, bool readOnly)
+		{
+			this.buildItems = new List <BuildItem> ();
+			this.importedProject = importedProject;
+			this.itemGroupElement = xmlElement;
+			this.parentProject = project;
+			this.read_only = readOnly;
+			
+			if (!FromXml)
+				return;
 
-        public BuildItemGroup Clone(bool deepClone)
-        {
-            BuildItemGroup group;
-            if (this.IsPersisted())
-            {
-                this.MustBePersisted("InvalidInVirtualItemGroup");
-                ErrorUtilities.VerifyThrowInvalidOperation(deepClone, "ShallowCloneNotAllowed");
-                group = new BuildItemGroup(this.ownerDocument, this.importedFromAnotherProject)
-                {
-                    Condition = this.Condition
-                };
-            }
-            else
-            {
-                this.MustBeVirtual("InvalidInPersistedItemGroup");
-                group = new BuildItemGroup();
-            }
-            foreach (BuildItem item in this)
-            {
-                group.AddItem(deepClone ? item.Clone() : item);
-            }
-            return group;
-        }
+			foreach (XmlNode xn in xmlElement.ChildNodes) {
+				if (!(xn is XmlElement))
+					continue;
+					
+				XmlElement xe = (XmlElement) xn;
+				BuildItem bi = new BuildItem (xe, this);
+				buildItems.Add (bi);
+				project.LastItemGroupContaining [bi.Name] = this;
+			}
 
+			DefinedInFileName = importedProject != null ? importedProject.FullFileName :
+						project != null ? project.FullFileName : null;
+		}
 
-        public void RemoveItem(BuildItem itemToRemove)
-        {
-            ErrorUtilities.VerifyThrow(this.items != null, "BuildItemGroup object not initialized.");
-            this.RemoveItemElement(itemToRemove);
-            if (this.IsPersisted())
-            {
-                ErrorUtilities.VerifyThrow(
-                    itemToRemove.ParentPersistedItemGroup == this, "This item doesn't belong to this itemgroup.");
-                itemToRemove.ParentPersistedItemGroup = null;
-            }
-            this.items.Remove(itemToRemove);
-            this.MarkItemGroupAsDirty();
-        }
+		public BuildItem AddNewItem (string itemName,
+					     string itemInclude)
+		{
+			return AddNewItem (itemName, itemInclude, false);
+		}
+		
+		[MonoTODO]
+		public BuildItem AddNewItem (string itemName,
+					     string itemInclude,
+					     bool treatItemIncludeAsLiteral)
+		{
+			BuildItem item;
 
-        internal void AddExistingItem(BuildItem itemToAdd)
-        {
-            ErrorUtilities.VerifyThrow(this.items != null, "BuildItemGroup has not been initialized.");
-            this.items.Add(itemToAdd);
-            if (this.IsPersisted())
-            {
-                itemToAdd.ParentPersistedItemGroup = this;
-            }
-            this.MarkItemGroupAsDirty();
-        }
+			if (treatItemIncludeAsLiteral)
+				itemInclude = Utilities.Escape (itemInclude);
 
-        internal void AddExistingItemAt(int index, BuildItem itemToAdd)
-        {
-            ErrorUtilities.VerifyThrow(this.items != null, "BuildItemGroup has not been initialized.");
-            ErrorUtilities.VerifyThrow(index <= this.items.Count, "Index out of range");
-            this.items.Insert(index, itemToAdd);
-            if (this.IsPersisted())
-            {
-                itemToAdd.ParentPersistedItemGroup = this;
-            }
-            this.MarkItemGroupAsDirty();
-        }
+			if (FromXml) {
+				XmlElement element = itemGroupElement.OwnerDocument.CreateElement (itemName, Project.XmlNamespace);
+				itemGroupElement.AppendChild (element);
+				element.SetAttribute ("Include", itemInclude);
+				item = new BuildItem (element, this);
+			} else {
+				item = new BuildItem (itemName, itemInclude);
+				item.ParentItemGroup = this;
+			}
 
-        internal void AddItem(BuildItem itemToAdd)
-        {
-            ErrorUtilities.VerifyThrow(this.items != null, "BuildItemGroup has not been initialized.");
-            if (!this.IsPersisted())
-            {
-                this.AddExistingItem(itemToAdd);
-            }
-            else
-            {
-                this.MustBePersisted("InvalidInVirtualItemGroup");
-                ErrorUtilities.VerifyThrowInvalidOperation(
-                    !this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                ErrorUtilities.VerifyThrow(itemToAdd.ItemElement != null, "Item does not have an XML element");
-                ErrorUtilities.VerifyThrow(
-                    itemToAdd.ItemElement.OwnerDocument == this.ownerDocument,
-                    "Cannot add an Item with a different XML owner document.");
-                int count = this.items.Count;
-                for (int i = 0; i < this.items.Count; i++)
-                {
-                    if (
-                        string.Compare(
-                            itemToAdd.Name, ((BuildItem)this.items[i]).Name, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        count = i + 1;
-                        if (0 >
-                            string.Compare(
-                                itemToAdd.Include,
-                                ((BuildItem)this.items[i]).Include,
-                                StringComparison.OrdinalIgnoreCase))
-                        {
-                            count = i;
-                            break;
-                        }
-                    }
-                }
-                if (this.items.Count > 0)
-                {
-                    if (count == this.items.Count)
-                    {
-                        XmlElement itemElement = ((BuildItem)this.items[this.items.Count - 1]).ItemElement;
-                        itemElement.ParentNode.InsertAfter(itemToAdd.ItemElement, itemElement);
-                    }
-                    else
-                    {
-                        XmlElement refChild = ((BuildItem)this.items[count]).ItemElement;
-                        refChild.ParentNode.InsertBefore(itemToAdd.ItemElement, refChild);
-                    }
-                    this.AddExistingItemAt(count, itemToAdd);
-                }
-                else
-                {
-                    this.itemGroupElement.AppendChild(itemToAdd.ItemElement);
-                    this.AddExistingItem(itemToAdd);
-                }
-            }
-        }
+			item.Evaluate (null, true);
 
-        private bool IsPersisted()
-        {
-            return (this.itemGroupElement != null);
-        }
+			if (!read_only)
+				buildItems.Add (item);
 
-        private bool IsVirtual()
-        {
-            return (this.itemGroupElement == null);
-        }
+			if (parentProject != null) {
+				parentProject.MarkProjectAsDirty ();
+				parentProject.NeedToReevaluate ();
+			}
 
-        private void MarkItemGroupAsDirty()
-        {
-            /*if (this.ParentProject != null)
-            {
-                this.ParentProject.MarkProjectAsDirty();
-            }*/
-        }
+			return item;
+		}
+		
+		public void Clear ()
+		{
+			if (FromXml)
+				itemGroupElement.RemoveAll ();
+			
+			buildItems = new List <BuildItem> ();
 
-        private void MustBePersisted(string errorResourceName)
-        {
-            this.MustBePersisted(errorResourceName, null);
-        }
+			if (parentProject != null) {
+				parentProject.MarkProjectAsDirty ();
+				parentProject.NeedToReevaluate ();
+			}
+		}
 
-        private void MustBePersisted(string errorResourceName, params object[] args)
-        {
-            ErrorUtilities.VerifyThrowInvalidOperation(this.IsPersisted(), errorResourceName, args);
-            ErrorUtilities.VerifyThrow(
-                this.ownerDocument != null,
-                "There must be an owner document. It should have been set in the constructor.");
-        }
+		[MonoTODO]
+		public BuildItemGroup Clone (bool deepClone)
+		{
+			if (deepClone) {
+				if (FromXml)
+					throw new NotImplementedException ();
+				else
+					throw new NotImplementedException ();
+			} else {
+				if (FromXml)
+					throw new InvalidOperationException ("A shallow clone of this object cannot be created.");
+				else
+					throw new NotImplementedException ();
+			}
+		}
 
-        private void MustBeVirtual(string errorResourceName)
-        {
-            this.MustBeVirtual(errorResourceName, null);
-        }
+		public IEnumerator GetEnumerator ()
+		{
+			return buildItems.GetEnumerator ();
+		}
 
-        private void MustBeVirtual(string errorResourceName, params object[] args)
-        {
-            ErrorUtilities.VerifyThrowInvalidOperation(this.IsVirtual(), errorResourceName, args);
-            ErrorUtilities.VerifyThrow(
-                this.conditionAttribute == null, "Expected condition attribute to be null for virtual group.");
-            ErrorUtilities.VerifyThrow(
-                this.itemGroupElement == null, "Expected item group element to be null for virtual group.");
-        }
+		public void RemoveItem (BuildItem itemToRemove)
+		{
+			if (itemToRemove == null)
+				return;
 
-        private void RemoveItemElement(BuildItem itemToRemove)
-        {
-            if (this.IsPersisted())
-            {
-                this.MustBePersisted("InvalidInVirtualItemGroup");
-                ErrorUtilities.VerifyThrowInvalidOperation(
-                    !this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                XmlElement itemElement = itemToRemove.ItemElement;
-                ErrorUtilities.VerifyThrowInvalidOperation(itemElement != null, "ItemDoesNotBelongToItemGroup");
-                ErrorUtilities.VerifyThrowInvalidOperation(
-                    itemElement.ParentNode == this.itemGroupElement, "ItemDoesNotBelongToItemGroup");
-                itemElement.ParentNode.RemoveChild(itemElement);
-            }
-        }
+			itemToRemove.Detach ();
 
-        public string Condition
-        {
-            get
-            {
-                if (this.conditionAttribute != null)
-                {
-                    return this.conditionAttribute.Value;
-                }
-                return string.Empty;
-            }
-            set
-            {
-                this.MustBePersisted("CannotSetCondition");
-                ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                if ((value == null) || (value.Length == 0))
-                {
-                    this.itemGroupElement.RemoveAttribute("Condition");
-                    this.conditionAttribute = null;
-                }
-                else
-                {
-                    this.itemGroupElement.SetAttribute("Condition", value);
-                    this.conditionAttribute = this.itemGroupElement.Attributes["Condition"];
-                }
-                this.MarkItemGroupAsDirty();
-            }
-        }
+			buildItems.Remove (itemToRemove);
+		}
 
-        internal XmlAttribute ConditionAttribute
-        {
-            get
-            {
-                return this.conditionAttribute;
-            }
-        }
+		public void RemoveItemAt (int index)
+		{
+			BuildItem item = buildItems [index];
 
+			RemoveItem (item);
+		}
 
-        /* // Fields
-        private GroupingCollection parentCollection;
-        private Project parentProject;
+		public BuildItem[] ToArray ()
+		{
+			return buildItems.ToArray ();
+		}
 
-        // Methods
-        internal BuildItemGroup(XmlElement itemGroupElement, bool importedFromAnotherProject)
-        {
-            ErrorUtilities.VerifyThrow(itemGroupElement != null, "Need a valid XML node.");
-            ErrorUtilities.VerifyThrow(itemGroupElement.Name == "ItemGroup", "Expected <{0}> element; received <{1}> element.", "ItemGroup", itemGroupElement.Name);
-            this.itemGroupElement = itemGroupElement;
-            this.importedFromAnotherProject = importedFromAnotherProject;
-            this.conditionAttribute = null;
-            this.ownerDocument = itemGroupElement.OwnerDocument;
-            this.items = new ArrayList();
-            foreach (XmlAttribute attribute in itemGroupElement.Attributes)
-            {
-                string str;
-                if (((str = attribute.Name) != null) && (str == "Condition"))
-                {
-                    this.conditionAttribute = attribute;
-                }
-                else
-                {
-                    ProjectErrorUtilities.VerifyThrowInvalidProject(false, attribute, "UnrecognizedAttribute", attribute.Name, itemGroupElement.Name);
-                }
-            }
-            foreach (XmlNode node in itemGroupElement)
-            {
-                switch (node.NodeType)
-                {
-                    case XmlNodeType.Element:
-                        {
-                            ProjectErrorUtilities.VerifyThrowInvalidProject((node.Prefix.Length == 0) && (string.Compare(node.NamespaceURI, "http://schemas.microsoft.com/developer/msbuild/2003", StringComparison.OrdinalIgnoreCase) == 0), node, "CustomNamespaceNotAllowedOnThisChildElement", node.Name, itemGroupElement.Name);
-                            this.AddExistingItem(new BuildItem((XmlElement) node, importedFromAnotherProject));
-                            continue;
-                        }
-                    case XmlNodeType.Comment:
-                    case XmlNodeType.Whitespace:
-                        {
-                            continue;
-                        }
-                }
-                ProjectErrorUtilities.VerifyThrowInvalidProject(false, node, "UnrecognizedChildElement", node.Name, itemGroupElement.Name);
-            }
-            this.MustBePersisted("InvalidInVirtualItemGroup");
-        }
+		internal void AddItem (BuildItem buildItem)
+		{
+			buildItems.Add (buildItem);
+		}
 
-        internal void AddItem(BuildItem itemToAdd)
-        {
-            ErrorUtilities.VerifyThrow(this.items != null, "BuildItemGroup has not been initialized.");
-            if (!this.IsPersisted())
-            {
-                this.AddExistingItem(itemToAdd);
-            }
-            else
-            {
-                this.MustBePersisted("InvalidInVirtualItemGroup");
-                ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                ErrorUtilities.VerifyThrow(itemToAdd.ItemElement != null, "Item does not have an XML element");
-                ErrorUtilities.VerifyThrow(itemToAdd.ItemElement.OwnerDocument == this.ownerDocument, "Cannot add an Item with a different XML owner document.");
-                int count = this.items.Count;
-                for (int i = 0; i < this.items.Count; i++)
-                {
-                    if (string.Compare(itemToAdd.Name, ((BuildItem) this.items[i]).Name, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        count = i + 1;
-                        if (0 > string.Compare(itemToAdd.Include, ((BuildItem) this.items[i]).Include, StringComparison.OrdinalIgnoreCase))
-                        {
-                            count = i;
-                            break;
-                        }
-                    }
-                }
-                if (this.items.Count > 0)
-                {
-                    if (count == this.items.Count)
-                    {
-                        XmlElement itemElement = ((BuildItem) this.items[this.items.Count - 1]).ItemElement;
-                        itemElement.ParentNode.InsertAfter(itemToAdd.ItemElement, itemElement);
-                    }
-                    else
-                    {
-                        XmlElement refChild = ((BuildItem) this.items[count]).ItemElement;
-                        refChild.ParentNode.InsertBefore(itemToAdd.ItemElement, refChild);
-                    }
-                    this.AddExistingItemAt(count, itemToAdd);
-                }
-                else
-                {
-                    this.itemGroupElement.AppendChild(itemToAdd.ItemElement);
-                    this.AddExistingItem(itemToAdd);
-                }
-            }
-        }
+		internal void AddItem (string name, ITaskItem taskItem)
+		{
+			BuildItem buildItem;
+			buildItem = new BuildItem (name, taskItem);
+			buildItem.ParentItemGroup = this;
+			buildItems.Add (buildItem);
+		}
 
-        public BuildItem AddNewItem(string itemName, string itemInclude)
-        {
-            BuildItem item;
-            if (this.IsPersisted())
-            {
-                item = new BuildItem(this.ownerDocument, itemName, itemInclude);
-            }
-            else
-            {
-                item = new BuildItem(itemName, itemInclude);
-            }
-            this.AddItem(item);
-            return item;
-        }
+		// In eval phase, any ref'ed item would've already been expanded
+		// or it doesnt exist, so dont expand again
+		// In non-eval, items have _already_ been expanded, so dont expand again
+		// So, ignore @options
+		internal string ConvertToString (Expression transform,
+						 Expression separator, ExpressionOptions options)
+		{
+			string separatorString;
+			
+			// Item refs are not expanded for separator or transform
+			if (separator == null)
+				separatorString = ";";
+			else
+				separatorString = (string) separator.ConvertTo (parentProject, typeof (string),
+								ExpressionOptions.DoNotExpandItemRefs);
+		
+			string[] items = new string [buildItems.Count];
+			int i = 0;
+			foreach (BuildItem bi in  buildItems)
+				items [i++] = bi.ConvertToString (transform, ExpressionOptions.DoNotExpandItemRefs);
+			return String.Join (separatorString, items);
+		}
 
-        public BuildItem AddNewItem(string itemName, string itemInclude, bool treatItemIncludeAsLiteral)
-        {
-            return this.AddNewItem(itemName, treatItemIncludeAsLiteral ? EscapingUtilities.Escape(itemInclude) : itemInclude);
-        }
+		// In eval phase, any ref'ed item would've already been expanded
+		// or it doesnt exist, so dont expand again
+		// In non-eval, items have _already_ been expanded, so dont expand again
+		// So, ignore @options
+		internal ITaskItem[] ConvertToITaskItemArray (Expression transform, Expression separator, ExpressionOptions options)
+		{
+			if (separator != null)
+				// separator present, so return as a single "join'ed" string
+				return new ITaskItem [] {
+					new TaskItem (ConvertToString (transform, separator, options))
+				};
 
-        public void Clear()
-        {
-            ErrorUtilities.VerifyThrow(this.items != null, "BuildItemGroup object not initialized.");
-            if (this.IsPersisted())
-            {
-                this.MustBePersisted("InvalidInVirtualItemGroup");
-                ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                foreach (BuildItem item in this.items)
-                {
-                    XmlElement itemElement = item.ItemElement;
-                    ErrorUtilities.VerifyThrowInvalidOperation(itemElement != null, "ItemDoesNotBelongToItemGroup");
-                    ErrorUtilities.VerifyThrowInvalidOperation(itemElement.ParentNode == this.itemGroupElement, "ItemDoesNotBelongToItemGroup");
-                    itemElement.ParentNode.RemoveChild(itemElement);
-                    item.ParentPersistedItemGroup = null;
-                }
-                this.conditionAttribute = null;
-            }
-            this.items.Clear();
-            this.MarkItemGroupAsDirty();
-        }
+			ITaskItem[] array = new ITaskItem [buildItems.Count];
+			int i = 0;
+			foreach (BuildItem item in buildItems)
+				array [i++] = item.ConvertToITaskItem (transform, ExpressionOptions.DoNotExpandItemRefs);
+			return array;
+		}
 
-        internal void Evaluate(BuildPropertyGroup parentPropertyBag, bool ignoreCondition, bool honorCondition, Hashtable conditionedPropertiesTable, ProcessingPass pass)
-        {
-            ErrorUtilities.VerifyThrow(pass == ProcessingPass.Pass2, "Pass should be Pass2 for ItemGroups.");
-            this.parentProject.EvaluateItemGroup(this, parentPropertyBag, ignoreCondition, honorCondition);
-        }
+		internal void Detach ()
+		{
+			if (!FromXml)
+				throw new InvalidOperationException ();
 
-        public IEnumerator GetEnumerator()
-        {
-            return this.items.GetEnumerator();
-        }
+			itemGroupElement.ParentNode.RemoveChild (itemGroupElement);
+		}
 
-        internal void ImportItems(BuildItemGroup itemsToImport)
-        {
-            ErrorUtilities.VerifyThrow(itemsToImport != null, "Null BuildItemGroup passed in.");
-            foreach (BuildItem item in itemsToImport)
-            {
-                this.AddItem(item);
-            }
-        }
+		internal void Evaluate ()
+		{
+			if (evaluated)
+				return;
+			foreach (BuildItem bi in buildItems) {
+				if (bi.Condition == String.Empty)
+					bi.Evaluate (parentProject, true);
+				else {
+					ConditionExpression ce = ConditionParser.ParseCondition (bi.Condition);
+					bi.Evaluate (parentProject, ce.BoolEvaluate (parentProject));
+				}
+			}
+			evaluated = true;
+		}		
 
+		internal void ReplaceWith (BuildItem item, List <BuildItem> list)
+		{
+			int index = buildItems.IndexOf (item);
+			buildItems.RemoveAt (index);
+			buildItems.InsertRange (index, list);
+		}
+		
+		public string Condition {
+			get {
+				if (FromXml)
+					return itemGroupElement.GetAttribute ("Condition");
+				else
+					return String.Empty;
+			}
+			set {
+				if (FromXml)
+					itemGroupElement.SetAttribute ("Condition", value);
+				else
+					throw new InvalidOperationException ("Cannot set a condition on an object not represented by an XML element in the project file.");
+			}
+		}
 
-        internal void RemoveAllIntermediateItems()
-        {
-            ErrorUtilities.VerifyThrow(this.items != null, "BuildItemGroup object not initialized.");
-            this.MustBeVirtual("InvalidInPersistedItemGroup");
-            ArrayList list = new ArrayList(this.items.Count);
-            for (int i = 0; i < this.items.Count; i++)
-            {
-                if (((BuildItem) this.items[i]).ItemElement != null)
-                {
-                    list.Add(this.items[i]);
-                }
-            }
-            this.items = list;
-            this.MarkItemGroupAsDirty();
-        }
+		public int Count {
+			get { return buildItems.Count; }
+		}
 
-        public void RemoveItemAt(int index)
-        {
-            ErrorUtilities.VerifyThrow(this.items != null, "BuildItemGroup object not initialized.");
-            this.RemoveItemElement((BuildItem) this.items[index]);
-            if (this.IsPersisted())
-            {
-                ErrorUtilities.VerifyThrow(((BuildItem) this.items[index]).ParentPersistedItemGroup == this, "This item doesn't belong to this itemgroup.");
-                ((BuildItem) this.items[index]).ParentPersistedItemGroup = null;
-            }
-            this.items.RemoveAt(index);
-            this.MarkItemGroupAsDirty();
-        }
+		public bool IsImported {
+			get { return importedProject != null; }
+		}
 
-        public BuildItem[] ToArray()
-        {
-            return (BuildItem[]) this.items.ToArray(typeof(BuildItem));
-        }
+		
+		[MonoTODO]
+		public BuildItem this [int index] {
+			get {
+				return buildItems [index];
+			}
+		}
+		
+		internal GroupingCollection GroupingCollection {
+			get { return parentCollection; }
+			set { parentCollection = value; }
+		}
+		
+		internal Project ParentProject {
+			get { return parentProject; }
+			set {
+				if (parentProject != null)
+					throw new InvalidOperationException ("parentProject is already set");
+				parentProject = value;
+			}
+		}
 
-        // Properties
+		internal string DefinedInFileName { get; private set; }
 
-        public int Count
-        {
-            get
-            {
-                return this.items.Count;
-            }
-        }
+		internal bool FromXml {
+			get {
+				return itemGroupElement != null;
+			}
+		}
 
-        public bool IsImported
-        {
-            get
-            {
-                return this.importedFromAnotherProject;
-            }
-        }
-
-        public BuildItem this[int index]
-        {
-            get
-            {
-                return (BuildItem) this.items[index];
-            }
-        }
-
-        internal XmlElement ItemGroupElement
-        {
-            get
-            {
-                return this.itemGroupElement;
-            }
-        }
-
-        internal GroupingCollection ParentCollection
-        {
-            get
-            {
-                return this.parentCollection;
-            }
-            set
-            {
-                this.parentCollection = value;
-            }
-        }
-
-        internal XmlElement ParentElement
-        {
-            get
-            {
-                if ((this.itemGroupElement != null) && (this.itemGroupElement.ParentNode is XmlElement))
-                {
-                    return (XmlElement) this.itemGroupElement.ParentNode;
-                }
-                return null;
-            }
-        }
-
-        internal Project ParentProject
-        {
-            get
-            {
-                return this.parentProject;
-            }
-            set
-            {
-                ErrorUtilities.VerifyThrow(((value == null) && (this.parentProject != null)) || ((value != null) && (this.parentProject == null)), "Either new parent cannot be assigned because we already have a parent, or old parent cannot be removed because none exists.");
-                this.parentProject = value;
-            }
-        }*/
-    }
+		internal XmlElement XmlElement {
+			get {
+				return itemGroupElement;
+			}	
+		}
+	}
 }
+
+#endif

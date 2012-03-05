@@ -11,37 +11,11 @@ namespace Jedzia.BackBock.Tasks
     using System.Collections;
     using System.ComponentModel;
     using System.IO;
-    using Jedzia.BackBock.Tasks.Shared;
+    using Microsoft.Build.Framework;
+    using Microsoft.Build.Tasks;
+    using Microsoft.Build.Utilities;
 
-    /// <summary>
-    /// A simple backup task.
-    /// </summary>
-    [DisplayName("Touch Task")]
-    public class Touch : TaskExtension
-    {
-        /// <summary>
-        /// Gets the name of the Task.
-        /// </summary>
-        public override string Name
-        {
-            get
-            {
-                return "Touch";
-            }
-        }
-
-        /// <summary>
-        /// Executes a task.
-        /// </summary>
-        /// <returns>
-        ///   <c>true</c> if the task executed successfully; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Execute()
-        {
-            throw new NotImplementedException();
-            //return false;
-        }
-    }
+    //using Jedzia.BackBock.Tasks.Shared;
 
     /// <summary>
     /// A simple backup task.
@@ -84,7 +58,7 @@ namespace Jedzia.BackBock.Tasks
         #endregion
 
 
-        private static ITaskItem[] ExpandWildcards(ITaskItem[] expand)
+        /*private static ITaskItem[] ExpandWildcards(ITaskItem[] expand)
         {
             if (expand == null)
             {
@@ -115,7 +89,7 @@ namespace Jedzia.BackBock.Tasks
                 }
             }
             return (ITaskItem[])list.ToArray(typeof(ITaskItem));
-        }
+        }*/
 
         // Properties
 
@@ -179,14 +153,14 @@ namespace Jedzia.BackBock.Tasks
         /// <summary>
         /// Gets the name of the Task.
         /// </summary>
-        [Browsable(false)]
+        /*[Browsable(false)]
         public override string Name
         {
             get
             {
                 return "Backup";
             }
-        }
+        }*/
 
         /// <summary>
         /// Gets or sets a Boolean value that indicates whether to overwrite files even if they are marked as read only files.
@@ -264,10 +238,15 @@ namespace Jedzia.BackBock.Tasks
             }
             this.SourceFiles = ExpandWildcards(this.SourceFiles);*/
             //this.Exclude = ExpandWildcards(this.Exclude);
-            return this.Execute(this.CopyFileWithLogging);
+            //return this.Execute(this.CopyFileWithLogging);
+            foreach(var sourceFile in SourceFiles)
+            {
+                BuildEngine.LogMessageEvent(new BuildMessageEventArgs(sourceFile.ItemSpec,"","", MessageImportance.High));
+            }
+            return false;
         }
 
-        internal bool Execute(CopyFile copyFile)
+        /*internal bool Execute(CopyFile copyFile)
         {
             if ((this.sourceFiles == null) || (this.sourceFiles.Length == 0))
             {
@@ -295,7 +274,7 @@ namespace Jedzia.BackBock.Tasks
             }
             this.copiedFiles = (ITaskItem[])list.ToArray(typeof(ITaskItem));
             return flag;
-        }
+        }*/
 
         private static bool IsMatchingSizeAndTimeStamp(string sourceFile, string destinationFile)
         {
@@ -317,7 +296,7 @@ namespace Jedzia.BackBock.Tasks
         }
 
 
-        private bool CopyFileWithLogging(string sourceFile, string destinationFile)
+        /*private bool CopyFileWithLogging(string sourceFile, string destinationFile)
         {
             if (Directory.Exists(destinationFile))
             {
@@ -350,9 +329,9 @@ namespace Jedzia.BackBock.Tasks
             // File.Copy(sourceFile, destinationFile, true);
             this.MakeFileWriteable(destinationFile, false);
             return true;
-        }
+        }*/
 
-        private bool DoCopyIfNecessary(string sourceFile, string destinationFile, CopyFile copyFile)
+        /*private bool DoCopyIfNecessary(string sourceFile, string destinationFile, CopyFile copyFile)
         {
             bool flag = true;
             try
@@ -401,9 +380,9 @@ namespace Jedzia.BackBock.Tasks
                 flag = false;
             }
             return flag;
-        }
+        }*/
 
-        private bool InitializeDestinationFiles()
+        /*private bool InitializeDestinationFiles()
         {
             if (this.destinationFiles == null)
             {
@@ -492,6 +471,6 @@ namespace Jedzia.BackBock.Tasks
                 return false;
             }
             return true;
-        }
+        }*/
     }
 }

@@ -8,6 +8,7 @@
 namespace Jedzia.BackBock.Tasks
 {
     using System.Collections.Generic;
+    using Microsoft.Build.Framework;
 
     /// <summary>
     /// Provides access to a <see cref="ITask"/> exposing service.

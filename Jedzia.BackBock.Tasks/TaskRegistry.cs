@@ -10,6 +10,7 @@ namespace Jedzia.BackBock.Tasks
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.Build.Framework;
 
     /// <summary>
     /// A simple container for <see cref="ITask"/> items.
@@ -93,7 +94,8 @@ namespace Jedzia.BackBock.Tasks
         /// <returns><c>true</c> if the task was successfully registered.</returns>
         public bool Register(ITask task)
         {
-            var taskName = task.Name;
+            //var taskName = task.Name;
+            var taskName = task.GetType().Name;
             var taskType = task.GetType();
 
             Type ttask;

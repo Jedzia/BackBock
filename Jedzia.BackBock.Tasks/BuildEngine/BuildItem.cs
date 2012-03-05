@@ -1,765 +1,539 @@
-﻿// <copyright file="$FileName$" company="$Company$">
-// Copyright (c) 2012 All Right Reserved
-// </copyright>
-// <author>Jedzia</author>
-// <email>jed69@gmx.de</email>
-// <date>$date$</date>
-// <summary>$summary$</summary>
-namespace Jedzia.BackBock.Tasks.BuildEngine
-{
-    using System;
-    using System.Collections;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.Xml;
-    using Jedzia.BackBock.Tasks.Shared;
-    using Jedzia.BackBock.Tasks.Utilities;
+//
+// BuildItem.cs:
+//
+// Author:
+//   Marek Sieradzki (marek.sieradzki@gmail.com)
+// 
+// (C) 2005 Marek Sieradzki
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+#if NET_2_0
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
-    using System.Text.RegularExpressions;
+using System.Collections.Specialized;
+using System.IO;
+using System.Text;
+using System.Xml;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
+using Mono.XBuild.Utilities;
 
-    /// <summary>
-    /// Represents a single item in an Task project.
-    /// </summary>
-    [DebuggerDisplay(
-        "BuildItem (Name = { Name }, Include = { Include }, FinalItemSpec = { FinalItemSpec }, Condition = { Condition })"
-        )]
-    [DisplayName("BuildItem")]
-    public class BuildItem
-    {
-        #region Fields
+namespace Microsoft.Build.BuildEngine {
+	public class BuildItem {
 
-        private BuildItemGroup childItems;
-        private XmlAttribute conditionAttribute;
-        private CopyOnWriteHashtable evaluatedCustomMetadata;
-        private string evaluatedItemSpecEscaped;
-        private XmlAttribute excludeAttribute;
-        private string finalItemSpecEscaped;
-        private bool importedFromAnotherProject;
-        private XmlAttribute includeAttribute;
-        private XmlElement itemElement;
-        private Hashtable itemSpecModifiers;
-        private string name;
-        private BuildItem parentPersistedItem;
-        private BuildItemGroup parentPersistedItemGroup;
-        private string recursivePortionOfFinalItemSpecDirectory;
-        private CopyOnWriteHashtable unevaluatedCustomMetadata;
-        private string virtualIncludeAttribute;
+		List<BuildItem> child_items;
+		XmlElement	itemElement;
+		string		finalItemSpec;
+		bool		isImported;
+		string		itemInclude;
+		string		name;
+		BuildItemGroup	parent_item_group;
+		BuildItem	parent_item;
+		//string		recursiveDir;
+		IDictionary	evaluatedMetadata;
+		IDictionary	unevaluatedMetadata;
 
-        #endregion
+		BuildItem ()
+		{
+		}
+		
+		public BuildItem (string itemName, ITaskItem taskItem)
+		{
+			if (taskItem == null)
+				throw new ArgumentNullException ("taskItem");
 
-        #region Constructors
+			this.name = itemName;
+			this.finalItemSpec = taskItem.ItemSpec;
+			this.itemInclude = MSBuildUtils.Escape (taskItem.ItemSpec);
+			this.evaluatedMetadata = (Hashtable) taskItem.CloneCustomMetadata ();
+			this.unevaluatedMetadata = (Hashtable) taskItem.CloneCustomMetadata ();
+		}
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BuildItem"/> class 
-        /// with the specified Name and Include property values..
-        /// </summary>
-        /// <param name="itemName">The Name property of the BuildItem.</param>
-        /// <param name="itemInclude">The Include property of the BuildItem.</param>
-        public BuildItem(string itemName, string itemInclude)
-            : this(null, itemName, itemInclude)
-        {
-        }
+		public BuildItem (string itemName, string itemInclude)
+		{
+			if (itemInclude == null)
+				throw new ArgumentNullException ("itemInclude");
+			if (itemInclude == String.Empty)
+				throw new ArgumentException ("Parameter \"itemInclude\" cannot have zero length.");
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BuildItem"/> class based on an <see cref="ITaskItem"/> object..
-        /// </summary>
-        /// <param name="itemName">The Name property of the BuildItem.</param>
-        /// <param name="taskItem">The <see cref="ITaskItem"/> from which to create the Include property of the BuildItem.</param>
-        public BuildItem(string itemName, ITaskItem taskItem)
-            : this(null, itemName, EscapingUtilities.Escape(taskItem.ItemSpec), false)
-        {
-            IDictionary dictionary = taskItem.CloneCustomMetadata();
-            var array = new string[dictionary.Count];
-            dictionary.Keys.CopyTo(array, 0);
-            foreach(string str in array)
-            {
-                var unescapedString = (string)dictionary[str];
-                dictionary[str] = EscapingUtilities.Escape(unescapedString);
-            }
-            this.unevaluatedCustomMetadata = new CopyOnWriteHashtable(dictionary, StringComparer.OrdinalIgnoreCase);
-            this.evaluatedCustomMetadata = new CopyOnWriteHashtable(dictionary, StringComparer.OrdinalIgnoreCase);
-        }
+			name = itemName;
+			finalItemSpec = itemInclude;
+			this.itemInclude = itemInclude;
+			unevaluatedMetadata = CollectionsUtil.CreateCaseInsensitiveHashtable ();
+			evaluatedMetadata = CollectionsUtil.CreateCaseInsensitiveHashtable ();
+		}
 
+		internal BuildItem (XmlElement itemElement, BuildItemGroup parentItemGroup)
+		{
+			child_items = new List<BuildItem> ();
+			isImported = parentItemGroup.IsImported;
+			unevaluatedMetadata = CollectionsUtil.CreateCaseInsensitiveHashtable ();
+			evaluatedMetadata = CollectionsUtil.CreateCaseInsensitiveHashtable ();
+			this.parent_item_group = parentItemGroup;
+			
+			this.itemElement = itemElement;
+			
+			if (Include == String.Empty)
+				throw new InvalidProjectFileException (String.Format ("The required attribute \"Include\" is missing from element <{0}>.", Name));
+		}
+		
+		BuildItem (BuildItem parent)
+		{
+			isImported = parent.isImported;
+			name = parent.Name;
+			parent_item = parent;
+			parent_item.child_items.Add (this);
+			parent_item_group = parent.parent_item_group;
+			unevaluatedMetadata = CollectionsUtil.CreateCaseInsensitiveHashtable (parent.unevaluatedMetadata);
+			evaluatedMetadata = CollectionsUtil.CreateCaseInsensitiveHashtable (parent.evaluatedMetadata);
+		}
+		
+		public void CopyCustomMetadataTo (BuildItem destinationItem)
+		{
+			if (destinationItem == null)
+				throw new ArgumentNullException ("destinationItem");
 
-        public BuildItem(XmlDocument ownerDocument, string itemName, string itemInclude)
-            : this(ownerDocument, itemName, itemInclude, true)
-        {
-            //Todo: Set this to internal after testing
-        }
+			foreach (DictionaryEntry de in unevaluatedMetadata)
+				destinationItem.AddMetadata ((string) de.Key, (string) de.Value);
+		}
+		
+		[MonoTODO]
+		public BuildItem Clone ()
+		{
+			return (BuildItem) this.MemberwiseClone ();
+		}
 
+		public string GetEvaluatedMetadata (string metadataName)
+		{
+			if (ReservedNameUtils.IsReservedMetadataName (metadataName)) {
+				string metadata = ReservedNameUtils.GetReservedMetadata (FinalItemSpec, metadataName, evaluatedMetadata);
+				return (metadataName.ToLower () == "fullpath") ? MSBuildUtils.Escape (metadata) : metadata;
+			}
 
-        private BuildItem(
-            XmlDocument ownerDocument, string itemName, string itemInclude, bool createCustomMetadataCache)
-        {
-            this.finalItemSpecEscaped = string.Empty;
-            ErrorUtilities.VerifyThrowArgumentLength(itemInclude, "itemInclude");
-            if (itemName != null)
-            {
-                XmlUtilities.VerifyThrowValidElementName(itemName);
-            }
-            if (ownerDocument == null)
-            {
-                this.itemElement = null;
-                this.includeAttribute = null;
-                this.virtualIncludeAttribute = itemInclude;
-            }
-            else
-            {
-                ErrorUtilities.VerifyThrowArgumentLength(itemName, "itemType");
-                this.itemElement = ownerDocument.CreateElement(itemName, "http://schemas.microsoft.com/developer/msbuild/2003");
-                this.itemElement.SetAttribute("Include", itemInclude);
-                this.includeAttribute = this.itemElement.Attributes["Include"];
-            }
-            if (createCustomMetadataCache)
-            {
-                this.InitializeCustomMetadataCache();
-            }
-            this.name = itemName;
-            if (this.name != null)
-            {
-                ErrorUtilities.VerifyThrowInvalidOperation(XMakeElements.IllegalItemPropertyNames[this.name] == null, "CannotModifyReservedItem", this.name);
-            }
-            this.excludeAttribute = null;
-            this.conditionAttribute = null;
-            this.evaluatedItemSpecEscaped = itemInclude;
-            this.finalItemSpecEscaped = itemInclude;
-            this.importedFromAnotherProject = false;
-        }
+			if (evaluatedMetadata.Contains (metadataName))
+				return (string) evaluatedMetadata [metadataName];
+			else
+				return String.Empty;
+		}
 
-        #endregion
+		public string GetMetadata (string metadataName)
+		{
+			if (ReservedNameUtils.IsReservedMetadataName (metadataName)) {
+				string metadata = ReservedNameUtils.GetReservedMetadata (FinalItemSpec, metadataName, unevaluatedMetadata);
+				return (metadataName.ToLower () == "fullpath") ? MSBuildUtils.Escape (metadata) : metadata;
+			} else if (unevaluatedMetadata.Contains (metadataName))
+				return (string) unevaluatedMetadata [metadataName];
+			else
+				return String.Empty;
+		}
+		
+		public bool HasMetadata (string metadataName)
+		{
+			if (ReservedNameUtils.IsReservedMetadataName (metadataName))
+				return true;
+			else
+				return evaluatedMetadata.Contains (metadataName);
+		}
 
-        #region Properties
+		public void RemoveMetadata (string metadataName)
+		{
+			if (metadataName == null)
+				throw new ArgumentNullException ("metadataName");
+			
+			if (ReservedNameUtils.IsReservedMetadataName (metadataName))
+				throw new ArgumentException (String.Format ("\"{0}\" is a reserved item meta-data, and cannot be modified or deleted.",
+					metadataName));
 
-        public string Exclude
-        {
-            get
-            {
-                if (this.excludeAttribute != null)
-                {
-                    return this.excludeAttribute.Value;
-                }
-                return string.Empty;
-            }
-            set
-            {
-                ErrorUtilities.VerifyThrowInvalidOperation(this.itemElement != null, "CannotSetExcludeOnVirtualItem", "Exclude");
-                ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                ErrorUtilities.VerifyThrowInvalidOperation(this.ParentPersistedItem == null, "CannotSetExcludeOnEvaluatedItem", "Exclude");
-                if ((value == null) || (value.Length == 0))
-                {
-                    this.itemElement.RemoveAttribute("Exclude");
-                    this.excludeAttribute = null;
-                }
-                else
-                {
-                    this.itemElement.SetAttribute("Exclude", value);
-                    this.excludeAttribute = this.itemElement.Attributes["Exclude"];
-                }
-                this.MarkItemAsDirty();
-            }
-        }
+			if (FromXml) {
+				if (unevaluatedMetadata.Contains (metadataName)) {
+					XmlNode node = itemElement [metadataName];
+					itemElement.RemoveChild (node);
+				}
+			} else if (HasParentItem) {
+				if (parent_item.child_items.Count > 1)
+					SplitParentItem ();
+				parent_item.RemoveMetadata (metadataName);
+			} 
+			
+			DeleteMetadata (metadataName);
+		}
 
-        public string Condition
-        {
-            get
-            {
-                if (this.conditionAttribute != null)
-                {
-                    return this.conditionAttribute.Value;
-                }
-                return string.Empty;
-            }
-            set
-            {
-                ErrorUtilities.VerifyThrowInvalidOperation(this.itemElement != null, "CannotSetCondition");
-                ErrorUtilities.VerifyThrowInvalidOperation(
-                    !this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                this.SplitChildItemIfNecessary();
-                if ((value == null) || (value.Length == 0))
-                {
-                    this.itemElement.RemoveAttribute("Condition");
-                    this.conditionAttribute = null;
-                }
-                else
-                {
-                    this.itemElement.SetAttribute("Condition", value);
-                    this.conditionAttribute = this.itemElement.Attributes["Condition"];
-                }
-                this.MarkItemAsDirty();
-            }
-        }
+		public void SetMetadata (string metadataName,
+					 string metadataValue)
+		{
+			SetMetadata (metadataName, metadataValue, false);
+		}
+		
+		public void SetMetadata (string metadataName,
+					 string metadataValue,
+					 bool treatMetadataValueAsLiteral)
+		{
+			if (metadataName == null)
+				throw new ArgumentNullException ("metadataName");
+			
+			if (metadataValue == null)
+				throw new ArgumentNullException ("metadataValue");
+			
+			if (ReservedNameUtils.IsReservedMetadataName (metadataName))
+				throw new ArgumentException (String.Format ("\"{0}\" is a reserved item meta-data, and cannot be modified or deleted.",
+					metadataName));
 
-        /// <summary>
-        /// Gets the final specification of the item after all wildcards and properties have been evaluated.
-        /// </summary>
-        public string FinalItemSpec
-        {
-            get
-            {
-                //return EscapingUtilities.UnescapeAll(this.FinalItemSpecEscaped);
-                return this.FinalItemSpecEscaped;
-            }
-        }
+			if (treatMetadataValueAsLiteral && !HasParentItem)
+				metadataValue = MSBuildUtils.Escape (metadataValue);
 
-        public string Include
-        {
-            get
-            {
-                if (this.includeAttribute != null)
-                {
-                    return this.includeAttribute.Value;
-                }
-                if (this.virtualIncludeAttribute != null)
-                {
-                    return this.virtualIncludeAttribute;
-                }
-                ErrorUtilities.VerifyThrow(false, "Item has not been initialized.");
-                return null;
-            }
-            set
-            {
-                ErrorUtilities.VerifyThrowArgument(value != null, "NullIncludeNotAllowed", "Include");
-                ErrorUtilities.VerifyThrowInvalidOperation(
-                    !this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                if (this.includeAttribute != null)
-                {
-                    if ((this.ParentPersistedItem != null) &&
-                        this.ParentPersistedItem.NewItemSpecMatchesExistingWildcard(value))
-                    {
-                        this.MarkItemAsDirtyForReevaluation();
-                    }
-                    else
-                    {
-                        this.SplitChildItemIfNecessary();
-                        this.includeAttribute.Value = value;
-                        this.MarkItemAsDirty();
-                    }
-                }
-                else if (this.virtualIncludeAttribute != null)
-                {
-                    this.virtualIncludeAttribute = value;
-                    this.MarkItemAsDirty();
-                }
-                else
-                {
-                    ErrorUtilities.VerifyThrow(false, "Item has not been initialized.");
-                }
-                this.evaluatedItemSpecEscaped = value;
-                this.finalItemSpecEscaped = value;
-            }
-        }
+			if (FromXml) {
+				XmlElement element = itemElement [metadataName];
+				if (element == null) {
+					element = itemElement.OwnerDocument.CreateElement (metadataName, Project.XmlNamespace);
+					element.InnerText = metadataValue;
+					itemElement.AppendChild (element);
+				} else
+					element.InnerText = metadataValue;
+			} else if (HasParentItem) {
+				if (parent_item.child_items.Count > 1)
+					SplitParentItem ();
+				parent_item.SetMetadata (metadataName, metadataValue, treatMetadataValueAsLiteral);
+			}
+			if (FromXml || HasParentItem) {
+				parent_item_group.ParentProject.MarkProjectAsDirty ();
+				parent_item_group.ParentProject.NeedToReevaluate ();
+			}
+			
+			DeleteMetadata (metadataName);
+			AddMetadata (metadataName, metadataValue);
+		}
 
-        public bool IsImported
-        {
-            get
-            {
-                return this.importedFromAnotherProject;
-            }
-        }
+		void AddMetadata (string name, string value)
+		{
+			if (parent_item_group != null) {
+				Expression e = new Expression ();
+				e.Parse (value, ParseOptions.AllowItemsNoMetadataAndSplit);
+				evaluatedMetadata [name] = (string) e.ConvertTo (parent_item_group.ParentProject,
+						typeof (string), ExpressionOptions.ExpandItemRefs);
+			} else
+				evaluatedMetadata [name] = MSBuildUtils.Unescape (value);
+				
+			unevaluatedMetadata [name] = value;
+		}
 
-        public string Name
-        {
-            get
-            {
-                ErrorUtilities.VerifyThrow(this.name != null, "Item has not been initialized.");
-                return this.name;
-            }
-            set
-            {
-                ErrorUtilities.VerifyThrow(this.name != null, "Item has not been initialized.");
-                ErrorUtilities.VerifyThrowArgumentLength(value, "Name");
-                XmlUtilities.VerifyThrowValidElementName(value);
-                ErrorUtilities.VerifyThrowInvalidOperation(
-                    !this.importedFromAnotherProject, "CannotModifyImportedProjects");
-                //ErrorUtilities.VerifyThrowInvalidOperation(XMakeElements.IllegalItemPropertyNames[value] == null, "CannotModifyReservedItem", value);
-                this.SplitChildItemIfNecessary();
-                this.name = value;
-                if (this.itemElement != null)
-                {
-                    this.itemElement = XmlUtilities.RenameXmlElement(
-                        this.itemElement, value, "http://schemas.microsoft.com/developer/msbuild/2003");
-                    this.includeAttribute = this.itemElement.Attributes["Include"];
-                    this.excludeAttribute = this.itemElement.Attributes["Exclude"];
-                    this.conditionAttribute = this.itemElement.Attributes["Condition"];
-                    if (this.ParentPersistedItem != null)
-                    {
-                        this.ParentPersistedItem.name = this.name;
-                        this.ParentPersistedItem.itemElement = this.itemElement;
-                        this.ParentPersistedItem.includeAttribute = this.includeAttribute;
-                        this.ParentPersistedItem.excludeAttribute = this.excludeAttribute;
-                        this.ParentPersistedItem.conditionAttribute = this.conditionAttribute;
-                    }
-                    if (this.childItems != null)
-                    {
-                        foreach(BuildItem item in this.childItems)
-                        {
-                            item.name = this.name;
-                            item.itemElement = this.itemElement;
-                            item.includeAttribute = this.includeAttribute;
-                            item.excludeAttribute = this.excludeAttribute;
-                            item.conditionAttribute = this.conditionAttribute;
-                        }
-                    }
-                }
-                this.MarkItemAsDirty();
-            }
-        }
+		void DeleteMetadata (string name)
+		{
+			if (evaluatedMetadata.Contains (name))
+				evaluatedMetadata.Remove (name);
+			
+			if (unevaluatedMetadata.Contains (name))
+				unevaluatedMetadata.Remove (name);
+		}
 
-        internal BuildItemGroup ChildItems
-        {
-            get
-            {
-                if (this.childItems == null)
-                {
-                    this.childItems = new BuildItemGroup();
-                }
-                return this.childItems;
-            }
-        }
+		internal void Evaluate (Project project, bool evaluatedTo)
+		{
+			// FIXME: maybe make Expression.ConvertTo (null, ...) work as MSBuildUtils.Unescape ()?
+			if (project == null) {
+				this.finalItemSpec = MSBuildUtils.Unescape (Include);
+				return;
+			}
+			
+			foreach (XmlNode xn in itemElement.ChildNodes) {
+				XmlElement xe = xn as XmlElement;
+				if (xe != null && ConditionParser.ParseAndEvaluate (xe.GetAttribute ("Condition"), project))
+					AddMetadata (xe.Name, xe.InnerText);
+			}
 
-        internal string FinalItemSpecEscaped
-        {
-            get
-            {
-                return this.finalItemSpecEscaped;
-            }
-        }
+			DirectoryScanner directoryScanner;
+			Expression includeExpr, excludeExpr;
+			ITaskItem[] includes, excludes;
 
-        public XmlElement ItemElement
-        {
-            //Todo: Set this to internal after testing
-            get
-            {
-                return this.itemElement;
-            }
-        }
+			includeExpr = new Expression ();
+			includeExpr.Parse (Include, ParseOptions.AllowItemsNoMetadataAndSplit);
+			excludeExpr = new Expression ();
+			excludeExpr.Parse (Exclude, ParseOptions.AllowItemsNoMetadataAndSplit);
+			
+			includes = (ITaskItem[]) includeExpr.ConvertTo (project, typeof (ITaskItem[]),
+								ExpressionOptions.ExpandItemRefs);
+			excludes = (ITaskItem[]) excludeExpr.ConvertTo (project, typeof (ITaskItem[]),
+								ExpressionOptions.ExpandItemRefs);
 
-        internal BuildItem ParentPersistedItem
-        {
-            get
-            {
-                return this.parentPersistedItem;
-            }
-            set
-            {
-                ErrorUtilities.VerifyThrow(
-                    ((value == null) && (this.parentPersistedItem != null)) ||
-                    ((value != null) && (this.parentPersistedItem == null)),
-                    "Either new parent cannot be assigned because we already have a parent, or old parent cannot be removed because none exists.");
-                this.parentPersistedItem = value;
-            }
-        }
+			this.finalItemSpec = (string) includeExpr.ConvertTo (project, typeof (string),
+							ExpressionOptions.ExpandItemRefs);
 
-        internal BuildItemGroup ParentPersistedItemGroup
-        {
-            get
-            {
-                return this.parentPersistedItemGroup;
-            }
-            set
-            {
-                ErrorUtilities.VerifyThrow(
-                    ((value == null) && (this.parentPersistedItemGroup != null)) ||
-                    ((value != null) && (this.parentPersistedItemGroup == null)),
-                    "Either new parent cannot be assigned because we already have a parent, or old parent cannot be removed because none exists.");
-                this.parentPersistedItemGroup = value;
-            }
-        }
+			directoryScanner = new DirectoryScanner ();
+			
+			directoryScanner.Includes = includes;
+			directoryScanner.Excludes = excludes;
 
-        #endregion
+			if (project.FullFileName != String.Empty)
+				directoryScanner.BaseDirectory = new DirectoryInfo (Path.GetDirectoryName (project.FullFileName));
+			else
+				directoryScanner.BaseDirectory = new DirectoryInfo (Directory.GetCurrentDirectory ());
+			
+			directoryScanner.Scan ();
+			
+			foreach (ITaskItem matchedItem in directoryScanner.MatchedItems)
+				AddEvaluatedItem (project, evaluatedTo, matchedItem);
+		}
+		
+		void AddEvaluatedItem (Project project, bool evaluatedTo, ITaskItem taskitem)
+		{
+			BuildItemGroup big;			
+			BuildItem bi = new BuildItem (this);
+			bi.finalItemSpec = taskitem.ItemSpec;
 
-        public string GetEvaluatedMetadata(string metadataName)
-        {
-            return EscapingUtilities.UnescapeAll(this.GetEvaluatedMetadataEscaped(metadataName));
-        }
+			foreach (DictionaryEntry de in taskitem.CloneCustomMetadata ()) {
+				bi.unevaluatedMetadata.Add ((string) de.Key, (string) de.Value);
+				bi.evaluatedMetadata.Add ((string) de.Key, (string) de.Value);
+			}
 
-        public void SetMetadata(string metadataName, string metadataValue)
-        {
-            ErrorUtilities.VerifyThrowArgument(
-                !FileUtilities.IsDerivableItemSpecModifier(metadataName),
-                "Shared.CannotChangeItemSpecModifiers",
-                metadataName);
-            ErrorUtilities.VerifyThrowArgumentLength(metadataName, "metadataName");
-            ErrorUtilities.VerifyThrowArgumentNull(metadataValue, "metadataValue");
-            XmlUtilities.VerifyThrowValidElementName(metadataName);
-            ErrorUtilities.VerifyThrowInvalidOperation(XMakeElements.IllegalItemPropertyNames[metadataName] == null, "CannotModifyReservedItemMetadata", metadataName);
-            ErrorUtilities.VerifyThrowInvalidOperation(!this.importedFromAnotherProject, "CannotModifyImportedProjects");
-            ErrorUtilities.VerifyThrow(
-                (this.unevaluatedCustomMetadata != null) && (this.evaluatedCustomMetadata != null),
-                "Item not initialized properly.");
-            this.SetMetadataNoChecks(metadataName, metadataValue);
-        }
+			project.EvaluatedItemsIgnoringCondition.AddItem (bi);
 
-        internal string ExtractRecursivePortionOfFinalItemSpecDirectory()
-        {
-            if (this.recursivePortionOfFinalItemSpecDirectory == null)
-            {
-                this.recursivePortionOfFinalItemSpecDirectory = string.Empty;
-                if (this.unevaluatedCustomMetadata["RecursiveDir"] != null)
-                {
-                    this.recursivePortionOfFinalItemSpecDirectory =
-                        (string)this.unevaluatedCustomMetadata["RecursiveDir"];
-                    this.unevaluatedCustomMetadata.Remove("RecursiveDir");
-                    this.evaluatedCustomMetadata.Remove("RecursiveDir");
-                }
-                else if (this.evaluatedItemSpecEscaped != null)
-                {
-                    FileMatcher.Result result = FileMatcher.FileMatch(
-                        this.evaluatedItemSpecEscaped, this.FinalItemSpecEscaped);
-                    if (result.isLegalFileSpec && result.isMatch)
-                    {
-                        this.recursivePortionOfFinalItemSpecDirectory = result.wildcardDirectoryPart;
-                    }
-                }
-            }
-            return this.recursivePortionOfFinalItemSpecDirectory;
-        }
+			if (evaluatedTo) {
+				project.EvaluatedItems.AddItem (bi);
+	
+				if (!project.EvaluatedItemsByName.ContainsKey (bi.Name)) {
+					big = new BuildItemGroup (null, project, null, true);
+					project.EvaluatedItemsByName.Add (bi.Name, big);
+				} else {
+					big = project.EvaluatedItemsByName [bi.Name];
+				}
 
-        internal IDictionary GetAllCustomEvaluatedMetadata()
-        {
-            ErrorUtilities.VerifyThrow(
-                this.evaluatedCustomMetadata != null,
-                "Item not initialized properly. evaluatedCustomAttributes is null.");
-            return this.evaluatedCustomMetadata;
-        }
+				big.AddItem (bi);
+			}
 
-        internal string GetEvaluatedMetadataEscaped(string metadataName)
-        {
-            string itemSpecModifier = null;
-            if (FileUtilities.IsItemSpecModifier(metadataName))
-            {
-                itemSpecModifier = this.GetItemSpecModifier(metadataName);
-            }
-            else
-            {
-                ErrorUtilities.VerifyThrow(
-                    this.evaluatedCustomMetadata != null,
-                    "Item not initialized properly.  evaluatedCustomAttributes is null.");
-                itemSpecModifier = (string)this.evaluatedCustomMetadata[metadataName];
-            }
-            if (itemSpecModifier != null)
-            {
-                return itemSpecModifier;
-            }
-            return string.Empty;
-        }
+			if (!project.EvaluatedItemsByNameIgnoringCondition.ContainsKey (bi.Name)) {
+				big = new BuildItemGroup (null, project, null, true);
+				project.EvaluatedItemsByNameIgnoringCondition.Add (bi.Name, big);
+			} else {
+				big = project.EvaluatedItemsByNameIgnoringCondition [bi.Name];
+			}
 
-        internal bool NewItemSpecMatchesExistingWildcard(string newItemSpec)
-        {
-            /*Project parentProject = this.GetParentProject();
-            ErrorUtilities.VerifyThrow(parentProject != null, "This method should only get called on persisted items.");
-            BuildPropertyGroup evaluatedProperties = parentProject.evaluatedProperties;
-            if ((FileMatcher.HasWildcards(this.Include) && (this.Condition.Length == 0)) && ((this.Exclude.Length == 0) && !FileMatcher.HasWildcards(newItemSpec)))
-            {
-                Expander expander = new Expander(evaluatedProperties);
-                string escapedString = expander.ExpandAllIntoStringLeaveEscaped(newItemSpec, null);
-                if (-1 == escapedString.IndexOf(';'))
-                {
-                    string fileToMatch = EscapingUtilities.UnescapeAll(escapedString);
-                    foreach (string str3 in expander.ExpandAllIntoStringListLeaveEscaped(this.Include, this.IncludeAttribute))
-                    {
-                        bool flag = EscapingUtilities.ContainsEscapedWildcards(str3);
-                        if (FileMatcher.HasWildcards(str3) && !flag)
-                        {
-                            FileMatcher.Result result = FileMatcher.FileMatch(EscapingUtilities.UnescapeAll(str3), fileToMatch);
-                            if (result.isLegalFileSpec && result.isMatch)
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }*/
-            return false;
-        }
-         
-        internal void SetFinalItemSpecEscaped(string finalItemSpecValueEscaped)
-        {
-            this.finalItemSpecEscaped = finalItemSpecValueEscaped;
-            this.itemSpecModifiers = null;
-            this.recursivePortionOfFinalItemSpecDirectory = null;
-        }
+			big.AddItem (bi);
+		}
+		
+		// during item's eval phase, any item refs in this item, have either
+		// already been expanded or are non-existant, so expand can be _false_
+		//
+		// during prop's eval phase, this isn't reached, as it parses expressions
+		// with allowItems=false, so no ItemReferences are created at all
+		//
+		// at other times, item refs have already been expanded, so expand: false
+		internal string ConvertToString (Expression transform, ExpressionOptions options)
+		{
+			return GetItemSpecFromTransform (transform, options);
+		}
+		
+		internal ITaskItem ConvertToITaskItem (Expression transform, ExpressionOptions options)
+		{
+			TaskItem taskItem;
+			taskItem = new TaskItem (GetItemSpecFromTransform (transform, options), evaluatedMetadata);
+			return taskItem;
+		}
 
-        internal void SplitChildItemIfNecessary()
-        {
-            if (this.ParentPersistedItem != null)
-            {
-                this.ParentPersistedItem.SplitItem();
-            }
-        }
+		internal void Detach ()
+		{
+			if (FromXml)
+				itemElement.ParentNode.RemoveChild (itemElement);
+			else if (HasParentItem) {
+				if (parent_item.child_items.Count > 1)
+					SplitParentItem ();
+				parent_item.Detach ();
+			}
+		}
 
-        private string GetItemSpecModifier(string modifier)
-        {
-            string str = FileUtilities.GetItemSpecModifier(
-                this.FinalItemSpecEscaped, modifier, ref this.itemSpecModifiers);
-            if ((str.Length == 0) && (string.Compare(modifier, "RecursiveDir", StringComparison.OrdinalIgnoreCase) == 0))
-            {
-                str = this.ExtractRecursivePortionOfFinalItemSpecDirectory();
-                ErrorUtilities.VerifyThrow(
-                    this.itemSpecModifiers != null,
-                    "The FileUtilities.GetItemSpecModifier() method should have created the cache for the \"{0}\" modifier.",
-                    "RecursiveDir");
-                this.itemSpecModifiers[modifier] = str;
-            }
-            return str;
-        }
+		string GetItemSpecFromTransform (Expression transform, ExpressionOptions options)
+		{
+			StringBuilder sb;
+		
+			if (transform == null) {
+				if (options == ExpressionOptions.ExpandItemRefs) {
+					// With usual code paths, this will never execute,
+					// but letting this be here, incase BI.ConvertTo*
+					// is called directly
+					Expression expr = new Expression ();
+					expr.Parse (finalItemSpec, ParseOptions.AllowItemsNoMetadataAndSplit);
 
-        private void InitializeCustomMetadataCache()
-        {
-            this.unevaluatedCustomMetadata = new CopyOnWriteHashtable(StringComparer.OrdinalIgnoreCase);
-            this.evaluatedCustomMetadata = new CopyOnWriteHashtable(StringComparer.OrdinalIgnoreCase);
-        }
+					return (string) expr.ConvertTo (parent_item_group.ParentProject,
+							typeof (string), ExpressionOptions.ExpandItemRefs);
+				} else {
+					return finalItemSpec;
+				}
+			} else {
+				// Transform, _DONT_ expand itemrefs
+				sb = new StringBuilder ();
+				foreach (object o in transform.Collection) {
+					if (o is string) {
+						sb.Append ((string)o);
+					} else if (o is PropertyReference) {
+						sb.Append (((PropertyReference)o).ConvertToString (
+									parent_item_group.ParentProject,
+									ExpressionOptions.DoNotExpandItemRefs));
+					} else if (o is ItemReference) {
+						sb.Append (((ItemReference)o).ConvertToString (
+									parent_item_group.ParentProject,
+									ExpressionOptions.DoNotExpandItemRefs));
+					} else if (o is MetadataReference) {
+						sb.Append (GetMetadata (((MetadataReference)o).MetadataName));
+					}
+				}
+				return sb.ToString ();
+			}
+		}
 
-        public void InitializeFromItemElement(XmlElement itemElementToParse)
-        {
-            // Todo: after testing make this private.
-            ErrorUtilities.VerifyThrow(itemElementToParse != null, "Need an XML node representing the item element.");
-            int num = XmlUtilities.LocateFirstInvalidElementNameCharacter(itemElementToParse.Name);
-            if (-1 != num)
-            {
-                ProjectErrorUtilities.VerifyThrowInvalidProject(
-                    false, itemElementToParse, "NameInvalid", itemElementToParse.Name, itemElementToParse.Name[num]);
-            }
-            this.itemElement = itemElementToParse;
-            this.name = itemElementToParse.Name;
-            this.conditionAttribute = null;
-            this.includeAttribute = null;
-            this.virtualIncludeAttribute = null;
-            this.excludeAttribute = null;
-            this.itemSpecModifiers = null;
-            this.recursivePortionOfFinalItemSpecDirectory = null;
-            this.InitializeCustomMetadataCache();
-            foreach(XmlAttribute attribute in itemElementToParse.Attributes)
-            {
-                string name = attribute.Name;
-                if (name == null)
-                {
-                    goto Label_0110;
-                }
-                if (!(name == "Include"))
-                {
-                    if (name == "Exclude")
-                    {
-                        goto Label_00FE;
-                    }
-                    if (name == "Condition")
-                    {
-                        goto Label_0107;
-                    }
-                    goto Label_0110;
-                }
-                this.includeAttribute = attribute;
-                this.evaluatedItemSpecEscaped = attribute.Value;
-                this.finalItemSpecEscaped = attribute.Value;
-                continue;
-                Label_00FE:
-                this.excludeAttribute = attribute;
-                continue;
-                Label_0107:
-                this.conditionAttribute = attribute;
-                continue;
-                Label_0110:
-                ProjectErrorUtilities.VerifyThrowInvalidProject(
-                    false, attribute, "UnrecognizedAttribute", attribute.Name, itemElementToParse.Name);
-            }
-            ProjectErrorUtilities.VerifyThrowInvalidProject(
-                (this.includeAttribute != null) && (this.includeAttribute.Value.Length != 0),
-                itemElementToParse,
-                "MissingRequiredAttribute",
-                "Include",
-                itemElementToParse.Name);
-            foreach(XmlNode node in itemElementToParse)
-            {
-                switch (node.NodeType)
-                {
-                    case XmlNodeType.Element:
-                        {
-                            string str = node.Name;
-                            num = XmlUtilities.LocateFirstInvalidElementNameCharacter(str);
-                            if (-1 != num)
-                            {
-                                ProjectErrorUtilities.VerifyThrowInvalidProject(
-                                    false, node, "NameInvalid", str, str[num]);
-                            }
-                            ProjectErrorUtilities.VerifyThrowInvalidProject(
-                                (node.Prefix.Length == 0) &&
-                                (string.Compare(
-                                    node.NamespaceURI,
-                                    "http://schemas.microsoft.com/developer/msbuild/2003",
-                                    StringComparison.OrdinalIgnoreCase) == 0),
-                                node,
-                                "CustomNamespaceNotAllowedOnThisChildElement",
-                                node.Name,
-                                itemElementToParse.Name);
-                            ProjectErrorUtilities.VerifyThrowInvalidProject(
-                                !FileUtilities.IsItemSpecModifier(str),
-                                node,
-                                "ItemSpecModifierCannotBeCustomAttribute",
-                                str);
-                            ProjectErrorUtilities.VerifyThrowInvalidProject(
-                                XMakeElements.IllegalItemPropertyNames[str] == null,
-                                node,
-                                "CannotModifyReservedItemMetadata",
-                                str);
-                            continue;
-                        }
-                    case XmlNodeType.Comment:
-                    case XmlNodeType.Whitespace:
-                        {
-                            continue;
-                        }
-                }
-                ProjectErrorUtilities.VerifyThrowInvalidProject(
-                    false, node, "UnrecognizedChildElement", node.Name, itemElementToParse.Name);
-            }
-        }
+		void SplitParentItem ()
+		{
+			BuildItem parent = parent_item;
+			List <BuildItem> list = new List <BuildItem> ();
+			XmlElement insertAfter = parent.itemElement;
+			foreach (BuildItem bi in parent.child_items) {
+				BuildItem added = InsertElementAfter (parent, bi, insertAfter);
+				insertAfter = added.itemElement;
+				list.Add (added);
+			}
+			parent.parent_item_group.ReplaceWith (parent, list);
+			parent.itemElement.ParentNode.RemoveChild (parent.itemElement);			
+		}
 
-        private void MarkItemAsDirty()
-        {
-            /*Project parentProject = this.GetParentProject();
-            if (parentProject != null)
-            {
-                parentProject.MarkProjectAsDirty();
-            }*/
-        }
+		static BuildItem InsertElementAfter (BuildItem parent, BuildItem child, XmlElement insertAfter)
+		{
+			BuildItem newParent;
 
-        private void MarkItemAsDirtyForReevaluation()
-        {
-            /*Project parentProject = this.GetParentProject();
-            if (parentProject != null)
-            {
-                parentProject.MarkProjectAsDirtyForReevaluation();
-            }*/
-        }
+			XmlDocument doc = parent.itemElement.OwnerDocument;
+			XmlElement newElement = doc.CreateElement (child.Name, Project.XmlNamespace);
+			newElement.SetAttribute ("Include", child.FinalItemSpec);
+			if (parent.itemElement.HasAttribute ("Condition"))
+				newElement.SetAttribute ("Condition", parent.itemElement.GetAttribute ("Condition"));
+			foreach (XmlNode xn in parent.itemElement)
+				newElement.AppendChild (xn.Clone ());
+			parent.itemElement.ParentNode.InsertAfter (newElement, insertAfter);
 
+			newParent = new BuildItem (newElement, parent.parent_item_group);
+			newParent.child_items.Add (child);
+			child.parent_item = newParent;
 
-        private void SetMetadataNoChecks(string metadataName, string metadataValue)
-        {
-            bool flag = false;
-            if (this.ItemElement != null)
-            {
-                this.SplitChildItemIfNecessary();
-                XmlNode oldChild = null;
-                XmlNode nextSibling = null;
-                for (XmlNode node3 = this.ItemElement.FirstChild; node3 != null; node3 = nextSibling)
-                {
-                    nextSibling = node3.NextSibling;
-                    if (((node3.NodeType != XmlNodeType.Comment) && (node3.NodeType != XmlNodeType.Whitespace)) &&
-                        (string.Compare(metadataName, node3.Name, StringComparison.OrdinalIgnoreCase) == 0))
-                    {
-                        if (oldChild != null)
-                        {
-                            this.ItemElement.RemoveChild(oldChild);
-                        }
-                        oldChild = node3;
-                    }
-                }
-                if (oldChild == null)
-                {
-                    oldChild = this.ItemElement.OwnerDocument.CreateElement(
-                        metadataName, "http://schemas.microsoft.com/developer/msbuild/2003");
-                    this.ItemElement.AppendChild(oldChild);
-                    flag = true;
-                }
-                if (flag ||
-                    (string.Compare(
-                        Utilities.GetXmlNodeInnerContents(oldChild), metadataValue, StringComparison.Ordinal) != 0))
-                {
-                    Utilities.SetXmlNodeInnerContents(oldChild, metadataValue);
-                    flag = true;
-                }
-            }
-            this.unevaluatedCustomMetadata[metadataName] = metadataValue;
-            this.evaluatedCustomMetadata[metadataName] = metadataValue;
-            if (flag)
-            {
-                this.MarkItemAsDirty();
-            }
-        }
+			return newParent;
+		}
 
-        private void SplitItem()
-        {
-            BuildItemGroup parentPersistedItemGroup = this.ParentPersistedItemGroup;
-            ErrorUtilities.VerifyThrow(
-                parentPersistedItemGroup != null, "No parent BuildItemGroup for item to be removed.");
-            if (this.ChildItems.Count > 1)
-            {
-                foreach(BuildItem item in this.ChildItems)
-                {
-                    ErrorUtilities.VerifyThrow(item.ItemElement != null, "This is not a persisted item!");
-                    item.ParentPersistedItem = null;
-                    BuildItem item2 = parentPersistedItemGroup.AddNewItem(item.Name, item.FinalItemSpecEscaped);
-                    if (item.Condition.Length > 0)
-                    {
-                        item2.Condition = item.Condition;
-                    }
-                    foreach(XmlNode node in item.ItemElement)
-                    {
-                        item2.ItemElement.AppendChild(node.Clone());
-                    }
-                    item.InitializeFromItemElement(item2.ItemElement);
-                    item.ParentPersistedItem = item2;
-                    item2.ChildItems.AddItem(item);
-                }
-                parentPersistedItemGroup.RemoveItem(this);
-            }
-        }
+		public string Condition {
+			get {
+				if (FromXml)
+					return itemElement.GetAttribute ("Condition");
+				else
+					return String.Empty;
+			}
+			set {
+				if (FromXml)
+					itemElement.SetAttribute ("Condition", value);
+				else if (!HasParentItem)
+					throw new InvalidOperationException ("Cannot set a condition on an object not represented by an XML element in the project file.");
+			}
+		}
 
-        internal BuildItem VirtualClone()
-        {
-            BuildItem item = new BuildItem(null, this.Name, this.Include, false);
-            item.SetEvaluatedItemSpecEscaped(this.evaluatedItemSpecEscaped);
-            item.SetFinalItemSpecEscaped(this.FinalItemSpecEscaped);
-            item.itemSpecModifiers = this.itemSpecModifiers;
-            item.recursivePortionOfFinalItemSpecDirectory = this.recursivePortionOfFinalItemSpecDirectory;
-            ErrorUtilities.VerifyThrow(this.unevaluatedCustomMetadata != null, "Item is not initialized properly.");
-            ErrorUtilities.VerifyThrow(this.evaluatedCustomMetadata != null, "Item is not initialized properly.");
-            item.unevaluatedCustomMetadata = (CopyOnWriteHashtable)this.unevaluatedCustomMetadata.Clone();
-            item.evaluatedCustomMetadata = (CopyOnWriteHashtable)this.evaluatedCustomMetadata.Clone();
-            return item;
-        }
+		public string Exclude {
+			get {
+				if (FromXml)
+					return itemElement.GetAttribute ("Exclude");
+				else
+					return String.Empty;
+			}
+			set {
+				if (FromXml)
+					itemElement.SetAttribute ("Exclude", value);
+				else
+					throw new InvalidOperationException ("Assigning the \"Exclude\" attribute of a virtual item is not allowed.");
+			}
+		}
 
+		public string FinalItemSpec {
+			get { return finalItemSpec; }
+		}
 
-        internal void SetEvaluatedItemSpecEscaped(string evaluatedItemSpecValueEscaped)
-        {
-            this.evaluatedItemSpecEscaped = evaluatedItemSpecValueEscaped;
-        }
+		public string Include {
+			get {
+				if (FromXml)
+					return itemElement.GetAttribute ("Include");
+				else if (HasParentItem)
+					return parent_item.Include;
+				else
+					return itemInclude;
+			}
+			set {
+				if (FromXml)
+					itemElement.SetAttribute ("Include", value);
+				else if (HasParentItem) {
+					if (parent_item.child_items.Count > 1)
+						SplitParentItem ();
+					parent_item.Include = value;
+				} else
+					itemInclude = value;
+			}
+		}
 
-        public BuildItem Clone()
-        {
-            if (this.itemElement != null)
-            {
-                BuildItem item = new BuildItem(this.itemElement, this.importedFromAnotherProject);
-                item.SetEvaluatedItemSpecEscaped(this.evaluatedItemSpecEscaped);
-                item.SetFinalItemSpecEscaped(this.FinalItemSpecEscaped);
-                item.itemSpecModifiers = this.itemSpecModifiers;
-                item.recursivePortionOfFinalItemSpecDirectory = this.recursivePortionOfFinalItemSpecDirectory;
-                item.evaluatedCustomMetadata = this.evaluatedCustomMetadata;
-                item.unevaluatedCustomMetadata = this.unevaluatedCustomMetadata;
-                return item;
-            }
-            return this.VirtualClone();
-        }
-        
-        internal BuildItem(XmlElement itemElement, bool importedFromAnotherProject)
-        {
-            this.finalItemSpecEscaped = string.Empty;
-            this.InitializeFromItemElement(itemElement);
-            this.importedFromAnotherProject = importedFromAnotherProject;
-            ProjectErrorUtilities.VerifyThrowInvalidProject(XMakeElements.IllegalItemPropertyNames[this.Name] == null, this.ItemElement, "CannotModifyReservedItem", this.Name);
-        }
+		public bool IsImported {
+			get { return isImported; }
+		}
 
- 
+		public string Name {
+			get {
+				if (FromXml)
+					return itemElement.Name;
+				else if (HasParentItem)
+					return parent_item.Name;
+				else
+					return name;
+			}
+			set {
+				if (FromXml) {
+					XmlElement newElement = itemElement.OwnerDocument.CreateElement (value, Project.XmlNamespace);
+					newElement.SetAttribute ("Include", itemElement.GetAttribute ("Include"));
+					newElement.SetAttribute ("Condition", itemElement.GetAttribute ("Condition"));
+					foreach (XmlNode xn in itemElement)
+						newElement.AppendChild (xn.Clone ());
+					itemElement.ParentNode.ReplaceChild (newElement, itemElement);
+					itemElement = newElement;
+				} else if (HasParentItem) {
+					if (parent_item.child_items.Count > 1)
+						SplitParentItem ();
+					parent_item.Name = value;
+				} else
+					name = value;
+			}
+		}
+		
+		internal bool FromXml {
+			get { return itemElement != null; }
+		}
+		
+		internal bool HasParentItem {
+			get { return parent_item != null; }
+		}
 
- 
+		internal BuildItem ParentItem {
+			get { return parent_item; }
+		}
 
-
-    }
-
-
-    internal interface IItemPropertyGrouping
-    {
-    }
-
-
+		internal BuildItemGroup ParentItemGroup {
+			get { return parent_item_group; }
+			set { parent_item_group = value; }
+		}
+	}
 }
+
+#endif

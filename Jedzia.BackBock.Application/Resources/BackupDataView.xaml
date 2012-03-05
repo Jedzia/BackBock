@@ -1,4 +1,4 @@
-﻿<ResourceDictionary
+<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,7 @@
     xmlns:t="clr-namespace:Jedzia.BackBock.ViewModel.Ext;assembly=Jedzia.BackBock.ViewModel"
     xmlns:wpgtt="clr-namespace:WPG.Themes.TypeEditors;assembly=WPG"
   xmlns:Custom="http://schemas.microsoft.com/wpf/2008/toolkit"
-  xmlns:tasks="clr-namespace:Jedzia.BackBock.Tasks;assembly=Jedzia.BackBock.Tasks"
+  xmlns:tasks="clr-namespace:Microsoft.Build.Framework;assembly=Jedzia.BackBock.Tasks"
              mc:Ignorable="d"
   >
     <!--
