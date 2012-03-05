@@ -8,7 +8,15 @@ namespace Jedzia.BackBock.TaskTester
 {
     using System.Collections;
 
-    class Program
+    /// <summary>
+    /// Blah
+    /// </summary>
+    /// <example>
+    /// The following example shows how to write a basic logger that responds to build events.
+    /// <para></para>
+    /// <code source="..\Jedzia.BackBock.TaskTester\Program.cs" lang="cs" title="The following example shows how to write a basic logger that responds to build events."/>
+    /// </example>
+    public class Program
     {
         static void Main(string[] args)
         {

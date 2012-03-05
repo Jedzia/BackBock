@@ -203,40 +203,65 @@ namespace Jedzia.BackBock.Tasks
     /// </summary>
     public interface IBuildEngine
     {
+        /// <summary>
+        /// Raises a message event to all registered loggers.
+        /// </summary>
+        /// <param name="e">The <see cref="Jedzia.BackBock.Tasks.Utilities.BuildMessageEventArgs"/> instance containing the event data.</param>
         void LogMessageEvent(BuildMessageEventArgs e);
 
+        /// <summary>
+        /// Raises an error event to all registered loggers.
+        /// </summary>
+        /// <param name="e">The <see cref="Jedzia.BackBock.Tasks.Utilities.BuildErrorEventArgs"/> instance containing the event data.</param>
         void LogErrorEvent(BuildErrorEventArgs e);
-        
+
+        /// <summary>
+        /// Returns <c>true</c> if the ContinueOnError flag was set to <c>true</c> for this particular 
+        /// task in the project file.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the ContinueOnError flag was set to <c>true</c> for this particular task in the 
+        ///   project file.
+        /// </value>
         bool ContinueOnError { get; }
     }
 
+    /// <summary>
+    /// Simple IBuildEngine stub with logging output to the console.
+    /// </summary>
     public class ConsoleBuildEngine : IBuildEngine
     {
 
         #region IBuildEngine Members
 
+        /// <summary>
+        /// Raises a message event to all registered loggers.
+        /// </summary>
+        /// <param name="e">The <see cref="Jedzia.BackBock.Tasks.Utilities.BuildMessageEventArgs"/> instance containing the event data.</param>
         public void LogMessageEvent(BuildMessageEventArgs e)
         {
             System.Console.WriteLine(
                 e.Timestamp + ":[" + e.ThreadId + "." + e.SenderName + "]" + e.Message + e.HelpKeyword);
         }
 
-        #endregion
-
-        #region IBuildEngine Members
-
-
+        /// <summary>
+        /// Raises an error event to all registered loggers.
+        /// </summary>
+        /// <param name="e">The <see cref="Jedzia.BackBock.Tasks.Utilities.BuildErrorEventArgs"/> instance containing the event data.</param>
         public void LogErrorEvent(BuildErrorEventArgs e)
         {
             System.Console.WriteLine("ERROR:" + 
                 e.Timestamp + ":[" + e.ThreadId + "." + e.SenderName + "]" + e.Message + e.HelpKeyword);
         }
 
-        #endregion
-
-        #region IBuildEngine Members
-
-
+        /// <summary>
+        /// Returns <c>true</c> if the ContinueOnError flag was set to <c>true</c> for this particular
+        /// task in the project file.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if the ContinueOnError flag was set to <c>true</c> for this particular task in the
+        /// project file.
+        /// </value>
         public bool ContinueOnError
         {
             get { return false; }

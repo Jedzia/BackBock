@@ -195,7 +195,7 @@
             ErrorUtilities.VerifyThrowArgument(unformatted != null, "Shared.TaskResourceNotFound", resourceName, this.TaskName);
             return this.FormatString(unformatted, args);
         }
- 
+
 
         /// <summary>
         /// Logs the command line for an underlying tool, executable file, or shell command of a task using the specified importance level.
@@ -419,21 +419,32 @@
     /// </example>
     [Serializable]
     public abstract class BuildEventArgs : EventArgs
-    { 
-        // Fields
+    {
         private string helpKeyword;
         private string message;
         private string senderName;
         private int threadId;
         private DateTime timestamp;
 
-        // Methods
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BuildEventArgs">BuildEventArgs</see> class.
+        /// </summary>
+        /// <remarks>
+        /// This implementation of the BuildEventArgs constructor takes no parameters, and sets the TimeStamp()()() property to Now and the ThreadId property to the current thread.
+        /// </remarks>
         protected BuildEventArgs()
         {
             this.timestamp = DateTime.Now;
             this.threadId = Thread.CurrentThread.GetHashCode();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BuildEventArgs"/> class
+        /// with the specified Message, HelpKeyword, and SenderName values.
+        /// </summary>
+        /// <param name="message">The text of the event.</param>
+        /// <param name="helpKeyword">The Help keyword associated with the event.</param>
+        /// <param name="senderName">The source of the event.</param>
         protected BuildEventArgs(string message, string helpKeyword, string senderName)
             : this()
         {
@@ -442,7 +453,9 @@
             this.senderName = senderName;
         }
 
-        // Properties
+        /// <summary>
+        /// Gets the Help keyword for the event.
+        /// </summary>
         public string HelpKeyword
         {
             get
@@ -451,6 +464,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets the message for the event.
+        /// </summary>
         public string Message
         {
             get
@@ -459,6 +475,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the name of the Object raising the event.
+        /// </summary>
+        /// <value>
+        /// The name of the Object raising the event.
+        /// </value>
         public string SenderName
         {
             get
@@ -467,6 +489,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets an integer identifier for the thread that raised the event.
+        /// </summary>
         public int ThreadId
         {
             get
@@ -475,6 +500,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets the time the event was raised as a DateTime.
+        /// </summary>
         public DateTime Timestamp
         {
             get
@@ -484,24 +512,41 @@
         }
     }
 
+    /// <summary>
+    /// Provides data for the MessageRaised event
+    /// </summary>
     [Serializable]
     public class BuildMessageEventArgs : BuildEventArgs
     {
         // Fields
         private MessageImportance importance;
 
-        // Methods
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BuildMessageEventArgs"/> class.
+        /// </summary>
         protected BuildMessageEventArgs()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BuildMessageEventArgs"/> class.
+        /// </summary>
+        /// <param name="message">The text of the event.</param>
+        /// <param name="helpKeyword">The Help keyword associated with the event.</param>
+        /// <param name="senderName">The source of the event.</param>
+        /// <param name="importance">A MessageImportance value indicating the importance of the event.</param>
         public BuildMessageEventArgs(string message, string helpKeyword, string senderName, MessageImportance importance)
             : base(message, helpKeyword, senderName)
         {
             this.importance = importance;
         }
 
-        // Properties
+        /// <summary>
+        /// Gets the importance of the event.
+        /// </summary>
+        /// <value>
+        /// A MessageImportance value indicating the importance of the event.
+        /// </value>
         public MessageImportance Importance
         {
             get
@@ -511,20 +556,33 @@
         }
     }
 
+    /// <summary>
+    /// Provides data for the MessageRaised event.
+    /// </summary>
     [Serializable]
     public class TaskCommandLineEventArgs : BuildMessageEventArgs
     {
-        // Methods
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskCommandLineEventArgs"/> class.
+        /// </summary>
         protected TaskCommandLineEventArgs()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskCommandLineEventArgs"/> class.
+        /// </summary>
+        /// <param name="commandLine">The command line used by the task to run the underlying program.</param>
+        /// <param name="taskName">The name of the task raising the event.</param>
+        /// <param name="importance">A MessageImportance value indicating the importance of the event.</param>
         public TaskCommandLineEventArgs(string commandLine, string taskName, MessageImportance importance)
             : base(commandLine, null, taskName, importance)
         {
         }
 
-        // Properties
+        /// <summary>
+        /// Gets the command line used by the task to run the underlying program.
+        /// </summary>
         public string CommandLine
         {
             get
@@ -533,6 +591,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the name of the task that raised the event.
+        /// </summary>
+        /// <value>
+        /// The name of the task that raised the event.
+        /// </value>
         public string TaskName
         {
             get
@@ -542,90 +606,131 @@
         }
     }
 
-[Serializable]
-public class BuildErrorEventArgs : BuildEventArgs
-{
-    // Fields
-    private string code;
-    private int columnNumber;
-    private int endColumnNumber;
-    private int endLineNumber;
-    private string file;
-    private int lineNumber;
-    private string subcategory;
-
-    // Methods
-    protected BuildErrorEventArgs()
+    /// <summary>
+    /// Provides data for the ErrorRaised event.
+    /// </summary>
+    [Serializable]
+    public class BuildErrorEventArgs : BuildEventArgs
     {
-    }
+        // Fields
+        private string code;
+        private int columnNumber;
+        private int endColumnNumber;
+        private int endLineNumber;
+        private string file;
+        private int lineNumber;
+        private string subcategory;
 
-    public BuildErrorEventArgs(string subcategory, string code, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, string helpKeyword, string senderName) : base(message, helpKeyword, senderName)
-    {
-        this.subcategory = subcategory;
-        this.code = code;
-        this.file = file;
-        this.lineNumber = lineNumber;
-        this.columnNumber = columnNumber;
-        this.endLineNumber = endLineNumber;
-        this.endColumnNumber = endColumnNumber;
-    }
-
-    // Properties
-    public string Code
-    {
-        get
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BuildErrorEventArgs"/> class.
+        /// </summary>
+        protected BuildErrorEventArgs()
         {
-            return this.code;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BuildErrorEventArgs"/> class
+        /// with the specified SubCategory()()(), Code, File, LineNumber, ColumnNumber, 
+        /// EndLineNumber, EndColumnNumber, Message, HelpKeyword, and SenderName values.
+        /// </summary>
+        /// <param name="subcategory">The custom subcategory of the event.</param>
+        /// <param name="code">The error code of the event.</param>
+        /// <param name="file">The path to the file containing the error.</param>
+        /// <param name="lineNumber">The line in the file where the error occurs.</param>
+        /// <param name="columnNumber">The column in the file where the error occurs.</param>
+        /// <param name="endLineNumber">The end line in the file where the error occurs.</param>
+        /// <param name="endColumnNumber">The end column in the file where the error occurs.</param>
+        /// <param name="message">The text of the event.</param>
+        /// <param name="helpKeyword">The Help keyword to associate with the error.</param>
+        /// <param name="senderName">Name of the sender.</param>
+        public BuildErrorEventArgs(string subcategory, string code, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, string helpKeyword, string senderName)
+            : base(message, helpKeyword, senderName)
+        {
+            this.subcategory = subcategory;
+            this.code = code;
+            this.file = file;
+            this.lineNumber = lineNumber;
+            this.columnNumber = columnNumber;
+            this.endLineNumber = endLineNumber;
+            this.endColumnNumber = endColumnNumber;
+        }
+
+        /// <summary>
+        /// Gets the error code of the event.
+        /// </summary>
+        public string Code
+        {
+            get
+            {
+                return this.code;
+            }
+        }
+
+        /// <summary>
+        /// Gets the column number that corresponds to the beginning of the section of code that raised the event.
+        /// </summary>
+        public int ColumnNumber
+        {
+            get
+            {
+                return this.columnNumber;
+            }
+        }
+
+        /// <summary>
+        /// Gets the column number that corresponds to the end of the section of code that raised the event.
+        /// </summary>
+        public int EndColumnNumber
+        {
+            get
+            {
+                return this.endColumnNumber;
+            }
+        }
+
+        /// <summary>
+        /// Gets the line number that corresponds to the end of the section of code that raised the event.
+        /// </summary>
+        public int EndLineNumber
+        {
+            get
+            {
+                return this.endLineNumber;
+            }
+        }
+
+        /// <summary>
+        /// Gets the name of the file that raised the event.
+        /// </summary>
+        public string File
+        {
+            get
+            {
+                return this.file;
+            }
+        }
+
+        /// <summary>
+        /// Gets the line number that corresponds to the beginning of the section of code that raised the event.
+        /// </summary>
+        public int LineNumber
+        {
+            get
+            {
+                return this.lineNumber;
+            }
+        }
+
+        /// <summary>
+        /// Gets the custom subtype of the event.
+        /// </summary>
+        public string Subcategory
+        {
+            get
+            {
+                return this.subcategory;
+            }
         }
     }
-
-    public int ColumnNumber
-    {
-        get
-        {
-            return this.columnNumber;
-        }
-    }
-
-    public int EndColumnNumber
-    {
-        get
-        {
-            return this.endColumnNumber;
-        }
-    }
-
-    public int EndLineNumber
-    {
-        get
-        {
-            return this.endLineNumber;
-        }
-    }
-
-    public string File
-    {
-        get
-        {
-            return this.file;
-        }
-    }
-
-    public int LineNumber
-    {
-        get
-        {
-            return this.lineNumber;
-        }
-    }
-
-    public string Subcategory
-    {
-        get
-        {
-            return this.subcategory;
-        }
-    }
-}
 
 }

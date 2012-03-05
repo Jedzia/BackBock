@@ -175,6 +175,50 @@ namespace Jedzia.BackBock.Tasks
 
 
 
+    /// <summary>
+    /// Populates item collections with the input items. This allows items to be copied from one list to another.
+    /// </summary>
+    /// <remarks>
+    /// This task is deprecated. Starting with .NET Framework 3.5, item groups may be placed within Target elements. For more information, see MSBuild Items. 
+    /// <para> </para>
+    /// <para>In addition to the parameters listed above, this task inherits parameters from the <see cref="T:Jedzia.BackBock.Tasks.TaskExtension">TaskExtension</see> class, which itself inherits from the Task class. For a list of these additional parameters and their descriptions, see TaskExtension Base Class.</para>
+    /// </remarks>
+    /// <example>
+    /// The following code example creates a new item collection named MySourceItemsWithMetadata from the item collection MySourceItems. The CreateItem task populates the new item collection with the items in the MySourceItems item. It then adds an additional metadata entry named MyMetadata with a value of Hello to each item in the new collection. 
+    /// <para> </para>
+    /// <para>After the task is executed, the MySourceItemsWithMetadata item collection contains the items file1.resx and file2.resx, both with metadata entries for MyMetadata. The MySourceItems item collection is unchanged.</para>
+    /// <para> </para>
+    /// <code>&lt;Project xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+    /// 
+    ///     &lt;ItemGroup&gt;
+    ///         &lt;MySourceItems Include=&quot;file1.resx;file2.resx&quot; /&gt;
+    ///     &lt;/ItemGroup&gt;
+    /// 
+    ///     &lt;Target Name=&quot;NewItems&quot;&gt;
+    ///         &lt;CreateItem
+    ///             Include=&quot;@(MySourceItems)&quot;
+    ///             AdditionalMetadata=&quot;MyMetadata=Hello&quot;&gt;
+    ///            &lt;Output
+    ///                TaskParameter=&quot;Include&quot;
+    ///                ItemName=&quot;MySourceItemsWithMetadata&quot;/&gt;
+    ///         &lt;/CreateItem&gt;
+    /// 
+    ///     &lt;/Target&gt;
+    /// 
+    /// &lt;/Project&gt;</code>
+    /// <para></para>
+    /// <para>The following table describes the value of the output item after task execution. Item metadata is shown in parenthesis after the item.</para>
+    /// <para></para>
+    /// <list type="table">
+    /// <listheader>
+    /// <term>Item collection</term>
+    /// <description>Contents</description></listheader>
+    /// <item>
+    /// <term>MySourceItemsWithMetadata</term>
+    /// <description>file1.resx (MyMetadata=&quot;Hello&quot;)
+    /// <para></para>
+    /// <para>file2.resx (MyMetadata=&quot;Hello&quot;)</para></description></item></list>
+    /// </example>
     public class CreateItem : TaskExtension
     {
         // Fields
@@ -182,7 +226,6 @@ namespace Jedzia.BackBock.Tasks
         private ITaskItem[] exclude;
         private ITaskItem[] include;
 
-        // Methods
         private ArrayList CreateOutputItems(Hashtable metadataTable, Hashtable excludeItems)
         {
             ArrayList list = new ArrayList();
@@ -204,6 +247,12 @@ namespace Jedzia.BackBock.Tasks
             return list;
         }
 
+        /// <summary>
+        /// Executes a task.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if the task executed successfully; otherwise, <c>false</c>.
+        /// </returns>
         public override bool Execute()
         {
             if (this.Include == null)
@@ -273,7 +322,21 @@ namespace Jedzia.BackBock.Tasks
             return hashtable;
         }
 
-        // Properties
+        /// <summary>
+        /// Gets or sets the additional metadata.
+        /// </summary>
+        /// <remarks>
+        /// Optional String array parameter.
+        /// <para></para>
+        /// <para>Specifies additional metadata to attach to the output items. Specify the metadata name and value for the item with the following syntax:</para>
+        /// <para></para>
+        /// <para><c>MetadataName=MetadataValue</c></para>
+        /// <para></para>
+        /// <para>Multiple metadata name/value pairs should be separated with a semicolon. If either the name or the value contains a semicolon or any other special characters, they must be escaped. For more information, see How to: Escape Special Characters in MSBuild.</para>
+        /// </remarks>
+        /// <value>
+        /// The additional metadata.
+        /// </value>
         public string[] AdditionalMetadata
         {
             get
@@ -286,6 +349,17 @@ namespace Jedzia.BackBock.Tasks
             }
         }
 
+        /// <summary>
+        /// Gets or sets the optional ITaskItem[] output parameters.
+        /// </summary>
+        /// <remarks>
+        /// Optional ITaskItem[] output parameter.
+        /// <para></para>
+        /// <para>Specifies the items to exclude from the output item collection. This parameter can contain wildcard specifications. For more information, see MSBuild Items and How to: Exclude Files from the Build.</para>
+        /// </remarks>
+        /// <value>
+        /// The optional ITaskItem[] output parameters.
+        /// </value>
         public ITaskItem[] Exclude
         {
             get
@@ -298,6 +372,15 @@ namespace Jedzia.BackBock.Tasks
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Required ITaskItem[] parameter.
+        /// </summary>
+        /// <remarks>
+        /// Specifies the items to include in the output item collection. This parameter can contain wildcard specifications.
+        /// </remarks>
+        /// <value>
+        /// The Required ITaskItem[] parameter.
+        /// </value>
         [Output]
         public ITaskItem[] Include
         {
@@ -311,6 +394,9 @@ namespace Jedzia.BackBock.Tasks
             }
         }
 
+        /// <summary>
+        /// Gets the name of the Task.
+        /// </summary>
         public override string Name
         {
             get { return "CreateItem"; }

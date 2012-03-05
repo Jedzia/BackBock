@@ -20,12 +20,12 @@
     <Language>en-US</Language>
     <FrameworkVersion>.NET 4.0.30319</FrameworkVersion>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\Jedzia.BackBock.Tasks\Jedzia.BackBock.Tasks.csproj" />
-<DocumentationSource sourceFile="..\Jedzia.BackBock.TaskTester\Jedzia.BackBock.TaskTester.csproj" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\Jedzia.BackBock.Tasks.csproj" />
+    </DocumentationSources>
     <ComponentConfigurations>
       <ComponentConfig id="Code Block Component" enabled="True">
         <component id="Code Block Component" type="SandcastleBuilder.Components.CodeBlockComponent" assembly="{@SHFBFolder}SandcastleBuilder.Components.dll">
-          <basePath value="{@ProjectFolder}" />
+          <basePath value="{@ProjectFolder}../" />
           <languageFilter value="true" />
           <allowMissingSource value="false" />
           <removeRegionMarkers value="false" />
@@ -53,6 +53,15 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Win32' ">
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="Content\d75457ea-2c0c-4b97-a4da-7b1b2857dfa9.aml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ContentLayout Include="Content\Content Layout.content" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+  </ItemGroup>
   <!-- Import the SHFB build targets -->
   <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
 </Project>

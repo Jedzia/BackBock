@@ -13,7 +13,7 @@ namespace Jedzia.BackBock.Tasks
     using System.IO;
     using Jedzia.BackBock.Tasks.Shared;
 
-        /// <summary>
+    /// <summary>
     /// A simple backup task.
     /// </summary>
     [DisplayName("Touch Task")]
@@ -30,6 +30,12 @@ namespace Jedzia.BackBock.Tasks
             }
         }
 
+        /// <summary>
+        /// Executes a task.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if the task executed successfully; otherwise, <c>false</c>.
+        /// </returns>
         public override bool Execute()
         {
             throw new NotImplementedException();

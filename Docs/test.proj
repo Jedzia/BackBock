@@ -1,0 +1,9 @@
+<Project ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="Target1">
+		<ItemGroup>
+			<Item Include="" />
+		</ItemGroup>
+		<Copy />
+		<CreateItem />
+	</Target>
+</Project>
