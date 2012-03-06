@@ -29,6 +29,7 @@ namespace Jedzia.BackBock.ViewModel.Converters
     }
     public class TaskItemConverter : IValueConverter
     {
+        //Todo: Move this to its own file.
         #region IValueConverter Members
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

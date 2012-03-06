@@ -11,7 +11,9 @@ namespace Jedzia.BackBock.TaskTester
     using Microsoft.Build.BuildEngine;
     using Microsoft.Build.Framework;
     using System.IO;
+    using System.Linq;
     using System.Xml;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     /// Summary
@@ -19,7 +21,70 @@ namespace Jedzia.BackBock.TaskTester
     public static class Consts
     {
         public const string InputFolderA = @"C:\Temp\FolderA\**\*.*";
+        public const string InputFolderRoot = @"C:\Temp\";
+        public const string InputFolderRootAll = @"C:\Temp\**\*.*";
         public const string InputFileA = @"C:\Temp\raabe2.jpg";
+
+        static string[] reservedMetadataNames = new string[] {
+				"FullPath", "RootDir", "Filename", "Extension", "RelativeDir", "Directory",
+				"RecursiveDir", "Identity", "ModifiedTime", "CreatedTime", "AccessedTime"};
+
+    }
+
+    public enum Metanames
+    {
+        FullPath = 0, RootDir, Filename, Extension, RelativeDir, Directory,
+        RecursiveDir, Identity, ModifiedTime, CreatedTime, AccessedTime
+    }
+
+    public static class RMetadata
+    {
+        public const string FullPath = "FullPath";
+        public const string RootDir = "RootDir";
+        public const string Filename = "Filename";
+        public const string Extension = "Extension";
+        public const string RelativeDir = "RelativeDir";
+        public const string Directory = "Directory";
+        public const string RecursiveDir = "RecursiveDir";
+        public const string Identity = "Identity";
+        public const string ModifiedTime = "ModifiedTime";
+        public const string CreatedTime = "CreatedTime";
+        public const string AccessedTime = "AccessedTime";
+
+        private static readonly string[] reservedMetadataNames = new string[] {
+				FullPath, RootDir, Filename, Extension, RelativeDir, Directory,
+				RecursiveDir, Identity, ModifiedTime, CreatedTime, AccessedTime};
+
+        public static IList<string> ReservedMetadataNames
+        {
+            get
+            {
+                return reservedMetadataNames;
+            }
+        }
+        
+        /*/// <summary>
+        /// Gets or sets the <see cref="T:System.Object"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the element to get or set.</param>
+        /// <value>The <see cref="T:System.Object"/> at the specified index.</value>
+        public static object this[Metanames index]
+        {
+            get
+            {
+                return Meta(index);
+            }
+        }*/
+
+        public static string Meta(Metanames name)
+        {
+            //var l = new List<string>(reservedMetadataNames);
+            //var dic = new Dictionary<string, string>();
+            //var rd = new ReadOnlyCollection<string>(l);
+            //var lu = l.ToLookup(e => e);
+            return ReservedMetadataNames[(int)name];
+        }
+
     }
 
     /// <summary>
@@ -122,7 +187,7 @@ namespace Jedzia.BackBock.TaskTester
                 return basedir;
             }
         }
-      
+
         private static string EngineTargetsFile
         {
             get
@@ -159,10 +224,6 @@ namespace Jedzia.BackBock.TaskTester
 
         }
 
-        private static void TestB(ITask task)
-        {
-        }
-
         /// <summary>
         /// The logger of this instance.
         /// </summary>
@@ -185,7 +246,7 @@ namespace Jedzia.BackBock.TaskTester
 
         }
 
-        private static void TestA(Type taskType, string sourceParameter, 
+        private static void TestA(Type taskType, string sourceParameter,
             IEnumerable<string> paths, IEnumerable<Parameter> parameters)
         {
 
@@ -265,7 +326,9 @@ namespace Jedzia.BackBock.TaskTester
             // cr.Exclude = "*.txt";
             #endregion
 
-            var subtask = target.AddNewTask("CreateItem");
+            var subtask = target.AddNewTask(taskType);
+            subtask.SetParameterValue("Include", Consts.InputFolderRoot + @"**\*.txt");
+            subtask.AddOutputItem("Include", "SubtaskOutput");
 
 
             Type btasktype = typeof(Info);
@@ -283,9 +346,27 @@ namespace Jedzia.BackBock.TaskTester
                     " to " + item.Value, "", taskType, MessageImportance.Low));
             }
 
+            var batask2 = target.AddNewTask(btasktype.Name);
+            //batask.SetParameterValue("SourceFiles", @"C:\Temp\company.xmi");
+            batask2.SetParameterValue(sourceParameter,
+                "%(SubtaskOutput." + RMetadata.Filename + "): " +
+                "%(SubtaskOutput." + RMetadata.CreatedTime + ")");
+
+
             var res = proj.Build("mainTarget");
             var str = PrettyPrintXml(proj.Xml);
 
+            NewMethod(proj);
+        }
+
+        private static void NewMethod(Project proj)
+        {
+            //IEnumerable<string> p;
+            
+            var props = proj.EvaluatedProperties.OfType<BuildProperty>();
+            var lst = props.ToDictionary(e => e.Name);
+            //props.OfType
+            //var ee = proj.EvaluatedProperties.GetEnumerator().Where(ee => true == true);
         }
 
         private static string PrettyPrintXml(string xml)

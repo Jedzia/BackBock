@@ -515,13 +515,14 @@ namespace Microsoft.Build.BuildEngine {
 				defaultTasksProject.Load (tasksFile);
 				db = defaultTasksProject.TaskDatabase;
 			} else {
-                // Jedzia: search for alternative tasks file in the BinPath.
+                // $Jedzia$: search for alternative tasks file in the BinPath.
                 var fi = new FileInfo(tasksFile);
                 var altPath = Path.Combine(this.BinPath, fi.Name);
                 if (File.Exists(altPath))
                 {
                     defaultTasksProject.Load(altPath);
                     db = defaultTasksProject.TaskDatabase;
+                    this.LogMessage(MessageImportance.Low, String.Format("{0}: Found alternative defaultTasksProject '{1}'.", "RegisterDefaultTasks", altPath));
                 }
                 else
                 {

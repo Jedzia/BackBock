@@ -134,6 +134,8 @@ namespace Jedzia.BackBock.Tasks
             {
                 this.destinationFolder = new TaskItem();
             }*/
+            BuildEngine.LogMessageEvent(new BuildMessageEventArgs(
+    "*** Running: " + this.GetType() + " ***", "", this.GetType().Name, MessageImportance.High));
 
             string dstFolder = "is empty";
             if (DestinationFolder != null)

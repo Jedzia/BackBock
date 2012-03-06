@@ -13,6 +13,7 @@ using Microsoft.Build.Tasks;
 using System.ComponentModel;
 using System.Reflection;
 using Jedzia.BackBock.ViewModel.Util;
+using Microsoft.Build.BuildEngine;
 
 namespace Jedzia.BackBock.ViewModel.Tasks
 {
@@ -334,7 +335,9 @@ namespace Jedzia.BackBock.ViewModel.Tasks
     internal sealed class TaskSetupEngine : IDisposable
     {
         ITaskService taskService;
-        private const string fullrecursivePattern = "**";
+        private const string recursivePattern = "**";
+        private const string allFilesPattern = "*.*";
+        private const string fullrecursivePattern = @"\" + recursivePattern + @"\" + allFilesPattern;
         private IEnumerable<PathViewModel> Paths { get; set; }
         private INotifyPropertyChanged taskChanged;
         private ITask taskInWork;
@@ -345,12 +348,28 @@ namespace Jedzia.BackBock.ViewModel.Tasks
         /// Initializes a new instance of the <see cref="TaskSetupEngine"/> class.
         /// </summary>
         /// <param name="taskService">The task service that provides task instance generation.</param>
+        /// <param name="logger">The logger used by this instance. Can be null.</param>
+        /// <param name="paths">The paths to setup the task.</param>
+        public TaskSetupEngine(
+            ITaskService taskService,
+            ILogger logger,
+            IEnumerable<PathViewModel> paths)
+            : this(taskService, logger, paths, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskSetupEngine"/> class
+        /// that is watching changes on task type identifier.
+        /// </summary>
+        /// <param name="taskService">The task service that provides task instance generation.</param>
+        /// <param name="logger">The logger used by this instance. Can be null.</param>
         /// <param name="paths">The paths to setup the task.</param>
         /// <param name="taskChanged">The notifier to look on for task type changes.</param>
         public TaskSetupEngine(
             ITaskService taskService,
-            ILogger logger, 
-            IEnumerable<PathViewModel> paths, 
+            ILogger logger,
+            IEnumerable<PathViewModel> paths,
             INotifyPropertyChanged taskChanged)
         {
             Guard.NotNull(() => taskService, taskService);
@@ -370,6 +389,7 @@ namespace Jedzia.BackBock.ViewModel.Tasks
             {
                 logger.Initialize(this.eventSource);
             }
+
             LogMessage("Initialized");
         }
 
@@ -403,6 +423,22 @@ namespace Jedzia.BackBock.ViewModel.Tasks
 
         #endregion
 
+        //private IBuildEngine buildEngine;
+
+        /*public IBuildEngine BuildEngine
+        {
+            get
+            {
+                if (this.buildEngine == null)
+                {
+                    //this.buildEngine = new SimpleBuildEngine(LogMessageEvent);
+                    var vmb = new ViewModelBuildEngine(this.MessengerInstance);
+                    vmb.Enabled = true;
+                    this.buildEngine = vmb;
+                }
+                return buildEngine;
+            }
+        }*/
 
         /// <summary>
         /// Prepares a task for display with an editor.
@@ -510,7 +546,7 @@ namespace Jedzia.BackBock.ViewModel.Tasks
                     if (Directory.Exists(e.Path))
                     {
                         // a directory
-                        taskItem = new TaskItem(e.Path + "\\" + fullrecursivePattern);
+                        taskItem = new TaskItem(e.Path + "\\" + recursivePattern);
                     }
                     else
                     {
@@ -653,7 +689,163 @@ namespace Jedzia.BackBock.ViewModel.Tasks
             }
         }
 
+        public bool ExecuteTask(string taskTypeName, IEnumerable<XmlAttribute> taskAttributes)
+        {
+            var task = taskService[taskTypeName];
 
+            bool res = false;
+            string xml =
+                @"<Project ToolsVersion=""3.5"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">" +
+                Environment.NewLine +
+                "\t" + @"<UsingTask AssemblyFile=""C:\Program Files\MSBuild\ExtensionPack\MSBuild.ExtensionPack.dll"" " +
+                @"TaskName=""MSBuild.ExtensionPack.Compression.Zip"" />" + Environment.NewLine +
+                "\t" + @"<Target Name=""Target1"">" + Environment.NewLine +
+                "\t" + @"" + "\t" + @"<ItemGroup>" + Environment.NewLine +
+                "\t" + @"" + "\t" + @"" + "\t" + @"<FilesToZip Include=""C:\Temp\**"" />" + Environment.NewLine +
+                "\t" + @"" + "\t" + @"</ItemGroup>" + Environment.NewLine +
+                "\t" + @"" + "\t" +
+                @"<MSBuild.ExtensionPack.Compression.Zip ZipFileName=""D:\TestZip.zip"" TaskAction=""Create"" " +
+                @"CompressFiles=""@(FilesToZip)"" />" + Environment.NewLine +
+                "\t" + @"</Target>" + Environment.NewLine +
+                @"</Project>";
+            //var proj2 = new Project();
+            //var engine = new Engine(Consts.BinPath);
+            var engine = new Engine(@"D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Application\bin\Debug");
+            engine.RegisterLogger(this.logger);
+            //var proj2 = engine.CreateNewProject();
+
+            //proj2.LoadXml(xml);
+            //proj2.Build();
+            var sourceParameter = string.Empty;
+            // Todo: put this task generation extra.);
+            if (task is Backup)
+            {
+                //var btask = (Backup)task;
+                /*for (int index = 0; index < this.Paths.Count; index++)
+                {
+                    var item = this.Paths[index];
+                }*/
+                sourceParameter = "SourceFiles";
+            }
+            else if (task is Zip)
+            {
+                sourceParameter = "CompressFiles";
+            }
+            //btask.SourceFiles = new[] { new TaskItem(@"C:\Temp\raabeXX.jpg"), };
+            //btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
+            //btask.BuildEngine = this.BuildEngine;
+            var proj = engine.CreateNewProject();
+            proj.DefaultToolsVersion = "3.5";
+            //var proj = new Project(this.buildEngine, "3.5");
+            //var proj = new Project(Engine.GlobalEngine, "3.5");
+            var target = proj.Targets.AddNewTarget("mainTarget");
+            //var grp = target.AddNewTask("ItemGroup");
+            var big = proj.AddNewItemGroup();
+            //var cr = new BuildItem("Item","");
+            //var big = new BuildItemGroup();
+
+            //cr = big.AddNewItem("FilesToZip", @"C:\Temp\FolderB\**\*.*");
+            //cr.Exclude = @"*.msi";
+
+            foreach (var path in this.Paths)
+            {
+                //var cr = big.AddNewItem("FilesToZip", @"C:\Temp\**;C:\Temp\FolderB\**\*.*");
+                BuildItem cr;
+                //cr.Exclude = @"*.msi";
+                if (path.Inclusions.Count > 0)
+                {
+                    //var inclEle = string.Empty;
+                    var inclEle = new StringBuilder();
+                    for (int index = 0; index < path.Inclusions.Count; index++)
+                    {
+                        var incl = path.Inclusions[index];
+                        inclEle.Append(path.Path);
+                        inclEle.Append(incl.Pattern);
+                        if (index != path.Inclusions.Count - 1)
+                            inclEle.Append(";");
+                    }
+                    cr = big.AddNewItem("FilesToZip", inclEle.ToString());
+                    var exclEle = new StringBuilder();
+                    for (int index = 0; index < path.Exclusions.Count; index++)
+                    {
+                        var excl = path.Exclusions[index];
+                        exclEle.Append(path.Path);
+                        exclEle.Append(excl.Pattern);
+                        if (index != path.Exclusions.Count - 1)
+                            exclEle.Append(";");
+                    }
+                    cr.Exclude = exclEle.ToString();
+                }
+                else
+                {
+                    var strit = string.Empty;
+                    if (path.Path.EndsWith("\\"))
+                    {
+                        strit = path.Path + fullrecursivePattern;
+                    }
+                    else
+                    {
+                        strit = path.Path;
+                    }
+
+                    cr = big.AddNewItem("FilesToZip", strit);
+                    var exclEle = new StringBuilder();
+                    for (int index = 0; index < path.Exclusions.Count; index++)
+                    {
+                        var excl = path.Exclusions[index];
+                        exclEle.Append(path.Path);
+                        exclEle.Append(excl.Pattern);
+                        if (index != path.Exclusions.Count - 1)
+                            exclEle.Append(";");
+                    }
+                    cr.Exclude = exclEle.ToString();
+                }
+                //cr.Exclude = @"*.msi";
+            }
+
+            //Type btasktype = typeof(Backup);
+            Type btasktype = task.GetType();
+            proj.AddNewUsingTaskFromAssemblyName(btasktype.FullName, btasktype.Assembly.FullName);
+            var batask = target.AddNewTask(btasktype.FullName);
+            //batask.SetParameterValue("SourceFiles", @"C:\Temp\company.xmi");
+            batask.SetParameterValue(sourceParameter, @"@(FilesToZip)");
+            var pars = batask.GetParameterNames();
+
+            foreach (var item in taskAttributes)
+            {
+                batask.SetParameterValue(item.Name, item.Value);
+                eventSource.FireMessageRaised(this, new BuildMessageEventArgs(
+                    "Setting parameter " + item.Name + " to " + item.Value, "",
+                    task.GetType().Name, MessageImportance.Low));
+            }
+
+            res = proj.Build("mainTarget");
+            var str = PrettyPrintXml(proj.Xml);
+
+            //var res = result.ToArray();
+            //var includes = result.SelectMany((e) => e.Include);
+            //btask.SourceFiles = includes.ToArray();
+            //var itemsByType = new Hashtable();
+            //foreach (var item in btask.SourceFiles)
+            //{
+            //itemsByType.Add(
+            //}
+            //var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
+
+            return res;
+        }
+
+        private static string PrettyPrintXml(string xml)
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml(xml);
+            doc.Normalize();
+
+            TextWriter wr = new StringWriter();
+            doc.Save(wr);
+            var str = wr.ToString();
+            return str;
+        }
 
     }
 }
