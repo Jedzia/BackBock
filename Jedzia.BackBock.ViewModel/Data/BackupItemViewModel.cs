@@ -196,225 +196,9 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         }
 
-        /*private ITask InitTaskEditor(ITaskService taskService)
-        {
-            //var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
-            var task = taskService[this.Task.TypeName];
-            if (task == null)
-            {
-                return null;
-            }
-
-            foreach (var item in this.Task.data.AnyAttr)
-            {
-                var taskType = task.GetType();
-                var property = taskType.GetProperty(item.Name);
-                if (property == null)
-                {
-                    // Log property not found.
-                    continue;
-                }
-                if (property.PropertyType.IsArray)
-                {
-                    // Log skipping array type.
-                    continue;
-                }
-                if (property != null)
-                {
-                    object val = item.Value;
-                    if (property.PropertyType.Name == "ITaskItem")
-                    {
-                        val = new TaskItem(item.Value);
-                    }
-                    else
-                    {
-                        // try
-                        //{
-                        val = Convert.ChangeType(item.Value, property.PropertyType);
-                        //}
-                        //catch (Exception ex)
-                        // {
-                        // }
-                    }
-                    property.SetValue(task, val, null);
-                }
-            }
-
-            var dst = this.Task.data.AnyAttr.Where((e) => e.Name == "DestinationFolder").FirstOrDefault();
-            if (dst != null)
-            {
-                var val = dst.Value;
-            }
-            PrepareTask(task);
-            return task;
-            //var str = XamlSerializer.Save(task);
-            //SerializeTest(task);
-        }*/
-
-        /*void Task_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "TypeName")
-            {
-                var tvm = (TaskViewModel)sender;
-                tvm.data.AnyAttr.Clear();
-
-                var task = InitTaskEditor(this.taskProvider);
-                this.Task.TaskInstance = task;
-                
-                tvm.data.OnPropertyChanged("AnyAttr");
-            }
-        }*/
-
-        private void AfterTask(ITask task)
-        {
-            if (task is Backup)
-            {
-                //var btask = (Backup)task;
-                //btask.SourceFiles = new[] { new TaskItem(@"C:\Fuck\der.txt") };
-            }
-
-            try
-            {
-                /*var prj = new Project(Engine.GlobalEngine, "3.5");
-                Target target = prj.Targets.AddNewTarget("target");
-                var te = new TaskEngine(prj);
-                var parameters = new Dictionary<string, string>();
-                te.Prepare(task, target.TargetElement, parameters, task.GetType());
-                te.PublishOutput();*/
-
-                var properties = task.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance
-                        | BindingFlags.IgnoreCase);
-                foreach (PropertyInfo pi in properties)
-                {
-                    bool is_required = pi.IsDefined(typeof(RequiredAttribute), false);
-                    bool is_output = pi.IsDefined(typeof(OutputAttribute), false);
-                    Type prop_type = pi.PropertyType;
-                    if (prop_type.IsArray)
-                        prop_type = prop_type.GetElementType();
-                    if (!prop_type.IsPrimitive && prop_type != typeof(string) && prop_type != typeof(ITaskItem))
-                    {
-                        continue;
-                    }
-
-                    if (!is_output)
-                    {
-                        var val = pi.GetValue(task, null);
-                        if (val != null)
-                        {
-                            if (pi.PropertyType.IsArray)
-                            {
-                                continue;
-                            }
-                            TypeConverter converter = TypeDescriptor.GetConverter(val.GetType());
-                            var lattr = SelectMatchingAttribute(this.task.data.AnyAttr, pi.Name);
-                            if (lattr != null)
-                            {
-                                //TaskItem x = new TaskItem();
-                                
-                                var xxxy = val.GetType();
-                                if (val == null)
-                                {
-                                    //Todo: default value exclusion.
-                                }
-                                lattr.Value = (string)converter.ConvertTo(val, typeof(string));
-                            }
-                            else
-                            {
-                                var xdoc = new XmlDocument();
-                                var attr = xdoc.CreateAttribute(pi.Name);
-                                if (pi.PropertyType.Name == "ITaskItem")
-                                {
-                                }
-                                attr.Value = (string)converter.ConvertTo(val, typeof(string));
-                                this.task.data.AnyAttr.Add(attr);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-
-
-        }
-
-        private XmlAttribute SelectMatchingAttribute(List<System.Xml.XmlAttribute> attributes, string name)
-        {
-            var lattr = attributes.Where(e => e.Name == name).FirstOrDefault();
-            return lattr;
-        }
-
         const string fullrecursivePattern = "**";
 
-        /*private void PrepareTask(ITask task)
-        {
-            // Todo: put this task generation extra.
-            if (task is Backup)
-            {
-                var btask = (Backup)task;
-                for (int index = 0; index < this.Paths.Count; index++)
-                {
-                    var item = this.Paths[index];
-                }
-                int xasd = 0;
-                var result = this.Paths.Select((e) =>
-                {
-                    var cr = new CreateItem();
-                    if (e.Inclusions.Count > 0)
-                    {
-                        cr.Include = e.Inclusions.Select(
-                            (t) =>
-                            {
-                                if (e.Path.EndsWith("\\"))
-                                {
-                                    return new TaskItem(e.Path + t.Pattern);
-                                }
-                                else
-                                    return new TaskItem(e.Path + "\\" + t.Pattern);
-                            }
-                            ).ToArray();
-                    }
-                    else
-                    {
-                        ITaskItem taskItem;
-                        var finfo = new FileInfo(e.Path);
-                        if (Directory.Exists(e.Path))
-                        {
-                            // a directory
-                            taskItem = new TaskItem(e.Path + "\\" + fullrecursivePattern);
-                        }
-                        else
-                        {
-                            // a file
-                            taskItem = new TaskItem(e.Path);
-                        }
-                        cr.Include = new[] { taskItem };
-                    }
 
-                    cr.Exclude = e.Exclusions.Select((t) => { return new TaskItem(e.Path + "\\" + t.Pattern); }).ToArray();
-
-                    // at the moment, do not execute the items.
-                    //cr.Execute();
-
-                    return cr;
-                }
-                );
-
-                //var res = result.ToArray();
-                var includes = result.SelectMany((e) => e.Include);
-                btask.SourceFiles = includes.ToArray();
-                //btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
-                //var itemsByType = new Hashtable();
-                //foreach (var item in btask.SourceFiles)
-                //{
-                //itemsByType.Add(
-                //}
-                //var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
-                btask.BuildEngine = this.BuildEngine;
-            }
-        }*/
-     
         private bool PrepareTask2(ITask task)
         {
             bool res = false;
@@ -455,116 +239,116 @@ namespace Jedzia.BackBock.ViewModel.Data
             {
                 sourceParameter = "CompressFiles";
             }
-                //btask.SourceFiles = new[] { new TaskItem(@"C:\Temp\raabeXX.jpg"), };
-                //btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
-                //btask.BuildEngine = this.BuildEngine;
-                var proj = engine.CreateNewProject();
-                proj.DefaultToolsVersion = "3.5";
-                //var proj = new Project(this.buildEngine, "3.5");
-                //var proj = new Project(Engine.GlobalEngine, "3.5");
-                var target = proj.Targets.AddNewTarget("mainTarget");
-                //var grp = target.AddNewTask("ItemGroup");
-                var big = proj.AddNewItemGroup();
-                //var cr = new BuildItem("Item","");
-                //var big = new BuildItemGroup();
+            //btask.SourceFiles = new[] { new TaskItem(@"C:\Temp\raabeXX.jpg"), };
+            //btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
+            //btask.BuildEngine = this.BuildEngine;
+            var proj = engine.CreateNewProject();
+            proj.DefaultToolsVersion = "3.5";
+            //var proj = new Project(this.buildEngine, "3.5");
+            //var proj = new Project(Engine.GlobalEngine, "3.5");
+            var target = proj.Targets.AddNewTarget("mainTarget");
+            //var grp = target.AddNewTask("ItemGroup");
+            var big = proj.AddNewItemGroup();
+            //var cr = new BuildItem("Item","");
+            //var big = new BuildItemGroup();
 
-                //cr = big.AddNewItem("FilesToZip", @"C:\Temp\FolderB\**\*.*");
+            //cr = big.AddNewItem("FilesToZip", @"C:\Temp\FolderB\**\*.*");
+            //cr.Exclude = @"*.msi";
+
+            foreach (var path in this.Paths)
+            {
+                //var cr = big.AddNewItem("FilesToZip", @"C:\Temp\**;C:\Temp\FolderB\**\*.*");
+                BuildItem cr;
                 //cr.Exclude = @"*.msi";
-
-                foreach (var path in this.Paths)
+                if (path.Inclusions.Count > 0)
                 {
-                    //var cr = big.AddNewItem("FilesToZip", @"C:\Temp\**;C:\Temp\FolderB\**\*.*");
-                    BuildItem cr;
-                    //cr.Exclude = @"*.msi";
-                    if (path.Inclusions.Count > 0)
+                    //var inclEle = string.Empty;
+                    var inclEle = new StringBuilder();
+                    for (int index = 0; index < path.Inclusions.Count; index++)
                     {
-                        //var inclEle = string.Empty;
-                        var inclEle = new StringBuilder();
-                        for (int index = 0; index < path.Inclusions.Count; index++)
-                        {
-                            var incl = path.Inclusions[index];
-                            inclEle.Append(path.Path);
-                            inclEle.Append(incl.Pattern);
-                            if (index != path.Inclusions.Count - 1)
-                                inclEle.Append(";");
-                        }
-                        cr = big.AddNewItem("FilesToZip", inclEle.ToString());
-                        var exclEle = new StringBuilder();
-                        for (int index = 0; index < path.Exclusions.Count; index++)
-                        {
-                            var excl = path.Exclusions[index];
-                            exclEle.Append(path.Path);
-                            exclEle.Append(excl.Pattern);
-                            if (index != path.Exclusions.Count - 1)
-                                exclEle.Append(";");
-                        }
-                        cr.Exclude = exclEle.ToString();
+                        var incl = path.Inclusions[index];
+                        inclEle.Append(path.Path);
+                        inclEle.Append(incl.Pattern);
+                        if (index != path.Inclusions.Count - 1)
+                            inclEle.Append(";");
+                    }
+                    cr = big.AddNewItem("FilesToZip", inclEle.ToString());
+                    var exclEle = new StringBuilder();
+                    for (int index = 0; index < path.Exclusions.Count; index++)
+                    {
+                        var excl = path.Exclusions[index];
+                        exclEle.Append(path.Path);
+                        exclEle.Append(excl.Pattern);
+                        if (index != path.Exclusions.Count - 1)
+                            exclEle.Append(";");
+                    }
+                    cr.Exclude = exclEle.ToString();
+                }
+                else
+                {
+                    var strit = string.Empty;
+                    if (path.Path.EndsWith("\\"))
+                    {
+                        strit = path.Path + @"\**\*.*";
                     }
                     else
                     {
-                        var strit = string.Empty;
-                        if (path.Path.EndsWith("\\"))
-                        {
-                            strit = path.Path + @"\**\*.*";
-                        }
-                        else
-                        {
-                            strit = path.Path;
-                        }
-
-                        cr = big.AddNewItem("FilesToZip", strit);
-                        var exclEle = new StringBuilder();
-                        for (int index = 0; index < path.Exclusions.Count; index++)
-                        {
-                            var excl = path.Exclusions[index];
-                            exclEle.Append(path.Path);
-                            exclEle.Append(excl.Pattern);
-                            if (index != path.Exclusions.Count - 1)
-                                exclEle.Append(";");
-                        }
-                        cr.Exclude = exclEle.ToString();
+                        strit = path.Path;
                     }
-                    //cr.Exclude = @"*.msi";
+
+                    cr = big.AddNewItem("FilesToZip", strit);
+                    var exclEle = new StringBuilder();
+                    for (int index = 0; index < path.Exclusions.Count; index++)
+                    {
+                        var excl = path.Exclusions[index];
+                        exclEle.Append(path.Path);
+                        exclEle.Append(excl.Pattern);
+                        if (index != path.Exclusions.Count - 1)
+                            exclEle.Append(";");
+                    }
+                    cr.Exclude = exclEle.ToString();
                 }
+                //cr.Exclude = @"*.msi";
+            }
 
-                //Type btasktype = typeof(Backup);
-                Type btasktype = task.GetType();
-                proj.AddNewUsingTaskFromAssemblyName(btasktype.FullName, btasktype.Assembly.FullName);
-                var batask = target.AddNewTask(btasktype.FullName);
-                //batask.SetParameterValue("SourceFiles", @"C:\Temp\company.xmi");
-                batask.SetParameterValue(sourceParameter, @"@(FilesToZip)");
-                var pars = batask.GetParameterNames();
+            //Type btasktype = typeof(Backup);
+            Type btasktype = task.GetType();
+            proj.AddNewUsingTaskFromAssemblyName(btasktype.FullName, btasktype.Assembly.FullName);
+            var batask = target.AddNewTask(btasktype.FullName);
+            //batask.SetParameterValue("SourceFiles", @"C:\Temp\company.xmi");
+            batask.SetParameterValue(sourceParameter, @"@(FilesToZip)");
+            var pars = batask.GetParameterNames();
 
-                foreach (var item in this.Task.data.AnyAttr)
-                {
-                    batask.SetParameterValue(item.Name, item.Value);
-                    this.Log(this, new BuildMessageEventArgs("Setting parameter " + item.Name +
-                        " to " + item.Value, "", this.Task.TypeName, MessageImportance.Low));
-                }
+            foreach (var item in this.Task.data.AnyAttr)
+            {
+                batask.SetParameterValue(item.Name, item.Value);
+                this.Log(this, new BuildMessageEventArgs("Setting parameter " + item.Name +
+                    " to " + item.Value, "", this.Task.TypeName, MessageImportance.Low));
+            }
 
-                res = proj.Build("mainTarget");
+            res = proj.Build("mainTarget");
 
-                var doc = new XmlDocument();
-                doc.LoadXml(proj.Xml);
-                doc.Normalize();
+            var doc = new XmlDocument();
+            doc.LoadXml(proj.Xml);
+            doc.Normalize();
 
-                TextWriter wr = new StringWriter();
-                doc.Save(wr);
-                var str = wr.ToString();
+            TextWriter wr = new StringWriter();
+            doc.Save(wr);
+            var str = wr.ToString();
 
-                //var res = result.ToArray();
-                //var includes = result.SelectMany((e) => e.Include);
-                //btask.SourceFiles = includes.ToArray();
-                //var itemsByType = new Hashtable();
-                //foreach (var item in btask.SourceFiles)
-                //{
-                //itemsByType.Add(
-                //}
-                //var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
-            
+            //var res = result.ToArray();
+            //var includes = result.SelectMany((e) => e.Include);
+            //btask.SourceFiles = includes.ToArray();
+            //var itemsByType = new Hashtable();
+            //foreach (var item in btask.SourceFiles)
+            //{
+            //itemsByType.Add(
+            //}
+            //var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
+
             return res;
         }
-       
+
         private IBuildEngine buildEngine;
 
         public IBuildEngine BuildEngine
@@ -693,68 +477,6 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
-        /*#region AddType Command
-
-        private RelayCommand addTypeCommand;
-
-        public ICommand AddTypeCommand
-        {
-            get
-            {
-                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
-                if (this.addTypeCommand == null)
-                {
-                    this.addTypeCommand = new RelayCommand(this.AddTypeExecuted, this.AddTypeEnabled);
-                }
-
-                return this.addTypeCommand;
-            }
-        }
-
-
-        private void AddTypeExecuted(object o)
-        {
-            //this.Paths.Add((PathViewModel)o);
-            //this.AddType();
-        }
-
-        private bool AddTypeEnabled(object sender)
-        {
-            bool canExecute = true;
-            return canExecute;
-        }
-        #endregion
-
-        #region RemoveType Command
-
-        private RelayCommand removeTypeCommand;
-
-        public ICommand RemoveTypeCommand
-        {
-            get
-            {
-                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
-                if (this.removeTypeCommand == null)
-                {
-                    this.removeTypeCommand = new RelayCommand(this.RemoveTypeExecuted, this.RemoveTypeEnabled);
-                }
-
-                return this.removeTypeCommand;
-            }
-        }
-
-
-        private void RemoveTypeExecuted(object o)
-        {
-            //this.Paths.Remove((PathViewModel)o);
-        }
-
-        private bool RemoveTypeEnabled(object sender)
-        {
-            bool canExecute = true;
-            return canExecute;
-        }
-        #endregion*/
         /// <summary>
         /// Initializes the specified event source.
         /// </summary>
@@ -803,45 +525,4 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
     }
-
-    /*public class SimpleBuildEngine : IBuildEngine
-    {
-        Action<BuildMessageEventArgs> messageCallback;
-        Action<BuildErrorEventArgs> errorCallback;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleBuildEngine"/> class.
-        /// </summary>
-        public SimpleBuildEngine(Action<BuildMessageEventArgs> messageCallback)
-        {
-            Guard.NotNull(() => messageCallback, messageCallback);
-            this.messageCallback = messageCallback;
-        }
-        #region IBuildEngine Members
-
-        public void LogMessageEvent(BuildMessageEventArgs e)
-        {
-
-            messageCallback(e);
-            //System.Console.WriteLine(
-            //    e.Timestamp + ":[" + e.ThreadId + "." + e.SenderName + "]" + e.Message + e.HelpKeyword);
-        }
-
-        #endregion
-
-        #region IBuildEngine Members
-
-
-        public void LogErrorEvent(BuildErrorEventArgs e)
-        {
-            errorCallback(e);
-        }
-
-        public bool ContinueOnError
-        {
-            get { return false; }
-        }
-
-        #endregion
-    }*/
 }
