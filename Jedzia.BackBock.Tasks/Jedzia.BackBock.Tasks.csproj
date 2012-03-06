@@ -59,6 +59,8 @@
     <Compile Include="Backup.cs" />
     <None Include="BuildEngine\ChangeLog" />
     <None Include="BuildEngine\conditions.jay" />
+    <None Include="Microsoft.Common.Orig.Tasks">
+    </None>
     <None Include="Framework\ChangeLog" />
     <None Include="key.sn.snk" />
     <Content Include="Microsoft.Common.Tasks">
@@ -131,6 +133,7 @@
     <Compile Include="BuildEngine\Utilities.cs" />
     <Compile Include="BuildEngine\WriteHandler.cs" />
     <Compile Include="Cab.cs" />
+    <Compile Include="Info.cs" />
     <Compile Include="Copy.cs" />
     <Compile Include="CreateItem.cs" />
     <Compile Include="DNZip.cs" />

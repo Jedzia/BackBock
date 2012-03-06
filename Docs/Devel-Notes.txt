@@ -111,6 +111,18 @@ private static ITaskItem[] ExpandWildcards(ITaskItem[] expand)
     return (ITaskItem[]) list.ToArray(typeof(ITaskItem));
 }
 
- 
 
+ Sample task generator output:
+ ------------------------------
+ 
+<?xml version="1.0" encoding="utf-16"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <Target Name="mainTarget">
+    <Info SourceFiles="@(FilesToZip)" />
+  </Target>
+  <ItemGroup>
+    <FilesToZip Include="C:\Temp\FolderA\**\*.*" />
+  </ItemGroup>
+  <UsingTask TaskName="Jedzia.BackBock.Tasks.Info" AssemblyName="Jedzia.BackBock.Tasks, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+</Project>
  

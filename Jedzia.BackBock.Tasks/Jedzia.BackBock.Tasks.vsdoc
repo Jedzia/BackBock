@@ -88,36 +88,12 @@
     <add key="VBdocman_comModules_Backup.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_BuildEngine...BuildItem.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_BuildEngine...BuildItemGroup.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_BuildEngine...CopyOnWriteHashtable.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_BuildEngine...Expander.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_BuildEngine...GroupingCollection.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_BuildEngine...ItemExpander.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_BuildEngine...XmlSearcher.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_CopyFile.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_ExceptionHandling.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_ITask.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_ITaskItem.cs"><![CDATA[On]]></add>
+    <add key="VBdocman_comModules_Copy of Backup.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_ITaskService.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_MessageImportance.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_OutputAttribute.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Properties...AssemblyInfo.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_RequiredAttribute.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Shared...BuildEventFileInfo.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Shared...ErrorUtilities.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Shared...FileMatcher.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Shared...FileUtilities.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Shared...FileUtilitiesRegex.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Shared...InvalidProjectFileException.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Shared...ProjectErrorUtilities.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Shared...ResourceUtilities.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Shared...XMakeElements.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Shared...XmlUtilities.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Task.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_TaskExtension.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_TaskItem.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_TaskRegistry.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Utilities...EscapingUtilities.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Utilities...TaskLoggingHelper.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_Utilities...TaskLoggingHelperExtension.cs"><![CDATA[On]]></add>
   </appSettings>
 </configuration>

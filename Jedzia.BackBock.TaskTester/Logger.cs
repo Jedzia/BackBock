@@ -14,6 +14,12 @@ namespace Jedzia.BackBock.TaskTester
             Console.WriteLine(message);
         }
 
+        public void Send(object sender, BuildWarningEventArgs e)
+        {
+            var message = string.Format("Warning {0}:[{1}-{2}] {3}", e.Timestamp, e.ThreadId, e.SenderName, e.Message);
+            Console.WriteLine(message);
+        }
+
         internal void Send(object sender, BuildMessageEventArgs e)
         {
             var message = string.Format("{0}:[{1}-{2}] {3}", e.Timestamp, e.ThreadId, e.SenderName, e.Message);
@@ -61,10 +67,17 @@ namespace Jedzia.BackBock.TaskTester
         public void Initialize(IEventSource eventSource)
         {
             eventSource.MessageRaised += Log;
+            eventSource.WarningRaised += Log;
             eventSource.ErrorRaised += Log;
         }
 
         private void Log(object sender, BuildErrorEventArgs e)
+        {
+            if (this.Enabled)
+                MessengerInstance.Send(sender, e);
+        }
+        
+        private void Log(object sender, BuildWarningEventArgs e)
         {
             if (this.Enabled)
                 MessengerInstance.Send(sender, e);

@@ -515,8 +515,19 @@ namespace Microsoft.Build.BuildEngine {
 				defaultTasksProject.Load (tasksFile);
 				db = defaultTasksProject.TaskDatabase;
 			} else {
-				this.LogWarning ("Default tasks file {0} not found, ignoring.", tasksFile);
-				db = new TaskDatabase ();
+                // Jedzia: search for alternative tasks file in the BinPath.
+                var fi = new FileInfo(tasksFile);
+                var altPath = Path.Combine(this.BinPath, fi.Name);
+                if (File.Exists(altPath))
+                {
+                    defaultTasksProject.Load(altPath);
+                    db = defaultTasksProject.TaskDatabase;
+                }
+                else
+                {
+                    this.LogWarning("Default tasks file {0} not found, ignoring.", tasksFile);
+                    db = new TaskDatabase();
+                }
 			}
 
 			return db;

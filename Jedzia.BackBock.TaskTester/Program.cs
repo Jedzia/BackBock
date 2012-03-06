@@ -10,14 +10,99 @@ namespace Jedzia.BackBock.TaskTester
     using Microsoft.Build.Utilities;
     using Microsoft.Build.BuildEngine;
     using Microsoft.Build.Framework;
+    using System.IO;
+    using System.Xml;
 
     /// <summary>
     /// Summary
     /// </summary>
     public static class Consts
     {
-        public const string InputFileA = @"C:\Temp\FolderA";
+        public const string InputFolderA = @"C:\Temp\FolderA\**\*.*";
+        public const string InputFileA = @"C:\Temp\raabe2.jpg";
     }
+
+    /// <summary>
+    /// Parameter.
+    /// </summary>
+    [Serializable]
+    internal class Parameter : IEquatable<Parameter>
+    {
+        #region Properties
+        /// <summary>
+        /// Gets or sets the Name.
+        /// </summary>
+        /// <value>The Name.</value>
+        internal string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the Value.
+        /// </summary>
+        /// <value>The Value.</value>
+        internal string Value { get; set; }
+        #endregion
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Parameter"/> class.
+        /// </summary>
+        internal Parameter() { }
+        /// <summary>
+        /// Initializes a new fully specified instance of the <see cref="Parameter"/> class.
+        /// </summary>
+        /// <param name="Name">The Name</param>
+        /// <param name="Value">The Value</param>
+        internal Parameter(string Name, string Value)
+        {
+            this.Name = Name;
+            this.Value = Value;
+        }
+        #endregion
+        #region Methods
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.</param>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+        /// </returns>
+        /// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
+        public override bool Equals(object obj)
+        {
+            Parameter other = obj as Parameter;
+            if (other != null)
+                return Equals(other);
+            return false;
+        }
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        public bool Equals(Parameter other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return
+              Name == other.Name &&
+              Value == other.Value;
+        }
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Name = " + Name + ";");
+            sb.Append("Value = " + Value);
+            return sb.ToString();
+        }
+        #endregion
+    }
+
     /// <summary>
     /// Blah
     /// </summary>
@@ -28,6 +113,25 @@ namespace Jedzia.BackBock.TaskTester
     /// </example>
     public class Program
     {
+
+        private static string StartupPath
+        {
+            get
+            {
+                var basedir = AppDomain.CurrentDomain.BaseDirectory;
+                return basedir;
+            }
+        }
+      
+        private static string EngineTargetsFile
+        {
+            get
+            {
+                var file = Path.Combine(StartupPath, "Microsoft.Common.Tasks");
+                return file;
+            }
+        }
+
         static void Main(string[] args)
         {
             //CheckBackupTask();
@@ -37,19 +141,59 @@ namespace Jedzia.BackBock.TaskTester
             task.ZipFileName = new TaskItem(@"D:\TestZip.zip");
             TestB(task);*/
 
-            var paths = new[] { Consts.InputFileA };
+            var paths = new[] { Consts.InputFolderA };
             //TestA(typeof(Backup), "SourceFiles", paths);
-            TestA(typeof(Zip), "CompressFiles", paths);
+            var parameters = new[] { 
+                new Parameter("TaskAction", "Create"),
+                new Parameter("ZipFileName", @"D:\TestZip.zip"),
+            };
+            //TestA(typeof(Zip), "CompressFiles", paths, parameters);
+
+            paths = new[] { Consts.InputFolderA };
+            //TestA(typeof(Backup), "SourceFiles", paths);
+            parameters = new Parameter[] { 
+                //new Parameter("TaskAction", "Create"),
+                //new Parameter("ZipFileName", @"D:\TestZip.zip"),
+            };
+            TestB("CreateItem", "SourceFiles", paths, parameters);
+
         }
 
         private static void TestB(ITask task)
         {
         }
 
-        private static void TestA(Type taskType, string sourceParameter, IEnumerable<string> paths)
+        /// <summary>
+        /// The logger of this instance.
+        /// </summary>
+        private static Logger myLogger;
+
+        /// <summary>
+        /// Gets or sets the logger of this instance.
+        /// </summary>
+        /// <value>The logger of this instance.</value>
+        private static Logger MyLogger
         {
-            var engine = new Engine(@"D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Application\bin\Debug");
-            engine.RegisterLogger(new Logger());
+            get
+            {
+                if (myLogger == null)
+                {
+                    myLogger = new Logger();
+                }
+                return myLogger;
+            }
+
+        }
+
+        private static void TestA(Type taskType, string sourceParameter, 
+            IEnumerable<string> paths, IEnumerable<Parameter> parameters)
+        {
+
+            //var proj2 = new Project();
+
+
+            var engine = new Engine(StartupPath);
+            engine.RegisterLogger(MyLogger);
 
             var proj = engine.CreateNewProject();
             proj.DefaultToolsVersion = "3.5";
@@ -64,7 +208,7 @@ namespace Jedzia.BackBock.TaskTester
                 inclEle.Append(path);
                 inclEle.Append(";");
             }
-            inclEle.Remove(inclEle.Length, 1);
+            inclEle.Remove(inclEle.Length - 1, 1);
             var include = inclEle.ToString();
 
             BuildItem cr = big.AddNewItem("FilesToZip", include);
@@ -78,6 +222,82 @@ namespace Jedzia.BackBock.TaskTester
             batask.SetParameterValue(sourceParameter, @"@(FilesToZip)");
             var pars = batask.GetParameterNames();
 
+            // Set additional parameters.
+            foreach (var item in parameters)
+            {
+                batask.SetParameterValue(item.Name, item.Value);
+                MyLogger.Log(null, new BuildMessageEventArgs("Setting parameter " + item.Name +
+                    " to " + item.Value, "", taskType.FullName, MessageImportance.Low));
+            }
+
+            var res = proj.Build("mainTarget");
+            var str = PrettyPrintXml(proj.Xml);
+
+        }
+
+        private static void TestB(string taskType, string sourceParameter,
+    IEnumerable<string> paths, IEnumerable<Parameter> parameters)
+        {
+
+            //var proj2 = new Project();
+
+
+            var engine = new Engine(StartupPath);
+            engine.RegisterLogger(MyLogger);
+
+            var proj = engine.CreateNewProject();
+            proj.DefaultToolsVersion = "3.5";
+            var target = proj.Targets.AddNewTarget("mainTarget");
+
+            #region itemgroup
+            var big = proj.AddNewItemGroup();
+
+            var inclEle = new StringBuilder();
+            foreach (var path in paths)
+            {
+                inclEle.Append(path);
+                inclEle.Append(";");
+            }
+            inclEle.Remove(inclEle.Length - 1, 1);
+            var include = inclEle.ToString();
+
+            BuildItem cr = big.AddNewItem("FilesToZip", include);
+            // cr.Exclude = "*.txt";
+            #endregion
+
+            var subtask = target.AddNewTask("CreateItem");
+
+
+            Type btasktype = typeof(Info);
+            proj.AddNewUsingTaskFromAssemblyName(btasktype.FullName, btasktype.Assembly.FullName);
+            var batask = target.AddNewTask(btasktype.Name);
+            //batask.SetParameterValue("SourceFiles", @"C:\Temp\company.xmi");
+            batask.SetParameterValue(sourceParameter, @"@(FilesToZip)");
+            var pars = batask.GetParameterNames();
+
+            // Set additional parameters.
+            foreach (var item in parameters)
+            {
+                batask.SetParameterValue(item.Name, item.Value);
+                MyLogger.Log(null, new BuildMessageEventArgs("Setting parameter " + item.Name +
+                    " to " + item.Value, "", taskType, MessageImportance.Low));
+            }
+
+            var res = proj.Build("mainTarget");
+            var str = PrettyPrintXml(proj.Xml);
+
+        }
+
+        private static string PrettyPrintXml(string xml)
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml(xml);
+            doc.Normalize();
+
+            TextWriter wr = new StringWriter();
+            doc.Save(wr);
+            var str = wr.ToString();
+            return str;
         }
 
         private static void CheckBackupTask()
