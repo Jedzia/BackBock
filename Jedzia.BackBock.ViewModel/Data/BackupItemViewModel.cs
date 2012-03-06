@@ -176,27 +176,29 @@ namespace Jedzia.BackBock.ViewModel.Data
             bool canExecute = true;
             return canExecute;
         }
-
+        private ITaskService taskProvider = SimpleIoc.Default.GetInstance<ITaskService>();
         private void TaskDataClickedExecuted(object o)
         {
-
-            var task = InitTaskEditor();
+            var tse = new TaskSetupEngine(this.taskProvider, this, this.Paths, this.Task);
+            var task = tse.InitTaskEditor(this.Task.TypeName, this.task.data.AnyAttr);
+            //var task = InitTaskEditor(this.taskProvider);
             this.Task.TaskInstance = task;
 
             var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskEditor);
             wnd.DataContext = this;
             //wnd.DataContext = task;
-            this.Task.PropertyChanged += Task_PropertyChanged;
+            //this.Task.PropertyChanged += Task_PropertyChanged;
             var result = wnd.ShowDialog();
-            this.Task.PropertyChanged -= Task_PropertyChanged;
-
-            AfterTask(task);
+            //this.Task.PropertyChanged -= Task_PropertyChanged;
+            tse.AfterTask(task, this.task.data.AnyAttr);
+            //AfterTask(task);
+            tse.Dispose();
 
         }
 
-        private ITask InitTaskEditor()
+        /*private ITask InitTaskEditor(ITaskService taskService)
         {
-            var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
+            //var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
             var task = taskService[this.Task.TypeName];
             if (task == null)
             {
@@ -247,21 +249,21 @@ namespace Jedzia.BackBock.ViewModel.Data
             return task;
             //var str = XamlSerializer.Save(task);
             //SerializeTest(task);
-        }
+        }*/
 
-        void Task_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        /*void Task_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "TypeName")
             {
                 var tvm = (TaskViewModel)sender;
                 tvm.data.AnyAttr.Clear();
 
-                var task = InitTaskEditor();
+                var task = InitTaskEditor(this.taskProvider);
                 this.Task.TaskInstance = task;
                 
                 tvm.data.OnPropertyChanged("AnyAttr");
             }
-        }
+        }*/
 
         private void AfterTask(ITask task)
         {
@@ -345,7 +347,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         const string fullrecursivePattern = "**";
 
-        private void PrepareTask(ITask task)
+        /*private void PrepareTask(ITask task)
         {
             // Todo: put this task generation extra.
             if (task is Backup)
@@ -411,7 +413,8 @@ namespace Jedzia.BackBock.ViewModel.Data
                 //var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
                 btask.BuildEngine = this.BuildEngine;
             }
-        }
+        }*/
+     
         private bool PrepareTask2(ITask task)
         {
             bool res = false;
@@ -561,6 +564,7 @@ namespace Jedzia.BackBock.ViewModel.Data
             
             return res;
         }
+       
         private IBuildEngine buildEngine;
 
         public IBuildEngine BuildEngine

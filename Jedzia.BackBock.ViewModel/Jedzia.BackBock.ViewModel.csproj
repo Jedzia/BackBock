@@ -178,6 +178,7 @@
     <Compile Include="Serialization\ItemsControlTypeDescriptionProvider.cs" />
     <Compile Include="Serialization\XamlSerializer.cs" />
     <Compile Include="Tasks\Consts.cs" />
+    <Compile Include="Tasks\TaskSetupEngine.cs" />
     <Compile Include="Tasks\ViewModelBuildEngine.cs" />
     <Compile Include="Util\Guard.cs" />
     <Compile Include="Util\VisualHelper.cs" />
