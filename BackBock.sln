@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Temp.txt = Temp.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.CustomControls.Design", "Jedzia.BackBock.CustomControls.Design\Jedzia.BackBock.CustomControls.Design.csproj", "{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,12 @@ Global
 		{1FD5EA5A-029A-4E39-A039-F36F28A6555E}.Part1|Any CPU.Build.0 = Release|Any CPU
 		{1FD5EA5A-029A-4E39-A039-F36F28A6555E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FD5EA5A-029A-4E39-A039-F36F28A6555E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Part1|Any CPU.ActiveCfg = Release|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Part1|Any CPU.Build.0 = Release|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

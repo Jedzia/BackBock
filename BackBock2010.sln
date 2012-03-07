@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.ViewModel.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{a9ca7a7c-5892-4093-aa0e-cc95dbf21afb}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.CustomControls.Design", "Jedzia.BackBock.CustomControls.Design\Jedzia.BackBock.CustomControls.Design.csproj", "{f16f90e1-b17f-41f3-9186-ba0239649cdd}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,12 @@ Global
 		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Part1|Any CPU.Build.0 = Part1|Any CPU
 		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Part1|Any CPU.ActiveCfg = Part1|Any CPU
+		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Part1|Any CPU.Build.0 = Part1|Any CPU
+		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
