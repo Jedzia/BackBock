@@ -184,6 +184,7 @@
     <Compile Include="Util\VisualHelper.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="ViewModelLocator.cs" />
+    <Compile Include="Wizard\BaseWizard.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jedzia.BackBock.CustomControls\Jedzia.BackBock.CustomControls.csproj">
@@ -221,9 +222,6 @@
     <None Include="Data\BackupDataModel.tt.log">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Wizard\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
