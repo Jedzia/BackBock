@@ -3,6 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Window1" Height="300" Width="300" xmlns:my="clr-namespace:Jedzia.BackBock.CustomControls;assembly=Jedzia.BackBock.CustomControls">
     <Grid>
-        <my:CustomControl1 Margin="66,84,98,78" Name="customControl11">Button</my:CustomControl1>
+        <my:CustomControl1 Margin="106.25,115,70,53.75" Name="customControl11" Opacity="0.68207498715973292">
+        <TextBox Height="23" Text="Jejejejej" HorizontalAlignment="Right" Margin="0,0,2.8,80" Name="textBox1" VerticalAlignment="Bottom" Width="120" />
+        </my:CustomControl1>
     </Grid>
 </Window>

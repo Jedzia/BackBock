@@ -101,4 +101,6 @@ namespace Jedzia.BackBock.CustomControls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomControl1), new FrameworkPropertyMetadata(typeof(CustomControl1)));
         }
     }
+
+
 }

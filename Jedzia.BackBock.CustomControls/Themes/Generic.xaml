@@ -96,7 +96,10 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel>
                         <TextBlock>local:CustomControl1</TextBlock>
+                            <ContentPresenter />
+                      </StackPanel>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

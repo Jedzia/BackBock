@@ -10,6 +10,7 @@ using Microsoft.Windows.Design;
 using Microsoft.Windows.Design.Metadata;
 using Jedzia.BackBock.CustomControls.Design.Common;
 using System.Windows;
+using Microsoft.Windows.Design.Features;
 //using SSWCD = Silverlight::System.Windows.Controls.DataVisualization;
 //using SSWCDC = Silverlight::System.Windows.Controls.DataVisualization.Charting;
 //using SSWCDCP = Silverlight::System.Windows.Controls.DataVisualization.Charting.Primitives;
@@ -32,7 +33,7 @@ namespace Jedzia.BackBock.CustomControls.Design
         /// </summary>
         public void Register()
         {
-            MessageBox.Show("MetadataRegistration Register");
+            //MessageBox.Show("MetadataRegistration Register");
             if (!_initialized)
             {
                 MetadataStore.AddAttributeTable(BuildAttributeTable());
@@ -48,7 +49,7 @@ namespace Jedzia.BackBock.CustomControls.Design
         protected override void AddAttributes(AttributeTableBuilder builder)
         {
             // duplicated from .Design
-            MessageBox.Show("MetadataRegistration AddAttributes");
+            //MessageBox.Show("MetadataRegistration AddAttributes");
 
             /*builder.AddCallback(
                 typeof(SSWCD.Interpolator),
@@ -66,7 +67,9 @@ namespace Jedzia.BackBock.CustomControls.Design
             //builder.AddCallback(
             //    typeof(CustomControl1),
             //    b => b.AddCustomAttributes(new ToolboxBrowsableAttribute(false)));
-            
+
+            //builder.AddCustomAttributes(typeof(CustomControl1), new FeatureAttribute(typeof(OpacitySliderAdornerProvider)));
+
             builder.AddTable(new CustomControl1Metadata().CreateTable());
             /*builder.AddCallback(
                 typeof(SSWCDC.NumericAxisLabel),

@@ -72,6 +72,7 @@
     <Compile Include="CustomControl1Metadata.cs" />
     <Compile Include="Common\MetadataBase.cs" />
     <Compile Include="MetadataRegistration.cs" />
+    <Compile Include="OpacitySliderAdornerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

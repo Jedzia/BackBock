@@ -11,6 +11,7 @@ using Microsoft.Windows.Design.PropertyEditing;
 using Jedzia.BackBock.CustomControls;
 using Jedzia.BackBock.CustomControls.Design.Common;
 using System.Windows;
+using Microsoft.Windows.Design.Features;
 //using SSWCD = Silverlight::System.Windows.Controls.DataVisualization;
 //using SSWCDC = Silverlight::System.Windows.Controls.DataVisualization.Charting;
 
@@ -35,13 +36,19 @@ namespace Jedzia.BackBock.CustomControls.Design
                         Extensions.GetMemberName<CustomControl1>(x => x.Items),
                         new BrowsableAttribute(false));*/
 
+                    b.AddCustomAttributes(new FeatureAttribute(typeof(OpacitySliderAdornerProvider)));
+                    
                     b.AddCustomAttributes(
                         Extensions.GetMemberName<CustomControl1>(x => x.Title),
                         new CategoryAttribute(Properties.Resources.CommonProperties));
-                    CategoryAttribute calendarCategory = new CategoryAttribute("Arschloch");
+
+                    //b.AddCustomAttributes(
+                    //    Extensions.GetMemberName<CustomControl1>(x => x.Opacity),new FeatureAttribute(typeof(OpacitySliderAdornerProvider)));
+
+                    CategoryAttribute calendarCategory = new CategoryAttribute("VollDepp");
                     b.AddCustomAttributes(CustomControl1.MyPropertyProperty, calendarCategory);
 
-                    MessageBox.Show("LegendMetadata AddCallback");
+
                     /*b.AddCustomAttributes(
                         Extensions.GetMemberName<SSWCD.Legend>(x => x.Items),
                         new CategoryAttribute(Properties.Resources.DataVisualization));
