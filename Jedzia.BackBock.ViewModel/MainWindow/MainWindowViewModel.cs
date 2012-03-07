@@ -26,6 +26,21 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
     public sealed class MainWindowViewModel : ViewModelBase
     {
+        #region WindowTypes enum
+
+        public enum WindowTypes
+        {
+            [CheckType(typeof(Window))]
+            TaskWizard,
+            //ClassFieldOptPage,
+            //ClassMethodOptPage,
+            //ClassPropertyOptPage,
+            //ClassEventOptPage,
+            //SettingsPage,
+        }
+
+        #endregion
+
         #region Fields
         private BackupDataViewModel bdvm;
 
@@ -322,7 +337,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //this.Test();
             //MessageBox.Show("Mooo");
             Data.BackupItems.Add(new BackupItemViewModel(new Jedzia.BackBock.Model.Data.BackupItemType()));
-            //this.mainWindow.DialogService.ShowMessage("MainWindowViewModel.TestExecuted", "Test!", "Ok", null);
+            this.mainWindow.DialogService.ShowMessage("MainWindowViewModel.TestExecuted", "Test!", "Ok", null);
             var xml = @"<?xml version=""1.0"" encoding=""utf-16""?>" + Environment.NewLine +
 @"<Project>" + Environment.NewLine +
 @"<CreateItem Include=""C:\Temp\*.*"" Exclude=""*.abc"" Condition=""'$(FuckReports)'==''"" >" +
@@ -425,5 +440,14 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
         }
 
+
+        internal void RunTaskWizard()
+        {
+            var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskWizard);
+            wnd.DataContext = this;
+            //wnd.DataContext = task;
+            //this.Task.PropertyChanged += Task_PropertyChanged;
+            var result = wnd.ShowDialog();
+        }
     }
 }

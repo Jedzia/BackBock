@@ -91,5 +91,37 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         }
         #endregion
 
+        // RunTaskWizardCommand
+
+        #region RunTaskWizard Command
+
+        private RelayCommand runTaskWizardCommand;
+
+        public ICommand RunTaskWizardCommand
+        {
+            get
+            {
+                if (this.runTaskWizardCommand == null)
+                {
+                    this.runTaskWizardCommand = new RelayCommand(this.RunTaskWizardExecuted, this.RunTaskWizardEnabled);
+                }
+
+                return this.runTaskWizardCommand;
+            }
+        }
+
+
+        private void RunTaskWizardExecuted(object o)
+        {
+            this.mainWindowViewModel.RunTaskWizard();
+        }
+
+        private bool RunTaskWizardEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
+
     }
 }

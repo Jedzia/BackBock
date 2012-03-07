@@ -81,6 +81,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Editors\TaskWizard\TaskWizard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\ApplicationToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -291,6 +295,9 @@
     </Compile>
     <Compile Include="Editors\TaskEditorWindow.xaml.cs">
       <DependentUpon>TaskEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\TaskWizard\TaskWizard.xaml.cs">
+      <DependentUpon>TaskWizard.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileIOService.cs" />
     <Compile Include="MyCanvas.cs" />

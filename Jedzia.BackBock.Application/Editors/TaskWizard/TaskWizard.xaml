@@ -1,0 +1,15 @@
+﻿<Window x:Class="Jedzia.BackBock.Application.Editors.TaskWizard.TaskWizard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wiz="clr-namespace:Jedzia.BackBock.CustomControls.Wizard;assembly=Jedzia.BackBock.CustomControls"
+    Title="TaskWizard" Height="600" Width="800">
+    <Grid>
+        <wiz:StateWizard>
+			<wiz:StateWizard.Pages>
+            <TextBlock Text="Erste" />
+            <TextBlock Text="Zweite" />
+            <TextBlock Text="Dritte" />
+			</wiz:StateWizard.Pages>
+        </wiz:StateWizard>
+    </Grid>
+</Window>

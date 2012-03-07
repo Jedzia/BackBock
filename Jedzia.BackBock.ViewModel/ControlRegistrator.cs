@@ -301,6 +301,7 @@ namespace Jedzia.BackBock.ViewModel
             }
 
             var cnstr = type.GetConstructor(types);
+            // Todo: wrap in try...catch and feed a logger.
             var instance = cnstr.Invoke(parameters) as T;
             return instance;
         }

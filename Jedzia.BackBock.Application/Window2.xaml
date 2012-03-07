@@ -66,6 +66,5 @@
 		
 		</Border>
 		<local:CustomMsgBox x:Name="DialogControl" Grid.RowSpan="2" />
-		<Jedzia_BackBock_CustomControls:CustomControl1 x:Name="customControl1" Content="Hmmmm  dat Cst1" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Title="Depp"/>
 	</Grid>
 </vm:DialogServiceBase>
