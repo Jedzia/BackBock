@@ -18,6 +18,7 @@ using Jedzia.BackBock.Tasks;
 namespace Jedzia.BackBock.ViewModel
 {
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+    using Jedzia.BackBock.ViewModel.Wizard;
 
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -52,6 +53,7 @@ namespace Jedzia.BackBock.ViewModel
             }
 
             SimpleIoc.Default.Register<MainWindowViewModel>();
+            SimpleIoc.Default.Register<TaskWizardViewModel>();
         }
 
         /*private static ApplicationViewModel CreateApplicationViewModel()
@@ -110,6 +112,22 @@ namespace Jedzia.BackBock.ViewModel
             get
             {
                 return MainStatic;
+            }
+        }
+
+
+
+        /// <summary>
+        /// Gets the TaskWizard property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public TaskWizardViewModel TaskWizard
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<TaskWizardViewModel>();
             }
         }
         /// <summary>

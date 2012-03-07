@@ -444,7 +444,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         internal void RunTaskWizard()
         {
             var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskWizard);
-            wnd.DataContext = this;
+            //wnd.DataContext = this;
             //wnd.DataContext = task;
             //this.Task.PropertyChanged += Task_PropertyChanged;
             var result = wnd.ShowDialog();

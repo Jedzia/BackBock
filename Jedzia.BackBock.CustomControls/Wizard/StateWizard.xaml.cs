@@ -23,6 +23,36 @@ namespace Jedzia.BackBock.CustomControls.Wizard
             this.InitializeComponent();
 
             // Insert code required on object creation below this point.
+            this.btnCancel.Click += new RoutedEventHandler(btnCancel_Click);
+            this.btnPrevious.Click += new RoutedEventHandler(btnPrevious_Click);
+            this.btnNext.Click += new RoutedEventHandler(btnNext_Click);
+            this.detail.SelectionChanged += new SelectionChangedEventHandler(detail_SelectionChanged);
+        }
+
+        void btnPrevious_Click(object sender, RoutedEventArgs e)
+        {
+            this.detail.SelectedIndex--;
+        }
+
+        void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            this.detail.SelectedIndex++;
+            this.btnPrevious.IsEnabled = true;
+        }
+
+        void detail_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
+        void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.btnNext.IsEnabled = true;
+            int x = 0;
+            foreach (var item in Pages)
+            {
+                this.detail.Items.Add(new TabItem() { Content = item, Header = "Item Nr." + x });
+                x++;
+            }
         }
 
 
@@ -35,11 +65,6 @@ namespace Jedzia.BackBock.CustomControls.Wizard
                 SetValue(PageProperty, value);
                 //if (value)
                 {
-                    this.btnNext.IsEnabled = true;
-                    foreach (var item in value)
-                    {
-                        this.detail.Items.Add(item);
-                    }
                 }
             }
         }

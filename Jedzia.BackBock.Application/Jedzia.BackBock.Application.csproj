@@ -85,6 +85,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Editors\TaskWizard\TaskWizardSecondPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Editors\TaskWizard\TaskWizardStartPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\ApplicationToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -280,6 +288,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Editors\TaskWizard\TaskWizardSecondPage.xaml.cs">
+      <DependentUpon>TaskWizardSecondPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\TaskWizard\TaskWizardStartPage.xaml.cs">
+      <DependentUpon>TaskWizardStartPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>

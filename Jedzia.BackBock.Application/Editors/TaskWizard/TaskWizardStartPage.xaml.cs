@@ -9,19 +9,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Jedzia.BackBock.ViewModel.Wizard;
 
 namespace Jedzia.BackBock.Application.Editors.TaskWizard
 {
-    /// <summary>
-    /// Interaction logic for TaskWizard.xaml
-    /// </summary>
-    public partial class TaskWizard : Window, IStateWizard
-    {
-        public TaskWizard()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for TaskWizardStartPage.xaml
+	/// </summary>
+	public partial class TaskWizardStartPage : UserControl
+	{
+		public TaskWizardStartPage()
+		{
+			this.InitializeComponent();
+		}
+	}
 }

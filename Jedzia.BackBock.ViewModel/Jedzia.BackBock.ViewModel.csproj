@@ -185,6 +185,8 @@
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="ViewModelLocator.cs" />
     <Compile Include="Wizard\BaseWizard.cs" />
+    <Compile Include="Wizard\IStateWizard.cs" />
+    <Compile Include="Wizard\TaskWizardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jedzia.BackBock.Model\Jedzia.BackBock.Model.csproj">

@@ -10,18 +10,19 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Jedzia.BackBock.ViewModel.Wizard;
 
 namespace Jedzia.BackBock.Application.Editors.TaskWizard
 {
-    /// <summary>
-    /// Interaction logic for TaskWizard.xaml
-    /// </summary>
-    public partial class TaskWizard : Window, IStateWizard
-    {
-        public TaskWizard()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for TaskWizardSecondPage.xaml
+	/// </summary>
+	public partial class TaskWizardSecondPage : UserControl
+	{
+		public TaskWizardSecondPage()
+		{
+			this.InitializeComponent();
+			
+			// Insert code required on object creation below this point.
+		}
+	}
 }
