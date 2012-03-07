@@ -21,9 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPG", "WPG\WPG\WPG.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.ViewModel.Tests", "Jedzia.BackBock.ViewModel.Tests\Jedzia.BackBock.ViewModel.Tests.csproj", "{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{a9ca7a7c-5892-4093-aa0e-cc95dbf21afb}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.CustomControls.Design", "Jedzia.BackBock.CustomControls.Design\Jedzia.BackBock.CustomControls.Design.csproj", "{f16f90e1-b17f-41f3-9186-ba0239649cdd}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.CustomControls.Design", "Jedzia.BackBock.CustomControls.Design\Jedzia.BackBock.CustomControls.Design.csproj", "{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.ViewModel.Extras", "Jedzia.BackBock.ViewModel.Extras\Jedzia.BackBock.ViewModel.Extras.csproj", "{1FD5EA5A-029A-4E39-A039-F36F28A6555E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,12 +94,18 @@ Global
 		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Part1|Any CPU.Build.0 = Part1|Any CPU
 		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Part1|Any CPU.ActiveCfg = Part1|Any CPU
-		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Part1|Any CPU.Build.0 = Part1|Any CPU
-		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F16F90E1-B17F-41F3-9186-BA0239649CDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Part1|Any CPU.ActiveCfg = Part1|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Part1|Any CPU.Build.0 = Part1|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FD5EA5A-029A-4E39-A039-F36F28A6555E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FD5EA5A-029A-4E39-A039-F36F28A6555E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FD5EA5A-029A-4E39-A039-F36F28A6555E}.Part1|Any CPU.ActiveCfg = Release|Any CPU
+		{1FD5EA5A-029A-4E39-A039-F36F28A6555E}.Part1|Any CPU.Build.0 = Release|Any CPU
+		{1FD5EA5A-029A-4E39-A039-F36F28A6555E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FD5EA5A-029A-4E39-A039-F36F28A6555E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -312,7 +312,7 @@
 	</DataTemplate>
 
   <!-- ResourceId=Namespace.Class.Member identifies a member specific template.  -->
-  <DataTemplate x:Key="{ComponentResourceKey ResourceId={x:Type tasks:ITaskItem[]}, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}">
+  <!--<DataTemplate x:Key="{ComponentResourceKey ResourceId={x:Type tasks:ITaskItem[]}, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}">
     <Grid HorizontalAlignment="Stretch">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"/>
@@ -326,11 +326,8 @@
                 MyProperty="{Binding .}"
                 NumerableType="{Binding NumerableType}"
                 TextBoxVisible="Collapsed"/>
-
-<!--                <Button Grid.Column="1" HorizontalAlignment="Right" Height="18" Width="25" Margin="0,0,1,0"
-              Command="{Binding Instance.OpenFileClickedCommand}" Content="..."/>-->
     </Grid>
-  </DataTemplate>
+  </DataTemplate>-->
 
   <!-- <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:PropertyGrid}, ResourceId={x:Type generics:List`1[System.Object]}}">
     <TypeEditors:CollectionEditorControl NumerableType="{Binding Path=PropertyType}" NumerableValue="{Binding Path=Value}" MyProperty="{Binding}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></TypeEditors:CollectionEditorControl>

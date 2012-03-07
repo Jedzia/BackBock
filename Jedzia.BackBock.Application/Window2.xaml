@@ -4,14 +4,14 @@
 	xmlns:vm="clr-namespace:Jedzia.BackBock.ViewModel;assembly=Jedzia.BackBock.ViewModel"
            xmlns:wtk="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
              xmlns:local="clr-namespace:Jedzia.BackBock.Application"
-   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Jedzia.BackBock.Application.Window2"
+   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Jedzia_BackBock_CustomControls="clr-namespace:Jedzia.BackBock.CustomControls;assembly=Jedzia.BackBock.CustomControls" mc:Ignorable="d" x:Class="Jedzia.BackBock.Application.Window2"
    Initialized="Window_Initialized"
- Title="Window2" Height="400" Width="400" >
-	    <vm:DialogServiceBase.DataContext>
-        <Binding Path="Main"
-                 Source="{StaticResource Locator}" />
-    </vm:DialogServiceBase.DataContext>
+ Title="Window2" Height="400" Width="400" DataContext="{Binding Main, Source={StaticResource Locator}}" >
 	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="0.776*"/>
+			<RowDefinition Height="0.224*"/>
+		</Grid.RowDefinitions>
 		<Border x:Name="myBorder" BorderBrush="Yellow" BorderThickness="3">
 			<!--<StackPanel Background="Azure" Height="{Binding ElementName=myBorder, Path=ActualHeight}" >-->
 <!--<StackPanel Background="Aquamarine">
@@ -65,6 +65,7 @@
 <!--</StackPanel>-->
 		
 		</Border>
-		<local:CustomMsgBox x:Name="DialogControl" />
+		<local:CustomMsgBox x:Name="DialogControl" Grid.RowSpan="2" />
+		<Jedzia_BackBock_CustomControls:CustomControl1 x:Name="customControl1" Content="Hmmmm  dat Cst1" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Title="Depp"/>
 	</Grid>
 </vm:DialogServiceBase>

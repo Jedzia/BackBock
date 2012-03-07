@@ -45,6 +45,57 @@ namespace Jedzia.BackBock.CustomControls
     /// </summary>
     public class CustomControl1 : Button
     {
+
+        #region public object Title
+        /// <summary>
+        /// Gets or sets the object of the Title.
+        /// </summary>
+        public object Title
+        {
+            get { return GetValue(TitleProperty) as object; }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the Title dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register(
+                "Title",
+                typeof(object),
+                typeof(CustomControl1),
+                new PropertyMetadata(new PropertyChangedCallback(OnTitleChanged)));
+
+
+
+        public int MyProperty
+        {
+            get { return (int)GetValue(MyPropertyProperty); }
+            set { SetValue(MyPropertyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyPropertyProperty =
+            DependencyProperty.Register("MyProperty", typeof(int), typeof(CustomControl1), new UIPropertyMetadata(44));
+
+
+        /// <summary>
+        /// Updates the legend visibility when the title changes.
+        /// </summary>
+        /// <param name="sender">The legend with a Title that changed.</param>
+        /// <param name="args">Information about the event.</param>
+        public static void OnTitleChanged(object sender, DependencyPropertyChangedEventArgs args)
+        {
+            //Legend legend = (Legend)sender;
+#if !SILVERLIGHT
+            // Push value through because Binding doesn't work like it does on Silverlight
+            //legend.Header = legend.Title;
+#endif
+            //legend.UpdateLegendVisibility();
+        }
+        #endregion public object Title
+
+
         static CustomControl1()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomControl1), new FrameworkPropertyMetadata(typeof(CustomControl1)));
