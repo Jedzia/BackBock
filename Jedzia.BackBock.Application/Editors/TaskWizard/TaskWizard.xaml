@@ -3,18 +3,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:wiz="clr-namespace:Jedzia.BackBock.CustomControls.Wizard;assembly=Jedzia.BackBock.CustomControls"
     xmlns:System="clr-namespace:System;assembly=mscorlib" 
+	
 	xmlns:locwiz="clr-namespace:Jedzia.BackBock.Application.Editors.TaskWizard" x:Class="Jedzia.BackBock.Application.Editors.TaskWizard.TaskWizard"
     Title="{Binding Title}" Height="600" Width="800" DataContext="{Binding TaskWizard, Source={StaticResource Locator}}">
+		<Window.Resources>
+			<!--xmlns:viewmodel=""-->
+		<!--< View1Model x:Key="View1ModelDataSource" />-->
+	</Window.Resources>
+
 	<Grid>
-		<TextBlock Text="{Binding .}" />
+		<TextBlock Text="{Binding .}" Visibility="Collapsed" />
 		<wiz:StateWizard x:Name="wizard">
 			<wiz:StateWizard.Pages>
-				<x:Array Type="{x:Type System:Object}">
-					<locwiz:TaskWizardStartPage />
-					<locwiz:TaskWizardSecondPage />
-					<TextBlock Text="Erste" />
-					<TextBlock Text="Zweite" />
-					<TextBlock Text="Dritte" />
+				<x:Array Type="{x:Type wiz:StateItem}">
+					<locwiz:TaskWizardStartPage Title="Start" />
+					<locwiz:TaskWizardSecondPage Title="Choose your Task" />
+					<locwiz:TaskWizardSelectFoldersPage Title="Select the source" />
+					<locwiz:TaskWizardFinalPage Title="Accept" />
 				</x:Array>
 			</wiz:StateWizard.Pages>
 		</wiz:StateWizard>

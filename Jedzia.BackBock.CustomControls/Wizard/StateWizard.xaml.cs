@@ -58,13 +58,13 @@ namespace Jedzia.BackBock.CustomControls.Wizard
 
 
 
-        public object[] Pages
+        public StateItem[] Pages
         {
-            get { return (object[])GetValue(PageProperty); }
+            get { return (StateItem[])GetValue(PageProperty); }
             set
             {
                 SetValue(PageProperty, value);
-                MessageBox.Show("Pages");
+                //MessageBox.Show("Pages");
 
                 //if (value)
                 {
@@ -74,7 +74,7 @@ namespace Jedzia.BackBock.CustomControls.Wizard
 
         // Using a DependencyProperty as the backing store for Page.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PageProperty =
-            DependencyProperty.Register("Pages", typeof(object[]), 
+            DependencyProperty.Register("Pages", typeof(StateItem[]), 
             typeof(StateWizard), new UIPropertyMetadata(null));
 
 
@@ -98,12 +98,33 @@ namespace Jedzia.BackBock.CustomControls.Wizard
             if (e.Property == PageProperty)
             {
                 this.detail.Items.Clear();
-                int x = 0;
-                foreach (var item in Pages)
+                this.topics.Items.Clear();
+                int x = 1;
+                if (Pages == null || Pages.Length < 1)
                 {
-                    this.detail.Items.Add(new TabItem() { Content = item, Header = "Item Nr." + x });
+                    return;
+                }
+                
+                foreach (StateItem item in Pages)
+                {
+                    this.detail.Items.Add(new StateContentControl() { Content = item, Header = "Item Nr." + x });
+                    this.topics.Items.Add(new ListBoxItem() { Content = x + ". " + item.Title });
                     x++;
                 }
+
+                var page = Pages[0];
+                this.caption.Content = page.Title;
+            }
+            else if (e.Property == SelectedIndexProperty)
+            {
+                if (Pages == null || Pages.Length < 1)
+                {
+                    return;
+                }
+
+                var index = (int)e.NewValue;
+                var page = Pages[index];
+                this.caption.Content = page.Title;
             }
         }
 

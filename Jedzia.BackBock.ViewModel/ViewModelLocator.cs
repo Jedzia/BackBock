@@ -19,6 +19,7 @@ namespace Jedzia.BackBock.ViewModel
 {
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using Jedzia.BackBock.ViewModel.Wizard;
+    using System;
 
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -128,6 +129,7 @@ namespace Jedzia.BackBock.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<TaskWizardViewModel>();
+                //return new TaskWizardViewModel();
             }
         }
         /// <summary>

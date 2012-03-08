@@ -17,9 +17,9 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
 	/// <summary>
 	/// Interaction logic for TaskWizardSecondPage.xaml
 	/// </summary>
-	public partial class TaskWizardSecondPage : StateItem
+	public partial class TaskWizardSelectFoldersPage : StateItem
 	{
-		public TaskWizardSecondPage()
+		public TaskWizardSelectFoldersPage()
 		{
 			this.InitializeComponent();
 			

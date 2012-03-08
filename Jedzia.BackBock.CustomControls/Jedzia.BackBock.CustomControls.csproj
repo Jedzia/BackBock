@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Wizard\StateContentControl.cs" />
     <Compile Include="Wizard\StateWizard.xaml.cs">
       <DependentUpon>StateWizard.xaml</DependentUpon>
     </Compile>
