@@ -20,13 +20,19 @@ namespace Jedzia.BackBock.CustomControls.Wizard
     {
         public StateWizard()
         {
+            //this.Initialized += new EventHandler(StateWizard_Initialized);
             this.InitializeComponent();
 
             // Insert code required on object creation below this point.
-            this.btnCancel.Click += new RoutedEventHandler(btnCancel_Click);
-            this.btnPrevious.Click += new RoutedEventHandler(btnPrevious_Click);
-            this.btnNext.Click += new RoutedEventHandler(btnNext_Click);
-            this.detail.SelectionChanged += new SelectionChangedEventHandler(detail_SelectionChanged);
+            //this.btnCancel.Click += new RoutedEventHandler(btnCancel_Click);
+            //this.btnPrevious.Click += new RoutedEventHandler(btnPrevious_Click);
+            //this.btnNext.Click += new RoutedEventHandler(btnNext_Click);
+            //this.detail.SelectionChanged += new SelectionChangedEventHandler(detail_SelectionChanged);
+        }
+
+        void StateWizard_Initialized(object sender, EventArgs e)
+        {
+            MessageBox.Show("Ini");
         }
 
         void btnPrevious_Click(object sender, RoutedEventArgs e)
@@ -40,20 +46,14 @@ namespace Jedzia.BackBock.CustomControls.Wizard
             this.btnPrevious.IsEnabled = true;
         }
 
-        void detail_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        /*void detail_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             this.SelectedIndex = detail.SelectedIndex;
-        }
+        }*/
 
         void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.btnNext.IsEnabled = true;
-            int x = 0;
-            foreach (var item in Pages)
-            {
-                this.detail.Items.Add(new TabItem() { Content = item, Header = "Item Nr." + x });
-                x++;
-            }
         }
 
 
@@ -64,6 +64,8 @@ namespace Jedzia.BackBock.CustomControls.Wizard
             set
             {
                 SetValue(PageProperty, value);
+                MessageBox.Show("Pages");
+
                 //if (value)
                 {
                 }
@@ -72,7 +74,8 @@ namespace Jedzia.BackBock.CustomControls.Wizard
 
         // Using a DependencyProperty as the backing store for Page.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PageProperty =
-            DependencyProperty.Register("Pages", typeof(object[]), typeof(StateWizard), new UIPropertyMetadata(null));
+            DependencyProperty.Register("Pages", typeof(object[]), 
+            typeof(StateWizard), new UIPropertyMetadata(null));
 
 
         public object XContent { get; set; }
@@ -82,9 +85,27 @@ namespace Jedzia.BackBock.CustomControls.Wizard
         {
             ContentControl bla;
             //bla.Content
+            //this.OnPropertyChanged
         }
 
-
+        /// <summary>
+        /// Invoked whenever the effective value of any dependency property on this <see cref="T:System.Windows.FrameworkElement"/> has been updated. The specific dependency property that changed is reported in the arguments parameter. Overrides <see cref="M:System.Windows.DependencyObject.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)"/>.
+        /// </summary>
+        /// <param name="e">The event data that describes the property that changed, as well as old and new values.</param>
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+            if (e.Property == PageProperty)
+            {
+                this.detail.Items.Clear();
+                int x = 0;
+                foreach (var item in Pages)
+                {
+                    this.detail.Items.Add(new TabItem() { Content = item, Header = "Item Nr." + x });
+                    x++;
+                }
+            }
+        }
 
         public int SelectedIndex
         {
@@ -95,6 +116,6 @@ namespace Jedzia.BackBock.CustomControls.Wizard
         // Using a DependencyProperty as the backing store for SelectedIndex.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedIndexProperty =
             DependencyProperty.Register("SelectedIndex", typeof(int), typeof(StateWizard), new UIPropertyMetadata(0));
-
+        
     }
 }

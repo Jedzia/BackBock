@@ -81,7 +81,9 @@ namespace Jedzia.BackBock.ViewModel.Wizard
         public TaskWizardViewModel(/*IStateWizard instance*/)
         {
             //MessengerInstance.Send(pagecount.ToString());
+            baseWizard = new BaseWizard();
         }
+        private BaseWizard baseWizard;
 
         #region Next Command
 
@@ -106,12 +108,53 @@ namespace Jedzia.BackBock.ViewModel.Wizard
         {
             var pgc = this.Wizard.PageCount;
             var pgs = this.Wizard.SelectedPage;
+            baseWizard.Fire(Trigger.Next);
+            this.Wizard.SelectedPage++;
             //this.Next();
         }
 
         private bool NextEnabled(object sender)
         {
-            bool canExecute = true;
+            bool canExecute = 
+                baseWizard.State == State.Initial | 
+                baseWizard.State == State.ChooseTaskType | 
+                baseWizard.State == State.SelectFolders;
+            return canExecute;
+        }
+        #endregion
+
+                #region Previous Command
+
+        private RelayCommand previousCommand;
+
+        public ICommand PreviousCommand
+        {
+            get
+            {
+                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
+                if (this.previousCommand == null)
+                {
+                    this.previousCommand = new RelayCommand(this.PreviousExecuted, this.PreviousEnabled);
+                }
+
+                return this.previousCommand;
+            }
+        }
+
+
+        private void PreviousExecuted(object o)
+        {
+            //this.Previous();
+            baseWizard.Fire(Trigger.Previous);
+            this.Wizard.SelectedPage--;
+        }
+
+        private bool PreviousEnabled(object sender)
+        {
+            bool canExecute =
+                baseWizard.State == State.ChooseTaskType |
+                baseWizard.State == State.SelectFolders |
+                baseWizard.State == State.ReadyToAccept;
             return canExecute;
         }
         #endregion
