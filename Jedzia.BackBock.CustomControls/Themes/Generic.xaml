@@ -7,6 +7,7 @@
     <ResourceDictionary.MergedDictionaries>
        <!-- <ResourceDictionary Source="pack://application:,,,/Jedzia.BackBock.CustomControls;component/NavBar/Colors.xaml"/>-->
         <ResourceDictionary Source="pack://application:,,,/Jedzia.BackBock.CustomControls;component/NavBar/NavBarStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Jedzia.BackBock.CustomControls;component/Wizard/StateItemStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 

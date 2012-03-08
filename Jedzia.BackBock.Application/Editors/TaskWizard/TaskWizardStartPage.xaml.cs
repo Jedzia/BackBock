@@ -11,13 +11,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Jedzia.BackBock.CustomControls.Wizard;
 
 namespace Jedzia.BackBock.Application.Editors.TaskWizard
 {
 	/// <summary>
 	/// Interaction logic for TaskWizardStartPage.xaml
 	/// </summary>
-	public partial class TaskWizardStartPage : UserControl
+	public partial class TaskWizardStartPage : StateItem
 	{
 		public TaskWizardStartPage()
 		{
