@@ -42,6 +42,7 @@ namespace Jedzia.BackBock.CustomControls.Wizard
 
         void detail_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            this.SelectedIndex = detail.SelectedIndex;
         }
 
         void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -82,5 +83,18 @@ namespace Jedzia.BackBock.CustomControls.Wizard
             ContentControl bla;
             //bla.Content
         }
+
+
+
+        public int SelectedIndex
+        {
+            get { return (int)GetValue(SelectedIndexProperty); }
+            set { SetValue(SelectedIndexProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedIndex.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedIndexProperty =
+            DependencyProperty.Register("SelectedIndex", typeof(int), typeof(StateWizard), new UIPropertyMetadata(0));
+
     }
 }

@@ -1,4 +1,6 @@
 ﻿
+using System.Windows.Input;
+using Jedzia.BackBock.ViewModel.Commands;
 namespace Jedzia.BackBock.ViewModel.Wizard
 {
     /// <summary>
@@ -71,11 +73,48 @@ namespace Jedzia.BackBock.ViewModel.Wizard
                 RaisePropertyChanged(() => Path);
             }
         }
+
+        public IStateWizard Wizard { get; set; }
         /// <summary>
         /// Initializes a new instance of the TaskWizardViewModel class.
         /// </summary>
-        public TaskWizardViewModel()
+        public TaskWizardViewModel(/*IStateWizard instance*/)
         {
+            //MessengerInstance.Send(pagecount.ToString());
         }
+
+        #region Next Command
+
+        private RelayCommand nextCommand;
+
+        public ICommand NextCommand
+        {
+            get
+            {
+                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
+                if (this.nextCommand == null)
+                {
+                    this.nextCommand = new RelayCommand(this.NextExecuted, this.NextEnabled);
+                }
+
+                return this.nextCommand;
+            }
+        }
+
+
+        private void NextExecuted(object o)
+        {
+            var pgc = this.Wizard.PageCount;
+            var pgs = this.Wizard.SelectedPage;
+            //this.Next();
+        }
+
+        private bool NextEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
+
     }
 }

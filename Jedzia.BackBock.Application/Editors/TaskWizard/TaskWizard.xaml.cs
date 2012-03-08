@@ -22,6 +22,21 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
         public TaskWizard()
         {
             InitializeComponent();
+            ((TaskWizardViewModel)this.DataContext).Wizard = this;
         }
+
+        #region IStateWizard Members
+
+        public int PageCount
+        {
+            get { return 2; }
+        }
+
+        public int SelectedPage
+        {
+            get { return this.wizard.SelectedIndex; }
+        }
+
+        #endregion
     }
 }

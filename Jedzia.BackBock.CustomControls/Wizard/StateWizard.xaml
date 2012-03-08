@@ -150,10 +150,10 @@
     			<ColumnDefinition Width="0.155*"/>
     			<ColumnDefinition Width="0.058*"/>
     		</Grid.ColumnDefinitions>
-    		<Button x:Name="btnCancel" Content="Cancel" Grid.Column="5" Margin="10"/>
-    		<Button x:Name="btnFinish" Content="Finish" Grid.Column="4" Margin="10" IsEnabled="False"/>
-    		<Button x:Name="btnNext" Content="Next" Grid.Column="2" Margin="10" IsEnabled="False"/>
-    		<Button x:Name="btnPrevious" Content="Previous" Grid.Column="1" Margin="10" IsEnabled="False"/>
+    		<Button x:Name="btnCancel" Command="{Binding CancelCommand}" Content="Cancel" Grid.Column="5" Margin="10"/>
+    		<Button x:Name="btnFinish" Command="{Binding FinishCommand}" Content="Finish" Grid.Column="4" Margin="10" />
+    		<Button x:Name="btnNext" Command="{Binding NextCommand}" Content="Next" Grid.Column="2" Margin="10" />
+    		<Button x:Name="btnPrevious" Command="{Binding PreviousCommand}" Content="Previous" Grid.Column="1" Margin="10" />
     	</Grid>
     	<Border Grid.Column="1" Margin="2" Grid.Row="1" BorderThickness="1" BorderBrush="{DynamicResource DefaultedBorderBrush}" Grid.ColumnSpan="2" >
     		<Grid >

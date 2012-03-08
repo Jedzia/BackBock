@@ -7,5 +7,7 @@ namespace Jedzia.BackBock.ViewModel.Wizard
 {
     public interface IStateWizard
     {
+        int PageCount { get;  }
+        int SelectedPage { get; }
     }
 }
