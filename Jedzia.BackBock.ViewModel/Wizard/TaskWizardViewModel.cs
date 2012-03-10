@@ -4,6 +4,8 @@ using Jedzia.BackBock.ViewModel.Commands;
 using Jedzia.BackBock.ViewModel.Util;
 using System;
 using System.ComponentModel;
+using Microsoft.Practices.ServiceLocation;
+using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 namespace Jedzia.BackBock.ViewModel.Wizard
 {
     /// <summary>
@@ -15,7 +17,7 @@ namespace Jedzia.BackBock.ViewModel.Wizard
     /// See http://www.galasoft.ch/mvvm/getstarted
     /// </para>
     /// </summary>
-    public class TaskWizardViewModel : ViewModelBase
+    public class TaskWizardViewModel : ViewModelBase, IDestructible
     {
         /// <summary>
         /// The <see cref="Title" /> property's name.
@@ -215,25 +217,36 @@ namespace Jedzia.BackBock.ViewModel.Wizard
 
         private void Reset()
         {
-            if (this.fsm != null)
-            {
-                this.fsm.Canceled -= fsm_Canceled;
-                this.fsm.Finished -= fsm_Finished;
-            }
 
             this.fsm = new TaskWizardFSM();
             this.fsm.Canceled += fsm_Canceled;
             this.fsm.Finished += fsm_Finished;
         }
 
+        void Cleanup()
+        {
+            if (this.fsm != null)
+            {
+                this.fsm.Canceled -= fsm_Canceled;
+                this.fsm.Finished -= fsm_Finished;
+            }
+
+            //this.fsm = null;
+            //SimpleIoc.Default.Unregister<TaskWizardViewModel>(this);
+
+            this.Wizard.Close();
+            //this.Candidate.Destroy();
+        }
+
         void fsm_Finished(object sender, EventArgs e)
         {
-            this.Wizard.Close();
+            // do task creation
+            this.Cleanup();
         }
 
         void fsm_Canceled(object sender, EventArgs e)
         {
-            this.Wizard.Close();
+            this.Cleanup();
         }
 
                 #region Cancel Command
@@ -306,5 +319,23 @@ namespace Jedzia.BackBock.ViewModel.Wizard
         }
         #endregion
 
+
+        #region IDestructible Members
+
+        private ILifetimeEnds candidate;
+        public ILifetimeEnds Candidate
+        {
+            get
+            {
+                return this.candidate;
+            }
+            
+            set
+            {
+                this.candidate = value;
+            }
+        }
+
+        #endregion
     }
 }

@@ -9,10 +9,13 @@
     using System.Collections;
     using Jedzia.BackBock.ViewModel.Data;
     using Microsoft.Practices.ServiceLocation;
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+    using System;
     //    using Jedzia.BackBock.Application.Resources.Styles.Resources.Styles;
 
     public partial class Window1 : Window, IMainWindow
     {
+
         public Window1()
         {
             //mainWindowViewModel = new MainWindowViewModel(this);
@@ -42,8 +45,8 @@
                 return this.MyDesigner;
             }
         }
-        
-       
+
+
         //MainWindowViewModel mainWindowViewModel;
 
         /*public MainWindowViewModel MainWindowViewModel
@@ -69,7 +72,7 @@
             var main2 = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
             if (object.ReferenceEquals(main1, main2))
             {
-                
+
             }
             var modl = (BackupDataViewModel)MyDesigner.DataContext;
             ShowDetail(modl.BackupItems[0]);
@@ -110,7 +113,7 @@
         private IDialogService dialogService;
         public IDialogService DialogService
         {
-            get 
+            get
             {
                 if (this.dialogService == null)
                 {
@@ -127,11 +130,35 @@
 
         public void UpdateLogText()
         {
-            logtext.CaretIndex = logtext.Text.Length-1;
+            logtext.CaretIndex = logtext.Text.Length - 1;
             logtext.Focus();
         }
 
         #endregion
     }
+
+
+    /*    class depp : InstanceLifetime
+    {
+        //protected override object CreateInstance(object initial)
+        //{
+         //   return initial;
+        //}
+
+        protected override object GetInstance(Dictionary<string, object> instances, string key)
+        {
+            if (instances.ContainsKey(key))
+            {
+                instances.Remove(key);
+            }
+            return null;
+        }
+
+        public override InstanceLifetime Release(IDestructor destruction)
+        {
+            return this;
+        }
+    }*/
+
 
 }

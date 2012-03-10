@@ -25,6 +25,11 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
     using Microsoft.Practices.ServiceLocation;
     using System.Text;
 
+    public interface ILifetimeManagement<T>
+    {
+
+    }
+
     /// <summary>
     /// InstanceInfo.
     /// </summary>
@@ -41,7 +46,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// Gets or sets the Lifetime.
         /// </summary>
         /// <value>The Lifetime.</value>
-        internal IInstanceLifetime Lifetime { get; private set; }
+        internal InstanceLifetime Lifetime { get; private set; }
         #endregion
         #region Constructors
         /// <summary>
@@ -53,7 +58,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// </summary>
         /// <param name="Instance">The Instance</param>
         /// <param name="Lifetime">The Lifetime</param>
-        internal InstanceInfo(Type instanceType, IInstanceLifetime lifetime)
+        internal InstanceInfo(Type instanceType, InstanceLifetime lifetime)
         {
             this.InstanceType = instanceType;
             this.Lifetime = lifetime;
@@ -133,7 +138,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             = new Dictionary<Type, Dictionary<string, Delegate>>();
         private readonly Dictionary<Type, Dictionary<string, object>> _instancesRegistry
             = new Dictionary<Type, Dictionary<string, object>>();
-        // private readonly Dictionary<Type, InstanceInfo> _instanceInfos = new Dictionary<Type, InstanceInfo>();
+        private readonly Dictionary<Type, InstanceInfo> _instanceInfos = new Dictionary<Type, InstanceInfo>();
 
         /// <summary>
         /// This class' default instance.
@@ -227,12 +232,14 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                     }
                     
                     _interfaceToClassMap[interfaceType] = classType;
+                    var ii = new InstanceInfo(classType, new SingletonInstance());
+                    this._instanceInfos[classType] = ii;
                 }
                 else
                 {
                     _interfaceToClassMap.Add(interfaceType, classType);
-                    //var ii = new InstanceInfo(classType, new NormalInstance());
-                    //this._instanceInfos.Add(classType, ii);
+                    var ii = new InstanceInfo(classType, new SingletonInstance());
+                    this._instanceInfos.Add(classType, ii);
                 }
 
                 if (_factories.ContainsKey(interfaceType))
@@ -242,7 +249,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             }
         }
 
-        /// <summary>
+                /// <summary>
         /// Registers a given type.
         /// </summary>
         /// <typeparam name="TClass">The type that must be used to create instances.</typeparam>
@@ -252,9 +259,24 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             Justification = "This syntax is better than the alternatives.")]
         public void Register<TClass>() where TClass : class
         {
+            Register<TClass>(new SingletonInstance());
+        }
+
+        /// <summary>
+        /// Registers a given type.
+        /// </summary>
+        /// <typeparam name="TClass">The type that must be used to create instances.</typeparam>
+        /// <param name="lifetime">The lifetime of the registered instance.</param>
+        [SuppressMessage(
+            "Microsoft.Design",
+            "CA1004",
+            Justification = "This syntax is better than the alternatives.")]
+        public InstanceLifetime Register<TClass>(InstanceLifetime lifetime) where TClass : class
+        {
             lock (_syncLock)
             {
                 var classType = typeof (TClass);
+                //IInstanceLifetime resultLifetime;
 
 #if WIN8
                 if (classType.GetTypeInfo().IsInterface)
@@ -268,18 +290,20 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 if (_interfaceToClassMap.ContainsKey(classType))
                 {
                     _interfaceToClassMap[classType] = null;
+                    lifetime = new DummyInstanceHelper();
                 }
                 else
                 {
                     _interfaceToClassMap.Add(classType, null);
-                    //var ii = new InstanceInfo(classType, new NormalInstance());
-                    //this._instanceInfos.Add(classType, ii);
+                    var ii = new InstanceInfo(classType, lifetime);
+                    this._instanceInfos.Add(classType, ii);
                 }
 
                 if (_factories.ContainsKey(classType))
                 {
                     _factories.Remove(classType);
                 }
+                return lifetime;
             }
         }
 
@@ -314,8 +338,8 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 else
                 {
                     _interfaceToClassMap.Add(classType, null);
-                    //var ii = new InstanceInfo(classType, new NormalInstance());
-                    //this._instanceInfos.Add(classType, ii);
+                    var ii = new InstanceInfo(classType, new SingletonInstance());
+                    this._instanceInfos.Add(classType, ii);
                 }
 
                 if (_instancesRegistry.ContainsKey(classType)
@@ -357,7 +381,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         public void Reset()
         {
             _interfaceToClassMap.Clear();
-            //_instanceInfos.Clear();
+            _instanceInfos.Clear();
             _instancesRegistry.Clear();
             _factories.Clear();
         }
@@ -385,12 +409,32 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 if (_interfaceToClassMap.ContainsKey(classType))
                 {
                     _interfaceToClassMap.Remove(classType);
-                    //_instanceInfos.Remove(classType);
+                    _instanceInfos.Remove(classType);
                 }
 
                 if (_factories.ContainsKey(classType))
                 {
                     _factories.Remove(classType);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes the given instance from the cache. The class itself remains
+        /// registered and can be used to create other instances.
+        /// </summary>
+        /// <typeparam name="TClass">The type of the instance to be removed.</typeparam>
+        /// <param name="instance">The instance that must be removed.</param>
+        internal void Unregister(Type classType, object instance, string key) 
+        {
+            lock (_syncLock)
+            {
+                if (_instancesRegistry.ContainsKey(classType))
+                {
+                    var list = _instancesRegistry[classType];
+
+                    list.Remove(key);
+
                 }
             }
         }
@@ -471,10 +515,8 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         {
             lock (_syncLock)
             {
-                if (string.IsNullOrEmpty(key))
-                {
-                    key = _uniqueKey;
-                }
+
+                InstanceInfo iinfo = null;
 
                 Dictionary<string, object> instances;
 
@@ -484,7 +526,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                     {
                         throw new ActivationException("Type not found in cache: " + serviceType.FullName);
                     }
-
+                    
                     instances = new Dictionary<string, object>();
                     _instancesRegistry.Add(serviceType, instances);
                 }
@@ -493,10 +535,32 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                     instances = _instancesRegistry[serviceType];
                 }
 
-                if (instances.ContainsKey(key))
+                if (_interfaceToClassMap.ContainsKey(serviceType))
+                {
+                    var resolveTo = _interfaceToClassMap[serviceType] ?? serviceType;
+                    iinfo = _instanceInfos[resolveTo];
+                }
+                else
+                {
+                    iinfo = _instanceInfos[serviceType];
+                }
+
+                key = iinfo.Lifetime.GetKey(key, _uniqueKey);
+                /*if (string.IsNullOrEmpty(key))
+                {
+                    key = _uniqueKey;
+                }*/
+
+                var dictInstance = iinfo.Lifetime.GetInstance(instances, key);
+                if (dictInstance != null)
+                {
+                    return dictInstance;
+                }
+
+                /*if (instances.ContainsKey(key))
                 {
                     return instances[key];
-                }
+                }*/
 
                 object instance = null;
 
@@ -536,10 +600,18 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                     }
                 }
 
+                //var lifetime = iinfo.Lifetime.CreateInstance;
                 //var lifetime = new NormalInstance();
                 //var lifetime = new SingletonInstance();
+                //iinfo.Lifetime.GetInstance();
                 instances.Add(key, instance);
                 //instances.Add(key, new InstanceInfo(lifetime.CreateInstance(instance), lifetime));
+                if (instance is IDestructible)
+                {
+                    var destructible = (IDestructible)instance;
+                    destructible.Candidate = iinfo.Lifetime;
+                }
+                iinfo.Lifetime.InstanceCreated(this, instance);
                 return instance;
             }
         }

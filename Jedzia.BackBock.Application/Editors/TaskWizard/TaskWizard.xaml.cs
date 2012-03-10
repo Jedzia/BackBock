@@ -25,6 +25,7 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
             InitializeComponent();
             var vm = ((TaskWizardViewModel)this.DataContext);
             vm.Wizard = this;
+            this.Closed += (o,e) => vm.Candidate.Destroy();
             //vm.Reset();
         }
 

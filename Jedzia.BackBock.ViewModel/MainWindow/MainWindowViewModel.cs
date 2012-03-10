@@ -471,6 +471,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
                 this.MessengerInstance.Send(ex);
             }
+            finally
+            {
+                
+            }
         }
     }
 }

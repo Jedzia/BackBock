@@ -54,7 +54,7 @@ namespace Jedzia.BackBock.ViewModel
             }
 
             SimpleIoc.Default.Register<MainWindowViewModel>();
-            SimpleIoc.Default.Register<TaskWizardViewModel>();
+            SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime())/*.Release(null)*/;
         }
 
         /*private static ApplicationViewModel CreateApplicationViewModel()
@@ -128,6 +128,8 @@ namespace Jedzia.BackBock.ViewModel
         {
             get
             {
+                //var key = Guid.NewGuid().ToString();
+                //return ServiceLocator.Current.GetInstance<TaskWizardViewModel>(key);
                 return ServiceLocator.Current.GetInstance<TaskWizardViewModel>();
                 //return new TaskWizardViewModel();
             }
