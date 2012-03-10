@@ -23,7 +23,9 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
         public TaskWizard()
         {
             InitializeComponent();
-            ((TaskWizardViewModel)this.DataContext).Wizard = this;
+            var vm = ((TaskWizardViewModel)this.DataContext);
+            vm.Wizard = this;
+            //vm.Reset();
         }
 
         #region IStateWizard Members

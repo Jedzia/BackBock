@@ -41,8 +41,8 @@
     			</TabControl>
     		</Grid>
     	</Border>
-    	<ListBox x:Name="topics" Grid.Row="1">
-    		<ListBoxItem Content="ListBoxItem"/>
+    	<ListBox x:Name="topics" Grid.Row="1" IsHitTestVisible="False" Focusable="False" IsTextSearchEnabled="False" FontSize="16">
+    		<ListBoxItem Content="ListBoxItem longer than usual"/>
     		<ListBoxItem Content="ListBoxItem"/>
     	</ListBox>
     	<Grid Grid.ColumnSpan="2" >

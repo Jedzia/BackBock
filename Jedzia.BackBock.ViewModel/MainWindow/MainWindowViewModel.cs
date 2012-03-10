@@ -138,7 +138,23 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //this.MessengerInstance.Register<string>(this, MainWindowMessageReceived);
             this.MessengerInstance.Register<string>(this, LogMessageEvent);
             this.MessengerInstance.Register<MVVM.Messaging.DialogMessage>(this, MainWindowMessageReceived);
+            this.MessengerInstance.Register<Exception>(this, true, MainWindowExceptionReceived);
 
+        }
+
+        /*private void LogMessageEvent(Exception e)
+        {
+            logsb.Append(DateTime.Now);
+            logsb.Append(": ");
+            logsb.Append(e.Message);
+            logsb.Append(Environment.NewLine);
+            RaisePropertyChanged(LogTextPropertyName);
+            mainWindow.UpdateLogText();
+        }*/
+
+        void MainWindowExceptionReceived(Exception e)
+        {
+            this.mainWindow.DialogService.ShowMessage(e.Message, e.Source, "Ok", null);
         }
 
         private void LogMessageEvent(string e)
@@ -443,11 +459,18 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         internal void RunTaskWizard()
         {
-            var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskWizard);
-            //wnd.DataContext = this;
-            //wnd.DataContext = task;
-            //this.Task.PropertyChanged += Task_PropertyChanged;
-            var result = wnd.ShowDialog();
+            try
+            {
+                var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskWizard);
+                //wnd.DataContext = this;
+                //wnd.DataContext = task;
+                //this.Task.PropertyChanged += Task_PropertyChanged;
+                var result = wnd.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                this.MessengerInstance.Send(ex);
+            }
         }
     }
 }

@@ -9,5 +9,7 @@ namespace Jedzia.BackBock.ViewModel.Wizard
     {
         int PageCount { get; }
         int SelectedPage { get; set; }
+
+        void Close();
     }
 }

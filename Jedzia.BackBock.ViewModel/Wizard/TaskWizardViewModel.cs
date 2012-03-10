@@ -1,6 +1,9 @@
 ﻿
 using System.Windows.Input;
 using Jedzia.BackBock.ViewModel.Commands;
+using Jedzia.BackBock.ViewModel.Util;
+using System;
+using System.ComponentModel;
 namespace Jedzia.BackBock.ViewModel.Wizard
 {
     /// <summary>
@@ -74,16 +77,36 @@ namespace Jedzia.BackBock.ViewModel.Wizard
             }
         }
 
-        public IStateWizard Wizard { get; set; }
+        public IStateWizard wizard;
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public IStateWizard Wizard
+        {
+            get
+            {
+                return this.wizard;
+            }
+
+            set
+            {
+                if (this.wizard == value)
+                {
+                    return;
+                }
+                this.wizard = value;
+                Reset();
+            }
+        }
         /// <summary>
         /// Initializes a new instance of the TaskWizardViewModel class.
         /// </summary>
         public TaskWizardViewModel(/*IStateWizard instance*/)
         {
             //MessengerInstance.Send(pagecount.ToString());
-            baseWizard = new BaseWizard();
+            //baseWizard = new BaseWizard();
         }
-        private BaseWizard baseWizard;
+        private TaskWizardFSM fsm;
 
         #region Next Command
 
@@ -106,19 +129,25 @@ namespace Jedzia.BackBock.ViewModel.Wizard
 
         private void NextExecuted(object o)
         {
+            CheckWizard(true);
             var pgc = this.Wizard.PageCount;
             var pgs = this.Wizard.SelectedPage;
-            baseWizard.Fire(Trigger.Next);
+            fsm.Fire(Trigger.Next);
             this.Wizard.SelectedPage++;
             //this.Next();
         }
 
         private bool NextEnabled(object sender)
         {
+            if (CheckWizard(false))
+            {
+                return false;
+            }
+
             bool canExecute = 
-                baseWizard.State == State.Initial | 
-                baseWizard.State == State.ChooseTaskType | 
-                baseWizard.State == State.SelectFolders;
+                fsm.State == State.Initial | 
+                fsm.State == State.ChooseTaskType | 
+                fsm.State == State.SelectFolders;
             return canExecute;
         }
         #endregion
@@ -144,17 +173,135 @@ namespace Jedzia.BackBock.ViewModel.Wizard
 
         private void PreviousExecuted(object o)
         {
+            CheckWizard(true);
             //this.Previous();
-            baseWizard.Fire(Trigger.Previous);
+            fsm.Fire(Trigger.Previous);
             this.Wizard.SelectedPage--;
+        }
+
+        /// <summary>
+        /// Checks if the wizard was injected.
+        /// </summary>
+        /// <param name="doThrow">if set to <c>true</c> does throw an Exception.</param>
+        /// <returns><c>true</c> if the wizard instance is ready.</returns>
+        private bool CheckWizard(bool doThrow)
+        {
+            if (Wizard == null)
+            {
+                Title = "  !!! No Wizard Instance Set. !!!  ";
+                if (doThrow)
+                {
+                    throw new NotSupportedException("The Wizard instance was not set up correctly before calling a method.");
+                }
+                return true;
+            }
+            return false;
         }
 
         private bool PreviousEnabled(object sender)
         {
+            if (CheckWizard(false))
+            {
+                return false;
+            }
+
             bool canExecute =
-                baseWizard.State == State.ChooseTaskType |
-                baseWizard.State == State.SelectFolders |
-                baseWizard.State == State.ReadyToAccept;
+                fsm.State == State.ChooseTaskType |
+                fsm.State == State.SelectFolders |
+                fsm.State == State.ReadyToAccept;
+            return canExecute;
+        }
+        #endregion
+
+        private void Reset()
+        {
+            if (this.fsm != null)
+            {
+                this.fsm.Canceled -= fsm_Canceled;
+                this.fsm.Finished -= fsm_Finished;
+            }
+
+            this.fsm = new TaskWizardFSM();
+            this.fsm.Canceled += fsm_Canceled;
+            this.fsm.Finished += fsm_Finished;
+        }
+
+        void fsm_Finished(object sender, EventArgs e)
+        {
+            this.Wizard.Close();
+        }
+
+        void fsm_Canceled(object sender, EventArgs e)
+        {
+            this.Wizard.Close();
+        }
+
+                #region Cancel Command
+
+        private RelayCommand cancelCommand;
+
+        public ICommand CancelCommand
+        {
+            get
+            {
+                if (this.cancelCommand == null)
+                {
+                    this.cancelCommand = new RelayCommand(this.CancelExecuted, this.CancelEnabled);
+                }
+
+                return this.cancelCommand;
+            }
+        }
+
+
+        private void CancelExecuted(object o)
+        {
+            this.fsm.Fire(Trigger.Cancel);
+            //BackgroundWorker
+            //this.Wizard.Close();
+            //this.Cancel();
+        }
+
+        private bool CancelEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
+
+                #region Finish Command
+
+        private RelayCommand finishCommand;
+
+        public ICommand FinishCommand
+        {
+            get
+            {
+                if (this.finishCommand == null)
+                {
+                    this.finishCommand = new RelayCommand(this.FinishExecuted, this.FinishEnabled);
+                }
+
+                return this.finishCommand;
+            }
+        }
+
+
+        private void FinishExecuted(object o)
+        {
+            this.fsm.Fire(Trigger.Finished);
+            //this.Wizard.Close();
+        }
+
+        private bool FinishEnabled(object sender)
+        {
+            if (CheckWizard(false))
+            {
+                return false;
+            }
+
+            bool canExecute =
+                fsm.State == State.ReadyToAccept;
             return canExecute;
         }
         #endregion

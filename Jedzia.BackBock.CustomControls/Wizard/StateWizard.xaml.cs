@@ -125,6 +125,7 @@ namespace Jedzia.BackBock.CustomControls.Wizard
                 var index = (int)e.NewValue;
                 var page = Pages[index];
                 this.caption.Content = page.Title;
+                this.topics.SelectedIndex = index;
             }
         }
 
