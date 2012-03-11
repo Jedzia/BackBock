@@ -25,7 +25,9 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
             InitializeComponent();
             var vm = ((TaskWizardViewModel)this.DataContext);
             vm.Wizard = this;
-            this.Closed += (o,e) => vm.Candidate.Destroy();
+            // end the lifetime of the viewmodel. 
+            // Todo: better put this in an ioc factory
+            this.Closed += (o, e) => { if (vm.Candidate != null) vm.Candidate.Release(); };
             //vm.Reset();
         }
 

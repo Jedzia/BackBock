@@ -241,6 +241,7 @@ namespace Jedzia.BackBock.ViewModel.Wizard
         void fsm_Finished(object sender, EventArgs e)
         {
             // do task creation
+            // this.MessengerInstance.Send<SomeFormOfData>(this.data, MessengerTokens.TaskCreation);
             this.Cleanup();
         }
 

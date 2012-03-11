@@ -6,6 +6,65 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 {
+    public interface ILifetimeManagement<T>
+    {
+        void Release(Action<T> action);
+        //void DestroyOnEvent(Delegate handler);
+        //void DestroyOnEvent(Action<ILifetimeManagement> lf);
+    }
+
+    public interface ILifetimeManagement
+    {
+        void DoRelease();
+        //void DoRelease(object o, EventArgs e);
+    }
+
+    /// <summary>
+    /// Summary
+    /// </summary>
+    public class LifetimeManager<T> : ILifetimeManagement<T>, ILifetimeManagement where T : class
+    {
+        private InstanceLifetime instanceLifetime;
+        Action<T> action;
+        #region ILifetimeManagement<T> Members
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:LifetimeManager"/> class.
+        /// </summary>
+        public LifetimeManager(InstanceLifetime instanceLifetime)
+        {
+            this.instanceLifetime = instanceLifetime;
+        }
+
+        public void Release(Action<T> action)
+        {
+            this.action = action;
+        }
+
+        #endregion
+
+        #region ILifetimeManagement Members
+
+        public void DoRelease()
+        {
+            action((T)instanceLifetime.Instance);
+            //this.action((ILifetimeManagement<T>)instanceLifetime);
+        }
+
+        #endregion
+
+        #region ILifetimeManagement<T> Members
+
+
+        public void DestroyOnEvent(object handler)
+        {
+            //EventHandler
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
     public interface IDestructible
     {
         ILifetimeEnds Candidate { get; set; }
@@ -13,26 +72,47 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 
     public interface ILifetimeEnds
     {
-        void Destroy();
+        void Release();
     }
 
     public abstract class InstanceLifetime : ILifetimeEnds
     {
-        //internal abstract object CreateInstance(object initial);
-        protected object instance;
+
+        protected string key;
+        private object instance;
+
+        protected internal object Instance
+        {
+            get { return instance; }
+            set { instance = value; }
+        }
+
         protected SimpleIoc serviceLocator;
-        public abstract void Destroy();
+
+        public virtual void Release()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        //internal abstract object CreateInstance(object initial);
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        protected internal virtual ILifetimeManagement LifetimeManager
+        {
+            get;
+            set;
+        }
 
         internal virtual void InstanceCreated(SimpleIoc serviceLocator, object instance)
         {
-            this.instance = instance;
-            this.serviceLocator = serviceLocator;
         }
 
-        internal virtual object CreateInstance(object initial)
+        /*internal virtual object CreateInstance(object initial)
         {
             return initial;
-        }
+        }*/
         //object CreateFromFactory(Dictionary<string, object> instances, string key);
         //object CreateWithConstructor(Dictionary<string, object> instances, string key);
         protected internal abstract object GetInstance(Dictionary<string, object> instances, string key);
@@ -47,10 +127,10 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         }
 
         //public abstract InstanceLifetime Release(IDestructor destruction);
-        public virtual InstanceLifetime Release(IDestructible destruction)
+        /*public virtual InstanceLifetime Release(IDestructible destruction)
         {
             throw new NotImplementedException("Can't Release this sort of type.");
-        }
+        }*/
     }
 
     internal class DummyInstanceHelper : InstanceLifetime
@@ -69,10 +149,6 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 
         #endregion
 
-        public override void Destroy()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /*/// <summary>
@@ -172,10 +248,6 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 
         #endregion
 
-        public override void Destroy()
-        {
-            throw new NotImplementedException();
-        }
     }
 
 
@@ -210,15 +282,31 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         {
             return initial;
         }*/
-        private string key;
-        public override void Destroy()
+
+        public override void Release()
         {
-            //this.instance = instance;
-            // does not work ... object is removed
-            serviceLocator.Unregister(instance.GetType(), instance, key);
-            this.instance = null;
+            serviceLocator.Unregister(Instance.GetType(), Instance, key);
+            if (this.LifetimeManager != null)
+            {
+                this.LifetimeManager.DoRelease();
+            }
+            this.LifetimeManager = null;
+            this.Instance = null;
             this.serviceLocator = null;
         }
+
+        internal override void InstanceCreated(SimpleIoc serviceLocator, object instance)
+        {
+            this.Instance = instance;
+            this.serviceLocator = serviceLocator;
+            if (instance is IDestructible)
+            {
+                var destructible = (IDestructible)instance;
+                // inject this as IDestructible instance to create a point for lifetime release.
+                destructible.Candidate = this;
+            }
+        }
+
 
         protected internal override object GetInstance(Dictionary<string, object> instances, string key)
         {

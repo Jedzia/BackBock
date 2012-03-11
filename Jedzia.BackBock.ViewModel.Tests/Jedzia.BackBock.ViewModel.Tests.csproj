@@ -92,6 +92,7 @@
     <Compile Include="MVVM\Ioc\SimpleIocTestContains.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestCreationTime.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestIsRegistered.cs" />
+    <Compile Include="MVVM\Ioc\SimpleIocTestLifetime.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestMultipleConstructors.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestMultipleInstances.cs" />
     <Compile Include="MVVM\Ioc\SimpleIocTestSingleInstance.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="MVVM\Messaging\NotificationMessageTest.cs" />
     <Compile Include="MVVM\Messaging\PropertyChangedMessageTest.cs" />
     <Compile Include="MVVM\ObservableObjectTest.cs" />
+    <Compile Include="MVVM\Stubs\TestClassForIDestructible.cs" />
     <Compile Include="MVVM\Stubs\ITestClass.cs" />
     <Compile Include="MVVM\Stubs\TestBindingTarget.cs" />
     <Compile Include="MVVM\Stubs\TestClass.cs" />

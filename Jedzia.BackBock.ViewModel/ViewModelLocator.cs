@@ -54,7 +54,9 @@ namespace Jedzia.BackBock.ViewModel
             }
 
             SimpleIoc.Default.Register<MainWindowViewModel>();
-            SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime())/*.Release(null)*/;
+            SimpleIoc.Default.Register<TaskWizardViewModel>();
+            //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime())/*.Release(null)*/;
+            //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime()).Release((o) => o.Cleanup());
         }
 
         /*private static ApplicationViewModel CreateApplicationViewModel()

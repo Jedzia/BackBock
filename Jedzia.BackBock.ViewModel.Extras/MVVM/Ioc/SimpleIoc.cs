@@ -25,11 +25,6 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
     using Microsoft.Practices.ServiceLocation;
     using System.Text;
 
-    public interface ILifetimeManagement<T>
-    {
-
-    }
-
     /// <summary>
     /// InstanceInfo.
     /// </summary>
@@ -271,7 +266,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             "Microsoft.Design",
             "CA1004",
             Justification = "This syntax is better than the alternatives.")]
-        public InstanceLifetime Register<TClass>(InstanceLifetime lifetime) where TClass : class
+        public ILifetimeManagement<TClass> Register<TClass>(InstanceLifetime lifetime) where TClass : class
         {
             lock (_syncLock)
             {
@@ -303,7 +298,9 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 {
                     _factories.Remove(classType);
                 }
-                return lifetime;
+                var ilm = new LifetimeManager<TClass>(lifetime);
+                lifetime.LifetimeManager = ilm;
+                return ilm;
             }
         }
 
@@ -606,11 +603,6 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 //iinfo.Lifetime.GetInstance();
                 instances.Add(key, instance);
                 //instances.Add(key, new InstanceInfo(lifetime.CreateInstance(instance), lifetime));
-                if (instance is IDestructible)
-                {
-                    var destructible = (IDestructible)instance;
-                    destructible.Candidate = iinfo.Lifetime;
-                }
                 iinfo.Lifetime.InstanceCreated(this, instance);
                 return instance;
             }
