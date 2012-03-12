@@ -79,7 +79,7 @@ namespace Jedzia.BackBock.ViewModel.Wizard
             }
         }
 
-        public IStateWizard wizard;
+        public IStateWizard stateWizard;
         /// <summary>
         /// Gets or sets 
         /// </summary>
@@ -87,16 +87,17 @@ namespace Jedzia.BackBock.ViewModel.Wizard
         {
             get
             {
-                return this.wizard;
+                return this.stateWizard;
             }
 
             set
             {
-                if (this.wizard == value)
+                if (this.stateWizard == value)
                 {
                     return;
                 }
-                this.wizard = value;
+                this.stateWizard = value;
+                // On a new assigned Wizard, this means a new Window, reset the fsm, etc. to initial conditions.
                 Reset();
             }
         }
@@ -223,7 +224,7 @@ namespace Jedzia.BackBock.ViewModel.Wizard
             this.fsm.Finished += fsm_Finished;
         }
 
-        void Cleanup()
+        private void Tidyup()
         {
             if (this.fsm != null)
             {
@@ -236,18 +237,19 @@ namespace Jedzia.BackBock.ViewModel.Wizard
 
             this.Wizard.Close();
             //this.Candidate.Destroy();
+            //base.Cleanup();
         }
 
         void fsm_Finished(object sender, EventArgs e)
         {
             // do task creation
             // this.MessengerInstance.Send<SomeFormOfData>(this.data, MessengerTokens.TaskCreation);
-            this.Cleanup();
+            this.Tidyup();
         }
 
         void fsm_Canceled(object sender, EventArgs e)
         {
-            this.Cleanup();
+            this.Tidyup();
         }
 
                 #region Cancel Command
@@ -323,18 +325,10 @@ namespace Jedzia.BackBock.ViewModel.Wizard
 
         #region IDestructible Members
 
-        private ILifetimeEnds candidate;
         public ILifetimeEnds Candidate
         {
-            get
-            {
-                return this.candidate;
-            }
-            
-            set
-            {
-                this.candidate = value;
-            }
+            get;
+            set;
         }
 
         #endregion

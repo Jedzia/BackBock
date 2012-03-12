@@ -67,10 +67,29 @@
   <ItemGroup>
     <Compile Include="MVVM\Command\EventToCommand.cs" />
     <Compile Include="MVVM\Command\EventToCommand.WPF.cs" />
-    <Compile Include="MVVM\Ioc\IInstanceLifetime.cs" />
+    <Compile Include="MVVM\Ioc\Essex\AllTypes.cs" />
+    <Compile Include="MVVM\Ioc\Essex\Arguments.cs" />
+    <Compile Include="MVVM\Ioc\Essex\BasedOnDescriptor.cs" />
+    <Compile Include="MVVM\Ioc\Essex\Classes.cs" />
+    <Compile Include="MVVM\Ioc\Essex\Component.cs" />
+    <Compile Include="MVVM\Ioc\Essex\ComponentModel.cs" />
+    <Compile Include="MVVM\Ioc\Essex\ComponentRegistration.cs" />
+    <Compile Include="MVVM\Ioc\Essex\ComponentServicesUtil.cs" />
+    <Compile Include="MVVM\Ioc\Essex\ContainerInjector.cs" />
+    <Compile Include="MVVM\Ioc\Essex\DefaultComponentInstaller.cs" />
+    <Compile Include="MVVM\Ioc\Essex\DefaultKernel.cs" />
+    <Compile Include="MVVM\Ioc\Essex\FromAssembly.cs" />
+    <Compile Include="MVVM\Ioc\Essex\FromAssemblyDescriptor.cs" />
+    <Compile Include="MVVM\Ioc\Lifetime\IInstanceLifetime.cs" />
     <Compile Include="MVVM\Ioc\ISimpleIoc.cs" />
+    <Compile Include="MVVM\Ioc\Lifetime\InstanceInfo.cs" />
     <Compile Include="MVVM\Ioc\PreferredConstructor.cs" />
+    <Compile Include="MVVM\Ioc\Essex\Property.cs" />
+    <Compile Include="MVVM\Ioc\Essex\ReflectionBasedDictionaryAdapter.cs" />
+    <Compile Include="MVVM\Ioc\Essex\ServiceDescriptor.cs" />
     <Compile Include="MVVM\Ioc\SimpleIoc.cs" />
+    <Compile Include="MVVM\Ioc\Essex\TypeByInheritanceDepthMostSpecificFirstComparer.cs" />
+    <Compile Include="MVVM\Ioc\Essex\TypeUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

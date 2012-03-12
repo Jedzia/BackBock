@@ -20,6 +20,7 @@ namespace Jedzia.BackBock.ViewModel
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using Jedzia.BackBock.ViewModel.Wizard;
     using System;
+    using Jedzia.BackBock.ViewModel.Commands;
 
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -45,18 +46,25 @@ namespace Jedzia.BackBock.ViewModel
                 SimpleIoc.Default.Register<IOService, Design.DesignIOService>();
                 SimpleIoc.Default.Register<IDialogService, Design.DesignDialogService>();
                 SimpleIoc.Default.Register<IMainWindow, Design.DesignMainWindow>();
-                SimpleIoc.Default.Register<ApplicationViewModel>();
             }
             else
             {
-                SimpleIoc.Default.Register<ApplicationViewModel>();
+                SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
                 // SimpleIoc.Default.Register<IDataService, DataService>();
             }
 
-            SimpleIoc.Default.Register<MainWindowViewModel>();
-            SimpleIoc.Default.Register<TaskWizardViewModel>();
+            //SimpleIoc.Default.Register<MainWindowViewModel>();
+            //SimpleIoc.Default.Register<TaskWizardViewModel>();
             //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime())/*.Release(null)*/;
             //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime()).Release((o) => o.Cleanup());
+
+
+            IWindsorContainer container = new WindsorContainer();
+            //var installer = FromAssembly.InThisEntry();
+            //container.Install(installer);
+            container.Install(FromAssembly.InThisEntry());
+            //installer.Install(cnt, null);
+
         }
 
         /*private static ApplicationViewModel CreateApplicationViewModel()
@@ -136,11 +144,27 @@ namespace Jedzia.BackBock.ViewModel
                 //return new TaskWizardViewModel();
             }
         }
+
+        /// <summary>
+        /// Provides a deterministic way to delete the Main property.
+        /// </summary>
+        public static void ClearMain()
+        {
+            if (_main != null)
+            {
+                _main.Cleanup();
+                _main = null;
+            }
+        }
+
         /// <summary>
         /// Cleans up all the resources.
         /// </summary>
         public static void Cleanup()
         {
+            ClearMain();
         }
+
+
     }
 }

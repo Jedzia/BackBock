@@ -126,12 +126,14 @@
     <Compile Include="Ext\InvariantString.cs" />
     <Compile Include="Ext\Setter.cs" />
     <Compile Include="Ext\TypeExtension.cs" />
+    <Compile Include="ForTesting\DongensClass.cs" />
     <Compile Include="ForTesting\MenuItemStyleSelector.cs" />
     <Compile Include="ForTesting\ProcessStageHelper.cs" />
     <Compile Include="GeneralCommandsModel.cs" />
     <Compile Include="ICleanup.cs" />
     <Compile Include="IDialogControl.cs" />
     <Compile Include="IDialogService.cs" />
+    <Compile Include="Installers\ViewModelInstaller.cs" />
     <Compile Include="IOService.cs" />
     <Compile Include="ISelectionService.cs" />
     <Compile Include="MainWindow\IMainWindow.cs">

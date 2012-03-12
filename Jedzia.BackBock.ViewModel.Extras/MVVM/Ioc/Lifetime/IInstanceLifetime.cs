@@ -6,23 +6,33 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 {
-    public interface ILifetimeManagement<T>
+    /// <summary>
+    /// Provides the fluent configuration interface for the <see cref="LifetimeManager:T"/> 
+    /// of <see cref="SimpleIoc"/> container objects.
+    /// </summary>
+    /// <typeparam name="T">The object to provide with configuration abilities.</typeparam>
+    public interface ILifetimeConfig<T>
     {
-        void Release(Action<T> action);
+        void OnDestroy(Action<T> action);
         //void DestroyOnEvent(Delegate handler);
         //void DestroyOnEvent(Action<ILifetimeManagement> lf);
     }
 
+    /// <summary>
+    /// Provides the implementation of a destroy method for lifetime management 
+    /// of <see cref="SimpleIoc"/> container objects.
+    /// </summary>
     public interface ILifetimeManagement
     {
-        void DoRelease();
+        void DoDestroy();
         //void DoRelease(object o, EventArgs e);
     }
 
     /// <summary>
-    /// Summary
+    /// Manges the destruction of <see cref="SimpleIoc"/> container objects.
     /// </summary>
-    public class LifetimeManager<T> : ILifetimeManagement<T>, ILifetimeManagement where T : class
+    /// <typeparam name="T">The object to provide with destruction abilities.</typeparam>
+    public class LifetimeManager<T> : ILifetimeConfig<T>, ILifetimeManagement where T : class
     {
         private InstanceLifetime instanceLifetime;
         Action<T> action;
@@ -36,7 +46,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             this.instanceLifetime = instanceLifetime;
         }
 
-        public void Release(Action<T> action)
+        public void OnDestroy(Action<T> action)
         {
             this.action = action;
         }
@@ -45,10 +55,13 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 
         #region ILifetimeManagement Members
 
-        public void DoRelease()
+        public void DoDestroy()
         {
-            action((T)instanceLifetime.Instance);
-            //this.action((ILifetimeManagement<T>)instanceLifetime);
+            if (action != null)
+            {
+                action((T)instanceLifetime.Instance);
+                //this.action((ILifetimeManagement<T>)instanceLifetime);
+            }
         }
 
         #endregion
@@ -65,48 +78,94 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         #endregion
     }
 
+    /// <summary>
+    /// Provides lifetime destruction abilities to the <see cref="SimpleIoc"/> container for the implementor.
+    /// </summary>
     public interface IDestructible
     {
         ILifetimeEnds Candidate { get; set; }
     }
 
+    /// <summary>
+    /// Provides a release method for object destruction.
+    /// </summary>
     public interface ILifetimeEnds
     {
         void Release();
     }
 
+    /// <summary>
+    /// Abstract base class for the lifetime management of <see cref="SimpleIoc"/> container-instances.
+    /// </summary>
     public abstract class InstanceLifetime : ILifetimeEnds
     {
-
+        
+        /// <summary>
+        /// The unique key associated with the container-instance.
+        /// </summary>
         protected string key;
+       
+        /// <summary>
+        /// Backing field for the container-instance;
+        /// </summary>
         private object instance;
 
+        /// <summary>
+        /// Gets or sets the managed container-instance of this lifetime.
+        /// </summary>
+        /// <value>
+        /// The in container-instance.
+        /// </value>
         protected internal object Instance
         {
             get { return instance; }
             set { instance = value; }
         }
 
+        /// <summary>
+        /// Holds a reference to the creating IoC-Container. 
+        /// </summary>
         protected SimpleIoc serviceLocator;
 
+        /// <summary>
+        /// Releases the container-instance by checking the LifetimeManager
+        /// for destroyable behaviour and cleans up this lifetime management.
+        /// </summary>
         public virtual void Release()
         {
-            throw new NotImplementedException();
+            if (this.LifetimeManager != null)
+            {
+                this.LifetimeManager.DoDestroy();
+            }
+            this.LifetimeManager = null;
+            this.Instance = null;
+            this.serviceLocator = null;
+            //throw new NotImplementedException();
         }
 
 
         //internal abstract object CreateInstance(object initial);
         /// <summary>
-        /// Gets or sets 
+        /// Gets or sets the lifetime manager.
         /// </summary>
+        /// <value>
+        /// The lifetime manager.
+        /// </value>
         protected internal virtual ILifetimeManagement LifetimeManager
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Tracks instances post-creation.
+        /// </summary>
+        /// <param name="serviceLocator">The IoC container.</param>
+        /// <param name="instance">The instance that was created.</param>
         internal virtual void InstanceCreated(SimpleIoc serviceLocator, object instance)
         {
+            this.Instance = instance;
+            this.serviceLocator = serviceLocator;
         }
 
         /*internal virtual object CreateInstance(object initial)
@@ -115,8 +174,22 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         }*/
         //object CreateFromFactory(Dictionary<string, object> instances, string key);
         //object CreateWithConstructor(Dictionary<string, object> instances, string key);
+
+        /// <summary>
+        /// Handles the instance request from the container repository.
+        /// </summary>
+        /// <param name="instances">The list of already registered instances.</param>
+        /// <param name="key">The key of the requested instance.</param>
+        /// <returns>An already contained instance from the IoC-Container or null if a new instance 
+        /// should be created.</returns>
         protected internal abstract object GetInstance(Dictionary<string, object> instances, string key);
 
+        /// <summary>
+        /// Determines the key used for instance creation.
+        /// </summary>
+        /// <param name="key">The requested key.</param>
+        /// <param name="_uniqueKey">The unique key of the container.</param>
+        /// <returns>The final key used for container-instance creation.</returns>
         protected internal virtual string GetKey(string key, string _uniqueKey)
         {
             if (string.IsNullOrEmpty(key))
@@ -133,6 +206,9 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         }*/
     }
 
+    /// <summary>
+    /// Helper class for the lifetime management of <see cref="SimpleIoc"/> empty lifetimes.
+    /// </summary>
     internal class DummyInstanceHelper : InstanceLifetime
     {
         #region IInstanceLifetime Members
@@ -142,6 +218,15 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             throw new NotImplementedException();
         }*/
 
+        /// <summary>
+        /// Handles the instance creation. Not implemented for this kind of lifetime.
+        /// </summary>
+        /// <param name="instances">The list of already registered instances.</param>
+        /// <param name="key">The key of the requested instance.</param>
+        /// <returns>
+        /// An already contained instance from the IoC-Container or null if a new instance
+        /// should be created.
+        /// </returns>
         protected internal override object GetInstance(Dictionary<string, object> instances, string key)
         {
             throw new NotImplementedException();
@@ -206,37 +291,24 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
     }*/
 
     /// <summary>
-    /// SingletonInstance.
+    /// Implementation class for the lifetime management of <see cref="SimpleIoc"/> singleton container-instances.
     /// </summary>
     [Serializable]
     internal class SingletonInstance : InstanceLifetime
     {
-        #region Properties
-        /// <summary>
-        /// Gets or sets the Instance.
-        /// </summary>
-        /// <value>The Instance.</value>
-        //internal object Instance { get; private set; }
-        #endregion
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new fully specified instance of the <see cref="SingletonInstance"/> class.
-        /// </summary>
-        /// <param name="Instance">The Instance</param>
-        public SingletonInstance()
-        {
-            //Instance = instance;
-        }
-        #endregion
 
         #region IInstanceLifetime Members
 
-        /*internal override object CreateInstance(object initial)
-        {
-            return initial;
-        }*/
-
+        /// <summary>
+        /// Handles the instance creation. Objects, that are present in the instance dictionary
+        /// are returned as is. That's what a Singleton is.
+        /// </summary>
+        /// <param name="instances">The list of already registered instances.</param>
+        /// <param name="key">The key of the requested instance.</param>
+        /// <returns>
+        /// An already contained instance from the IoC-Container or null if a new instance
+        /// should be created.
+        /// </returns>
         protected internal override object GetInstance(Dictionary<string, object> instances, string key)
         {
             if (instances.ContainsKey(key))
@@ -252,53 +324,29 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 
 
     /// <summary>
-    /// TransitionLifetime.
+    /// Implementation class for the lifetime management of <see cref="SimpleIoc"/> container-instances
+    /// with a transient lifetime behaviour.
     /// </summary>
     [Serializable]
     public class TransitionLifetime : InstanceLifetime
     {
-        #region Properties
-        /// <summary>
-        /// Gets or sets the Instance.
-        /// </summary>
-        /// <value>The Instance.</value>
-        //internal object Instance { get; private set; }
-        #endregion
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new fully specified instance of the <see cref="SingletonInstance"/> class.
-        /// </summary>
-        /// <param name="Instance">The Instance</param>
-        public TransitionLifetime()
-        {
-            //Instance = instance;
-        }
-        #endregion
 
         #region IInstanceLifetime Members
 
-        /*internal override object CreateInstance(object initial)
-        {
-            return initial;
-        }*/
-
+        /// <summary>
+        /// Releases the container-instance by unregistering it and doing cleanup of 
+        /// the lifetime management.
+        /// </summary>
         public override void Release()
         {
             serviceLocator.Unregister(Instance.GetType(), Instance, key);
-            if (this.LifetimeManager != null)
-            {
-                this.LifetimeManager.DoRelease();
-            }
-            this.LifetimeManager = null;
-            this.Instance = null;
-            this.serviceLocator = null;
+            base.Release();
         }
 
         internal override void InstanceCreated(SimpleIoc serviceLocator, object instance)
         {
-            this.Instance = instance;
-            this.serviceLocator = serviceLocator;
+            base.InstanceCreated(serviceLocator, instance);
+            // Todo: also check for IDisposable
             if (instance is IDestructible)
             {
                 var destructible = (IDestructible)instance;
@@ -308,29 +356,46 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         }
 
 
+        /// <summary>
+        /// Handles the instance request from the container repository.
+        /// </summary>
+        /// <param name="instances">The list of already registered instances.</param>
+        /// <param name="key">The key of the requested instance.</param>
+        /// <returns>
+        /// Always null to create a new container-instance on every request. This is what's called
+        /// a transient behaviour.
+        /// </returns>
         protected internal override object GetInstance(Dictionary<string, object> instances, string key)
         {
+            // always renew instance creation on a request.
             if (instances.ContainsKey(key))
             {
-                instances.Remove(key);
+                // Todo: do not remove this here. Do it later at Release()
+                //instances.Remove(key);
+                throw new NotSupportedException("Proper transient lifetimes cannot request an already registered " +
+                    "key as a new one.");
+                //Action removeAction = () => instances.Remove(key);
             }
             return null;
         }
 
+        /// <summary>
+        /// Determines the key used for instance creation.
+        /// </summary>
+        /// <param name="key">The requested key.</param>
+        /// <param name="_uniqueKey">The unique key of the container.</param>
+        /// <returns>
+        /// Always a new key used for transient container-instance creation.
+        /// </returns>
         protected internal override string GetKey(string key, string _uniqueKey)
         {
-            this.key = key;
+            //this.key = key;
             //if (string.IsNullOrEmpty(key))
-            {
+            //{
                 this.key = Guid.NewGuid().ToString();
-            }
+            //}
             return this.key;
         }
-
-        /*public override InstanceLifetime Release(IDestructor destruction)
-        {
-            return this;
-        }*/
 
         #endregion
     }

@@ -30,31 +30,35 @@
 
 using System;
 
-namespace Microsoft.Build.Framework {
-	[Serializable]
-	public class BuildMessageEventArgs : BuildEventArgs {
-	
-		MessageImportance importance;
-		
-		protected BuildMessageEventArgs ()
-		{
-		}
+namespace Microsoft.Build.Framework
+{
+    [Serializable]
+    public class BuildMessageEventArgs : BuildEventArgs
+    {
 
-		public BuildMessageEventArgs (string message,
-					      string helpKeyword,
-					      string senderName,
-					      MessageImportance importance)
-			: base (message, helpKeyword, senderName)
-		{
-			this.importance = importance;
-		}
+        MessageImportance importance;
 
-		public MessageImportance Importance {
-			get {
-				return importance;
-			}
-		}
-	}
+        protected BuildMessageEventArgs()
+        {
+        }
+
+        public BuildMessageEventArgs(string message,
+                          string helpKeyword,
+                          string senderName,
+                          MessageImportance importance)
+            : base(message, helpKeyword, senderName)
+        {
+            this.importance = importance;
+        }
+
+        public MessageImportance Importance
+        {
+            get
+            {
+                return importance;
+            }
+        }
+    }
 }
 
 #endif

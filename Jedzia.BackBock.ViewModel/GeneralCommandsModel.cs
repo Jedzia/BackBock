@@ -57,11 +57,22 @@ namespace Jedzia.BackBock.ViewModel
         }*/
         //private ApplicationViewModel applicationViewModel;
         //private IMainWorkArea workArea;
+        MainWindowViewModel mainwindowViewmodel;
         private IMainWindow mainWindow;
-        public GeneralCommandsModel(/*ApplicationViewModel applicationViewModel,*/ IMainWindow mainWindow)
+
+        public void CleanUp()
+        {
+            this.mainwindowViewmodel = null;
+            this.mainWindow = null;
+        }
+
+        public GeneralCommandsModel(/*ApplicationViewModel applicationViewModel,*/
+            MainWindowViewModel mainwindowViewmodel,
+            IMainWindow mainWindow)
         {
             //this.applicationViewModel = applicationViewModel;
             this.mainWindow = mainWindow;
+            this.mainwindowViewmodel = mainwindowViewmodel;
             mainWindow.Initialized += this.MainWindowInitialized;
 
         }
@@ -201,13 +212,17 @@ namespace Jedzia.BackBock.ViewModel
         private void OpenExecuted(object o, ExecutedRoutedEventArgs args)
         {
             var path = ApplicationViewModel.MainIOService.OpenFileDialog(string.Empty);
-            ViewModelLocator.MainStatic.OpenFile(path);
+            
+            //this.mainWindow.WorkArea.
+            //ViewModelLocator.MainStatic.OpenFile(path);
+            mainwindowViewmodel.OpenFile(path);
             //designerCanvas.DesignerCanvasFileProcessor.OpenExecuted(o, args);
         }
         private void SaveExecuted(object o, ExecutedRoutedEventArgs args)
         {
             var path = ApplicationViewModel.MainIOService.SaveFileDialog(string.Empty);
-            ViewModelLocator.MainStatic.SaveFile(path);
+            //ViewModelLocator.MainStatic.SaveFile(path);
+            mainwindowViewmodel.SaveFile(path);
             //designerCanvas.DesignerCanvasFileProcessor.SaveExecuted(o, args);
         }
 

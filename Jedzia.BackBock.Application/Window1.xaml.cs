@@ -25,7 +25,7 @@
             //this.InputBindings
             //logtext.TextChanged += this.logtext_TextChanged;
             //logtext.SourceUpdated += this.logtext_SourceUpdated;
-
+            //Closing += (s, e) => ViewModelLocator.Cleanup();
         }
 
         void logtext_SourceUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)

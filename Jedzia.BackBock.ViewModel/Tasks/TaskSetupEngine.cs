@@ -17,7 +17,7 @@ using Microsoft.Build.BuildEngine;
 
 namespace Jedzia.BackBock.ViewModel.Tasks
 {
-
+    // Todo: refactor to its own place.
     internal class EventSource : IEventSource
     {
 
@@ -404,6 +404,17 @@ namespace Jedzia.BackBock.ViewModel.Tasks
                     ));
         }
 
+        /*private void LogError(string message)
+        {
+            eventSource.FireErrorRaised(this,
+                new BuildErrorEventArgs(
+                    message,
+                    "",
+                    this.GetType().Name,
+                    MessageImportance.Low
+                    ));
+        }*/
+
         #region IDisposable Members
 
         /// <summary>
@@ -521,7 +532,7 @@ namespace Jedzia.BackBock.ViewModel.Tasks
             {
                 var item = this.Paths[index];
             }*/
-            int xasd = 0;
+            //int xasd = 0;
             var result = this.Paths.Select((e) =>
             {
                 var cr = new CreateItem();
@@ -660,7 +671,8 @@ namespace Jedzia.BackBock.ViewModel.Tasks
             }
             catch (Exception ex)
             {
-                // Todo: log me.
+                // Todo: log me with LogError.
+                LogMessage(ex.Message);
             }
 
 

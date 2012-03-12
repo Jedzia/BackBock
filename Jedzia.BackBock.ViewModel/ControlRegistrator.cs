@@ -104,7 +104,7 @@ namespace Jedzia.BackBock.ViewModel
     /// InstanceInfo.
     /// </summary>
     [Serializable]
-    internal class InstanceInfo : IEquatable<InstanceInfo>
+    internal class InstanceInfo /*: IEquatable<InstanceInfo>*/
     {
         #region Properties
         /// <summary>
@@ -134,7 +134,9 @@ namespace Jedzia.BackBock.ViewModel
             this.Lifetime = lifetime;
         }
         #endregion
+   
         #region Methods
+        /*
         /// <summary>
         /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
         /// </summary>
@@ -165,6 +167,8 @@ namespace Jedzia.BackBock.ViewModel
               InstanceType == other.InstanceType &&
               Lifetime == other.Lifetime;
         }
+        */
+
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
         /// </summary>

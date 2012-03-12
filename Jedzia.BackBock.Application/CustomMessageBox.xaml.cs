@@ -21,7 +21,7 @@ namespace Jedzia.BackBock.Application
     /// </summary>
     public partial class CustomMessageBox : Window, IDialogControl
     {
-        public event EventHandler Closed;
+        public new event EventHandler Closed;
         private Action _callback;
         private Action<bool> _callbackWithBool;
         private bool? _result;
@@ -35,7 +35,7 @@ namespace Jedzia.BackBock.Application
         /// Gets or sets the value of the <see cref="Title" />
         /// property. This is a dependency property.
         /// </summary>
-        public string Title
+        public new string Title
         {
             get
             {
@@ -50,7 +50,7 @@ namespace Jedzia.BackBock.Application
         /// <summary>
         /// Identifies the <see cref="Title" /> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+        public static new readonly DependencyProperty TitleProperty = DependencyProperty.Register(
             TitlePropertyName,
             typeof(string),
             typeof(CustomMessageBox),
@@ -355,7 +355,7 @@ namespace Jedzia.BackBock.Application
             Show();
         }
 
-        private void Show()
+        private new void Show()
         {
             _result = null;
             _isVisible = true;
@@ -365,7 +365,7 @@ namespace Jedzia.BackBock.Application
             ShowDialog();
         }
 
-        public void Hide()
+        public new void Hide()
         {
             if (!_isVisible)
             {

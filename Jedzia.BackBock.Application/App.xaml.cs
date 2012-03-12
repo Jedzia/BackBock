@@ -24,6 +24,25 @@
             //set { App.applicationViewModel = value; }
         }*/
 
+        /* Todo: better use this
+        /// <summary>Fired when the app starts</summary>
+        /// <param name="e">Startup event arguments</param>
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            Jedzia.BackBock.ViewModel.MVVM.Threading.DispatcherHelper.Initialize();
+        }
+
+        /// <summary>Fired when the app closes</summary>
+        /// <param name="e">Exit event arguments</param>
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            ViewModelLocator.Cleanup();
+        }*/
+
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //applicationViewModel = new ApplicationViewModel(new FileIOService());
@@ -32,8 +51,12 @@
             //SimpleIoc.Default.Register<MainWindowViewModel>(CreateMainWindowViewModel);
             SimpleIoc.Default.Register<IOService, FileIOService>();
             //SimpleIoc.Default.Register<IDialogService, DialogService>();
-            SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
+            //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
             SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
+
+            //IWindsorContainer container = new WindsorContainer();
+            //container.Install(FromAssembly.InThisApplication());
+            //var sauce = container.Resolve<FileIOService>(); 
         }
 
         /*private ApplicationViewModel CreateApplicationViewModel()
@@ -58,4 +81,5 @@
         }
 
     }
+
 }

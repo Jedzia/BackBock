@@ -330,7 +330,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 MessengerInstance.Send(e);
         }
 
-        public void Log(object sender, BuildMessageEventArgs e)
+        private void Log(object sender, BuildMessageEventArgs e)
         {
             if (this.EnableLogging)
                 MessengerInstance.Send(e);

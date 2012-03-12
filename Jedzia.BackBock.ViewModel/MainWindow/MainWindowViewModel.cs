@@ -106,6 +106,24 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
 
         #region Constructors
+        
+        public override void Cleanup()
+        {
+            if (this.generalCommands != null)
+            {
+                this.generalCommands.CleanUp();
+            }
+
+            if (this.generalCommands != null)
+            {
+                this.bdvm.Cleanup();
+            }
+
+            // etc.
+            this.bdvm = null;
+            //this.generalCommands = null;
+            base.Cleanup();
+        }
 
         public MainWindowViewModel(ApplicationViewModel applicationViewModel, IMainWindow mainWindow)
         {
@@ -125,7 +143,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
                 // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
                 applicationViewModel.MainWindow.Initialized += this.mainWindow_Initialized;
-                this.generalCommands = new GeneralCommandsModel(/*applicationViewModel,*/ applicationViewModel.MainWindow);
+                this.generalCommands = new GeneralCommandsModel(/*applicationViewModel,*/ 
+                    this,
+                    applicationViewModel.MainWindow);
             }
             /*if (this.mainWindow.Designer == null)
             {
@@ -140,6 +160,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             this.MessengerInstance.Register<MVVM.Messaging.DialogMessage>(this, MainWindowMessageReceived);
             this.MessengerInstance.Register<Exception>(this, true, MainWindowExceptionReceived);
 
+            var xxx = new { depp = WindowTypes.TaskWizard };
         }
 
         /*private void LogMessageEvent(Exception e)
@@ -193,8 +214,6 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         /// The <see cref="LogText" /> property's name.
         /// </summary>
         public const string LogTextPropertyName = "LogText";
-
-        private string logText = "";
 
         /// <summary>
         /// Sets and gets the LogText property.
@@ -384,6 +403,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
             catch (Exception ex)
             {
+                MainWindowExceptionReceived(ex);
                 return;
             }
             //var obj = System.Windows.Markup.XamlReader.Parse(xml);
@@ -473,7 +493,6 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
             finally
             {
-                
             }
         }
     }

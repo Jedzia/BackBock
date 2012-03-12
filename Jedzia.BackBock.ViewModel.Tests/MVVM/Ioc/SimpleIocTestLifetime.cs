@@ -63,7 +63,7 @@ namespace Jedzia.BackBock.ViewModel.Tests.MVVM.Ioc
             TestClassForIDestructible releaseInstance = null;
 
             SimpleIoc.Default.Register<TestClassForIDestructible>(new TransitionLifetime())
-                .Release((obj) => { releaseInstance = obj; });
+                .OnDestroy((obj) => { releaseInstance = obj; });
 
             var inst1 = SimpleIoc.Default.GetInstance<TestClassForIDestructible>();
 
