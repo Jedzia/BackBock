@@ -3,6 +3,6 @@
     public interface IComponentsInstaller
     {
         // Methods
-        void SetUp(IWindsorContainer container, IConfigurationStore store);
+        void SetUp(IEssexContainer container, IConfigurationStore store);
     }
 }

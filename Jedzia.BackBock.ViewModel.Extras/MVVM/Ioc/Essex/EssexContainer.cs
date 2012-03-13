@@ -4,15 +4,15 @@
     using System.Collections;
     using System.Collections.Generic;
 
-    public class WindsorContainer : MarshalByRefObject, IWindsorContainer, IDisposable
+    public class EssexContainer : MarshalByRefObject, IEssexContainer, IDisposable
     {
         // Fields
-        private readonly Dictionary<string, IWindsorContainer> childContainers;
+        private readonly Dictionary<string, IEssexContainer> childContainers;
         private readonly object childContainersLocker;
         //private readonly IComponentsInstaller installer;
         private readonly IKernel kernel;
         private readonly string name;
-        private IWindsorContainer parent;
+        private IEssexContainer parent;
 
         /// <summary>
         ///   Returns a component instance by the service
@@ -28,7 +28,7 @@
         ///   Constructs a container without any external 
         ///   configuration reference
         /// </summary>
-        public WindsorContainer()
+        public EssexContainer()
             : this(new DefaultKernel(), new DefaultComponentInstaller())
         {
         }
@@ -43,7 +43,7 @@
         /// </remarks>
         /// <param name = "kernel">Kernel instance</param>
         /// <param name = "installer">Installer instance</param>
-        public WindsorContainer(IKernel kernel, IComponentsInstaller installer)
+        public EssexContainer(IKernel kernel, IComponentsInstaller installer)
             : this(Guid.NewGuid().ToString(), kernel, installer)
         {
         }
@@ -59,7 +59,7 @@
         /// <param name = "name">Container's name</param>
         /// <param name = "kernel">Kernel instance</param>
         /// <param name = "installer">Installer instance</param>
-        public WindsorContainer(String name, IKernel kernel, IComponentsInstaller installer)
+        public EssexContainer(String name, IKernel kernel, IComponentsInstaller installer)
         {
             if (name == null)
             {
@@ -92,7 +92,7 @@
         ///   <see cref = "IConfigurationInterpreter" /> implementation.
         /// </summary>
         /// <param name = "interpreter">The instance of an <see cref = "IConfigurationInterpreter" /> implementation.</param>
-        public WindsorContainer(IConfigurationInterpreter interpreter)
+        public EssexContainer(IConfigurationInterpreter interpreter)
             : this()
         {
             if (interpreter == null)
@@ -109,7 +109,7 @@
         ///   <see cref = "IConfigurationStore" /> implementation.
         /// </summary>
         /// <param name = "store">The instance of an <see cref = "IConfigurationStore" /> implementation.</param>
-        public WindsorContainer(IConfigurationStore store)
+        public EssexContainer(IConfigurationStore store)
             : this()
         {
             kernel.ConfigurationStore = store;
@@ -120,11 +120,11 @@
  
         
         /// <summary>
-        ///   Initializes a new instance of the <see cref = "WindsorContainer" /> class.
+        ///   Initializes a new instance of the <see cref = "EssexContainer" /> class.
         /// </summary>
         /// <param name = "interpreter">The interpreter.</param>
         /// <param name = "environmentInfo">The environment info.</param>
-        public WindsorContainer(IConfigurationInterpreter interpreter, IEnvironmentInfo environmentInfo)
+        public EssexContainer(IConfigurationInterpreter interpreter, IEnvironmentInfo environmentInfo)
             : this()
         {
             if (interpreter == null)
@@ -143,7 +143,7 @@
         }*/
 
 
-        public IWindsorContainer Install(params IWindsorInstaller[] installers)
+        public IEssexContainer Install(params IEssexInstaller[] installers)
         {
             if (installers == null)
             {
@@ -170,11 +170,11 @@
             return this;
         }
 
-        private void Install(IWindsorInstaller[] installers, DefaultComponentInstaller scope)
+        private void Install(IEssexInstaller[] installers, DefaultComponentInstaller scope)
         {
             using (PartialConfigurationStore store = new PartialConfigurationStore((IKernelInternal)this.kernel))
             {
-                foreach (IWindsorInstaller installer in installers)
+                foreach (IEssexInstaller installer in installers)
                 {
                     installer.Install(this, store);
                 }
@@ -189,7 +189,7 @@
             //this.kernel.Dispose();
         }
 
-        public virtual IWindsorContainer Parent
+        public virtual IEssexContainer Parent
         {
             get
             {
@@ -213,7 +213,7 @@
             }
         }
 
-        public IWindsorContainer Register(params IRegistration[] registrations)
+        public IEssexContainer Register(params IRegistration[] registrations)
         {
             this.Kernel.Register(registrations);
             return this;

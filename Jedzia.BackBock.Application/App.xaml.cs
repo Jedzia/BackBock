@@ -54,7 +54,7 @@
             //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
             SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
 
-            //IWindsorContainer container = new WindsorContainer();
+            //IWindsorContainer container = new EssexContainer();
             //container.Install(FromAssembly.InThisApplication());
             //var sauce = container.Resolve<FileIOService>(); 
         }

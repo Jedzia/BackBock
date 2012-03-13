@@ -112,8 +112,8 @@
     <Compile Include="MVVM\Ioc\Essex\IReleasePolicy.cs" />
     <Compile Include="MVVM\Ioc\Essex\ISubSystem.cs" />
     <Compile Include="MVVM\Ioc\Essex\IUpgradeableLockHolder.cs" />
-    <Compile Include="MVVM\Ioc\Essex\IWindsorContainer.cs" />
-    <Compile Include="MVVM\Ioc\Essex\IWindsorInstaller.cs" />
+    <Compile Include="MVVM\Ioc\Essex\IEssexContainer.cs" />
+    <Compile Include="MVVM\Ioc\Essex\IEssexInstaller.cs" />
     <Compile Include="MVVM\Ioc\Essex\Lock.cs" />
     <Compile Include="MVVM\Ioc\Essex\NotSupportedProxyFactory.cs" />
     <Compile Include="MVVM\Ioc\Essex\PartialConfigurationStore.cs" />
@@ -123,7 +123,7 @@
     <Compile Include="MVVM\Ioc\Essex\ServicesDescriptor.cs" />
     <Compile Include="MVVM\Ioc\Essex\SimpleIocInjector.cs" />
     <Compile Include="MVVM\Ioc\Essex\SlimReadWriteLock.cs" />
-    <Compile Include="MVVM\Ioc\Essex\WindsorContainer.cs" />
+    <Compile Include="MVVM\Ioc\Essex\EssexContainer.cs" />
     <Compile Include="MVVM\Ioc\Lifetime\DummyInstanceHelper.cs" />
     <Compile Include="MVVM\Ioc\Lifetime\IDestructible.cs" />
     <Compile Include="MVVM\Ioc\Lifetime\LifetimeManager.cs" />

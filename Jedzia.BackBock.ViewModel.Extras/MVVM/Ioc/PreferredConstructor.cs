@@ -18,7 +18,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
     using System;
 
     /// <summary>
-    /// When used with the SimpleIoc container, specifies which constructor
+    /// When used with the <see cref="SimpleIoc"/> container, specifies which constructor
     /// should be used to instantiate when GetInstance is called.
     /// If there is only one constructor in the class, this attribute is
     /// not needed.

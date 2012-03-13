@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Reflection;
 
-    public class AssemblyInstaller : IWindsorInstaller
+    public class AssemblyInstaller : IEssexInstaller
     {
         // Fields
         private readonly Assembly assembly;
@@ -29,11 +29,11 @@
         private IEnumerable<Type> FilterInstallerTypes(IEnumerable<Type> types)
         {
             return (from t in types
-                    where ((t.IsClass && !t.IsAbstract) && !t.IsGenericTypeDefinition) && t.Is<IWindsorInstaller>()
+                    where ((t.IsClass && !t.IsAbstract) && !t.IsGenericTypeDefinition) && t.Is<IEssexInstaller>()
                     select t);
         }
 
-        public void Install(IWindsorContainer container, IConfigurationStore store)
+        public void Install(IEssexContainer container, IConfigurationStore store)
         {
             IEnumerable<Type> enumerable = this.factory.Select(this.FilterInstallerTypes(this.assembly.GetExportedTypes()));
             if (enumerable != null)

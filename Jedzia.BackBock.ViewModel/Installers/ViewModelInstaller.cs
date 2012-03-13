@@ -10,9 +10,9 @@ namespace Jedzia.BackBock.ViewModel.Installers
 {
     using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
 
-    public class ViewModelInstaller : IWindsorInstaller
+    public class ViewModelInstaller : IEssexInstaller
     {
-        public void Install(IWindsorContainer container, IConfigurationStore store)
+        public void Install(IEssexContainer container, IConfigurationStore store)
         {
             if (ViewModelBase.IsInDesignModeStatic)
             {

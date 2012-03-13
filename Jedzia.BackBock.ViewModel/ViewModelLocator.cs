@@ -44,7 +44,7 @@ namespace Jedzia.BackBock.ViewModel
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            IWindsorContainer container = new WindsorContainer();
+            IEssexContainer container = new EssexContainer();
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();

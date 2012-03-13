@@ -2,10 +2,10 @@
 {
     using System;
 
-    public interface IWindsorContainer : IDisposable
+    public interface IEssexContainer : IDisposable
     {
-        IWindsorContainer Install(params IWindsorInstaller[] installers);
-        IWindsorContainer Register(params IRegistration[] registrations);
+        IEssexContainer Install(params IEssexInstaller[] installers);
+        IEssexContainer Register(params IRegistration[] registrations);
 
         /// <summary>
         ///   Returns a component instance by the service

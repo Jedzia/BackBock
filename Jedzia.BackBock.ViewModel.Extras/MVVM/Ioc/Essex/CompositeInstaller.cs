@@ -2,21 +2,21 @@
 {
     using System.Collections.Generic;
 
-    public class CompositeInstaller : IWindsorInstaller
+    public class CompositeInstaller : IEssexInstaller
     {
 
         // Fields
-        private readonly HashSet<IWindsorInstaller> installers = new HashSet<IWindsorInstaller>();
+        private readonly HashSet<IEssexInstaller> installers = new HashSet<IEssexInstaller>();
 
         // Methods
-        public void Add(IWindsorInstaller instance)
+        public void Add(IEssexInstaller instance)
         {
             this.installers.Add(instance);
         }
 
-        public void Install(IWindsorContainer container, IConfigurationStore store)
+        public void Install(IEssexContainer container, IConfigurationStore store)
         {
-            foreach (IWindsorInstaller installer in this.installers)
+            foreach (IEssexInstaller installer in this.installers)
             {
                 installer.Install(container, store);
             }

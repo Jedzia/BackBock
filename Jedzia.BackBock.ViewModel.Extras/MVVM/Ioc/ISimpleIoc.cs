@@ -20,7 +20,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
     /// <summary>
     /// A very simple IOC container with basic functionality needed to register and resolve
     /// instances. If needed, this class can be replaced by another more elaborate
-    /// IOC container implementing the IServiceLocator interface.
+    /// IOC container implementing the <see cref="IServiceLocator"/> interface.
     /// The inspiration for this class is at https://gist.github.com/716137 but it has
     /// been extended with additional features.
     /// </summary>
@@ -31,7 +31,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// Checks whether at least one instance of a given class is already created in the container.
         /// </summary>
         /// <typeparam name="TClass">The class that is queried.</typeparam>
-        /// <returns>True if at least on instance of the class is already created, false otherwise.</returns>
+        /// <returns>True if at least on instance of the class is already created, <c>false</c> otherwise.</returns>
         bool Contains<TClass>();
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// <typeparam name="TClass">The class that is queried.</typeparam>
         /// <param name="key">The key that is queried.</param>
         /// <returns>True if the instance with the given key is already registered for the given class,
-        /// false otherwise.</returns>
+        /// <c>false</c> otherwise.</returns>
         bool Contains<TClass>(string key);
 
         /// <summary>

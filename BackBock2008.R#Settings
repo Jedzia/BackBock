@@ -1,0 +1,1812 @@
+<Configuration>
+  <SharingSettings Version="1.0" AutoUpdateCommonSettings="False" ClearReadOnlyFlagOnUpdates="False" />
+  <ResharperSettings>
+    <SharedSolutionTemplateManager />
+    <CodeAnnotations />
+    <Daemon.SolutionSettings />
+    <CodeStyleSettings>
+      <AgentSmithCSharpStyleSettings version="1">
+        <CodeStyleSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+          <CustomDictionaries>
+            <Dictionaries>
+              <CustomDictionary>
+                <Name>en-US</Name>
+                <CaseSensitive>false</CaseSensitive>
+                <UserWords>Swoffle
+Jedzia
+Serializer
+xml
+deserialization
+Bitworks
+Expr
+Mult
+Util
+Todo
+dx
+dy
+bmp
+spr
+MVVM
+Ioc
+</UserWords>
+              </CustomDictionary>
+              <CustomDictionary>
+                <Name>de-DE</Name>
+                <CaseSensitive>false</CaseSensitive>
+                <UserWords />
+              </CustomDictionary>
+              <CustomDictionary>
+                <Name>en-GB</Name>
+                <CaseSensitive>false</CaseSensitive>
+                <UserWords />
+              </CustomDictionary>
+            </Dictionaries>
+          </CustomDictionaries>
+          <StringsDictionary>en-US</StringsDictionary>
+          <IdentifierDictionary>en-US</IdentifierDictionary>
+          <LastSelectedCustomDictionary>en-US</LastSelectedCustomDictionary>
+          <CommentsSettings>
+            <DictionaryName>en-US</DictionaryName>
+            <CommentMatch>
+              <Match>
+                <AccessLevel>Public Protected ProtectedInternal</AccessLevel>
+                <Declaration>Any</Declaration>
+                <IsReadOnly>Maybe</IsReadOnly>
+                <IsStatic>Maybe</IsStatic>
+                <ParamDirection>Any</ParamDirection>
+              </Match>
+            </CommentMatch>
+            <CommentNotMatch />
+            <SuppressIfBaseHasComment>false</SuppressIfBaseHasComment>
+            <MaxLineLength>80</MaxLineLength>
+          </CommentsSettings>
+          <NamingConventionSettings>
+            <Rules>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Enum</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>EnumerationMember</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <NotMatches />
+                <Description>Classes, Enumerations, Enumeration values should be named in Pascal</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes>
+                  <string>_</string>
+                  <string>m_</string>
+                </MustNotHavePrefixes>
+                <Rule>Pascal</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Public Internal Protected ProtectedInternal</AccessLevel>
+                    <Declaration>Property</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Public Internal Protected ProtectedInternal</AccessLevel>
+                    <Declaration>Method</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Public Internal Protected ProtectedInternal</AccessLevel>
+                    <Declaration>Event</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <NotMatches />
+                <Description>Non private properties, methods, events should be in pascal.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes>
+                  <string>_</string>
+                  <string>m_</string>
+                </MustNotHavePrefixes>
+                <Rule>Pascal</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>true</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Private</AccessLevel>
+                    <Declaration>Property</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Private</AccessLevel>
+                    <Declaration>Method</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Private</AccessLevel>
+                    <Declaration>Event</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <NotMatches />
+                <Description>Private properties, methods, events should be in camel.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes>
+                  <string>_</string>
+                  <string>m_</string>
+                </MustNotHavePrefixes>
+                <Rule>Camel</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>true</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Field</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <NotMatches />
+                <Description>Fields should be underscore camel.</Description>
+                <MustHavePrefixes>
+                  <string>_</string>
+                </MustHavePrefixes>
+                <MustNotHavePrefixes>
+                  <string>m_</string>
+                </MustNotHavePrefixes>
+                <Rule>Camel</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Variable</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Variable should be declared in camel.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes>
+                  <string>_</string>
+                  <string>m_</string>
+                </MustNotHavePrefixes>
+                <Rule>Camel</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Parameter</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Function parameters should be in camel.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes>
+                  <string>_</string>
+                  <string>m_</string>
+                </MustNotHavePrefixes>
+                <Rule>Camel</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Namespace</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Namespaces should be in Pascal.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes>
+                  <string>_</string>
+                  <string>m_</string>
+                </MustNotHavePrefixes>
+                <Rule>Pascal</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Constant</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Constants should be in capital.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>UpperCase</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Any</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <NotMatches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Constant</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </NotMatches>
+                <Description>Acronyms should not have more than 2 characters.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>MatchesRegex</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+                <Regex>^(?&gt;(XML|SQL|[A-Z]{0,2})[A-Z]?([^A-Z]|$)|[^A-Z]+)*$</Regex>
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Any</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <NotMatches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Constant</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Field</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Private</AccessLevel>
+                    <Declaration>Method</Declaration>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>None</AccessLevel>
+                    <Declaration>Namespace</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </NotMatches>
+                <Description>Names should not have underscore character</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>NotMatchesRegex</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+                <Regex>(?&lt;remove&gt;_)</Regex>
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <MarkedWithAttribute>NUnit.Framework.TestFixtureAttribute</MarkedWithAttribute>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>TestFixtures should end with Test.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes>
+                  <string>Test</string>
+                </MustNotHavePrefixes>
+                <Rule>None</Rule>
+                <MustHaveSuffixes>
+                  <string>Test</string>
+                </MustHaveSuffixes>
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Method</Declaration>
+                    <MarkedWithAttribute>NUnit.Framework.TestAttribute</MarkedWithAttribute>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Test methods should start with Test.</Description>
+                <MustHavePrefixes>
+                  <string>Test</string>
+                </MustHavePrefixes>
+                <MustNotHavePrefixes />
+                <Rule>None</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes>
+                  <string>Test</string>
+                </MustNotHaveSuffixes>
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Enum</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Enumerations should not end with Enum.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>None</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes>
+                  <string>Enum</string>
+                </MustNotHaveSuffixes>
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>EnumerationMember</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Do not name enumerations reserved.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>NotMatchesRegex</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+                <Regex>(?&lt;remove&gt;(reserved|Reserved))</Regex>
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Event</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Event should not have Before or After prefix.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes>
+                  <string>Before</string>
+                  <string>After</string>
+                </MustNotHavePrefixes>
+                <Rule>None</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Enum</Declaration>
+                    <MarkedWithAttribute>System.FlagsAttribute</MarkedWithAttribute>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Flags enums should have plural names</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>None</Rule>
+                <MustHaveSuffixes>
+                  <string>s</string>
+                </MustHaveSuffixes>
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>true</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Enum</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <NotMatches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Enum</Declaration>
+                    <MarkedWithAttribute>System.FlagsAttribute</MarkedWithAttribute>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </NotMatches>
+                <Description>Enums that are not flags should not have plural names</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>None</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes>
+                  <string>s</string>
+                </MustNotHaveSuffixes>
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Attribute</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Attribute should end with Attribute.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>None</Rule>
+                <MustHaveSuffixes>
+                  <string>Attribute</string>
+                </MustHaveSuffixes>
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.EventArgs</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>EventArgs should end with EventArgs.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>None</Rule>
+                <MustHaveSuffixes>
+                  <string>EventArgs</string>
+                </MustHaveSuffixes>
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Exception</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Exceptions should end with Exception.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>None</Rule>
+                <MustHaveSuffixes>
+                  <string>Exception</string>
+                </MustHaveSuffixes>
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Collections.Stack</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Collections.Generic.Stack</InheritedFrom>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <NotMatches />
+                <Description>Stack should end with Collection or Stack.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>None</Rule>
+                <MustHaveSuffixes>
+                  <string>Collection</string>
+                  <string>Stack</string>
+                </MustHaveSuffixes>
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Collections.ICollection</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Collections.IEnumerable</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Collections.Generic.ICollection</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <NotMatches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Collections.Stack</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Collections.Queue</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Collections.Generic.Stack</InheritedFrom>
+                    <MarkedWithAttribute />
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </NotMatches>
+                <Description>Collections should end with Collection.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>None</Rule>
+                <MustHaveSuffixes>
+                  <string>Collection</string>
+                </MustHaveSuffixes>
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Collections.IDictionary</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Collections.Generic.IDictionary</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Dictionary should end with Dictionary.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>None</Rule>
+                <MustHaveSuffixes>
+                  <string>Dictionary</string>
+                </MustHaveSuffixes>
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Class</Declaration>
+                    <InheritedFrom>System.Collections.Queue</InheritedFrom>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Queue should end with Collection or Queue.</Description>
+                <MustHavePrefixes />
+                <MustNotHavePrefixes />
+                <Rule>None</Rule>
+                <MustHaveSuffixes>
+                  <string>Collection</string>
+                  <string>Queue</string>
+                </MustHaveSuffixes>
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+              <NamingConventionRule>
+                <IsDisabled>false</IsDisabled>
+                <Matches>
+                  <Match>
+                    <AccessLevel>Any</AccessLevel>
+                    <Declaration>Interface</Declaration>
+                    <IsReadOnly>Maybe</IsReadOnly>
+                    <IsStatic>Maybe</IsStatic>
+                    <ParamDirection>Any</ParamDirection>
+                  </Match>
+                </Matches>
+                <Description>Interfaces should be in Pascal and start with I.</Description>
+                <MustHavePrefixes>
+                  <string>I</string>
+                </MustHavePrefixes>
+                <MustNotHavePrefixes />
+                <Rule>Pascal</Rule>
+                <MustHaveSuffixes />
+                <MustNotHaveSuffixes />
+              </NamingConventionRule>
+            </Rules>
+            <Exclusions>
+              <string>Ioc</string>
+              <string>MVVM</string>
+            </Exclusions>
+          </NamingConventionSettings>
+          <IdentifiersToSpellCheck>
+            <Match>
+              <AccessLevel>Public Protected ProtectedInternal</AccessLevel>
+              <Declaration>Any</Declaration>
+              <IsReadOnly>Maybe</IsReadOnly>
+              <IsStatic>Maybe</IsStatic>
+              <ParamDirection>Any</ParamDirection>
+            </Match>
+          </IdentifiersToSpellCheck>
+          <IdentifiersNotToSpellCheck />
+          <PatternsToIgnore>
+            <string>(?#email)\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*</string>
+            <string>(?#url)http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&amp;=]*)?</string>
+          </PatternsToIgnore>
+        </CodeStyleSettings>
+      </AgentSmithCSharpStyleSettings>
+      <CSharp>
+        <FormatSettings>
+          <FORCE_FIXED_BRACES_STYLE>ALWAYS_ADD</FORCE_FIXED_BRACES_STYLE>
+          <FORCE_FOR_BRACES_STYLE>ALWAYS_ADD</FORCE_FOR_BRACES_STYLE>
+          <FORCE_FOREACH_BRACES_STYLE>ALWAYS_ADD</FORCE_FOREACH_BRACES_STYLE>
+          <FORCE_IFELSE_BRACES_STYLE>ALWAYS_ADD</FORCE_IFELSE_BRACES_STYLE>
+          <FORCE_USING_BRACES_STYLE>ALWAYS_ADD</FORCE_USING_BRACES_STYLE>
+          <FORCE_WHILE_BRACES_STYLE>ALWAYS_ADD</FORCE_WHILE_BRACES_STYLE>
+          <MODIFIERS_ORDER IsNull="False">
+            <Item>public</Item>
+            <Item>protected</Item>
+            <Item>internal</Item>
+            <Item>private</Item>
+            <Item>new</Item>
+            <Item>abstract</Item>
+            <Item>virtual</Item>
+            <Item>override</Item>
+            <Item>sealed</Item>
+            <Item>static</Item>
+            <Item>readonly</Item>
+            <Item>extern</Item>
+            <Item>unsafe</Item>
+            <Item>volatile</Item>
+          </MODIFIERS_ORDER>
+          <PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE>False</PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE>
+          <REDUNDANT_THIS_QUALIFIER_STYLE>USE_FOR_THIS_CLASS</REDUNDANT_THIS_QUALIFIER_STYLE>
+          <SPACE_AFTER_TYPECAST_PARENTHESES>False</SPACE_AFTER_TYPECAST_PARENTHESES>
+          <SPACE_AROUND_ALIAS_EQ>False</SPACE_AROUND_ALIAS_EQ>
+          <SPACE_AROUND_MULTIPLICATIVE_OP>True</SPACE_AROUND_MULTIPLICATIVE_OP>
+          <SPACE_BEFORE_FIXED_PARENTHESES>False</SPACE_BEFORE_FIXED_PARENTHESES>
+          <SPACE_BEFORE_FOREACH_PARENTHESES>False</SPACE_BEFORE_FOREACH_PARENTHESES>
+          <SPACE_BEFORE_SIZEOF_PARENTHESES>False</SPACE_BEFORE_SIZEOF_PARENTHESES>
+          <SPACE_BEFORE_TYPEOF_PARENTHESES>False</SPACE_BEFORE_TYPEOF_PARENTHESES>
+          <SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES>True</SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES>
+          <WRAP_AFTER_DECLARATION_LPAR>True</WRAP_AFTER_DECLARATION_LPAR>
+          <WRAP_AFTER_INVOCATION_LPAR>True</WRAP_AFTER_INVOCATION_LPAR>
+          <WRAP_ARGUMENTS_STYLE>CHOP_IF_LONG</WRAP_ARGUMENTS_STYLE>
+          <WRAP_PARAMETERS_STYLE>CHOP_IF_LONG</WRAP_PARAMETERS_STYLE>
+        </FormatSettings>
+        <UsingsSettings>
+          <AddImportsToDeepestScope>True</AddImportsToDeepestScope>
+          <QualifiedUsingAtNestedScope>True</QualifiedUsingAtNestedScope>
+        </UsingsSettings>
+        <Naming2>
+          <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+          <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+          <OverrideDefaultSettings>True</OverrideDefaultSettings>
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
+          <PredefinedRule Inspect="True" Prefix="I" Suffix="" Style="AaBb" ElementKind="Interfaces" />
+          <PredefinedRule Inspect="True" Prefix="T" Suffix="" Style="AaBb" ElementKind="TypeParameters" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Locals" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="LocalConstants" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Parameters" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="PublicFields" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="PrivateInstanceFields" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="PrivateStaticFields" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Constants" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AA_BB" ElementKind="PrivateConstants" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="StaticReadonly" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateStaticReadonly" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="EnumMember" />
+          <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
+        </Naming2>
+        <CustomMemberReorderingPatterns><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Patterns xmlns="urn:shemas-jetbrains-com:member-reordering-patterns">
+
+  <!--Do not reorder COM interfaces and structs marked by 
+      StructLayout attribute-->
+  <Pattern>
+    <Match>
+      <Or Weight="100">
+        <And>
+          <Kind Is="interface"/>
+          <HasAttribute CLRName="System.Runtime.InteropServices.InterfaceTypeAttribute"/>
+        </And>
+        <HasAttribute CLRName="System.Runtime.InteropServices.StructLayoutAttribute"/>
+      </Or>
+    </Match>
+  </Pattern>
+
+  <!--Special formatting of NUnit test fixture-->
+  <Pattern RemoveAllRegions="true">
+    <Match>
+      <And Weight="100">
+        <Kind Is="class"/>
+        <HasAttribute CLRName="NUnit.Framework.TestFixtureAttribute" 
+                      Inherit="true"/>
+      </And>
+    </Match>
+
+    <!--Setup/Teardow-->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="method"/>
+          <Or>
+            <HasAttribute CLRName="NUnit.Framework.SetUpAttribute" 
+                          Inherit="true"/>
+            <HasAttribute CLRName="NUnit.Framework.TearDownAttribute" 
+                          Inherit="true"/>
+            <HasAttribute CLRName="NUnit.Framework.FixtureSetUpAttribute" 
+                          Inherit="true"/>
+            <HasAttribute CLRName="NUnit.Framework.FixtureTearDownAttribute" 
+                          Inherit="true"/>
+          </Or>
+        </And>
+      </Match>
+      <Group Region="Setup/Teardown"/>
+    </Entry>
+
+    <!--All other members-->
+    <Entry/>
+
+    <!--Test methods-->
+    <Entry>
+      <Match>
+        <And Weight="100">
+          <Kind Is="method"/>
+          <HasAttribute CLRName="NUnit.Framework.TestAttribute" 
+                        Inherit="false"/>
+        </And>
+      </Match>
+      <Sort>
+        <Name/>
+      </Sort>
+    </Entry>
+  </Pattern>
+
+  <!--Default pattern-->
+  <Pattern>
+    <!--public enum-->
+    <Entry>
+      <Match>
+        <And Weight="100">
+          <Access Is="public"/>
+          <Kind Is="enum"/>
+        </And>
+      </Match>
+      <Sort>
+        <Name/>
+      </Sort>
+      <Group>
+        <Name Region="${Name} enum"/>
+      </Group>
+    </Entry>
+
+    <!--fields and constants-->
+    <Entry>
+      <Match>
+        <Or>
+          <Kind Is="constant"/>
+          <Kind Is="field"/>
+        </Or>
+      </Match>
+      <Sort>
+        <Kind Order="constant field"/>
+        <Static/>
+        <Access Order="public internal protected-internal protected private" />
+        <Readonly/>
+        <Name/>
+      </Sort>
+      <Group Region="Fields"/>
+    </Entry>
+
+    <!--Constructors. Place static one first-->
+    <Entry>
+      <Match>
+<Or>
+        <Kind Is="constructor"/>
+        <Kind Is="destructor"/>
+</Or>
+      </Match>
+      <Sort>
+        <Static/>
+        <Kind Order="constructor destructor"/>
+      </Sort>
+      <Group Region="Constructors"/>
+    </Entry>
+
+    <!--public delegate-->
+    <Entry>
+      <Match>
+        <And Weight="100">
+          <Access Is="public"/>
+          <Kind Is="delegate"/>
+        </And>
+      </Match>
+      <Sort>
+        <Name/>
+      </Sort>
+      <Group Region="Delegates"/>
+    </Entry>
+
+    <!-- Delegates-->
+    <Entry>
+      <Match>
+        <Kind Is="delegate"/>
+      </Match>
+      <Sort>
+        <Name/>
+      </Sort>
+      <Group Region="Delegates"/>
+    </Entry>
+
+    <!-- Events-->
+    <Entry>
+      <Match>
+        <Kind Is="event"/>
+      </Match>
+      <Sort>
+        <Name/>
+      </Sort>
+      <Group Region="Events"/>
+    </Entry>
+
+    <!-- property-->
+    <Entry>
+      <Match>
+<And>
+          <Kind Is="property"/>
+<Not>
+          <Kind Is="indexer"/>
+</Not>
+</And>
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private" />
+        <Name/>
+      </Sort>
+      <Group Region="Properties"/>
+    </Entry>
+
+    <!-- indexers-->
+    <Entry>
+      <Match>
+          <Kind Is="indexer"/>
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private" />
+        <Name/>
+      </Sort>
+      <!----><Group Region="Indexers"/>
+    </Entry>
+
+    <!--interface implementations-->
+    <Entry>
+      <Match>
+        <And Weight="100">
+          <Kind Is="member"/>
+          <ImplementsInterface/>
+<Kind Is="enum"/>
+        </And>
+      </Match>
+      <Sort>
+        <ImplementsInterface Immediate="true"/>
+        <Kind Order="property"/>
+        <Name/>
+      </Sort>
+      <Group>
+        <ImplementsInterface Immediate="true" 
+                             Region="${ImplementsInterface} Members"/>
+      </Group>
+    </Entry>
+
+
+    <!-- public Operators -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="operator"/>
+          <Access Is="public"/>
+        </And>
+      </Match>
+      <Sort>
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group>
+      </Group>
+    </Entry>
+
+    <!-- public Methods -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="method"/>
+          <Access Is="public"/>
+        </And>
+      </Match>
+      <Sort>
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group>
+      </Group>
+    </Entry>
+
+    <!-- internal Methods -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="method"/>
+          <Access Is="internal"/>
+        </And>
+      </Match>
+      <Sort>
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group>
+      </Group>
+    </Entry>
+
+    <!--protected internal Methods -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="method"/>
+          <Access Is="protected-internal"/>
+        </And>
+      </Match>
+      <Sort>
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group>
+      </Group>
+    </Entry>
+
+
+    <!-- protected Methods -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="method"/>
+          <Access Is="protected"/>
+        </And>
+      </Match>
+      <Sort>
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group>
+      </Group>
+    </Entry>
+
+    <!-- private Methods -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="method"/>
+          <Access Is="private"/>
+        </And>
+      </Match>
+      <Sort>
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group>
+      </Group>
+    </Entry>
+
+    <!--all other members-->
+    <Entry/>
+
+    <!--nested types-->
+    <Entry>
+      <Match>
+        <Kind Is="type"/>
+      </Match>
+      <Sort>
+        <Name/>
+      </Sort>
+      <Group>
+        <Name Region="Nested type: ${Name}"/>
+      </Group>
+    </Entry>
+  </Pattern>
+</Patterns>
+<!--
+I. Overall
+
+I.1 Each pattern can have <Match>....</Match> element. For the given type 
+    declaration, the pattern with the match, evaluated to 'true' with the 
+    largest weight, will be used 
+I.2 Each pattern consists of the sequence of <Entry>...</Entry> elements. 
+    Type member declarations are distributed between entries
+I.3 If pattern has RemoveAllRegions="true" attribute, then all regions 
+    will be cleared prior to reordering. Otherwise, only auto-generated 
+    regions will be cleared
+I.4 The contents of each entry is sorted by given keys (First key is 
+    primary,  next key is secondary, etc). Then the declarations are 
+    grouped and en-regioned by given property
+
+II. Available match operands
+
+Each operand may have Weight="..." attribute. This weight will be added 
+to the match weight if the operand is evaluated to 'true'.The default 
+weight is 1
+
+II.1 Boolean functions:
+II.1.1 <And>....</And>
+II.1.2 <Or>....</Or>
+II.1.3 <Not>....</Not>
+
+II.2 Operands
+II.2.1  <Kind Is="..."/>. Kinds are: class, struct, interface, enum, 
+        delegate, type, constructor, destructor, property, indexer, method, 
+        operator, field, constant, event, member
+II.2.2  <Name Is="..." [IgnoreCase="true/false"] />. The 'Is' attribute 
+        contains regular expression
+II.2.3  <HasAttribute CLRName="..." [Inherit="true/false"] />. The 'CLRName'
+        attribute contains regular expression
+II.2.4  <Access Is="..."/>. The 'Is' values are: public, protected, internal,
+        protected internal, private
+II.2.5  <Static/>
+II.2.6  <Abstract/>
+II.2.7  <Virtual/>
+II.2.8  <Override/>
+II.2.9  <Sealed/>
+II.2.10 <Readonly/>
+II.2.11 <ImplementsInterface CLRName="..."/>. The 'CLRName' attribute 
+        contains regular expression
+II.2.12 <HandlesEvent />
+-->
+
+]]></CustomMemberReorderingPatterns>
+      </CSharp>
+      <VB>
+        <FormatSettings>
+          <WRAP_ARGUMENTS_STYLE>CHOP_IF_LONG</WRAP_ARGUMENTS_STYLE>
+          <WRAP_PARAMETERS_STYLE>CHOP_IF_LONG</WRAP_PARAMETERS_STYLE>
+        </FormatSettings>
+        <ImportsSettings />
+        <Naming2>
+          <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+          <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+        </Naming2>
+      </VB>
+      <Web>
+        <Naming2 />
+      </Web>
+      <Xaml>
+        <Naming2 />
+      </Xaml>
+      <XML>
+        <FormatSettings />
+      </XML>
+      <FileHeader><![CDATA[<copyright file="$FileName$" company="$Company$">
+Copyright (c) 2012 All Right Reserved
+</copyright>
+<author>Jedzia</author>
+<email>jed69@gmx.de</email>
+<date>$date$</date>
+<summary>$summary$</summary>]]></FileHeader>
+      <GenerateMemberBody />
+      <Naming2>
+        <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+        <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
+        <PredefinedRule Inspect="True" Prefix="I" Suffix="" Style="AaBb" ElementKind="Interfaces" />
+        <PredefinedRule Inspect="True" Prefix="T" Suffix="" Style="AaBb" ElementKind="TypeParameters" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Locals" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="LocalConstants" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Parameters" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PublicFields" />
+        <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateInstanceFields" />
+        <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateStaticFields" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Constants" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AA_BB" ElementKind="PrivateConstants" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="StaticReadonly" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateStaticReadonly" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="EnumMember" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
+      </Naming2>
+    </CodeStyleSettings>
+    <AgentJohnson.IntroduceStringConstant>
+      <GenerateXmlComment>False</GenerateXmlComment>
+    </AgentJohnson.IntroduceStringConstant>
+    <AgentJohnson>
+      <SerializableTypeConfigurations><![CDATA[<types />]]></SerializableTypeConfigurations>
+    </AgentJohnson>
+    <HighlightingSettings>
+      <ValueAnalysisMode>OPTIMISTIC</ValueAnalysisMode>
+      <SeverityTable>
+        <CheckNamespace>WARNING</CheckNamespace>
+        <Asp.Entity>WARNING</Asp.Entity>
+        <Asp.Image>WARNING</Asp.Image>
+        <Asp.NotResolved>ERROR</Asp.NotResolved>
+        <Asp.PathError>WARNING</Asp.PathError>
+        <Asp.TagAttributeWithOptionalValue>WARNING</Asp.TagAttributeWithOptionalValue>
+        <Xaml.RedundanNamespaceAlias>WARNING</Xaml.RedundanNamespaceAlias>
+        <Xaml.RedundanResource>WARNING</Xaml.RedundanResource>
+        <Xaml.LanguageLevel>ERROR</Xaml.LanguageLevel>
+        <UnknownProperty>WARNING</UnknownProperty>
+        <UnknownTarget>WARNING</UnknownTarget>
+        <UnknownItemGroup>WARNING</UnknownItemGroup>
+        <UnknownTask>WARNING</UnknownTask>
+        <UnknownTaskElement>WARNING</UnknownTaskElement>
+        <LoopCanBeConvertedToQuery>SUGGESTION</LoopCanBeConvertedToQuery>
+        <LoopCanBePartlyConvertedToQuery>HINT</LoopCanBePartlyConvertedToQuery>
+        <ForCanBeConvertedToForeach>SUGGESTION</ForCanBeConvertedToForeach>
+        <UnusedType.Local>WARNING</UnusedType.Local>
+        <UnusedType.Global>SUGGESTION</UnusedType.Global>
+        <UnusedMember.Local>WARNING</UnusedMember.Local>
+        <UnusedMember.Global>SUGGESTION</UnusedMember.Global>
+        <UnusedMemberInSuper.Local>WARNING</UnusedMemberInSuper.Local>
+        <UnusedMemberInSuper.Global>SUGGESTION</UnusedMemberInSuper.Global>
+        <UnusedMemberHiearchy.Local>WARNING</UnusedMemberHiearchy.Local>
+        <UnusedMemberHiearchy.Global>SUGGESTION</UnusedMemberHiearchy.Global>
+        <RedundantBaseConstructorCall>WARNING</RedundantBaseConstructorCall>
+        <EmptyConstructor>WARNING</EmptyConstructor>
+        <EmptyDestructor>WARNING</EmptyDestructor>
+        <RedundantOverridenMember>WARNING</RedundantOverridenMember>
+        <EmptyNamespace>WARNING</EmptyNamespace>
+        <SealedMemberInSealedClass>WARNING</SealedMemberInSealedClass>
+        <RedundantExtendsListEntry>WARNING</RedundantExtendsListEntry>
+        <PartialTypeWithSinglePart>WARNING</PartialTypeWithSinglePart>
+        <PartialMethodWithSinglePart>WARNING</PartialMethodWithSinglePart>
+        <EnumUnderlyingTypeIsInt>WARNING</EnumUnderlyingTypeIsInt>
+        <RedundantDefaultFieldInitializer>WARNING</RedundantDefaultFieldInitializer>
+        <RedundantParams>WARNING</RedundantParams>
+        <UnusedMethodReturnValue.Local>WARNING</UnusedMethodReturnValue.Local>
+        <UnusedMethodReturnValue.Global>SUGGESTION</UnusedMethodReturnValue.Global>
+        <UnusedParameter.Local>WARNING</UnusedParameter.Local>
+        <UnusedParameter.Global>SUGGESTION</UnusedParameter.Global>
+        <UnusedTypeParameter>WARNING</UnusedTypeParameter>
+        <VirtualMemberNeverOverriden.Local>SUGGESTION</VirtualMemberNeverOverriden.Local>
+        <VirtualMemberNeverOverriden.Global>SUGGESTION</VirtualMemberNeverOverriden.Global>
+        <ClassWithVirtualMembersNeverInherited.Local>SUGGESTION</ClassWithVirtualMembersNeverInherited.Local>
+        <ClassWithVirtualMembersNeverInherited.Global>SUGGESTION</ClassWithVirtualMembersNeverInherited.Global>
+        <RedundantOverload.Local>SUGGESTION</RedundantOverload.Local>
+        <RedundantOverload.Global>SUGGESTION</RedundantOverload.Global>
+        <SuggestUseVarKeywordEverywhere>HINT</SuggestUseVarKeywordEverywhere>
+        <SuggestUseVarKeywordEvident>SUGGESTION</SuggestUseVarKeywordEvident>
+        <UseObjectOrCollectionInitializer>SUGGESTION</UseObjectOrCollectionInitializer>
+        <InvokeAsExtensionMethod>SUGGESTION</InvokeAsExtensionMethod>
+        <ConvertToAutoProperty>SUGGESTION</ConvertToAutoProperty>
+        <ConvertToAutoPropertyWithPrivateSetter>HINT</ConvertToAutoPropertyWithPrivateSetter>
+        <ConvertNullableToShortForm>SUGGESTION</ConvertNullableToShortForm>
+        <ConvertIfStatementToNullCoalescingExpression>SUGGESTION</ConvertIfStatementToNullCoalescingExpression>
+        <ConvertIfStatementToConditionalTernaryExpression>SUGGESTION</ConvertIfStatementToConditionalTernaryExpression>
+        <ConvertIfStatementToReturnStatement>HINT</ConvertIfStatementToReturnStatement>
+        <ConvertConditionalTernaryToNullCoalescing>SUGGESTION</ConvertConditionalTernaryToNullCoalescing>
+        <InvertIf>HINT</InvertIf>
+        <ConvertIfStatementToSwitchStatement>HINT</ConvertIfStatementToSwitchStatement>
+        <ConvertToStaticClass>SUGGESTION</ConvertToStaticClass>
+        <ConvertToLambdaExpression>SUGGESTION</ConvertToLambdaExpression>
+        <ConvertClosureToMethodGroup>SUGGESTION</ConvertClosureToMethodGroup>
+        <IntroduceOptionalParameters.Local>SUGGESTION</IntroduceOptionalParameters.Local>
+        <IntroduceOptionalParameters.Global>SUGGESTION</IntroduceOptionalParameters.Global>
+        <MethodGroupOfStruct>SUGGESTION</MethodGroupOfStruct>
+        <MethodGroupOfInterface>SUGGESTION</MethodGroupOfInterface>
+        <TooWideLocalVariableScope>SUGGESTION</TooWideLocalVariableScope>
+        <MoreSpecificForeachVariableTypeAvailable>SUGGESTION</MoreSpecificForeachVariableTypeAvailable>
+        <PublicConstructorInAbstractClass>SUGGESTION</PublicConstructorInAbstractClass>
+        <ReplaceWithStringIsNullOrEmpty>SUGGESTION</ReplaceWithStringIsNullOrEmpty>
+        <TypeParameterCanBeVariant>SUGGESTION</TypeParameterCanBeVariant>
+        <JoinDeclarationAndInitializer>SUGGESTION</JoinDeclarationAndInitializer>
+        <AccessToStaticMemberViaDerivedType>WARNING</AccessToStaticMemberViaDerivedType>
+        <BaseMemberHasParams>WARNING</BaseMemberHasParams>
+        <MemberCanBePrivate.Local>SUGGESTION</MemberCanBePrivate.Local>
+        <MemberCanBePrivate.Global>SUGGESTION</MemberCanBePrivate.Global>
+        <MemberCanBeProtected.Local>SUGGESTION</MemberCanBeProtected.Local>
+        <MemberCanBeProtected.Global>SUGGESTION</MemberCanBeProtected.Global>
+        <MemberCanBeInternal>DO_NOT_SHOW</MemberCanBeInternal>
+        <ConvertToConstant.Local>SUGGESTION</ConvertToConstant.Local>
+        <ConvertToConstant.Global>SUGGESTION</ConvertToConstant.Global>
+        <FieldCanBeMadeReadOnly.Local>SUGGESTION</FieldCanBeMadeReadOnly.Local>
+        <FieldCanBeMadeReadOnly.Global>SUGGESTION</FieldCanBeMadeReadOnly.Global>
+        <SuggestBaseTypeForParameter>HINT</SuggestBaseTypeForParameter>
+        <ParameterTypeCanBeEnumerable.Local>SUGGESTION</ParameterTypeCanBeEnumerable.Local>
+        <ParameterTypeCanBeEnumerable.Global>SUGGESTION</ParameterTypeCanBeEnumerable.Global>
+        <ReturnTypeCanBeEnumerable.Local>SUGGESTION</ReturnTypeCanBeEnumerable.Local>
+        <ReturnTypeCanBeEnumerable.Global>SUGGESTION</ReturnTypeCanBeEnumerable.Global>
+        <MemberCanBeMadeStatic.Local>HINT</MemberCanBeMadeStatic.Local>
+        <MemberCanBeMadeStatic.Global>SUGGESTION</MemberCanBeMadeStatic.Global>
+        <RedundantUsingDirective>WARNING</RedundantUsingDirective>
+        <ClassCanBeSealed.Local>DO_NOT_SHOW</ClassCanBeSealed.Local>
+        <ClassCanBeSealed.Global>DO_NOT_SHOW</ClassCanBeSealed.Global>
+        <NegativeEqualityExpression>SUGGESTION</NegativeEqualityExpression>
+        <UseIndexedProperty>SUGGESTION</UseIndexedProperty>
+        <PossibleNullReferenceException>WARNING</PossibleNullReferenceException>
+        <PossibleInvalidOperationException>WARNING</PossibleInvalidOperationException>
+        <PossibleInvalidCastException>WARNING</PossibleInvalidCastException>
+        <SimilarAnonymousTypeNearby>HINT</SimilarAnonymousTypeNearby>
+        <FunctionNeverReturns>WARNING</FunctionNeverReturns>
+        <LocalVariableHidesMember>WARNING</LocalVariableHidesMember>
+        <EmptyGeneralCatchClause>WARNING</EmptyGeneralCatchClause>
+        <ParameterHidesMember>WARNING</ParameterHidesMember>
+        <ValueParameterNotUsed>WARNING</ValueParameterNotUsed>
+        <DoNotCallOverridableMethodsInConstructor>WARNING</DoNotCallOverridableMethodsInConstructor>
+        <PossibleIntendedRethrow>WARNING</PossibleIntendedRethrow>
+        <FormatStringProblem>WARNING</FormatStringProblem>
+        <ReferenceEqualsWithValueType>WARNING</ReferenceEqualsWithValueType>
+        <CompareNonConstrainedGenericWithNull>WARNING</CompareNonConstrainedGenericWithNull>
+        <AccessToModifiedClosure>WARNING</AccessToModifiedClosure>
+        <PossibleInterfaceMemberAmbiguity>WARNING</PossibleInterfaceMemberAmbiguity>
+        <BitwiseOperatorOnEnumWihtoutFlags>WARNING</BitwiseOperatorOnEnumWihtoutFlags>
+        <PossibleLossOfFraction>WARNING</PossibleLossOfFraction>
+        <ConstructorInitializerLoop>WARNING</ConstructorInitializerLoop>
+        <OptionalParameterHierarchyMismatch>WARNING</OptionalParameterHierarchyMismatch>
+        <ClassNeverInstantiated.Local>SUGGESTION</ClassNeverInstantiated.Local>
+        <ClassNeverInstantiated.Global>SUGGESTION</ClassNeverInstantiated.Global>
+        <UnaccessedField.Local>WARNING</UnaccessedField.Local>
+        <UnaccessedField.Global>SUGGESTION</UnaccessedField.Global>
+        <EventNeverSubscribedTo.Local>SUGGESTION</EventNeverSubscribedTo.Local>
+        <EventNeverSubscribedTo.Global>SUGGESTION</EventNeverSubscribedTo.Global>
+        <UnassignedField.Global>SUGGESTION</UnassignedField.Global>
+        <UnusedAutoPropertyAccessor.Local>WARNING</UnusedAutoPropertyAccessor.Local>
+        <UnusedAutoPropertyAccessor.Global>WARNING</UnusedAutoPropertyAccessor.Global>
+        <EventNeverInvoked.Global>SUGGESTION</EventNeverInvoked.Global>
+        <SuspiciousTypeConversion.Global>SUGGESTION</SuspiciousTypeConversion.Global>
+        <CompareWithNaN>WARNING</CompareWithNaN>
+        <PossibleAssignmentToReadonlyField>WARNING</PossibleAssignmentToReadonlyField>
+        <StaticFieldInitializersReferesToFieldBelow>WARNING</StaticFieldInitializersReferesToFieldBelow>
+        <EventUnsubscriptionViaAnonimousDelegate>WARNING</EventUnsubscriptionViaAnonimousDelegate>
+        <ForControlVariableIsNeverModified>WARNING</ForControlVariableIsNeverModified>
+        <EqualExpressionComparison>WARNING</EqualExpressionComparison>
+        <ConditionalTernaryEqualBranch>WARNING</ConditionalTernaryEqualBranch>
+        <PolymorphicFieldLikeEventInvocation>WARNING</PolymorphicFieldLikeEventInvocation>
+        <MemberHidesStaticFromOuterClass>WARNING</MemberHidesStaticFromOuterClass>
+        <PartialMethodParameterNameMismatch>WARNING</PartialMethodParameterNameMismatch>
+        <DynamicShiftRightOpIsNotInt>WARNING</DynamicShiftRightOpIsNotInt>
+        <AssignNullToNotNullAttribute>WARNING</AssignNullToNotNullAttribute>
+        <CannotApplyEqualityOperatorToType>WARNING</CannotApplyEqualityOperatorToType>
+        <InconsistentNaming>WARNING</InconsistentNaming>
+        <RequiredBaseTypesIsNotInherited>WARNING</RequiredBaseTypesIsNotInherited>
+        <UnsupportedRequiredBaseType>WARNING</UnsupportedRequiredBaseType>
+        <RequiredBaseTypesDirectConflict>WARNING</RequiredBaseTypesDirectConflict>
+        <RequiredBaseTypesConflict>WARNING</RequiredBaseTypesConflict>
+        <ConditionIsAlwaysTrueOrFalse>WARNING</ConditionIsAlwaysTrueOrFalse>
+        <ConstantNullCoalescingCondition>WARNING</ConstantNullCoalescingCondition>
+        <RedundantBoolCompare>WARNING</RedundantBoolCompare>
+        <RedundantThisQualifier>WARNING</RedundantThisQualifier>
+        <RedundantBaseQualifier>WARNING</RedundantBaseQualifier>
+        <RedundantNameQualifier>WARNING</RedundantNameQualifier>
+        <RedundantCast>WARNING</RedundantCast>
+        <RedundantCatchClause>WARNING</RedundantCatchClause>
+        <RedundantEmptyFinallyBlock>WARNING</RedundantEmptyFinallyBlock>
+        <RedundantAssignment>WARNING</RedundantAssignment>
+        <RedundantToStringCall>WARNING</RedundantToStringCall>
+        <RedundantEnumerableCastCall>WARNING</RedundantEnumerableCastCall>
+        <RedundantStringToCharArrayCall>WARNING</RedundantStringToCharArrayCall>
+        <RedundantTypeArgumentsOfMethod>WARNING</RedundantTypeArgumentsOfMethod>
+        <UnusedAnonymousMethodSignature>WARNING</UnusedAnonymousMethodSignature>
+        <RedundantDelegateCreation>WARNING</RedundantDelegateCreation>
+        <RedundantAttributeParentheses>WARNING</RedundantAttributeParentheses>
+        <ForStatementConditionIsTrue>WARNING</ForStatementConditionIsTrue>
+        <RedundantUnsafeContext>WARNING</RedundantUnsafeContext>
+        <RedundantEmptyObjectCreationArgumentList>WARNING</RedundantEmptyObjectCreationArgumentList>
+        <RedundantEmptyObjectOrCollectionInitializer>WARNING</RedundantEmptyObjectOrCollectionInitializer>
+        <RedundantCollectionInitializerElementBraces>WARNING</RedundantCollectionInitializerElementBraces>
+        <RedundantExplicitArrayCreation>WARNING</RedundantExplicitArrayCreation>
+        <RedundantExplicitArraySize>WARNING</RedundantExplicitArraySize>
+        <RedundantIfElseBlock>WARNING</RedundantIfElseBlock>
+        <RedundantCaseLabel>WARNING</RedundantCaseLabel>
+        <RedundantAnonymousTypePropertyName>WARNING</RedundantAnonymousTypePropertyName>
+        <RedundantExplicitNullableCreation>WARNING</RedundantExplicitNullableCreation>
+        <RedundantLambdaParameterType>WARNING</RedundantLambdaParameterType>
+        <RedundantLambdaSignatureParentheses>WARNING</RedundantLambdaSignatureParentheses>
+        <DoubleNegationOperator>WARNING</DoubleNegationOperator>
+        <RedundantArgumentName>WARNING</RedundantArgumentName>
+        <RedundantArgumentDefaultValue>WARNING</RedundantArgumentDefaultValue>
+        <HeuristicUnreachableCode>WARNING</HeuristicUnreachableCode>
+        <RedundantCheckBeforeAssignment>WARNING</RedundantCheckBeforeAssignment>
+        <RedundantLogicalConditionalExpressionOperand>WARNING</RedundantLogicalConditionalExpressionOperand>
+        <RedundantStringType>SUGGESTION</RedundantStringType>
+        <OverridenWithSameValue>SUGGESTION</OverridenWithSameValue>
+        <DuplicateResource>WARNING</DuplicateResource>
+        <OverridenWithEmptyValue>WARNING</OverridenWithEmptyValue>
+        <NotOverridenInSpecificCulture>WARNING</NotOverridenInSpecificCulture>
+        <NotDeclaredInParentCulture>WARNING</NotDeclaredInParentCulture>
+        <FormatStringPlaceholdersMismatch>WARNING</FormatStringPlaceholdersMismatch>
+        <InvalidValueType>WARNING</InvalidValueType>
+        <LocalizableElement>WARNING</LocalizableElement>
+        <UndocumentedThrownException>WARNING</UndocumentedThrownException>
+        <StringEmpty>SUGGESTION</StringEmpty>
+        <ValueAnalysis>WARNING</ValueAnalysis>
+        <Return>WARNING</Return>
+        <StyleCop.DefaultSeverity>SUGGESTION</StyleCop.DefaultSeverity>
+        <StyleCop.SA1600>SUGGESTION</StyleCop.SA1600>
+        <StyleCop.SA1601>SUGGESTION</StyleCop.SA1601>
+        <StyleCop.SA1602>SUGGESTION</StyleCop.SA1602>
+        <StyleCop.SA1603>SUGGESTION</StyleCop.SA1603>
+        <StyleCop.SA1604>SUGGESTION</StyleCop.SA1604>
+        <StyleCop.SA1605>SUGGESTION</StyleCop.SA1605>
+        <StyleCop.SA1606>SUGGESTION</StyleCop.SA1606>
+        <StyleCop.SA1607>SUGGESTION</StyleCop.SA1607>
+        <StyleCop.SA1608>SUGGESTION</StyleCop.SA1608>
+        <StyleCop.SA1609>SUGGESTION</StyleCop.SA1609>
+        <StyleCop.SA1610>SUGGESTION</StyleCop.SA1610>
+        <StyleCop.SA1611>SUGGESTION</StyleCop.SA1611>
+        <StyleCop.SA1612>SUGGESTION</StyleCop.SA1612>
+        <StyleCop.SA1613>SUGGESTION</StyleCop.SA1613>
+        <StyleCop.SA1614>SUGGESTION</StyleCop.SA1614>
+        <StyleCop.SA1615>SUGGESTION</StyleCop.SA1615>
+        <StyleCop.SA1616>SUGGESTION</StyleCop.SA1616>
+        <StyleCop.SA1617>SUGGESTION</StyleCop.SA1617>
+        <StyleCop.SA1618>SUGGESTION</StyleCop.SA1618>
+        <StyleCop.SA1619>SUGGESTION</StyleCop.SA1619>
+        <StyleCop.SA1620>SUGGESTION</StyleCop.SA1620>
+        <StyleCop.SA1621>SUGGESTION</StyleCop.SA1621>
+        <StyleCop.SA1622>SUGGESTION</StyleCop.SA1622>
+        <StyleCop.SA1623>SUGGESTION</StyleCop.SA1623>
+        <StyleCop.SA1624>SUGGESTION</StyleCop.SA1624>
+        <StyleCop.SA1625>SUGGESTION</StyleCop.SA1625>
+        <StyleCop.SA1626>SUGGESTION</StyleCop.SA1626>
+        <StyleCop.SA1627>SUGGESTION</StyleCop.SA1627>
+        <StyleCop.SA1628>SUGGESTION</StyleCop.SA1628>
+        <StyleCop.SA1629>SUGGESTION</StyleCop.SA1629>
+        <StyleCop.SA1630>SUGGESTION</StyleCop.SA1630>
+        <StyleCop.SA1631>SUGGESTION</StyleCop.SA1631>
+        <StyleCop.SA1632>SUGGESTION</StyleCop.SA1632>
+        <StyleCop.SA1642>SUGGESTION</StyleCop.SA1642>
+        <StyleCop.SA1643>SUGGESTION</StyleCop.SA1643>
+        <StyleCop.SA1644>SUGGESTION</StyleCop.SA1644>
+        <StyleCop.SA1645>SUGGESTION</StyleCop.SA1645>
+        <StyleCop.SA1646>SUGGESTION</StyleCop.SA1646>
+        <StyleCop.SA1647>SUGGESTION</StyleCop.SA1647>
+        <StyleCop.SA1633>SUGGESTION</StyleCop.SA1633>
+        <StyleCop.SA1634>SUGGESTION</StyleCop.SA1634>
+        <StyleCop.SA1635>SUGGESTION</StyleCop.SA1635>
+        <StyleCop.SA1636>HINT</StyleCop.SA1636>
+        <StyleCop.SA1637>SUGGESTION</StyleCop.SA1637>
+        <StyleCop.SA1638>SUGGESTION</StyleCop.SA1638>
+        <StyleCop.SA1639>SUGGESTION</StyleCop.SA1639>
+        <StyleCop.SA1640>SUGGESTION</StyleCop.SA1640>
+        <StyleCop.SA1641>SUGGESTION</StyleCop.SA1641>
+        <StyleCop.SA1500>SUGGESTION</StyleCop.SA1500>
+        <StyleCop.SA1501>SUGGESTION</StyleCop.SA1501>
+        <StyleCop.SA1502>SUGGESTION</StyleCop.SA1502>
+        <StyleCop.SA1503>SUGGESTION</StyleCop.SA1503>
+        <StyleCop.SA1504>SUGGESTION</StyleCop.SA1504>
+        <StyleCop.SA1505>SUGGESTION</StyleCop.SA1505>
+        <StyleCop.SA1506>SUGGESTION</StyleCop.SA1506>
+        <StyleCop.SA1507>SUGGESTION</StyleCop.SA1507>
+        <StyleCop.SA1508>SUGGESTION</StyleCop.SA1508>
+        <StyleCop.SA1509>SUGGESTION</StyleCop.SA1509>
+        <StyleCop.SA1510>SUGGESTION</StyleCop.SA1510>
+        <StyleCop.SA1511>SUGGESTION</StyleCop.SA1511>
+        <StyleCop.SA1512>SUGGESTION</StyleCop.SA1512>
+        <StyleCop.SA1513>SUGGESTION</StyleCop.SA1513>
+        <StyleCop.SA1514>SUGGESTION</StyleCop.SA1514>
+        <StyleCop.SA1515>SUGGESTION</StyleCop.SA1515>
+        <StyleCop.SA1516>SUGGESTION</StyleCop.SA1516>
+        <StyleCop.SA1400>SUGGESTION</StyleCop.SA1400>
+        <StyleCop.SA1401>SUGGESTION</StyleCop.SA1401>
+        <StyleCop.SA1402>SUGGESTION</StyleCop.SA1402>
+        <StyleCop.SA1403>SUGGESTION</StyleCop.SA1403>
+        <StyleCop.SA1404>SUGGESTION</StyleCop.SA1404>
+        <StyleCop.SA1405>SUGGESTION</StyleCop.SA1405>
+        <StyleCop.SA1406>SUGGESTION</StyleCop.SA1406>
+        <StyleCop.SA1119>SUGGESTION</StyleCop.SA1119>
+        <StyleCop.SA1407>SUGGESTION</StyleCop.SA1407>
+        <StyleCop.SA1408>SUGGESTION</StyleCop.SA1408>
+        <StyleCop.SA1410>SUGGESTION</StyleCop.SA1410>
+        <StyleCop.SA1409>SUGGESTION</StyleCop.SA1409>
+        <StyleCop.SA1300>SUGGESTION</StyleCop.SA1300>
+        <StyleCop.SA1301>SUGGESTION</StyleCop.SA1301>
+        <StyleCop.SA1302>SUGGESTION</StyleCop.SA1302>
+        <StyleCop.SA1303>SUGGESTION</StyleCop.SA1303>
+        <StyleCop.SA1304>SUGGESTION</StyleCop.SA1304>
+        <StyleCop.SA1305>SUGGESTION</StyleCop.SA1305>
+        <StyleCop.SA1306>SUGGESTION</StyleCop.SA1306>
+        <StyleCop.SA1307>SUGGESTION</StyleCop.SA1307>
+        <StyleCop.SA1308>SUGGESTION</StyleCop.SA1308>
+        <StyleCop.SA1309>SUGGESTION</StyleCop.SA1309>
+        <StyleCop.SA1310>SUGGESTION</StyleCop.SA1310>
+        <StyleCop.SA1200>SUGGESTION</StyleCop.SA1200>
+        <StyleCop.SA1201>SUGGESTION</StyleCop.SA1201>
+        <StyleCop.SA1202>SUGGESTION</StyleCop.SA1202>
+        <StyleCop.SA1203>SUGGESTION</StyleCop.SA1203>
+        <StyleCop.SA1204>SUGGESTION</StyleCop.SA1204>
+        <StyleCop.SA1205>SUGGESTION</StyleCop.SA1205>
+        <StyleCop.SA1206>SUGGESTION</StyleCop.SA1206>
+        <StyleCop.SA1207>SUGGESTION</StyleCop.SA1207>
+        <StyleCop.SA1212>SUGGESTION</StyleCop.SA1212>
+        <StyleCop.SA1213>SUGGESTION</StyleCop.SA1213>
+        <StyleCop.SA1208>SUGGESTION</StyleCop.SA1208>
+        <StyleCop.SA1209>SUGGESTION</StyleCop.SA1209>
+        <StyleCop.SA1210>SUGGESTION</StyleCop.SA1210>
+        <StyleCop.SA1211>SUGGESTION</StyleCop.SA1211>
+        <StyleCop.SA1100>SUGGESTION</StyleCop.SA1100>
+        <StyleCop.SA1101>SUGGESTION</StyleCop.SA1101>
+        <StyleCop.SA1102>SUGGESTION</StyleCop.SA1102>
+        <StyleCop.SA1103>SUGGESTION</StyleCop.SA1103>
+        <StyleCop.SA1104>SUGGESTION</StyleCop.SA1104>
+        <StyleCop.SA1105>SUGGESTION</StyleCop.SA1105>
+        <StyleCop.SA1106>SUGGESTION</StyleCop.SA1106>
+        <StyleCop.SA1107>SUGGESTION</StyleCop.SA1107>
+        <StyleCop.SA1108>SUGGESTION</StyleCop.SA1108>
+        <StyleCop.SA1109>SUGGESTION</StyleCop.SA1109>
+        <StyleCop.SA1110>SUGGESTION</StyleCop.SA1110>
+        <StyleCop.SA1111>SUGGESTION</StyleCop.SA1111>
+        <StyleCop.SA1112>SUGGESTION</StyleCop.SA1112>
+        <StyleCop.SA1113>SUGGESTION</StyleCop.SA1113>
+        <StyleCop.SA1114>SUGGESTION</StyleCop.SA1114>
+        <StyleCop.SA1115>SUGGESTION</StyleCop.SA1115>
+        <StyleCop.SA1116>SUGGESTION</StyleCop.SA1116>
+        <StyleCop.SA1117>SUGGESTION</StyleCop.SA1117>
+        <StyleCop.SA1118>SUGGESTION</StyleCop.SA1118>
+        <StyleCop.SA1120>SUGGESTION</StyleCop.SA1120>
+        <StyleCop.SA1121>SUGGESTION</StyleCop.SA1121>
+        <StyleCop.SA1122>SUGGESTION</StyleCop.SA1122>
+        <StyleCop.SA1123>SUGGESTION</StyleCop.SA1123>
+        <StyleCop.SA1124>SUGGESTION</StyleCop.SA1124>
+        <StyleCop.SA1000>SUGGESTION</StyleCop.SA1000>
+        <StyleCop.SA1001>SUGGESTION</StyleCop.SA1001>
+        <StyleCop.SA1002>SUGGESTION</StyleCop.SA1002>
+        <StyleCop.SA1003>SUGGESTION</StyleCop.SA1003>
+        <StyleCop.SA1004>SUGGESTION</StyleCop.SA1004>
+        <StyleCop.SA1005>SUGGESTION</StyleCop.SA1005>
+        <StyleCop.SA1006>SUGGESTION</StyleCop.SA1006>
+        <StyleCop.SA1007>SUGGESTION</StyleCop.SA1007>
+        <StyleCop.SA1008>SUGGESTION</StyleCop.SA1008>
+        <StyleCop.SA1009>SUGGESTION</StyleCop.SA1009>
+        <StyleCop.SA1010>SUGGESTION</StyleCop.SA1010>
+        <StyleCop.SA1011>SUGGESTION</StyleCop.SA1011>
+        <StyleCop.SA1012>SUGGESTION</StyleCop.SA1012>
+        <StyleCop.SA1013>SUGGESTION</StyleCop.SA1013>
+        <StyleCop.SA1014>SUGGESTION</StyleCop.SA1014>
+        <StyleCop.SA1015>SUGGESTION</StyleCop.SA1015>
+        <StyleCop.SA1016>SUGGESTION</StyleCop.SA1016>
+        <StyleCop.SA1017>SUGGESTION</StyleCop.SA1017>
+        <StyleCop.SA1018>SUGGESTION</StyleCop.SA1018>
+        <StyleCop.SA1019>SUGGESTION</StyleCop.SA1019>
+        <StyleCop.SA1020>SUGGESTION</StyleCop.SA1020>
+        <StyleCop.SA1021>SUGGESTION</StyleCop.SA1021>
+        <StyleCop.SA1022>SUGGESTION</StyleCop.SA1022>
+        <StyleCop.SA1023>SUGGESTION</StyleCop.SA1023>
+        <StyleCop.SA1024>SUGGESTION</StyleCop.SA1024>
+        <StyleCop.SA1025>SUGGESTION</StyleCop.SA1025>
+        <StyleCop.SA1026>SUGGESTION</StyleCop.SA1026>
+        <StyleCop.SA1027>SUGGESTION</StyleCop.SA1027>
+        <WordIsNotInDictionary>SUGGESTION</WordIsNotInDictionary>
+        <WordCanBeSurroundedWithMetaTags>SUGGESTION</WordCanBeSurroundedWithMetaTags>
+        <PublicMembersMustHaveComments>SUGGESTION</PublicMembersMustHaveComments>
+        <DelcarationDoesntConformToNamingConventions>WARNING</DelcarationDoesntConformToNamingConventions>
+        <ResxSpellCheckSuggestion>WARNING</ResxSpellCheckSuggestion>
+        <StringLiteralsWordIsNotInDictionary>HINT</StringLiteralsWordIsNotInDictionary>
+        <VerbatimStringLiteralsWordIsNotInDictionary>SUGGESTION</VerbatimStringLiteralsWordIsNotInDictionary>
+        <IdentifierWordIsNotInDictionary>HINT</IdentifierWordIsNotInDictionary>
+      </SeverityTable>
+    </HighlightingSettings>
+    <CodeCleanup SilentCleanup="StyleCop" RecentlyUsed="XML">
+      <Profile name="StyleCop">
+        <CSArrangeThisQualifier>True</CSArrangeThisQualifier>
+        <CSRemoveCodeRedundancies>True</CSRemoveCodeRedundancies>
+        <CSUseAutoProperty>True</CSUseAutoProperty>
+        <CSMakeFieldReadonly>True</CSMakeFieldReadonly>
+        <CSUseVar>
+          <BehavourStyle>DISABLED</BehavourStyle>
+          <LocalVariableStyle>IMPLICIT_WHEN_INITIALIZER_HAS_TYPE</LocalVariableStyle>
+          <ForeachVariableStyle>ALWAYS_EXPLICIT</ForeachVariableStyle>
+        </CSUseVar>
+        <CSUpdateFileHeader>True</CSUpdateFileHeader>
+        <VBOptimizeImports>True</VBOptimizeImports>
+        <VBShortenReferences>True</VBShortenReferences>
+        <XMLReformatCode>True</XMLReformatCode>
+        <CSOptimizeUsings>
+          <OptimizeUsings>True</OptimizeUsings>
+          <EmbraceInRegion>False</EmbraceInRegion>
+          <RegionName>
+          </RegionName>
+        </CSOptimizeUsings>
+        <CSShortenReferences>True</CSShortenReferences>
+        <VBReformatCode>True</VBReformatCode>
+        <CSReformatCode>True</CSReformatCode>
+        <CSharpFormatDocComments>False</CSharpFormatDocComments>
+        <AgentJohnsonValueAnalysis>
+          <ValueAnalysis>True</ValueAnalysis>
+          <InsertStatements>True</InsertStatements>
+        </AgentJohnsonValueAnalysis>
+        <CSReorderTypeMembers>True</CSReorderTypeMembers>
+        <StyleCopForReSharperDocumentation>
+          <SA1600ElementsMustBeDocumented>False</SA1600ElementsMustBeDocumented>
+          <SA1604ElementDocumentationMustHaveSummary>False</SA1604ElementDocumentationMustHaveSummary>
+          <SA1609PropertyDocumentationMustHaveValueDocumented>False</SA1609PropertyDocumentationMustHaveValueDocumented>
+          <SA1611ElementParametersMustBeDocumented>False</SA1611ElementParametersMustBeDocumented>
+          <SA1615ElementReturnValueMustBeDocumented>False</SA1615ElementReturnValueMustBeDocumented>
+          <SA1617VoidReturnValueMustNotBeDocumented>False</SA1617VoidReturnValueMustNotBeDocumented>
+          <SA1618GenericTypeParametersMustBeDocumented>False</SA1618GenericTypeParametersMustBeDocumented>
+          <SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes>False</SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes>
+          <SA1628DocumentationTextMustBeginWithACapitalLetter>False</SA1628DocumentationTextMustBeginWithACapitalLetter>
+          <SA1629DocumentationTextMustEndWithAPeriod>False</SA1629DocumentationTextMustEndWithAPeriod>
+          <SA1633SA1641UpdateFileHeader>ReplaceCopyrightElement</SA1633SA1641UpdateFileHeader>
+          <SA1639FileHeaderMustHaveSummary>False</SA1639FileHeaderMustHaveSummary>
+          <SA1642ConstructorSummaryDocumentationMustBeginWithStandardText>False</SA1642ConstructorSummaryDocumentationMustBeginWithStandardText>
+          <SA1643DestructorSummaryDocumentationMustBeginWithStandardText>False</SA1643DestructorSummaryDocumentationMustBeginWithStandardText>
+          <SA1644DocumentationHeadersMustNotContainBlankLines>False</SA1644DocumentationHeadersMustNotContainBlankLines>
+        </StyleCopForReSharperDocumentation>
+        <StyleCopForReSharperLayout>
+          <SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine>True</SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine>
+          <SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine>True</SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine>
+          <SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine>True</SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine>
+          <SA1511WhileDoFooterMustNotBePrecededByBlankLine>True</SA1511WhileDoFooterMustNotBePrecededByBlankLine>
+          <SA1512SingleLineCommentsMustNotBeFollowedByBlankLine>True</SA1512SingleLineCommentsMustNotBeFollowedByBlankLine>
+          <SA1513ClosingCurlyBracketMustBeFollowedByBlankLine>True</SA1513ClosingCurlyBracketMustBeFollowedByBlankLine>
+          <SA1514ElementDocumentationHeaderMustBePrecededByBlankLine>True</SA1514ElementDocumentationHeaderMustBePrecededByBlankLine>
+          <SA1515SingleLineCommentMustBeProceededByBlankLine>True</SA1515SingleLineCommentMustBeProceededByBlankLine>
+        </StyleCopForReSharperLayout>
+        <StyleCopForReSharperMaintainability>
+          <SA1119StatementMustNotUseUnnecessaryParenthesis>True</SA1119StatementMustNotUseUnnecessaryParenthesis>
+        </StyleCopForReSharperMaintainability>
+        <StyleCopForReSharperOrdering>
+          <AlphabeticalUsingDirectives>Alphabetical</AlphabeticalUsingDirectives>
+          <ExpandUsingDirectives>FullyQualify</ExpandUsingDirectives>
+          <SA1212PropertyAccessorsMustFollowOrder>True</SA1212PropertyAccessorsMustFollowOrder>
+          <SA1213EventAccessorsMustFollowOrder>True</SA1213EventAccessorsMustFollowOrder>
+        </StyleCopForReSharperOrdering>
+        <StyleCopForReSharperReadability>
+          <SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists>True</SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists>
+          <SA1106CodeMustNotContainEmptyStatements>True</SA1106CodeMustNotContainEmptyStatements>
+          <SA1108BlockStatementsMustNotContainEmbeddedComments>True</SA1108BlockStatementsMustNotContainEmbeddedComments>
+          <SA1109BlockStatementsMustNotContainEmbeddedRegions>True</SA1109BlockStatementsMustNotContainEmbeddedRegions>
+          <SA1120CommentsMustContainText>True</SA1120CommentsMustContainText>
+          <SA1121UseBuiltInTypeAlias>True</SA1121UseBuiltInTypeAlias>
+          <SA1122UseStringEmptyForEmptyStrings>True</SA1122UseStringEmptyForEmptyStrings>
+          <SA1123DoNotPlaceRegionsWithinElements>True</SA1123DoNotPlaceRegionsWithinElements>
+          <SA1124CodeMustNotContainEmptyRegions>True</SA1124CodeMustNotContainEmptyRegions>
+        </StyleCopForReSharperReadability>
+        <StyleCopForReSharperSpacing>
+          <SA1001CommasMustBeSpacedCorrectly>True</SA1001CommasMustBeSpacedCorrectly>
+          <SA1005SingleLineCommentsMustBeginWithSingleSpace>True</SA1005SingleLineCommentsMustBeginWithSingleSpace>
+          <SA1006PreprocessorKeywordsMustNotBePrecededBySpace>True</SA1006PreprocessorKeywordsMustNotBePrecededBySpace>
+          <SA1021NegativeSignsMustBeSpacedCorrectly>True</SA1021NegativeSignsMustBeSpacedCorrectly>
+          <SA1022PositiveSignsMustBeSpacedCorrectly>True</SA1022PositiveSignsMustBeSpacedCorrectly>
+        </StyleCopForReSharperSpacing>
+      </Profile>
+      <Profile name="XML">
+        <CSArrangeThisQualifier>False</CSArrangeThisQualifier>
+        <CSRemoveCodeRedundancies>False</CSRemoveCodeRedundancies>
+        <CSUseAutoProperty>False</CSUseAutoProperty>
+        <CSMakeFieldReadonly>False</CSMakeFieldReadonly>
+        <CSUseVar>
+          <BehavourStyle>DISABLED</BehavourStyle>
+          <LocalVariableStyle>IMPLICIT_WHEN_INITIALIZER_HAS_TYPE</LocalVariableStyle>
+          <ForeachVariableStyle>ALWAYS_EXPLICIT</ForeachVariableStyle>
+        </CSUseVar>
+        <CSUpdateFileHeader>False</CSUpdateFileHeader>
+        <VBOptimizeImports>False</VBOptimizeImports>
+        <VBShortenReferences>False</VBShortenReferences>
+        <XMLReformatCode>False</XMLReformatCode>
+        <CSOptimizeUsings>
+          <OptimizeUsings>False</OptimizeUsings>
+          <EmbraceInRegion>False</EmbraceInRegion>
+          <RegionName>
+          </RegionName>
+        </CSOptimizeUsings>
+        <CSShortenReferences>False</CSShortenReferences>
+        <VBReformatCode>False</VBReformatCode>
+        <CSReformatCode>False</CSReformatCode>
+        <CSharpFormatDocComments>True</CSharpFormatDocComments>
+        <AgentJohnsonValueAnalysis>
+          <ValueAnalysis>False</ValueAnalysis>
+          <InsertStatements>False</InsertStatements>
+        </AgentJohnsonValueAnalysis>
+        <CSReorderTypeMembers>False</CSReorderTypeMembers>
+        <StyleCopForReSharperDocumentation>
+          <SA1600ElementsMustBeDocumented>True</SA1600ElementsMustBeDocumented>
+          <SA1604ElementDocumentationMustHaveSummary>True</SA1604ElementDocumentationMustHaveSummary>
+          <SA1609PropertyDocumentationMustHaveValueDocumented>False</SA1609PropertyDocumentationMustHaveValueDocumented>
+          <SA1611ElementParametersMustBeDocumented>True</SA1611ElementParametersMustBeDocumented>
+          <SA1615ElementReturnValueMustBeDocumented>True</SA1615ElementReturnValueMustBeDocumented>
+          <SA1617VoidReturnValueMustNotBeDocumented>True</SA1617VoidReturnValueMustNotBeDocumented>
+          <SA1618GenericTypeParametersMustBeDocumented>True</SA1618GenericTypeParametersMustBeDocumented>
+          <SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes>True</SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes>
+          <SA1628DocumentationTextMustBeginWithACapitalLetter>False</SA1628DocumentationTextMustBeginWithACapitalLetter>
+          <SA1629DocumentationTextMustEndWithAPeriod>False</SA1629DocumentationTextMustEndWithAPeriod>
+          <SA1633SA1641UpdateFileHeader>ReplaceCopyrightElement</SA1633SA1641UpdateFileHeader>
+          <SA1639FileHeaderMustHaveSummary>False</SA1639FileHeaderMustHaveSummary>
+          <SA1642ConstructorSummaryDocumentationMustBeginWithStandardText>True</SA1642ConstructorSummaryDocumentationMustBeginWithStandardText>
+          <SA1643DestructorSummaryDocumentationMustBeginWithStandardText>True</SA1643DestructorSummaryDocumentationMustBeginWithStandardText>
+          <SA1644DocumentationHeadersMustNotContainBlankLines>True</SA1644DocumentationHeadersMustNotContainBlankLines>
+        </StyleCopForReSharperDocumentation>
+        <StyleCopForReSharperLayout>
+          <SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine>True</SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine>
+          <SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine>True</SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine>
+          <SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine>True</SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine>
+          <SA1511WhileDoFooterMustNotBePrecededByBlankLine>True</SA1511WhileDoFooterMustNotBePrecededByBlankLine>
+          <SA1512SingleLineCommentsMustNotBeFollowedByBlankLine>True</SA1512SingleLineCommentsMustNotBeFollowedByBlankLine>
+          <SA1513ClosingCurlyBracketMustBeFollowedByBlankLine>True</SA1513ClosingCurlyBracketMustBeFollowedByBlankLine>
+          <SA1514ElementDocumentationHeaderMustBePrecededByBlankLine>True</SA1514ElementDocumentationHeaderMustBePrecededByBlankLine>
+          <SA1515SingleLineCommentMustBeProceededByBlankLine>True</SA1515SingleLineCommentMustBeProceededByBlankLine>
+        </StyleCopForReSharperLayout>
+        <StyleCopForReSharperMaintainability>
+          <SA1119StatementMustNotUseUnnecessaryParenthesis>True</SA1119StatementMustNotUseUnnecessaryParenthesis>
+        </StyleCopForReSharperMaintainability>
+        <StyleCopForReSharperOrdering>
+          <AlphabeticalUsingDirectives>Alphabetical</AlphabeticalUsingDirectives>
+          <ExpandUsingDirectives>FullyQualify</ExpandUsingDirectives>
+          <SA1212PropertyAccessorsMustFollowOrder>True</SA1212PropertyAccessorsMustFollowOrder>
+          <SA1213EventAccessorsMustFollowOrder>True</SA1213EventAccessorsMustFollowOrder>
+        </StyleCopForReSharperOrdering>
+        <StyleCopForReSharperReadability>
+          <SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists>True</SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists>
+          <SA1106CodeMustNotContainEmptyStatements>True</SA1106CodeMustNotContainEmptyStatements>
+          <SA1108BlockStatementsMustNotContainEmbeddedComments>True</SA1108BlockStatementsMustNotContainEmbeddedComments>
+          <SA1109BlockStatementsMustNotContainEmbeddedRegions>True</SA1109BlockStatementsMustNotContainEmbeddedRegions>
+          <SA1120CommentsMustContainText>True</SA1120CommentsMustContainText>
+          <SA1121UseBuiltInTypeAlias>True</SA1121UseBuiltInTypeAlias>
+          <SA1122UseStringEmptyForEmptyStrings>True</SA1122UseStringEmptyForEmptyStrings>
+          <SA1123DoNotPlaceRegionsWithinElements>True</SA1123DoNotPlaceRegionsWithinElements>
+          <SA1124CodeMustNotContainEmptyRegions>True</SA1124CodeMustNotContainEmptyRegions>
+        </StyleCopForReSharperReadability>
+        <StyleCopForReSharperSpacing>
+          <SA1001CommasMustBeSpacedCorrectly>True</SA1001CommasMustBeSpacedCorrectly>
+          <SA1005SingleLineCommentsMustBeginWithSingleSpace>True</SA1005SingleLineCommentsMustBeginWithSingleSpace>
+          <SA1006PreprocessorKeywordsMustNotBePrecededBySpace>True</SA1006PreprocessorKeywordsMustNotBePrecededBySpace>
+          <SA1021NegativeSignsMustBeSpacedCorrectly>True</SA1021NegativeSignsMustBeSpacedCorrectly>
+          <SA1022PositiveSignsMustBeSpacedCorrectly>True</SA1022PositiveSignsMustBeSpacedCorrectly>
+        </StyleCopForReSharperSpacing>
+      </Profile>
+    </CodeCleanup>
+    <TodoManager ActiveGrouping="9">
+      <Pattern Name="Todo" Id="961894CCC510410ABE2B99132B253C80" Regexp="(?&lt;=\W|^)(?&lt;TAG&gt;TODO)(\W|$)(.*)" CaseSensitive="False" Color="Blue" Icon="Normal" LookInComments="True" LookInIdentifiers="False" LookInStringLiterals="False" />
+      <Pattern Name="Note" Id="961894CCC510410ABE2B99132B253C81" Regexp="(?&lt;=\W|^)(?&lt;TAG&gt;NOTE)(\W|$)(.*)" CaseSensitive="False" Color="ffff8000" Icon="Warning" LookInComments="True" LookInIdentifiers="False" LookInStringLiterals="False" />
+      <Pattern Name="Bug" Id="9F4E80481F12431CB36D19D6738780F1" Regexp="(?&lt;=\W|^)(?&lt;TAG&gt;BUG)(\W|$)(.*)" CaseSensitive="False" Color="Red" Icon="Error" LookInComments="True" LookInIdentifiers="False" LookInStringLiterals="False" />
+      <Pattern Name="Not Implemented" Id="9F4E80481F12431CB36D19D6738780F2" Regexp="NotImplementedException" CaseSensitive="False" Color="Red" Icon="Edit" LookInComments="False" LookInIdentifiers="True" LookInStringLiterals="False" />
+      <Filter Name="Todos" Id="6E3EB9662CFB491EBD2103D8654051DF" Active="True">
+        <PatternRef Id="961894CCC510410ABE2B99132B253C80" />
+      </Filter>
+      <Filter Name="Notes" Id="0069D9FE451E44B181256291430424FC" Active="False">
+        <PatternRef Id="961894CCC510410ABE2B99132B253C81" />
+      </Filter>
+      <Filter Name="Bugs" Id="A674BC0145094E3D8C9C867C0FDAF288" Active="False">
+        <PatternRef Id="9F4E80481F12431CB36D19D6738780F1" />
+      </Filter>
+      <Filter Name="Not Implemented" Id="A674BC0145094E3D8C9C867C0FDAF289" Active="False">
+        <PatternRef Id="9F4E80481F12431CB36D19D6738780F2" />
+      </Filter>
+    </TodoManager>
+    <RequiredProductsVersions />
+  </ResharperSettings>
+</Configuration>

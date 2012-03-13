@@ -8,9 +8,9 @@ namespace Jedzia.BackBock.Application.Installers
 {
     using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
 
-    public class ServiceInstaller : IWindsorInstaller
+    public class ServiceInstaller : IEssexInstaller
     {
-        public void Install(IWindsorContainer container, IConfigurationStore store)
+        public void Install(IEssexContainer container, IConfigurationStore store)
         {
             //container.Register(Component.For<FileIOService>());
             container.Register(Component.For<IOService>().ImplementedBy<FileIOService>());

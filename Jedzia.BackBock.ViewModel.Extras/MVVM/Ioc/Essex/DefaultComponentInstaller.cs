@@ -2,7 +2,7 @@
 {
     public class DefaultComponentInstaller : IComponentsInstaller
     {
-        public void SetUp(IWindsorContainer container, IConfigurationStore store)
+        public void SetUp(IEssexContainer container, IConfigurationStore store)
         {
             //IConversionManager subSystem = container.Kernel.GetSubSystem(SubSystemConstants.ConversionManagerKey) as IConversionManager;
             //this.SetUpInstallers(store.GetInstallers(), container, subSystem);
