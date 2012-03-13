@@ -23,6 +23,7 @@ using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     using Microsoft.Build.Framework;
+    using System.Diagnostics;
 
     public sealed class MainWindowViewModel : ViewModelBase
     {
@@ -242,6 +243,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             get
             {
                 var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
+                //throw new NotImplementedException("m999");
                 var taskList = taskService.GetRegisteredTasks();
                 return taskList;
             }

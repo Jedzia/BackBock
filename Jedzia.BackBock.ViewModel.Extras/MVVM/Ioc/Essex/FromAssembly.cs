@@ -505,17 +505,22 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
     {
         public static IWindsorInstaller InThisApplication()
         {
+            //System.Windows.MessageBox.Show(Assembly.GetCallingAssembly().ToString());
+            //throw new NotImplementedException("FUCK");
+            //throw new NotImplementedException(Assembly.GetCallingAssembly().ToString());
             return ApplicationAssemblies(Assembly.GetCallingAssembly(), new InstallerFactory());
         }
         
         public static IWindsorInstaller InThisEntry()
         {
+			//throw new NotImplementedException(Assembly.GetEntryAssembly().ToString());
             return ApplicationAssemblies(Assembly.GetEntryAssembly(), new InstallerFactory());
         }
 
         public static IWindsorInstaller InThisApplication(InstallerFactory installerFactory)
         {
-            return ApplicationAssemblies(Assembly.GetCallingAssembly(), installerFactory);
+       			//throw new NotImplementedException(Assembly.GetCallingAssembly().ToString());
+     return ApplicationAssemblies(Assembly.GetCallingAssembly(), installerFactory);
         }
 
         //... 
@@ -635,7 +640,14 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 {
                     if (IsApplicationAssembly(applicationName, name.FullName))
                     {
-                        AddApplicationAssemblies(LoadAssembly(name), assemblies, applicationName);
+                        try
+                        {
+                            AddApplicationAssemblies(LoadAssembly(name), assemblies, applicationName);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Windows.MessageBox.Show("Can't load Assembly: " + name.FullName);
+                        }
                     }
                 }
             }

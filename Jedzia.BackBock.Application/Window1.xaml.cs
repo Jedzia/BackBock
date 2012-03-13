@@ -11,6 +11,7 @@
     using Microsoft.Practices.ServiceLocation;
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using System;
+    using System.Diagnostics;
     //    using Jedzia.BackBock.Application.Resources.Styles.Resources.Styles;
 
     public partial class Window1 : Window, IMainWindow
@@ -20,7 +21,8 @@
         {
             //mainWindowViewModel = new MainWindowViewModel(this);
             InitializeComponent();
-
+            //Debugger.Break();
+            //var epsilon = this.DataContext;
             //this.DataContext = this;
             //this.InputBindings
             //logtext.TextChanged += this.logtext_TextChanged;

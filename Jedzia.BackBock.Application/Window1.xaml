@@ -1,4 +1,4 @@
-<Window
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -115,7 +115,8 @@
         <!--<wtk:DataGrid Grid.Row="2" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
                     </wtk:DataGrid>-->
             		<wtk:DataGrid x:Name="dataGrid" DockPanel.Dock="Bottom" ItemsSource="{Binding BackupItems}"  AutoGenerateColumns="False"
-            			VerticalScrollBarVisibility="Auto" SelectionMode="Single" RowDetailsTemplate="{DynamicResource MainDetailsTemplateX}" >
+            			VerticalScrollBarVisibility="Auto" SelectionMode="Single"  >
+            			<!--RowDetailsTemplate="{DynamicResource MainDetailsTemplateX}"-->
             			<wtk:DataGrid.Columns>
             				<wtk:DataGridTextColumn Header="Name" Binding="{Binding ItemName}"/>
             				<!--<wtk:DataGridTextColumn Header="Task" Binding="{Binding Task.TypeName}"/>-->

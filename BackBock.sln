@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPG", "WPG", "{FCA79B06-D7E1-48B2-9C0E-84D07B3FC51B}"
@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPGBrushEditor", "WPG\WPGBr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPG", "WPG\WPG\WPG.csproj", "{022EDA6A-0B76-44C3-A530-8312C1B40030}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.ViewModel.Tests", "Jedzia.BackBock.ViewModel.Tests\Jedzia.BackBock.ViewModel.Tests.csproj", "{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.ViewModel.Tests", "Jedzia.BackBock.ViewModel.Tests\Jedzia.BackBock.ViewModel.Tests2010.csproj", "{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}"
 EndProject

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,12 @@ namespace Jedzia.BackBock.ViewModel.Design
 {
     class DesignMainWindow : IMainWindow
     {
+		
+		public DesignMainWindow()
+        {
+			//MessageBox.Show("This is DesignMainWindow, from the ctor");
+        }
+
         #region IMainWindow Members
 
         public event EventHandler Initialized;

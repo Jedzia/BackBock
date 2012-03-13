@@ -35,35 +35,48 @@ namespace Jedzia.BackBock.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
-        static ViewModelLocator()
+		//public ViewModelLocator()
+        //{
+		//	throw new NotImplementedException("Mooo");
+		//}
+		
+        public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
+            IWindsorContainer container = new WindsorContainer();
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
+				// For out DesignPeeps, hold a Blendable backforce here.
                 SimpleIoc.Default.Register<ITaskService, Design.DesignTaskService>();
                 SimpleIoc.Default.Register<IOService, Design.DesignIOService>();
                 SimpleIoc.Default.Register<IDialogService, Design.DesignDialogService>();
                 SimpleIoc.Default.Register<IMainWindow, Design.DesignMainWindow>();
+                //return;
+                container.Install(FromAssembly.InThisApplication());
             }
             else
             {
+            	container.Install(FromAssembly.InThisEntry());
                 SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
+                //SimpleIoc.Default.Register<TaskWizardViewModel>();
                 // SimpleIoc.Default.Register<IDataService, DataService>();
             }
 
+            //SimpleIoc.Default.Register<ApplicationViewModel>();
             //SimpleIoc.Default.Register<MainWindowViewModel>();
+            //SimpleIoc.Default.Register<TaskWizardViewModel>();
+            //MessageBox.Show("M00");
+            //throw new NotImplementedException("m00");
+//SimpleIoc.Default.Register<MainWindowViewModel>();
             //SimpleIoc.Default.Register<TaskWizardViewModel>();
             //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime())/*.Release(null)*/;
             //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime()).Release((o) => o.Cleanup());
 
-
-            IWindsorContainer container = new WindsorContainer();
             //var installer = FromAssembly.InThisEntry();
             //container.Install(installer);
-            container.Install(FromAssembly.InThisEntry());
             //installer.Install(cnt, null);
+ //throw new NotImplementedException("Mooo");
 
         }
 

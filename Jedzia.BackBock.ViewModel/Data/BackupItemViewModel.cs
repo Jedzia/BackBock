@@ -177,11 +177,36 @@ namespace Jedzia.BackBock.ViewModel.Data
             return canExecute;
         }
 
-        private ITaskService taskProvider = SimpleIoc.Default.GetInstance<ITaskService>();
+        private ITaskService taskProvider;
+
+        public ITaskService TaskProvider
+        {
+            get 
+            {
+                if (taskProvider == null)
+                {
+                    try
+                    {
+                        taskProvider = SimpleIoc.Default.GetInstance<ITaskService>();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("TaskProvider fucking: " + ex.ToString());
+                    }
+                }
+                return taskProvider; 
+            }
+
+            internal set 
+            {
+                taskProvider = value; 
+            }
+        }
+        //private ITaskService taskProvider = TaskRegistry.GetInstance();
         
         private void TaskDataClickedExecuted(object o)
         {
-            using (var tse = new TaskSetupEngine(this.taskProvider, this, this.Paths))
+            using (var tse = new TaskSetupEngine(this.TaskProvider, this, this.Paths))
             {
                 var task = tse.InitTaskEditor(this.Task.TypeName, this.task.data.AnyAttr);
                 //var task = InitTaskEditor(this.taskProvider);
@@ -236,7 +261,7 @@ namespace Jedzia.BackBock.ViewModel.Data
             
             try
             {
-                using (var tse = new TaskSetupEngine(this.taskProvider, this, this.Paths, this.Task))
+                using (var tse = new TaskSetupEngine(this.TaskProvider, this, this.Paths, this.Task))
                 {
                     var success = tse.ExecuteTask(this.Task.TypeName, this.task.data.AnyAttr);
                     MessengerInstance.Send("Finished Task: " + success);

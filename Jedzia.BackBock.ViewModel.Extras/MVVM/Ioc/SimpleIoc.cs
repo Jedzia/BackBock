@@ -435,9 +435,8 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 
         private object DoGetService(Type serviceType, string key)
         {
-            lock (_syncLock)
+			lock (_syncLock)
             {
-
                 InstanceInfo iinfo = null;
 
                 Dictionary<string, object> instances;
