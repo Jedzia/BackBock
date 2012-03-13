@@ -12,13 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
+namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Collections;
-
 
     public class DefaultsDescriptor : IComponentModelDescriptor
     {
@@ -87,109 +84,6 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         }
     }
 
-
-    public class InterfaceProxyDescriptor : IComponentModelDescriptor
-    {
-        public void BuildComponentModel(IKernel kernel, ComponentModel model)
-        {
-        }
-
-        public void ConfigureComponentModel(IKernel kernel, ComponentModel model)
-        {
-            if (model.HasInterceptors && model.Implementation.IsInterface)
-            {
-                //var options = model.ObtainProxyOptions();
-                //options.OmitTarget = true;
-            }
-        }
-    }
-
-
-    public class ServicesDescriptor : IComponentModelDescriptor
-    {
-        private readonly Type[] services;
-
-        public ServicesDescriptor(Type[] services)
-        {
-            this.services = services;
-        }
-
-        public void BuildComponentModel(IKernel kernel, ComponentModel model)
-        {
-            Array.ForEach(services, model.AddService);
-        }
-
-        public void ConfigureComponentModel(IKernel kernel, ComponentModel model)
-        {
-        }
-    }
-
-
-
-    public class ExtendedPropertiesDescriptor : IComponentModelDescriptor
-    {
-        private readonly IDictionary dictionary;
-        private readonly Property[] properties;
-
-        public ExtendedPropertiesDescriptor(params Property[] properties)
-        {
-            this.properties = properties;
-        }
-
-        public ExtendedPropertiesDescriptor(IDictionary dictionary)
-        {
-            this.dictionary = dictionary;
-        }
-
-        public void BuildComponentModel(IKernel kernel, ComponentModel model)
-        {
-        }
-
-        public void ConfigureComponentModel(IKernel kernel, ComponentModel model)
-        {
-            if (dictionary != null)
-            {
-                foreach (DictionaryEntry property in dictionary)
-                {
-                    model.ExtendedProperties[property.Key] = property.Value;
-                }
-            }
-            if (properties != null)
-            {
-                Array.ForEach(properties, p => model.ExtendedProperties[p.Key] = p.Value);
-            }
-        }
-    }
-
-
-    public abstract class AbstractOverwriteableDescriptor<TService> : IComponentModelDescriptor
-    where TService : class
-    {
-        protected bool IsOverWrite
-        {
-            //get { return Registration.IsOverWrite; }
-            get { return false; }
-        }
-
-        internal ComponentRegistration<TService> Registration { private get; set; }
-
-        public virtual void BuildComponentModel(IKernel kernel, ComponentModel model)
-        {
-            throw new NotImplementedException("Todo: model.Configuration");
-            //ApplyToConfiguration(kernel, model.Configuration);
-        }
-
-        public virtual void ConfigureComponentModel(IKernel kernel, ComponentModel model)
-        {
-        }
-
-        protected virtual void ApplyToConfiguration(IKernel kernel, IConfiguration configuration)
-        {
-        }
-    }
-
-    public interface IConfiguration
-        {}
 
     //using Castle.DynamicProxy.Generators.Emitters;
 

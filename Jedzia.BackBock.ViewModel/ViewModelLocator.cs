@@ -18,6 +18,7 @@ using Jedzia.BackBock.Tasks;
 namespace Jedzia.BackBock.ViewModel
 {
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
     using Jedzia.BackBock.ViewModel.Wizard;
     using System;
     using Jedzia.BackBock.ViewModel.Commands;

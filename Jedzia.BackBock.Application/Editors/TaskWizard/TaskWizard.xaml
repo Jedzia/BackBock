@@ -15,8 +15,8 @@
 		<TextBlock Text="{Binding .}" Visibility="Collapsed" />
 		<wiz:StateWizard x:Name="wizard">
 			<wiz:StateWizard.Pages>
-				<x:Array Type="{x:Type wiz:StateItem}">
-					<locwiz:TaskWizardStartPage Title="Start" />
+                <x:Array Type="{x:Type wiz:StateItem}">
+                    <locwiz:TaskWizardStartPage Title="Start" />
 					<locwiz:TaskWizardSecondPage Title="Choose your Task" />
 					<locwiz:TaskWizardSelectFoldersPage Title="Select the source" />
 					<locwiz:TaskWizardFinalPage Title="Accept" />

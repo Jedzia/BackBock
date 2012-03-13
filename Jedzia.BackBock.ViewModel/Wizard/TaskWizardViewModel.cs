@@ -8,6 +8,8 @@ using Microsoft.Practices.ServiceLocation;
 using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 namespace Jedzia.BackBock.ViewModel.Wizard
 {
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime;
+
     /// <summary>
     /// This class contains properties that a View can data bind to.
     /// <para>

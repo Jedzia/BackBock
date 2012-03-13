@@ -8,6 +8,8 @@ using Jedzia.BackBock.ViewModel.Wizard;
 
 namespace Jedzia.BackBock.ViewModel.Installers
 {
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
+
     public class ViewModelInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)

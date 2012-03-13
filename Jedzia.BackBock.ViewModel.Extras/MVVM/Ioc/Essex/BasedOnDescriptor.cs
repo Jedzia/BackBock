@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
+﻿namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
+    using System;
+    using System.Collections.Generic;
+
     public class BasedOnDescriptor : IRegistration
     {
 

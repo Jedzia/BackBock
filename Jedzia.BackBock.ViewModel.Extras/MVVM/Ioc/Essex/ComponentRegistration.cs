@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
+﻿namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     ///   Registration for a single type as a component with the kernel.
     ///   <para />
@@ -265,32 +263,5 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         }
 
 
-    }
-
-    public interface IGenericImplementationMatchingStrategy
-    {
-    }
-    /// <summary>
-    ///   Exception threw when there is a problem
-    ///   registering a component
-    /// </summary>
-    [Serializable]
-    public class ComponentRegistrationException : Exception
-    {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref = "ComponentRegistrationException" /> class.
-        /// </summary>
-        /// <param name = "message">The message.</param>
-        public ComponentRegistrationException(string message)
-            : base(message)
-        {
-            //ExceptionHelper.SetUp(this);
-        }
-
-        public ComponentRegistrationException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-            //ExceptionHelper.SetUp(this);
-        }
     }
 }

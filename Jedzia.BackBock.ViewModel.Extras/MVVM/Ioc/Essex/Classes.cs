@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Reflection;
-
-namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
+﻿namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
+    using System;
+    using System.ComponentModel;
+    using System.Reflection;
+
     public static class Classes
     {
         public static FromAssemblyDescriptor FromAssembly(Assembly assembly)

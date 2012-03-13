@@ -10,6 +10,8 @@ using Jedzia.BackBock.ViewModel.Tests.MVVM.Stubs;
 
 namespace Jedzia.BackBock.ViewModel.Tests.MVVM.Ioc
 {
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime;
+
     [TestFixture]
     public class SimpleIocTestLifetime
     {

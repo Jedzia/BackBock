@@ -12,28 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
+namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Diagnostics;
-	using System.Linq;
-	using System.Reflection;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Reflection;
 
-    public class ProxyGenerationException : Exception
-    {
-        public ProxyGenerationException(string message)
-            : base(message)
-        {
-        }
-
-        public ProxyGenerationException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
-    }
-
-	public static class TypeUtil
+    public static class TypeUtil
 	{
 		public static FieldInfo[] GetAllFields(this Type type)
 		{

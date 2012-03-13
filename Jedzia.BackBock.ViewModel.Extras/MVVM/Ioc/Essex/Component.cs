@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
+﻿namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
+    using System;
+
     /// <summary>
     ///   Factory for creating <see cref = "ComponentRegistration" /> objects. Use static methods on the class to fluently build registration.
     /// </summary>

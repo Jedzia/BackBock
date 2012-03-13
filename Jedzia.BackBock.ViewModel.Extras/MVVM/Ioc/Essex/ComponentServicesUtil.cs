@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
+namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
-	using System;
-	using System.Collections.Generic;
+    using System;
+    using System.Collections.Generic;
 
-	public class ComponentServicesUtil
+    public class ComponentServicesUtil
 	{
 		private static readonly TypeByInheritanceDepthMostSpecificFirstComparer comparer = new TypeByInheritanceDepthMostSpecificFirstComparer();
 

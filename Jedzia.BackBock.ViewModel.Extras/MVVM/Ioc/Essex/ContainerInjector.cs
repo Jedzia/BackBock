@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
+﻿namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
-    public interface IContainerInjector
-    {
-        void AddCustomComponent(ComponentModel model, bool isMetaHandler);
-    }
-
     public class ContainerInjector : IContainerInjector
     {
         #region IContainerInjector Members
@@ -29,9 +19,4 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 
         #endregion
     }
-
-    internal class SimpleIocInjector : ContainerInjector
-    {
-    }
-
 }

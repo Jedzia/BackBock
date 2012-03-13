@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
+﻿namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
-    public interface IComponentsInstaller
-    {
-        // Methods
-        void SetUp(IWindsorContainer container, IConfigurationStore store);
-    }
-
     public class DefaultComponentInstaller : IComponentsInstaller
     {
         public void SetUp(IWindsorContainer container, IConfigurationStore store)

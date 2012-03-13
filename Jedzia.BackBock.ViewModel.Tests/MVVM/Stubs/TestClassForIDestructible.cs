@@ -1,6 +1,8 @@
 ﻿using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 namespace Jedzia.BackBock.ViewModel.Tests.MVVM.Stubs
 {
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime;
+
     public class TestClassForIDestructible : ITestClass, IDestructible
     {
         public static int InstancesCreated

@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
+namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
-	using System;
-	using System.Collections.Generic;
+    using System;
+    using System.Collections.Generic;
 
-	public class TypeByInheritanceDepthMostSpecificFirstComparer : IComparer<Type>
+    public class TypeByInheritanceDepthMostSpecificFirstComparer : IComparer<Type>
 	{
 		// TODO: make sure generics (open?) are also handled
 		public int Compare(Type x, Type y)

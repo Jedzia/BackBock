@@ -1,30 +1,23 @@
-﻿// ****************************************************************************
-// <copyright file="SimpleIoc.cs" company="GalaSoft Laurent Bugnion">
-// Copyright © GalaSoft Laurent Bugnion 2011
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SimpleIoc.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
 // </copyright>
-// ****************************************************************************
-// <author>Laurent Bugnion</author>
-// <email>laurent@galasoft.ch</email>
-// <date>10.4.2011</date>
-// <project>GalaSoft.MvvmLight.Extras</project>
-// <web>http://www.galasoft.ch</web>
-// <license>
-// See license.txt in this project or http://www.galasoft.ch/license_MIT.txt
-// </license>
-// <LastBaseLevel>BL0002</LastBaseLevel>
-// ****************************************************************************
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 {
-// Todo: Move this or only the PreferredConstructor.cs to a shared lib. Jedzia.BackBock.ViewModel.Extras
+    // Todo: Move this or only the PreferredConstructor.cs to a shared lib. Jedzia.BackBock.ViewModel.Extras
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
-    using Microsoft.Practices.ServiceLocation;
-    using System.Text;
     using Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime;
+    using Microsoft.Practices.ServiceLocation;
 
     /// <summary>
     /// A very simple IOC container with basic functionality needed to register and resolve
@@ -41,19 +34,29 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
     ////  Email = "laurent@galasoft.ch")]
     public class SimpleIoc : IServiceLocator
     {
+        #region Fields
+
+        private static SimpleIoc _default;
         private readonly object[] _emptyArguments = new object[0];
+
+        private readonly Dictionary<Type, Dictionary<string, Delegate>> _factories
+            = new Dictionary<Type, Dictionary<string, Delegate>>();
+
+        private readonly Dictionary<Type, InstanceInfo> _instanceInfos = new Dictionary<Type, InstanceInfo>();
+
+        private readonly Dictionary<Type, Dictionary<string, object>> _instancesRegistry
+            = new Dictionary<Type, Dictionary<string, object>>();
+
+        private readonly Dictionary<Type, Type> _interfaceToClassMap
+            = new Dictionary<Type, Type>();
+
         private readonly object _syncLock = new object();
 
         private readonly string _uniqueKey = Guid.NewGuid().ToString();
 
-        private static SimpleIoc _default;
-        private readonly Dictionary<Type, Type> _interfaceToClassMap 
-            = new Dictionary<Type, Type>();
-        private readonly Dictionary<Type, Dictionary<string, Delegate>> _factories
-            = new Dictionary<Type, Dictionary<string, Delegate>>();
-        private readonly Dictionary<Type, Dictionary<string, object>> _instancesRegistry
-            = new Dictionary<Type, Dictionary<string, object>>();
-        private readonly Dictionary<Type, InstanceInfo> _instanceInfos = new Dictionary<Type, InstanceInfo>();
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// This class' default instance.
@@ -66,6 +69,8 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             }
         }
 
+        #endregion
+
         /// <summary>
         /// Checks whether at least one instance of a given class is already created in the container.
         /// </summary>
@@ -73,7 +78,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// <returns>True if at least on instance of the class is already created, false otherwise.</returns>
         public bool Contains<TClass>()
         {
-            return Contains<TClass>(null);
+            return this.Contains<TClass>(null);
         }
 
         /// <summary>
@@ -86,9 +91,9 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// false otherwise.</returns>
         public bool Contains<TClass>(string key)
         {
-            var classType = typeof (TClass);
+            var classType = typeof(TClass);
 
-            if (!_instancesRegistry.ContainsKey(classType))
+            if (!this._instancesRegistry.ContainsKey(classType))
             {
                 return false;
             }
@@ -97,27 +102,139 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             {
                 return true;
             }
-            
-            return _instancesRegistry[classType].ContainsKey(key);
+
+            return this._instancesRegistry[classType].ContainsKey(key);
+        }
+
+        /// <summary>
+        /// Provides a way to get all the instances of a given type available in the
+        /// cache.
+        /// </summary>
+        /// <param name="serviceType">The class of which all instances
+        /// must be returned.</param>
+        /// <returns>All the instances of the given type.</returns>
+        public IEnumerable<object> GetAllInstances(Type serviceType)
+        {
+            if (this._instancesRegistry.ContainsKey(serviceType))
+            {
+                return this._instancesRegistry[serviceType].Values;
+            }
+
+            return new List<object>();
+        }
+
+        /// <summary>
+        /// Provides a way to get all the instances of a given type available in the
+        /// cache.
+        /// </summary>
+        /// <typeparam name="TService">The class of which all instances
+        /// must be returned.</typeparam>
+        /// <returns>All the instances of the given type.</returns>
+        public IEnumerable<TService> GetAllInstances<TService>()
+        {
+            var serviceType = typeof(TService);
+
+            if (this._instancesRegistry.ContainsKey(serviceType))
+            {
+                return this._instancesRegistry[serviceType].Values.Select(instance => (TService)instance);
+            }
+
+            return new List<TService>();
+        }
+
+        /// <summary>
+        /// Provides a way to get an instance of a given type. If no instance had been instantiated 
+        /// before, a new instance will be created. If an instance had already
+        /// been created, that same instance will be returned.
+        /// <remarks>If the class has not been registered before, this method
+        /// returns <c>null</c>!</remarks>
+        /// </summary>
+        /// <param name="serviceType">The class of which an instance
+        /// must be returned.</param>
+        /// <returns>An instance of the given type.</returns>
+        public object GetInstance(Type serviceType)
+        {
+            return this.DoGetService(serviceType, this._uniqueKey);
+        }
+
+        /// <summary>
+        /// Provides a way to get an instance of a given type corresponding
+        /// to a given key. If no instance had been instantiated with this
+        /// key before, a new instance will be created. If an instance had already
+        /// been created with the same key, that same instance will be returned.
+        /// <remarks>If the class has not been registered before, this method
+        /// returns <c>null</c>!</remarks>
+        /// </summary>
+        /// <param name="serviceType">The class of which an instance must be returned.</param>
+        /// <param name="key">The key uniquely identifying this instance.</param>
+        /// <returns>An instance corresponding to the given type and key.</returns>
+        public object GetInstance(Type serviceType, string key)
+        {
+            return this.DoGetService(serviceType, key);
+        }
+
+        /// <summary>
+        /// Provides a way to get an instance of a given type. If no instance had been instantiated 
+        /// before, a new instance will be created. If an instance had already
+        /// been created, that same instance will be returned.
+        /// <remarks>If the class has not been registered before, this method
+        /// returns null!</remarks>
+        /// </summary>
+        /// <typeparam name="TService">The class of which an instance
+        /// must be returned.</typeparam>
+        /// <returns>An instance of the given type.</returns>
+        public TService GetInstance<TService>()
+        {
+            return (TService)this.DoGetService(typeof(TService), this._uniqueKey);
+        }
+
+        /// <summary>
+        /// Provides a way to get an instance of a given type corresponding
+        /// to a given key. If no instance had been instantiated with this
+        /// key before, a new instance will be created. If an instance had already
+        /// been created with the same key, that same instance will be returned.
+        /// <remarks>If the class has not been registered before, this method
+        /// returns null!</remarks>
+        /// </summary>
+        /// <typeparam name="TService">The class of which an instance must be returned.</typeparam>
+        /// <param name="key">The key uniquely identifying this instance.</param>
+        /// <returns>An instance corresponding to the given type and key.</returns>
+        public TService GetInstance<TService>(string key)
+        {
+            return (TService)this.DoGetService(typeof(TService), key);
+        }
+
+        /// <summary>
+        /// Gets the service object of the specified type.
+        /// </summary>
+        /// <returns>
+        /// A service object of type <paramref name="serviceType"/>.
+        /// -or- 
+        /// <c>null</c> if there is no service object of type <paramref name="serviceType"/>.
+        /// </returns>
+        /// <param name="serviceType">An object that specifies the type of service object to get.</param>
+        public object GetService(Type serviceType)
+        {
+            return this.DoGetService(serviceType, this._uniqueKey);
         }
 
         public bool IsRegistered<T>()
         {
             var classType = typeof(T);
-            return _interfaceToClassMap.ContainsKey(classType);
+            return this._interfaceToClassMap.ContainsKey(classType);
         }
 
         public bool IsRegistered<T>(string key)
         {
             var classType = typeof(T);
 
-            if (!_interfaceToClassMap.ContainsKey(classType)
-                || !_factories.ContainsKey(classType))
+            if (!this._interfaceToClassMap.ContainsKey(classType)
+                || !this._factories.ContainsKey(classType))
             {
                 return false;
             }
 
-            return _factories[classType].ContainsKey(key);
+            return this._factories[classType].ContainsKey(key);
         }
 
         /// <summary>
@@ -126,60 +243,31 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// <typeparam name="TInterface">The interface for which instances will be resolved.</typeparam>
         /// <typeparam name="TClass">The type that must be used to create instances.</typeparam>
         [SuppressMessage(
-            "Microsoft.Design",
-            "CA1004",
+            "Microsoft.Design", 
+            "CA1004", 
             Justification = "This syntax is better than the alternatives.")]
         public void Register<TInterface, TClass>() where TClass : class, TInterface
         {
-            lock (_syncLock)
+            lock (this._syncLock)
             {
-                var interfaceType = typeof (TInterface);
-                var classType = typeof (TClass);
+                var interfaceType = typeof(TInterface);
+                var classType = typeof(TClass);
 
-                Register(interfaceType, classType);
+                this.Register(interfaceType, classType);
             }
         }
 
-        internal void Register(Type interfaceType, Type classType)
-        {
-            if (_interfaceToClassMap.ContainsKey(interfaceType))
-            {
-                if (_interfaceToClassMap[interfaceType] != classType)
-                {
-                    if (_instancesRegistry.ContainsKey(interfaceType))
-                    {
-                        _instancesRegistry.Remove(interfaceType);
-                    }
-                }
-
-                _interfaceToClassMap[interfaceType] = classType;
-                var ii = new InstanceInfo(classType, new SingletonInstance());
-                this._instanceInfos[classType] = ii;
-            }
-            else
-            {
-                _interfaceToClassMap.Add(interfaceType, classType);
-                var ii = new InstanceInfo(classType, new SingletonInstance());
-                this._instanceInfos.Add(classType, ii);
-            }
-
-            if (_factories.ContainsKey(interfaceType))
-            {
-                _factories.Remove(interfaceType);
-            }
-        }
-
-                /// <summary>
+        /// <summary>
         /// Registers a given type.
         /// </summary>
         /// <typeparam name="TClass">The type that must be used to create instances.</typeparam>
         [SuppressMessage(
-            "Microsoft.Design",
-            "CA1004",
+            "Microsoft.Design", 
+            "CA1004", 
             Justification = "This syntax is better than the alternatives.")]
         public void Register<TClass>() where TClass : class
         {
-            Register<TClass>(new SingletonInstance());
+            this.Register<TClass>(new SingletonInstance());
         }
 
         /// <summary>
@@ -187,17 +275,19 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// </summary>
         /// <typeparam name="TClass">The type that must be used to create instances.</typeparam>
         /// <param name="lifetime">The lifetime of the registered instance.</param>
+        /// <returns>A lifetime configuration instance.</returns>
         [SuppressMessage(
-            "Microsoft.Design",
-            "CA1004",
+            "Microsoft.Design", 
+            "CA1004", 
             Justification = "This syntax is better than the alternatives.")]
         public ILifetimeConfig<TClass> Register<TClass>(InstanceLifetime lifetime) where TClass : class
         {
-            lock (_syncLock)
+            lock (this._syncLock)
             {
-                var classType = typeof (TClass);
-                //IInstanceLifetime resultLifetime;
+                var classType = typeof(TClass);
 
+
+                // IInstanceLifetime resultLifetime;
 #if WIN8
                 if (classType.GetTypeInfo().IsInterface)
 #else
@@ -207,22 +297,23 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                     throw new ArgumentException("An interface cannot be registered alone");
                 }
 
-                if (_interfaceToClassMap.ContainsKey(classType))
+                if (this._interfaceToClassMap.ContainsKey(classType))
                 {
-                    _interfaceToClassMap[classType] = null;
+                    this._interfaceToClassMap[classType] = null;
                     lifetime = new DummyInstanceHelper();
                 }
                 else
                 {
-                    _interfaceToClassMap.Add(classType, null);
+                    this._interfaceToClassMap.Add(classType, null);
                     var ii = new InstanceInfo(classType, lifetime);
                     this._instanceInfos.Add(classType, ii);
                 }
 
-                if (_factories.ContainsKey(classType))
+                if (this._factories.ContainsKey(classType))
                 {
-                    _factories.Remove(classType);
+                    this._factories.Remove(classType);
                 }
+
                 var ilm = new LifetimeManager<TClass>(lifetime);
                 lifetime.LifetimeManager = ilm;
                 return ilm;
@@ -237,7 +328,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// must be returned when the given type is resolved.</param>
         public void Register<TClass>(Func<TClass> factory) where TClass : class
         {
-            Register(factory, _uniqueKey);
+            Register(factory, this._uniqueKey);
         }
 
         /// <summary>
@@ -249,49 +340,49 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// <param name="key">The key for which the given instance is registered.</param>
         public void Register<TClass>(Func<TClass> factory, string key) where TClass : class
         {
-            lock (_syncLock)
+            lock (this._syncLock)
             {
-                var classType = typeof (TClass);
+                var classType = typeof(TClass);
 
-                if (_interfaceToClassMap.ContainsKey(classType))
+                if (this._interfaceToClassMap.ContainsKey(classType))
                 {
-                    _interfaceToClassMap[classType] = null;
+                    this._interfaceToClassMap[classType] = null;
                 }
                 else
                 {
-                    _interfaceToClassMap.Add(classType, null);
+                    this._interfaceToClassMap.Add(classType, null);
                     var ii = new InstanceInfo(classType, new SingletonInstance());
                     this._instanceInfos.Add(classType, ii);
                 }
 
-                if (_instancesRegistry.ContainsKey(classType)
-                    && _instancesRegistry[classType].ContainsKey(key))
+                if (this._instancesRegistry.ContainsKey(classType)
+                    && this._instancesRegistry[classType].ContainsKey(key))
                 {
-                    _instancesRegistry[classType].Remove(key);
+                    this._instancesRegistry[classType].Remove(key);
                 }
 
-                if (_factories.ContainsKey(classType))
+                if (this._factories.ContainsKey(classType))
                 {
-                    if (_factories[classType].ContainsKey(key))
+                    if (this._factories[classType].ContainsKey(key))
                     {
-                        _factories[classType][key] = factory;
+                        this._factories[classType][key] = factory;
                     }
                     else
                     {
-                        _factories[classType].Add(key, factory);
+                        this._factories[classType].Add(key, factory);
                     }
                 }
                 else
                 {
                     var list = new Dictionary<string, Delegate>
-                    {
-                        {
-                            key, 
-                            factory
-                        }
-                    };
+                                   {
+                                       {
+                                           key, 
+                                           factory
+                                           }
+                                   };
 
-                    _factories.Add(classType, list);
+                    this._factories.Add(classType, list);
                 }
             }
         }
@@ -302,10 +393,10 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// </summary>
         public void Reset()
         {
-            _interfaceToClassMap.Clear();
-            _instanceInfos.Clear();
-            _instancesRegistry.Clear();
-            _factories.Clear();
+            this._interfaceToClassMap.Clear();
+            this._instanceInfos.Clear();
+            this._instancesRegistry.Clear();
+            this._factories.Clear();
         }
 
         /// <summary>
@@ -314,49 +405,29 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// </summary>
         /// <typeparam name="TClass">The class that must be removed.</typeparam>
         [SuppressMessage(
-            "Microsoft.Design",
-            "CA1004",
+            "Microsoft.Design", 
+            "CA1004", 
             Justification = "This syntax is better than the alternatives.")]
         public void Unregister<TClass>() where TClass : class
         {
-            lock (_syncLock)
+            lock (this._syncLock)
             {
-                var classType = typeof (TClass);
+                var classType = typeof(TClass);
 
-                if (_instancesRegistry.ContainsKey(classType))
+                if (this._instancesRegistry.ContainsKey(classType))
                 {
-                    _instancesRegistry.Remove(classType);
+                    this._instancesRegistry.Remove(classType);
                 }
 
-                if (_interfaceToClassMap.ContainsKey(classType))
+                if (this._interfaceToClassMap.ContainsKey(classType))
                 {
-                    _interfaceToClassMap.Remove(classType);
-                    _instanceInfos.Remove(classType);
+                    this._interfaceToClassMap.Remove(classType);
+                    this._instanceInfos.Remove(classType);
                 }
 
-                if (_factories.ContainsKey(classType))
+                if (this._factories.ContainsKey(classType))
                 {
-                    _factories.Remove(classType);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Removes the given instance from the cache. The class itself remains
-        /// registered and can be used to create other instances.
-        /// </summary>
-        /// <typeparam name="TClass">The type of the instance to be removed.</typeparam>
-        /// <param name="instance">The instance that must be removed.</param>
-        internal void Unregister(Type classType, object instance, string key) 
-        {
-            lock (_syncLock)
-            {
-                if (_instancesRegistry.ContainsKey(classType))
-                {
-                    var list = _instancesRegistry[classType];
-
-                    list.Remove(key);
-
+                    this._factories.Remove(classType);
                 }
             }
         }
@@ -369,13 +440,13 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// <param name="instance">The instance that must be removed.</param>
         public void Unregister<TClass>(TClass instance) where TClass : class
         {
-            lock (_syncLock)
+            lock (this._syncLock)
             {
-                var classType = typeof (TClass);
+                var classType = typeof(TClass);
 
-                if (_instancesRegistry.ContainsKey(classType))
+                if (this._instancesRegistry.ContainsKey(classType))
                 {
-                    var list = _instancesRegistry[classType];
+                    var list = this._instancesRegistry[classType];
 
                     var pairs = list.Where(pair => pair.Value == instance).ToList();
                     for (var index = 0; index < pairs.Count(); index++)
@@ -384,11 +455,11 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 
                         list.Remove(key);
 
-                        if (_factories.ContainsKey(classType))
+                        if (this._factories.ContainsKey(classType))
                         {
-                            if (_factories[classType].ContainsKey(key))
+                            if (this._factories[classType].ContainsKey(key))
                             {
-                                _factories[classType].Remove(key);
+                                this._factories[classType].Remove(key);
                             }
                         }
                     }
@@ -403,18 +474,18 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// <typeparam name="TClass">The type of the instance to be removed.</typeparam>
         /// <param name="key">The key corresponding to the instance that must be removed.</param>
         [SuppressMessage(
-            "Microsoft.Design",
-            "CA1004",
+            "Microsoft.Design", 
+            "CA1004", 
             Justification = "This syntax is better than the alternatives.")]
         public void Unregister<TClass>(string key) where TClass : class
         {
-            lock (_syncLock)
+            lock (this._syncLock)
             {
-                var classType = typeof (TClass);
+                var classType = typeof(TClass);
 
-                if (_instancesRegistry.ContainsKey(classType))
+                if (this._instancesRegistry.ContainsKey(classType))
                 {
-                    var list = _instancesRegistry[classType];
+                    var list = this._instancesRegistry[classType];
 
                     var pairs = list.Where(pair => pair.Key == key).ToList();
                     for (var index = 0; index < pairs.Count(); index++)
@@ -423,55 +494,117 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                     }
                 }
 
-                if (_factories.ContainsKey(classType))
+                if (this._factories.ContainsKey(classType))
                 {
-                    if (_factories[classType].ContainsKey(key))
+                    if (this._factories[classType].ContainsKey(key))
                     {
-                        _factories[classType].Remove(key);
+                        this._factories[classType].Remove(key);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Registers the specified interface type with an implementation.
+        /// </summary>
+        /// <param name="interfaceType">Type of the interface.</param>
+        /// <param name="classType">Type of the implementation class.</param>
+        internal void Register(Type interfaceType, Type classType)
+        {
+            if (this._interfaceToClassMap.ContainsKey(interfaceType))
+            {
+                if (this._interfaceToClassMap[interfaceType] != classType)
+                {
+                    if (this._instancesRegistry.ContainsKey(interfaceType))
+                    {
+                        this._instancesRegistry.Remove(interfaceType);
+                    }
+                }
+
+                this._interfaceToClassMap[interfaceType] = classType;
+                var ii = new InstanceInfo(classType, new SingletonInstance());
+                this._instanceInfos[classType] = ii;
+            }
+            else
+            {
+                this._interfaceToClassMap.Add(interfaceType, classType);
+                var ii = new InstanceInfo(classType, new SingletonInstance());
+                this._instanceInfos.Add(classType, ii);
+            }
+
+            if (this._factories.ContainsKey(interfaceType))
+            {
+                this._factories.Remove(interfaceType);
+            }
+        }
+
+        /// <summary>
+        /// Removes the given instance from the cache. The class itself remains
+        /// registered and can be used to create other instances.
+        /// </summary>
+        /// <param name="classType">Type of the class.</param>
+        /// <param name="instance">The instance that must be removed.</param>
+        /// <param name="key">The key corresponding to the instance that must be removed.</param>
+        internal void Unregister(Type classType, object instance, string key)
+        {
+            lock (this._syncLock)
+            {
+                if (this._instancesRegistry.ContainsKey(classType))
+                {
+                    var list = this._instancesRegistry[classType];
+
+                    list.Remove(key);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finally resolve the service.
+        /// </summary>
+        /// <param name="serviceType">Type of the service.</param>
+        /// <param name="key">The key corresponding to the instance that must be removed.</param>
+        /// <returns>The requested instance with the given key.</returns>
+        /// <exception cref="ActivationException"><c>ActivationException</c>.</exception>
         private object DoGetService(Type serviceType, string key)
         {
-			lock (_syncLock)
+            lock (this._syncLock)
             {
                 InstanceInfo iinfo = null;
 
                 Dictionary<string, object> instances;
 
-                if (!_instancesRegistry.ContainsKey(serviceType))
+                if (!this._instancesRegistry.ContainsKey(serviceType))
                 {
-                    if (!_interfaceToClassMap.ContainsKey(serviceType))
+                    if (!this._interfaceToClassMap.ContainsKey(serviceType))
                     {
                         throw new ActivationException("Type not found in cache: " + serviceType.FullName);
                     }
-                    
+
                     instances = new Dictionary<string, object>();
-                    _instancesRegistry.Add(serviceType, instances);
+                    this._instancesRegistry.Add(serviceType, instances);
                 }
                 else
                 {
-                    instances = _instancesRegistry[serviceType];
+                    instances = this._instancesRegistry[serviceType];
                 }
 
-                if (_interfaceToClassMap.ContainsKey(serviceType))
+                if (this._interfaceToClassMap.ContainsKey(serviceType))
                 {
-                    var resolveTo = _interfaceToClassMap[serviceType] ?? serviceType;
-                    iinfo = _instanceInfos[resolveTo];
+                    var resolveTo = this._interfaceToClassMap[serviceType] ?? serviceType;
+                    iinfo = this._instanceInfos[resolveTo];
                 }
                 else
                 {
-                    iinfo = _instanceInfos[serviceType];
+                    iinfo = this._instanceInfos[serviceType];
                 }
 
-                key = iinfo.Lifetime.GetKey(key, _uniqueKey);
+                key = iinfo.Lifetime.GetKey(key, this._uniqueKey);
+
+
                 /*if (string.IsNullOrEmpty(key))
-                {
-                    key = _uniqueKey;
-                }*/
-
+                                {
+                                    key = _uniqueKey;
+                                }*/
                 var dictInstance = iinfo.Lifetime.GetInstance(instances, key);
                 if (dictInstance != null)
                 {
@@ -482,59 +615,61 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 {
                     return instances[key];
                 }*/
-
                 object instance = null;
 
-                if (_factories.ContainsKey(serviceType))
+                if (this._factories.ContainsKey(serviceType))
                 {
-                    if (_factories[serviceType].ContainsKey(key))
+                    if (this._factories[serviceType].ContainsKey(key))
                     {
-                        instance = _factories[serviceType][key].DynamicInvoke();
+                        instance = this._factories[serviceType][key].DynamicInvoke();
                     }
                     else
                     {
-                        if (_factories[serviceType].ContainsKey(_uniqueKey))
+                        if (this._factories[serviceType].ContainsKey(this._uniqueKey))
                         {
-                            instance = _factories[serviceType][_uniqueKey].DynamicInvoke();
+                            instance = this._factories[serviceType][this._uniqueKey].DynamicInvoke();
                         }
                     }
                 }
-                
+
                 if (instance == null)
                 {
-                    var constructor = GetConstructorInfo(serviceType);
+                    var constructor = this.GetConstructorInfo(serviceType);
                     var parameterInfos = constructor.GetParameters();
 
                     if (parameterInfos.Length == 0)
                     {
-                        instance = constructor.Invoke(_emptyArguments);
+                        instance = constructor.Invoke(this._emptyArguments);
                     }
                     else
                     {
                         var parameters = new object[parameterInfos.Length];
-                        foreach (var parameterInfo in parameterInfos)
+                        foreach(var parameterInfo in parameterInfos)
                         {
-                            parameters[parameterInfo.Position] = GetService(parameterInfo.ParameterType);
+                            parameters[parameterInfo.Position] = this.GetService(parameterInfo.ParameterType);
                         }
 
                         instance = constructor.Invoke(parameters);
                     }
                 }
 
-                //var lifetime = iinfo.Lifetime.CreateInstance;
-                //var lifetime = new NormalInstance();
-                //var lifetime = new SingletonInstance();
-                //iinfo.Lifetime.GetInstance();
+                // var lifetime = iinfo.Lifetime.CreateInstance;
+                // var lifetime = new NormalInstance();
+                // var lifetime = new SingletonInstance();
+                // iinfo.Lifetime.GetInstance();
                 instances.Add(key, instance);
-                //instances.Add(key, new InstanceInfo(lifetime.CreateInstance(instance), lifetime));
+
+
+                // instances.Add(key, new InstanceInfo(lifetime.CreateInstance(instance), lifetime));
                 iinfo.Lifetime.InstanceCreated(this, instance);
                 return instance;
             }
         }
 
+        /// <exception cref="ActivationException">Cannot build instance: Multiple constructors found but none marked with PreferredConstructor</exception>
         private ConstructorInfo GetConstructorInfo(Type serviceType)
         {
-            var resolveTo = _interfaceToClassMap[serviceType] ?? serviceType;
+            var resolveTo = this._interfaceToClassMap[serviceType] ?? serviceType;
 
 #if WIN8
             var constructorInfos = resolveTo.GetTypeInfo().DeclaredConstructors.ToArray();
@@ -553,7 +688,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                         typeof (PreferredConstructorAttribute));
 #else
                     var attribute = Attribute.GetCustomAttribute(
-                        constructorInfos[index], typeof (PreferredConstructorAttribute));
+                        constructorInfos[index], typeof(PreferredConstructorAttribute));
 #endif
 
                     if (attribute != null)
@@ -574,125 +709,5 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 
             return constructorInfos[0];
         }
-
-        #region Implementation of IServiceProvider
-
-        /// <summary>
-        /// Gets the service object of the specified type.
-        /// </summary>
-        /// <returns>
-        /// A service object of type <paramref name="serviceType"/>.
-        /// -or- 
-        /// null if there is no service object of type <paramref name="serviceType"/>.
-        /// </returns>
-        /// <param name="serviceType">An object that specifies the type of service object to get.</param>
-        public object GetService(Type serviceType)
-        {
-            return DoGetService(serviceType, _uniqueKey);
-        }
-
-        #endregion
-
-        #region Implementation of IServiceLocator
-
-        /// <summary>
-        /// Provides a way to get all the instances of a given type available in the
-        /// cache.
-        /// </summary>
-        /// <param name="serviceType">The class of which all instances
-        /// must be returned.</param>
-        /// <returns>All the instances of the given type.</returns>
-        public IEnumerable<object> GetAllInstances(Type serviceType)
-        {
-            if (_instancesRegistry.ContainsKey(serviceType))
-            {
-                return _instancesRegistry[serviceType].Values;
-            }
-
-            return new List<object>();
-        }
-
-        /// <summary>
-        /// Provides a way to get all the instances of a given type available in the
-        /// cache.
-        /// </summary>
-        /// <typeparam name="TService">The class of which all instances
-        /// must be returned.</typeparam>
-        /// <returns>All the instances of the given type.</returns>
-        public IEnumerable<TService> GetAllInstances<TService>()
-        {
-            var serviceType = typeof (TService);
-
-            if (_instancesRegistry.ContainsKey(serviceType))
-            {
-                return _instancesRegistry[serviceType].Values.Select(instance => (TService) instance);
-            }
-
-            return new List<TService>();
-        }
-
-        /// <summary>
-        /// Provides a way to get an instance of a given type. If no instance had been instantiated 
-        /// before, a new instance will be created. If an instance had already
-        /// been created, that same instance will be returned.
-        /// <remarks>If the class has not been registered before, this method
-        /// returns null!</remarks>
-        /// </summary>
-        /// <param name="serviceType">The class of which an instance
-        /// must be returned.</param>
-        /// <returns>An instance of the given type.</returns>
-        public object GetInstance(Type serviceType)
-        {
-            return DoGetService(serviceType, _uniqueKey);
-        }
-
-        /// <summary>
-        /// Provides a way to get an instance of a given type corresponding
-        /// to a given key. If no instance had been instantiated with this
-        /// key before, a new instance will be created. If an instance had already
-        /// been created with the same key, that same instance will be returned.
-        /// <remarks>If the class has not been registered before, this method
-        /// returns null!</remarks>
-        /// </summary>
-        /// <param name="serviceType">The class of which an instance must be returned.</param>
-        /// <param name="key">The key uniquely identifying this instance.</param>
-        /// <returns>An instance corresponding to the given type and key.</returns>
-        public object GetInstance(Type serviceType, string key)
-        {
-            return DoGetService(serviceType, key);
-        }
-
-        /// <summary>
-        /// Provides a way to get an instance of a given type. If no instance had been instantiated 
-        /// before, a new instance will be created. If an instance had already
-        /// been created, that same instance will be returned.
-        /// <remarks>If the class has not been registered before, this method
-        /// returns null!</remarks>
-        /// </summary>
-        /// <typeparam name="TService">The class of which an instance
-        /// must be returned.</typeparam>
-        /// <returns>An instance of the given type.</returns>
-        public TService GetInstance<TService>()
-        {
-            return (TService) DoGetService(typeof (TService), _uniqueKey);
-        }
-
-        /// <summary>
-        /// Provides a way to get an instance of a given type corresponding
-        /// to a given key. If no instance had been instantiated with this
-        /// key before, a new instance will be created. If an instance had already
-        /// been created with the same key, that same instance will be returned.
-        /// <remarks>If the class has not been registered before, this method
-        /// returns null!</remarks>
-        /// </summary>
-        /// <typeparam name="TService">The class of which an instance must be returned.</typeparam>
-        /// <param name="key">The key uniquely identifying this instance.</param>
-        /// <returns>An instance corresponding to the given type and key.</returns>
-        public TService GetInstance<TService>(string key)
-        {
-            return (TService) DoGetService(typeof (TService), key);
-        }
-
-        #endregion
     }
 }

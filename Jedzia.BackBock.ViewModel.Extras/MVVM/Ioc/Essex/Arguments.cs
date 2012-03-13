@@ -12,21 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
+namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
-	using System;
-	using System.Collections;
-	using System.Collections.Generic;
-
-    public interface IArgumentsComparer
-    {
-        // Methods
-        bool RunEqualityComparison(object x, object y, out bool areEqual);
-        bool RunHasCodeCalculation(object o, out int hashCode);
-    }
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
 
 
-	/// <summary>
+    /// <summary>
 	///   Represents collection of arguments used when resolving a component.
 	/// </summary>
 	public class Arguments : IDictionary
