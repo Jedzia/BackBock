@@ -11,5 +11,6 @@ namespace Jedzia.BackBock.ViewModel.Wizard
         int SelectedPage { get; set; }
 
         void Close();
+        bool? ShowDialog();
     }
 }

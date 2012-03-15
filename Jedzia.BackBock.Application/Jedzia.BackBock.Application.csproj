@@ -327,8 +327,12 @@
     <Compile Include="Editors\TaskWizard\TaskWizard.xaml.cs">
       <DependentUpon>TaskWizard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Editors\TaskWizard\TaskWizardProvider.cs" />
     <Compile Include="FileIOService.cs" />
+    <Compile Include="Installers\ViewsInstaller.cs" />
+    <Compile Include="Installers\DesignModeInstaller.cs" />
     <Compile Include="Installers\ServiceInstaller.cs" />
+    <Compile Include="Installers\ViewModelInstaller.cs" />
     <Compile Include="MyCanvas.cs" />
     <Compile Include="DialogService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -348,6 +352,7 @@
       <DependentUpon>Skinselector.xaml</DependentUpon>
     </Compile>
     <Compile Include="SkinsManager.cs" />
+    <Compile Include="ViewModelLocator.cs" />
     <Compile Include="Window2.xaml.cs">
       <DependentUpon>Window2.xaml</DependentUpon>
     </Compile>

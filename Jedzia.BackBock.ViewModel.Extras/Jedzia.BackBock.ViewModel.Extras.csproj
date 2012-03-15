@@ -150,6 +150,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MVVM\Ioc\Essex\Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Command\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

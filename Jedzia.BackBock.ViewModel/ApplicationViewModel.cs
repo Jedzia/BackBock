@@ -15,6 +15,7 @@ namespace Jedzia.BackBock.ViewModel
     using System.Windows;
     using Jedzia.BackBock.Tasks;
     using Jedzia.BackBock.ViewModel.MainWindow;
+    using Jedzia.BackBock.ViewModel.Wizard;
     using Microsoft.Build.Utilities;
 
     internal sealed class KDA : TypeDescriptionProvider
@@ -28,6 +29,8 @@ namespace Jedzia.BackBock.ViewModel
 
         private static object initialized;
         private static IOService ioService;
+        private static ITaskService taskService;
+        private static ITaskWizardProvider taskWizardProvider;
 
         #endregion
 
@@ -37,7 +40,7 @@ namespace Jedzia.BackBock.ViewModel
             //TypeDescriptor.AddProvider(xxx, typeof(TaskItem));
             var conv = TypeDescriptor.GetConverter(typeof(TaskItem));
         }
-        public ApplicationViewModel(IOService ioService /*, IDialogService dialogService*/, IMainWindow mainWindow)
+        public ApplicationViewModel(IOService ioService /*, IDialogService dialogService*/, IMainWindow mainWindow, ITaskService taskService, ITaskWizardProvider taskWizardProvider)
         {
             if (initialized != null)
             {
@@ -50,6 +53,8 @@ namespace Jedzia.BackBock.ViewModel
 
             // Guard.NotNull(() => ioService, ioService);
             ApplicationViewModel.ioService = ioService;
+            ApplicationViewModel.taskWizardProvider = taskWizardProvider;
+            ApplicationViewModel.taskService = taskService;
 
 // ApplicationViewModel.dialogService = dialogService;
             this.MainWindow = mainWindow;
@@ -103,6 +108,26 @@ namespace Jedzia.BackBock.ViewModel
         /// </summary>
         /// <value>The summary.</value>
         public IMainWindow MainWindow { get; private set; }
+
+        public static ITaskService TaskService
+        {
+            get
+            {
+                return taskService;
+            }
+        }
+
+        public static ITaskWizardProvider TaskWizardProvider
+        {
+            get
+            {
+                //var key = Guid.NewGuid().ToString();
+                //return ServiceLocator.Current.GetInstance<TaskWizardViewModel>(key);
+                return taskWizardProvider;
+                //return new TaskWizardViewModel();
+            }
+        }
+
 
         #endregion
 

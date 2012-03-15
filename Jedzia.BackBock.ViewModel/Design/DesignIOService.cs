@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Jedzia.BackBock.ViewModel.Design
 {
-    class DesignIOService : IOService
+    public class DesignIOService : IOService
     {
         #region IOService Members
 

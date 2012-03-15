@@ -1,5 +1,6 @@
 ﻿namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -18,6 +19,14 @@
         /// </summary>
         private object instance;
 
+        protected Type SetupType
+        {
+            get
+            {
+                return this.setupType;
+            }
+        }
+
         /// <summary>
         /// Gets or sets the managed container-instance of this lifetime.
         /// </summary>
@@ -34,6 +43,8 @@
         /// Holds a reference to the creating IoC-Container. 
         /// </summary>
         protected SimpleIoc serviceLocator;
+
+        private Type setupType;
 
         /// <summary>
         /// Releases the container-instance by checking the LifetimeManager
@@ -112,5 +123,10 @@
         {
             throw new NotImplementedException("Can't Release this sort of type.");
         }*/
+
+        protected internal void SetType(Type instanceType)
+        {
+            this.setupType = instanceType;
+        }
     }
 }

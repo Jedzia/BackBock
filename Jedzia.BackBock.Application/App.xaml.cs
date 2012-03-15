@@ -5,6 +5,7 @@
     using Jedzia.BackBock.ViewModel.MainWindow;
     using Jedzia.BackBock.Tasks;
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -54,7 +55,8 @@
             //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
             SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
 
-            //IWindsorContainer container = new EssexContainer();
+            IEssexContainer container = new EssexContainer();
+            container.Install(FromAssembly.InThisEntry());
             //container.Install(FromAssembly.InThisApplication());
             //var sauce = container.Resolve<FileIOService>(); 
         }

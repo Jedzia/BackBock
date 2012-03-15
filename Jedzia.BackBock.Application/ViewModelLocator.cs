@@ -10,18 +10,13 @@
 */
 
 
-using Microsoft.Practices.ServiceLocation;
-using Jedzia.BackBock.ViewModel.MainWindow;
-using System.Windows;
-using Jedzia.BackBock.Tasks;
-
-namespace Jedzia.BackBock.ViewModel
+namespace Jedzia.BackBock.Application
 {
+    using Jedzia.BackBock.ViewModel;
+    using Jedzia.BackBock.ViewModel.MainWindow;
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
     using Jedzia.BackBock.ViewModel.Wizard;
-    using System;
-    using Jedzia.BackBock.ViewModel.Commands;
+    using Microsoft.Practices.ServiceLocation;
 
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -44,22 +39,22 @@ namespace Jedzia.BackBock.ViewModel
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            IEssexContainer container = new EssexContainer();
+            //IEssexContainer container = new EssexContainer();
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
 				// For out DesignPeeps, hold a Blendable backforce here.
-                SimpleIoc.Default.Register<ITaskService, Design.DesignTaskService>();
-                SimpleIoc.Default.Register<IOService, Design.DesignIOService>();
-                SimpleIoc.Default.Register<IDialogService, Design.DesignDialogService>();
-                SimpleIoc.Default.Register<IMainWindow, Design.DesignMainWindow>();
+                //SimpleIoc.Default.Register<ITaskService, Design.DesignTaskService>();
+                //SimpleIoc.Default.Register<IOService, Design.DesignIOService>();
+                //SimpleIoc.Default.Register<IDialogService, Design.DesignDialogService>();
+                //SimpleIoc.Default.Register<IMainWindow, Design.DesignMainWindow>();
                 //return;
-                container.Install(FromAssembly.InThisApplication());
+                //container.Install(FromAssembly.InThisApplication());
             }
             else
             {
-            	container.Install(FromAssembly.InThisEntry());
-                SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
+            	//container.Install(FromAssembly.InThisEntry());
+                //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
                 //SimpleIoc.Default.Register<TaskWizardViewModel>();
                 // SimpleIoc.Default.Register<IDataService, DataService>();
             }
@@ -158,6 +153,8 @@ namespace Jedzia.BackBock.ViewModel
                 //return new TaskWizardViewModel();
             }
         }
+
+
 
         /// <summary>
         /// Provides a deterministic way to delete the Main property.

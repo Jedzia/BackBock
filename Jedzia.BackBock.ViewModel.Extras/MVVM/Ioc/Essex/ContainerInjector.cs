@@ -1,5 +1,7 @@
 ﻿namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 {
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime;
+
     public class ContainerInjector : IContainerInjector
     {
         #region IContainerInjector Members
@@ -13,7 +15,7 @@
         {
             foreach (var item in model.Services)
             {
-                SimpleIoc.Default.Register(item, model.Implementation);
+                SimpleIoc.Default.Register(item, model.Implementation, new SingletonInstance());
             }
         }
 

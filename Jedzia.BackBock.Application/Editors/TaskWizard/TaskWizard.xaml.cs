@@ -15,11 +15,31 @@ using System.ComponentModel;
 
 namespace Jedzia.BackBock.Application.Editors.TaskWizard
 {
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime;
+
     /// <summary>
     /// Interaction logic for TaskWizard.xaml
     /// </summary>
-    public partial class TaskWizard : Window, IStateWizard
+    public partial class TaskWizard : Window, IStateWizard, IDestructible
     {
+        #region IDestructible Members
+
+        private ILifetimeEnds candidate;
+
+        public ILifetimeEnds Candidate
+        {
+            get
+            {
+                return this.candidate;
+            }
+            set
+            {
+                this.candidate = value;
+            }
+        }
+
+        #endregion
+
         public TaskWizard()
         {
             InitializeComponent();
@@ -27,7 +47,10 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
             vm.Wizard = this;
             // end the lifetime of the viewmodel. 
             // Todo: better put this in an ioc factory
-            this.Closed += (o, e) => { if (vm.Candidate != null) vm.Candidate.Release(); };
+            //this.Closed += (o, e) => { if (vm.Candidate != null) vm.Candidate.Release(); };
+            Closed += (o, e) => { if (Candidate != null) 
+                Candidate.Release(); 
+            };
             //vm.Reset();
         }
 

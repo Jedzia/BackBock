@@ -19,7 +19,8 @@
         /// </summary>
         public override void Release()
         {
-            serviceLocator.Unregister(Instance.GetType(), Instance, key);
+            serviceLocator.Unregister(this.SetupType, Instance, key);
+            //serviceLocator.Unregister(key);
             base.Release();
         }
 

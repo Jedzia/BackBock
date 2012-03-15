@@ -7,7 +7,7 @@ using Jedzia.BackBock.ViewModel.MainWindow;
 
 namespace Jedzia.BackBock.ViewModel.Design
 {
-    class DesignMainWindow : IMainWindow
+    public class DesignMainWindow : IMainWindow
     {
 		
 		public DesignMainWindow()

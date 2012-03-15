@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Jedzia.BackBock.ViewModel.Design
 {
-    class DesignDialogService : IDialogService
+    public class DesignDialogService : IDialogService
     {
         #region IDialogService Members
 

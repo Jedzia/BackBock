@@ -33,10 +33,11 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime
         /// </summary>
         /// <param name="Instance">The Instance</param>
         /// <param name="Lifetime">The Lifetime</param>
-        internal InstanceInfo(Type instanceType, InstanceLifetime lifetime)
+        internal InstanceInfo(Type instanceType, Type setupType, InstanceLifetime lifetime)
         {
             this.InstanceType = instanceType;
             this.Lifetime = lifetime;
+            this.Lifetime.SetType(setupType);
         }
         #endregion
         #region Methods

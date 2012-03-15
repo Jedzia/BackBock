@@ -276,24 +276,46 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             return this.factories[classType].ContainsKey(key);
         }
 
+
         /// <summary>
         /// Registers a given type for a given interface.
         /// </summary>
         /// <typeparam name="TInterface">The interface for which instances will be resolved.</typeparam>
         /// <typeparam name="TClass">The type that must be used to create instances.</typeparam>
         [SuppressMessage(
-            "Microsoft.Design", 
-            "CA1004", 
+            "Microsoft.Design",
+            "CA1004",
             Justification = "This syntax is better than the alternatives.")]
-        public void Register<TInterface, TClass>() where TClass : class, TInterface
+        public ILifetimeConfig<TClass> Register<TInterface, TClass>() where TClass : class, TInterface
         {
+            return Register<TInterface, TClass>(new SingletonInstance());
+        }
+
+        /// <summary>
+        /// Registers a given type for a given interface.
+        /// </summary>
+        /// <typeparam name="TInterface">The interface for which instances will be resolved.</typeparam>
+        /// <typeparam name="TClass">The type that must be used to create instances.</typeparam>
+        [SuppressMessage(
+            "Microsoft.Design",
+            "CA1004",
+            Justification = "This syntax is better than the alternatives.")]
+        public ILifetimeConfig<TClass> Register<TInterface, TClass>(InstanceLifetime lifetime) where TClass : class, TInterface
+        {
+            // Todo: Implement
+            //throw new NotImplementedException();
+
             lock (this.@lock)
             {
                 var interfaceType = typeof(TInterface);
                 var classType = typeof(TClass);
 
-                this.Register(interfaceType, classType);
+                this.Register(interfaceType, classType, lifetime);
             }
+
+            var ilm = new LifetimeManager<TClass>(lifetime);
+            lifetime.LifetimeManager = ilm;
+            return ilm;
         }
 
         /// <summary>
@@ -344,7 +366,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 else
                 {
                     this.interfaceToClassMap.Add(classType, null);
-                    var ii = new InstanceInfo(classType, lifetime);
+                    var ii = new InstanceInfo(classType, classType, lifetime);
                     this.instanceInfos.Add(classType, ii);
                 }
 
@@ -390,7 +412,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 else
                 {
                     this.interfaceToClassMap.Add(classType, null);
-                    var ii = new InstanceInfo(classType, new SingletonInstance());
+                    var ii = new InstanceInfo(classType, classType, new SingletonInstance());
                     this.instanceInfos.Add(classType, ii);
                 }
 
@@ -548,7 +570,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// </summary>
         /// <param name="interfaceType">Type of the interface.</param>
         /// <param name="classType">Type of the implementation class.</param>
-        internal void Register(Type interfaceType, Type classType)
+        internal void Register(Type interfaceType, Type classType, InstanceLifetime lifetime)
         {
             if (this.interfaceToClassMap.ContainsKey(interfaceType))
             {
@@ -561,13 +583,13 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 }
 
                 this.interfaceToClassMap[interfaceType] = classType;
-                var ii = new InstanceInfo(classType, new SingletonInstance());
+                var ii = new InstanceInfo(classType, interfaceType, lifetime);
                 this.instanceInfos[classType] = ii;
             }
             else
             {
                 this.interfaceToClassMap.Add(interfaceType, classType);
-                var ii = new InstanceInfo(classType, new SingletonInstance());
+                var ii = new InstanceInfo(classType, interfaceType, lifetime);
                 this.instanceInfos.Add(classType, ii);
             }
 
@@ -739,5 +761,6 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
 
             return constructorInfos[0];
         }
+
     }
 }

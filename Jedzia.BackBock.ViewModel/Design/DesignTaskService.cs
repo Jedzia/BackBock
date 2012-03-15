@@ -8,7 +8,7 @@ namespace Jedzia.BackBock.ViewModel.Design
 {
     using Microsoft.Build.Framework;
 
-    class DesignTaskService : ITaskService
+    public class DesignTaskService : ITaskService
     {
         #region IServiceProvider Members
 

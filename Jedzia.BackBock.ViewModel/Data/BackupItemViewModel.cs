@@ -8,11 +8,8 @@
 namespace Jedzia.BackBock.ViewModel.Data
 {
     using System;
-    using System.Collections;
-    using System.Linq;
     using System.Collections.Specialized;
     using System.IO;
-    using System.Text;
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Markup;
@@ -21,15 +18,8 @@ namespace Jedzia.BackBock.ViewModel.Data
     using Jedzia.BackBock.Model.Data;
     using Jedzia.BackBock.Tasks;
     using Jedzia.BackBock.ViewModel.Commands;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using Jedzia.BackBock.ViewModel.Tasks;
-    using Microsoft.Build.BuildEngine;
     using Microsoft.Build.Framework;
-    using Microsoft.Build.Tasks;
-    using Microsoft.Build.Utilities;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.ComponentModel;
 
     public partial class BackupItemViewModel : ILogger
     {
@@ -187,7 +177,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 {
                     try
                     {
-                        taskProvider = SimpleIoc.Default.GetInstance<ITaskService>();
+                        taskProvider = ApplicationViewModel.TaskService;
                     }
                     catch (Exception ex)
                     {

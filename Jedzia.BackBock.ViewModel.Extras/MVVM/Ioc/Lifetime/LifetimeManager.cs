@@ -10,7 +10,6 @@
     {
         private InstanceLifetime instanceLifetime;
         Action<T> action;
-        #region ILifetimeManagement<T> Members
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:LifetimeManager"/> class.
@@ -25,10 +24,6 @@
             this.action = action;
         }
 
-        #endregion
-
-        #region ILifetimeManagement Members
-
         public void DoDestroy()
         {
             if (action != null)
@@ -38,18 +33,11 @@
             }
         }
 
-        #endregion
-
-        #region ILifetimeManagement<T> Members
-
-
         public void DestroyOnEvent(object handler)
         {
             //EventHandler
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 
     /*/// <summary>

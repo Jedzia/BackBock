@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Util\GuardTestX.cs" />
-    <Compile Include="ApplicationViewModelTest.cs" />
+    <None Include="ApplicationViewModelTest.cs" />
     <Compile Include="Converters\BoolToOppositeConverterTest.cs" />
     <Compile Include="Commands\CommandKeyGestureAttributeTest.cs" />
     <Compile Include="Commands\EventToCommandTest.cs" />

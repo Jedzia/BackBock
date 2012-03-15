@@ -1,15 +1,10 @@
 ﻿
 using System.Windows.Input;
 using Jedzia.BackBock.ViewModel.Commands;
-using Jedzia.BackBock.ViewModel.Util;
 using System;
-using System.ComponentModel;
-using Microsoft.Practices.ServiceLocation;
-using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+
 namespace Jedzia.BackBock.ViewModel.Wizard
 {
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime;
-
     /// <summary>
     /// This class contains properties that a View can data bind to.
     /// <para>
@@ -19,7 +14,7 @@ namespace Jedzia.BackBock.ViewModel.Wizard
     /// See http://www.galasoft.ch/mvvm/getstarted
     /// </para>
     /// </summary>
-    public class TaskWizardViewModel : ViewModelBase, IDestructible
+    public class TaskWizardViewModel : ViewModelBase
     {
         /// <summary>
         /// The <see cref="Title" /> property's name.
@@ -324,15 +319,5 @@ namespace Jedzia.BackBock.ViewModel.Wizard
         }
         #endregion
 
-
-        #region IDestructible Members
-
-        public ILifetimeEnds Candidate
-        {
-            get;
-            set;
-        }
-
-        #endregion
     }
 }

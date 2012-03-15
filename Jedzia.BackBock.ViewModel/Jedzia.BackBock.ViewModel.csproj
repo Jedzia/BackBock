@@ -32,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\libs\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -120,6 +116,7 @@
     <Compile Include="Design\DesignIOService.cs" />
     <Compile Include="Design\DesignMainWindow.cs" />
     <Compile Include="Design\DesignTaskService.cs" />
+    <Compile Include="Design\DesignTaskWizardProvider.cs" />
     <Compile Include="DisplayMode.cs" />
     <Compile Include="DisplayModeViewModel.cs" />
     <Compile Include="Ext\ActivatorExtension.cs" />
@@ -133,9 +130,9 @@
     <Compile Include="ICleanup.cs" />
     <Compile Include="IDialogControl.cs" />
     <Compile Include="IDialogService.cs" />
-    <Compile Include="Installers\ViewModelInstaller.cs" />
     <Compile Include="IOService.cs" />
     <Compile Include="ISelectionService.cs" />
+    <Compile Include="ITaskWizardProvider.cs" />
     <Compile Include="MainWindow\IMainWindow.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -185,7 +182,6 @@
     <Compile Include="Util\Guard.cs" />
     <Compile Include="Util\VisualHelper.cs" />
     <Compile Include="ViewModelBase.cs" />
-    <Compile Include="ViewModelLocator.cs" />
     <Compile Include="Wizard\TaskWizardFSM.cs" />
     <Compile Include="Wizard\IStateWizard.cs" />
     <Compile Include="Wizard\TaskWizardViewModel.cs" />
@@ -202,10 +198,6 @@
     <ProjectReference Include="..\Jedzia.BackBock.Tasks\Jedzia.BackBock.Tasks.csproj">
       <Project>{07B3FA8E-2DF4-4F3C-A060-E919EB9D3C98}</Project>
       <Name>Jedzia.BackBock.Tasks</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Jedzia.BackBock.ViewModel.Extras\Jedzia.BackBock.ViewModel.Extras.csproj">
-      <Project>{1FD5EA5A-029A-4E39-A039-F36F28A6555E}</Project>
-      <Name>Jedzia.BackBock.ViewModel.Extras</Name>
     </ProjectReference>
     <ProjectReference Include="..\Stateless\Stateless\Stateless.csproj">
       <Project>{F7BF45FF-D914-4494-9F4C-0039428FAAE9}</Project>

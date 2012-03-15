@@ -13,17 +13,13 @@ using Jedzia.BackBock.ViewModel.Data;
 using Jedzia.BackBock.ViewModel.Commands;
 using System.Windows.Input;
 using Jedzia.BackBock.Model.Data;
-using System.Windows.Controls;
-using System.Xml.Serialization;
 using System.Text;
 using System.Xml;
 using System.IO;
-using Jedzia.BackBock.Tasks;
-using Jedzia.BackBock.ViewModel.MVVM.Ioc;
+
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     using Microsoft.Build.Framework;
-    using System.Diagnostics;
 
     public sealed class MainWindowViewModel : ViewModelBase
     {
@@ -242,9 +238,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         {
             get
             {
-                var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
+                //var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
                 //throw new NotImplementedException("m999");
-                var taskList = taskService.GetRegisteredTasks();
+                var taskList = ViewModel.ApplicationViewModel.TaskService.GetRegisteredTasks();
                 return taskList;
             }
         }
@@ -483,7 +479,8 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         {
             try
             {
-                var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskWizard);
+                //var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskWizard);
+                var wnd = ApplicationViewModel.TaskWizardProvider.GetWizard();
                 //wnd.DataContext = this;
                 //wnd.DataContext = task;
                 //this.Task.PropertyChanged += Task_PropertyChanged;
