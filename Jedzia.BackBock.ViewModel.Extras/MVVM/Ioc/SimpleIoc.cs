@@ -328,7 +328,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             Justification = "This syntax is better than the alternatives.")]
         public void Register<TClass>() where TClass : class
         {
-            this.Register<TClass>(new SingletonInstance());
+            this.RegisterWithLifetime<TClass>(new SingletonInstance());
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
             "Microsoft.Design", 
             "CA1004", 
             Justification = "This syntax is better than the alternatives.")]
-        public ILifetimeConfig<TClass> Register<TClass>(InstanceLifetime lifetime) where TClass : class
+        public ILifetimeConfig<TClass> RegisterWithLifetime<TClass>(InstanceLifetime lifetime) where TClass : class
         {
             lock (this.@lock)
             {
@@ -389,7 +389,30 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// must be returned when the given type is resolved.</param>
         public void Register<TClass>(Func<TClass> factory) where TClass : class
         {
-            Register(factory, this.uniqueKey);
+            Register<TClass>(factory, this.uniqueKey);
+        }
+
+        /// <summary>
+        /// Registers a given instance for a given type.
+        /// </summary>
+        /// <typeparam name="TClass">The type that is being registered.</typeparam>
+        /// <param name="factory">The factory method able to create the instance that
+        /// must be returned when the given type is resolved.</param>
+        /// <param name="key">The key for which the given instance is registered.</param>
+        public void Register<TClass>(Func<TClass> factory, string key) where TClass : class
+        {
+            RegisterWithLifetime<TClass>(new SingletonInstance(), factory, key);
+        }
+
+        /// <summary>
+        /// Registers a given instance for a given type.
+        /// </summary>
+        /// <typeparam name="TClass">The type that is being registered.</typeparam>
+        /// <param name="factory">The factory method able to create the instance that
+        /// must be returned when the given type is resolved.</param>
+        public ILifetimeConfig<TClass> RegisterWithLifetime<TClass>(InstanceLifetime lifetime, Func<TClass> factory) where TClass : class
+        {
+            return RegisterWithLifetime(lifetime, factory, this.uniqueKey);
         }
 
         /// <summary>
@@ -399,7 +422,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
         /// <param name="factory">The factory method able to create the instance that
         /// must be returned when the given type is resolved.</param>
         /// <param name="key">The key for which the given instance is registered.</param>
-        public void Register<TClass>(Func<TClass> factory, string key) where TClass : class
+        public ILifetimeConfig<TClass> RegisterWithLifetime<TClass>(InstanceLifetime lifetime, Func<TClass> factory, string key) where TClass : class
         {
             lock (this.@lock)
             {
@@ -412,7 +435,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                 else
                 {
                     this.interfaceToClassMap.Add(classType, null);
-                    var ii = new InstanceInfo(classType, classType, new SingletonInstance());
+                    var ii = new InstanceInfo(classType, classType, lifetime);
                     this.instanceInfos.Add(classType, ii);
                 }
 
@@ -446,6 +469,10 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc
                     this.factories.Add(classType, list);
                 }
             }
+
+            var ilm = new LifetimeManager<TClass>(lifetime);
+            lifetime.LifetimeManager = ilm;
+            return ilm;
         }
 
         /// <summary>

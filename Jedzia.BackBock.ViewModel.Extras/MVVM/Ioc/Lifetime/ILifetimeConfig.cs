@@ -9,8 +9,9 @@
     /// <typeparam name="T">The object to provide with configuration abilities.</typeparam>
     public interface ILifetimeConfig<T>
     {
-        void OnDestroy(Action<T> action);
+        ILifetimeConfig<T> OnDestroy(Action<T> action);
         //void DestroyOnEvent(Delegate handler);
         //void DestroyOnEvent(Action<ILifetimeManagement> lf);
+        ILifetimeConfig<T> WireRelease(Action<T, EventHandler<EventArgs>> func);
     }
 }

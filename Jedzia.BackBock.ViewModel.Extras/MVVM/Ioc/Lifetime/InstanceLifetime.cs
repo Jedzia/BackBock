@@ -85,6 +85,10 @@
         {
             this.Instance = instance;
             this.serviceLocator = serviceLocator;
+            if (this.LifetimeManager != null)
+            {
+                this.LifetimeManager.CreatingInstance(instance);
+            }
         }
 
         /*internal virtual object CreateInstance(object initial)

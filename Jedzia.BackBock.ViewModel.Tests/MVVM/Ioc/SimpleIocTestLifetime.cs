@@ -21,7 +21,7 @@ namespace Jedzia.BackBock.ViewModel.Tests.MVVM.Ioc
             SimpleIoc.Default.Reset();
             TestClassForCreationTime.Reset();
             Assert.AreEqual(0, TestClassForCreationTime.InstancesCreated);
-            SimpleIoc.Default.Register<TestClassForCreationTime>(new TransitionLifetime());
+            SimpleIoc.Default.RegisterWithLifetime<TestClassForCreationTime>(new TransitionLifetime());
             Assert.AreEqual(0, TestClassForCreationTime.InstancesCreated);
             var inst1 = SimpleIoc.Default.GetInstance<TestClassForCreationTime>();
             Assert.AreEqual(1, TestClassForCreationTime.InstancesCreated);
@@ -43,7 +43,7 @@ namespace Jedzia.BackBock.ViewModel.Tests.MVVM.Ioc
             SimpleIoc.Default.Reset();
             TestClassForIDestructible.Reset();
             Assert.AreEqual(0, TestClassForIDestructible.InstancesCreated);
-            SimpleIoc.Default.Register<TestClassForIDestructible>(new TransitionLifetime());
+            SimpleIoc.Default.RegisterWithLifetime<TestClassForIDestructible>(new TransitionLifetime());
             Assert.AreEqual(0, TestClassForIDestructible.InstancesCreated);
 
             var inst1 = SimpleIoc.Default.GetInstance<TestClassForIDestructible>();
@@ -64,7 +64,7 @@ namespace Jedzia.BackBock.ViewModel.Tests.MVVM.Ioc
             TestClassForIDestructible.Reset();
             TestClassForIDestructible releaseInstance = null;
 
-            SimpleIoc.Default.Register<TestClassForIDestructible>(new TransitionLifetime())
+            SimpleIoc.Default.RegisterWithLifetime<TestClassForIDestructible>(new TransitionLifetime())
                 .OnDestroy((obj) => { releaseInstance = obj; });
 
             var inst1 = SimpleIoc.Default.GetInstance<TestClassForIDestructible>();
@@ -82,7 +82,7 @@ namespace Jedzia.BackBock.ViewModel.Tests.MVVM.Ioc
             TestClassForIDestructible.Reset();
             TestClassForIDestructible releaseInstance = null;
             System.Windows.Window w = new System.Windows.Window();
-            //SimpleIoc.Default.Register<TestClassForIDestructible>(new TransitionLifetime())
+            //SimpleIoc.Default.RegisterWithLifetime<TestClassForIDestructible>(new TransitionLifetime())
                // .DestroyOnEvent( (o) => w.Closed += o.DoRelease );
             
             var inst1 = SimpleIoc.Default.GetInstance<TestClassForIDestructible>();

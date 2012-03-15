@@ -10,6 +10,7 @@
     {
         private InstanceLifetime instanceLifetime;
         Action<T> action;
+        private Action<T, EventHandler<EventArgs>> releaseHook;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:LifetimeManager"/> class.
@@ -19,9 +20,33 @@
             this.instanceLifetime = instanceLifetime;
         }
 
-        public void OnDestroy(Action<T> action)
+        public ILifetimeConfig<T> OnDestroy(Action<T> action)
         {
             this.action = action;
+            return this;
+        }
+
+        void ILifetimeManagement.CreatingInstance(object instance)
+        {
+            if (this.releaseHook == null)
+            {
+                return;
+            }
+            var inst = (T)instance;
+            this.releaseHook(inst, OnLifetimeEnding);
+        }
+
+        private void OnLifetimeEnding(object sender, EventArgs eventArgs)
+        {
+            this.DoDestroy();
+        }
+
+
+        public ILifetimeConfig<T> WireRelease(Action<T, EventHandler<EventArgs>> releaseHook)
+        {
+            //func.Invoke(this.instanceLifetime.Instance);
+            this.releaseHook = releaseHook;
+            return this;
         }
 
         public void DoDestroy()

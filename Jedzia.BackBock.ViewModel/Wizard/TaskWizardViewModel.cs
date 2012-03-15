@@ -233,8 +233,46 @@ namespace Jedzia.BackBock.ViewModel.Wizard
             //SimpleIoc.Default.Unregister<TaskWizardViewModel>(this);
 
             this.Wizard.Close();
+            OnClosed(EventArgs.Empty);
             //this.Candidate.Destroy();
             //base.Cleanup();
+        }
+
+        /// <summary>
+        /// The event handler for the <see cref="E:TaskWizardViewModel.Closed"/> event.
+        /// </summary>
+        private EventHandler<EventArgs> closed;
+
+        /// <summary>
+        /// Occurs when 
+        /// </summary>
+        public event EventHandler<EventArgs> Closed
+        {
+            add
+            {
+                // TODO: write your implementation of the add accessor here
+                this.closed += value;
+            }
+
+            remove
+            {
+                // TODO: write your implementation of the remove accessor here
+                this.closed -= value;
+            }
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected virtual void OnClosed(EventArgs e)
+        {
+            EventHandler<EventArgs> handler = System.Threading.Interlocked.CompareExchange(ref this.closed, null, null);
+
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
 
         void fsm_Finished(object sender, EventArgs e)

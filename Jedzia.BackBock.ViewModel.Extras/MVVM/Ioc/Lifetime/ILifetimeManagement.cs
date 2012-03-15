@@ -8,5 +8,6 @@
     {
         void DoDestroy();
         //void DoRelease(object o, EventArgs e);
+        void CreatingInstance(object instance);
     }
 }

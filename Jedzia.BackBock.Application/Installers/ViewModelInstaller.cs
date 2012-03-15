@@ -1,8 +1,11 @@
 ﻿namespace Jedzia.BackBock.Application.Installers
 {
+    using Jedzia.BackBock.Application.Editors.TaskWizard;
     using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.MainWindow;
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime;
     using Jedzia.BackBock.ViewModel.Wizard;
 
     public class ViewModelInstaller : IEssexInstaller
@@ -36,6 +39,16 @@
             container.Register(Component.For<ApplicationViewModel>());
             container.Register(Component.For<MainWindowViewModel>());
             container.Register(Component.For<TaskWizardViewModel>());
+            //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime());
+            
+            /*SimpleIoc.Default.RegisterWithLifetime(new TransitionLifetime(),() =>
+            {
+                var taskWizardViewModel = new TaskWizardViewModel();
+                return taskWizardViewModel;
+            })
+            .WireRelease((a, b) => a.Closed += b)
+            .OnDestroy(model => SimpleIoc.Default.Unregister(model));*/
+
             //container.Register(AllTypes.FromThisAssembly().BasedOn<ViewModelBase>());
             //container.Register(AllTypes.FromThisAssembly().Pick()
             //    .If(Component.IsInSameNamespaceAs<FileIOService>()));
