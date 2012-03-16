@@ -35,6 +35,11 @@
         IComponentModelBuilder ComponentModelBuilder { get; }
 
         /// <summary>
+        ///   Gets or sets the implementation of <see cref = "IConfigurationStore" />
+        /// </summary>
+        IConfigurationStore ConfigurationStore { get; set; }
+
+        /// <summary>
         ///   Registers the components with the <see cref = "IKernel" />. The instances of <see cref = "IRegistration" /> are produced by fluent registration API.
         ///   Most common entry points are <see cref = "Component.For{TService}" /> method to register a single type or (recommended in most cases) 
         ///   <see cref = "AllTypes.FromThisAssembly" />.
@@ -61,5 +66,14 @@
         /// <param name = "service"></param>
         /// <returns></returns>
         bool HasComponent(Type service);
+
+        /// <summary>
+        ///   Returns an implementation of <see cref = "ISubSystem" />
+        ///   for the specified name. 
+        ///   <seealso cref = "SubSystemConstants" />
+        /// </summary>
+        /// <param name = "name"></param>
+        /// <returns></returns>
+        ISubSystem GetSubSystem(String name);
     }
 }

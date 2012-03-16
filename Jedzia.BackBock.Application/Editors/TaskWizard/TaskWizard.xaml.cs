@@ -48,8 +48,13 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
             // end the lifetime of the viewmodel. 
             // Todo: better put this in an ioc factory
             //this.Closed += (o, e) => { if (vm.Candidate != null) vm.Candidate.Release(); };
-            Closed += (o, e) => { if (Candidate != null) 
-                Candidate.Release(); 
+            Closed += (o, e) =>
+            {
+                if (Candidate != null)
+                    Candidate.Release();
+                vm.Wizard = null;
+                //Candidate = null;
+                //this.DataContext = null;
             };
             //vm.Reset();
         }
@@ -64,7 +69,7 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
         public int SelectedPage
         {
             get { return this.wizard.SelectedIndex; }
-            set 
+            set
             {
                 if (this.wizard.SelectedIndex == value)
                 {

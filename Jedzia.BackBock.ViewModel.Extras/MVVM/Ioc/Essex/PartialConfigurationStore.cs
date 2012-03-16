@@ -10,12 +10,15 @@
 
         public PartialConfigurationStore(IKernelInternal kernel)
         {
-            //this.inner = kernel.ConfigurationStore;
+            this.inner = kernel.ConfigurationStore;
             this.partial = new DefaultConfigurationStore();
-            //this.partial.Init(kernel);
+            this.partial.Init(kernel);
         }
-
-        #region ISubSystem Members
+        public void AddComponentConfiguration(String key, IConfiguration config)
+        {
+            inner.AddComponentConfiguration(key, config);
+            partial.AddComponentConfiguration(key, config);
+        }
 
         public void Init(IKernelInternal kernel)
         {
@@ -28,15 +31,14 @@
             //throw new NotImplementedException();
         }
 
-        #endregion
-
-        #region IDisposable Members
-
         public void Dispose()
         {
             this.Terminate();
         }
 
-        #endregion
+        public IConfiguration GetComponentConfiguration(string key)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

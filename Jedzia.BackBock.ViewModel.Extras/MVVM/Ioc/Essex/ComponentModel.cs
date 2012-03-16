@@ -9,6 +9,14 @@
     public sealed class ComponentModel //: GraphNode
     {
 
+        /// <summary>
+        ///   Gets or sets a value indicating whether the component requires generic arguments.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if generic arguments are required; otherwise, <c>false</c>.
+        /// </value>
+        public bool RequiresGenericArguments { get; set; }
+        
         public const string GenericImplementationMatchingStrategy = "generic.matching";
 
         //[DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -113,6 +121,18 @@
         }
 
         /// <summary>
+        ///   Gets or sets the lifestyle type.
+        /// </summary>
+        /// <value>The type of the lifestyle.</value>
+        public LifestyleType LifestyleType { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the custom lifestyle.
+        /// </summary>
+        /// <value>The custom lifestyle.</value>
+        public Type CustomLifestyle { get; set; }
+        
+        /// <summary>
         ///   Sets or returns the component key
         /// </summary>
         public string Name
@@ -138,5 +158,6 @@
             }
         }
 
+        public IConfiguration Configuration { get; set; }
     }
 }

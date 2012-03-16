@@ -9,6 +9,11 @@
 
     public static class ReflectionUtil
     {
+        public static TAttribute[] GetAttributes<TAttribute>(this MemberInfo item) where TAttribute : Attribute
+        {
+            return (TAttribute[])Attribute.GetCustomAttributes(item, typeof(TAttribute), true);
+        }
+
         public static IEnumerable<Assembly> GetApplicationAssemblies(Assembly rootAssembly)
         {
             int length = rootAssembly.FullName.IndexOfAny(new char[] { '.', ',' });

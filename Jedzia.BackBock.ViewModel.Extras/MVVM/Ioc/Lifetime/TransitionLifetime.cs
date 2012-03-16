@@ -20,6 +20,18 @@
         public override void Release()
         {
             serviceLocator.Unregister(this.SetupType, Instance, key);
+            if (Instance is System.Windows.FrameworkElement)
+            {
+                var inst = (System.Windows.FrameworkElement)Instance;
+                inst.DataContext = null;
+            }
+
+            if (Instance is IDestructible)
+            {
+                var destructible = (IDestructible)Instance;
+                // remove this from the IDestructible instance.
+                destructible.Candidate = null;
+            }
             //serviceLocator.Unregister(key);
             base.Release();
         }

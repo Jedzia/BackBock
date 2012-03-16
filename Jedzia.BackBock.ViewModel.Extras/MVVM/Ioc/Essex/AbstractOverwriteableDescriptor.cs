@@ -15,8 +15,7 @@
 
         public virtual void BuildComponentModel(IKernel kernel, ComponentModel model)
         {
-            throw new NotImplementedException("Todo: model.Configuration");
-            //ApplyToConfiguration(kernel, model.Configuration);
+            ApplyToConfiguration(kernel, model.Configuration);
         }
 
         public virtual void ConfigureComponentModel(IKernel kernel, ComponentModel model)

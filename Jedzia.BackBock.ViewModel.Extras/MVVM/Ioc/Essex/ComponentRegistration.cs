@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Registration for a single type as a component with the kernel.
@@ -227,10 +228,10 @@
             }
 
             implementation = type;
-            /*if (genericImplementationMatchingStrategy == null)
+            if (genericImplementationMatchingStrategy == null)
             {
                 return this;
-            }*/
+            }
             return
                 ExtendedProperties(
                     Property.ForKey(ComponentModel.GenericImplementationMatchingStrategy).Eq(genericImplementationMatchingStrategy));
@@ -262,6 +263,24 @@
             return this;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public LifestyleGroup<TService> LifeStyle
+        {
+            get
+            {
+                return new LifestyleGroup<TService>((ComponentRegistration<TService>)this);
+            }
+        }
+ 
+
+        /// <summary>
+        ///   Sets component lifestyle to transient.
+        /// </summary>
+        /// <returns></returns>
+        public ComponentRegistration<TService> LifestyleTransient()
+        {
+            return LifeStyle.Transient;
+        }
 
     }
 }

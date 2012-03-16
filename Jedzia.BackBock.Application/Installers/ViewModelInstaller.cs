@@ -39,6 +39,7 @@
             container.Register(Component.For<ApplicationViewModel>());
             container.Register(Component.For<MainWindowViewModel>());
             container.Register(Component.For<TaskWizardViewModel>());
+            //container.Register(Component.For<TaskWizardViewModel>().LifestyleTransient());
             //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime());
             
             /*SimpleIoc.Default.RegisterWithLifetime(new TransitionLifetime(),() =>

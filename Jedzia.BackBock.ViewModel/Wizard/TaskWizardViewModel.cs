@@ -233,6 +233,7 @@ namespace Jedzia.BackBock.ViewModel.Wizard
             //SimpleIoc.Default.Unregister<TaskWizardViewModel>(this);
 
             this.Wizard.Close();
+            //this.Wizard = null;
             OnClosed(EventArgs.Empty);
             //this.Candidate.Destroy();
             //base.Cleanup();

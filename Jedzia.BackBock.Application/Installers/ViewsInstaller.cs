@@ -45,8 +45,9 @@
                 //container.Register(Component.For<ITaskWizardProvider>().ImplementedBy<TaskWizardProvider>());
             }
             // Todo: implement lifetime
-            //container.Register(Component.For<IStateWizard>().ImplementedBy<TaskWizard>().Lifetime(dingens));
-            SimpleIoc.Default.Register<IStateWizard, TaskWizard>(new TransitionLifetime());
+            container.Register(Component.For<IStateWizard>().ImplementedBy<TaskWizard>().LifestyleTransient());
+            //SimpleIoc.Default.Register<IStateWizard, TaskWizard>(new TransitionLifetime());
+            //container.Register(Component.For<IStateWizard>().LifestyleTransient());
 
             //SimpleIoc.Default.Register<ApplicationViewModel>();
             //SimpleIoc.Default.Register<MainWindowViewModel>();

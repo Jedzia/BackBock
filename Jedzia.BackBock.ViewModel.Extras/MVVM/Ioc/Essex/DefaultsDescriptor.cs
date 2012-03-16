@@ -45,8 +45,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
 
         private void EnsureComponentConfiguration(IKernel kernel, ComponentModel model)
         {
-            //throw new NotImplementedException();
-            /*var configuration = kernel.ConfigurationStore.GetComponentConfiguration(model.Name);
+            var configuration = kernel.ConfigurationStore.GetComponentConfiguration(model.Name);
             if (configuration == null)
             {
                 configuration = new MutableConfiguration("component");
@@ -55,7 +54,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
             if (model.Configuration == null)
             {
                 model.Configuration = configuration;
-            }*/
+            }
             return;
         }
 
@@ -272,6 +271,4 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex
         // Nested Types
         public delegate IEnumerable<Type> ServiceSelector(Type type, Type[] baseTypes);
     }*/
-
-
 }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
 
     public partial class DefaultKernel : IKernel, IKernelEvents, IKernelInternal
     {
@@ -29,7 +30,7 @@
         /// <param name = "proxyFactory"></param>
         public DefaultKernel(IDependencyResolver resolver, IProxyFactory proxyFactory)
         {
-            //RegisterSubSystems();
+            RegisterSubSystems();
             //ReleasePolicy = new LifecycledComponentsReleasePolicy(this);
             //HandlerFactory = new DefaultHandlerFactory(this);
             ComponentModelBuilder = new DefaultComponentModelBuilder(this);
@@ -373,6 +374,55 @@
             }*/
         }
 
+        public virtual IConfigurationStore ConfigurationStore
+        {
+            get { return GetSubSystem(SubSystemConstants.ConfigurationStoreKey) as IConfigurationStore; }
+            set { AddSubSystem(SubSystemConstants.ConfigurationStoreKey, value); }
+        }
+        
+        public virtual ISubSystem GetSubSystem(string name)
+        {
+            ISubSystem system;
+            this.subsystems.TryGetValue(name, out system);
+            return system;
+        }
+        protected virtual void RegisterSubSystems()
+        {
+            AddSubSystem(SubSystemConstants.ConfigurationStoreKey,
+                         new DefaultConfigurationStore());
+
+            AddSubSystem(SubSystemConstants.ConversionManagerKey,
+                         new DefaultConversionManager());
+
+            //AddSubSystem(SubSystemConstants.NamingKey,
+            //             new DefaultNamingSubSystem());
+
+            //AddSubSystem(SubSystemConstants.ResourceKey,
+            //             new DefaultResourceSubSystem());
+
+            //AddSubSystem(SubSystemConstants.DiagnosticsKey,
+            //             new DefaultDiagnosticsSubSystem());
+        }
+
+        public virtual void AddSubSystem(String name, ISubSystem subsystem)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException("name");
+            }
+            if (subsystem == null)
+            {
+                throw new ArgumentNullException("subsystem");
+            }
+
+            subsystem.Init(this);
+            subsystems[name] = subsystem;
+        }
+
+        /// <summary>
+        ///   Map of subsystems registered.
+        /// </summary>
+        private readonly Dictionary<string, ISubSystem> subsystems = new Dictionary<string, ISubSystem>(StringComparer.OrdinalIgnoreCase);
 
     }
 }
