@@ -5,6 +5,10 @@ using Jedzia.BackBock.ViewModel;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.MicroKernel.SubSystems.Configuration;
+using Jedzia.BackBock.Tasks;
+using Jedzia.BackBock.ViewModel.Design;
+using Jedzia.BackBock.ViewModel.Data;
+using Jedzia.BackBock.Application.Editors.TaskWizard;
 
 namespace Jedzia.BackBock.Application.Installers
 {
@@ -13,15 +17,24 @@ namespace Jedzia.BackBock.Application.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            //container.Register(Component.For<FileIOService>());
-            container.Register(Component.For<IOService>().ImplementedBy<FileIOService>());
-            //container.Register(AllTypes.FromThisAssembly().BasedOn<ViewModelBase>());
-            //container.Register(AllTypes.FromThisAssembly().Pick()
-            //    .If(Component.IsInSameNamespaceAs<FileIOService>()));
-            //container.Register(AllTypes.FromThisAssembly().Pick()
-            //                    .If(Component.IsInSameNamespaceAs<FormsAuthenticationService>())
-            //                    .LifestyleTransient()
-            //                    .WithService.DefaultInterfaces());
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                container.Register(Component.For<ITaskService>().ImplementedBy<DesignTaskService>());
+                container.Register(Component.For<IOService>().ImplementedBy<DesignIOService>());
+                container.Register(Component.For<ITaskWizardProvider>().ImplementedBy<DesignTaskWizardProvider>());
+                
+                container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>());
+            }
+            else
+            {
+                container.Register(Component.For<ITaskService>().UsingFactoryMethod((a, b) => TaskRegistry.GetInstance()));
+                container.Register(Component.For<ITaskWizardProvider>().ImplementedBy<TaskWizardProvider>());
+                container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>());
+               
+                container.Register(Component.For<IOService>().ImplementedBy<FileIOService>());
+            }
+
+            container.Register(Component.For<IBackupDataService>().ImplementedBy<Jedzia.BackBock.ViewModel.Data.BackupDataService>());
         }
     }
 }

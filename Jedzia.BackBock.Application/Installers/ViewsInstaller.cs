@@ -37,6 +37,8 @@ using Castle.MicroKernel;
                 //container.Register(Component.For<ITaskService>().ImplementedBy<DesignTaskService>());
                 //container.Register(Component.For<IDialogService>().ImplementedBy<DesignDialogService>());
                 //container.Register(Component.For<IMainWindow>().Instance(new DesignMainWindow()));
+                container.Register(Component.For<IDialogService>().ImplementedBy<DesignDialogService>());
+                container.Register(Component.For<IMainWindow>().ImplementedBy<DesignMainWindow>());
             }
             else
             {

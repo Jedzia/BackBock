@@ -46,10 +46,11 @@
               VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
             <DockPanel Grid.Column="1">
                 
-                <DockPanel DockPanel.Dock="Bottom">
+				
+                <Expander DockPanel.Dock="Bottom" IsExpanded="False"><DockPanel >
                 <Button DockPanel.Dock="Right" Command="{Binding ClearLogCommand}" ><StackPanel><TextBlock Text="Clear"/><TextBlock Text="Log"/></StackPanel></Button>
             	<TextBox VerticalAlignment="Stretch"  x:Name="logtext" Text="{Binding LogText}" MinHeight="150" MaxHeight="150" Margin="10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
-                </DockPanel>
+                </DockPanel></Expander>
                 
             	<Border DockPanel.Dock="Bottom" MaxHeight="300" MinHeight="300" VerticalAlignment="Bottom" BorderThickness="1" BorderBrush="Black" Margin="10">
                 

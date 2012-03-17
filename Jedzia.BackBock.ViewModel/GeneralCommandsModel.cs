@@ -212,18 +212,20 @@ namespace Jedzia.BackBock.ViewModel
         private void OpenExecuted(object o, ExecutedRoutedEventArgs args)
         {
             var path = ApplicationViewModel.MainIOService.OpenFileDialog(string.Empty);
-            
-            //this.mainWindow.WorkArea.
-            //ViewModelLocator.MainStatic.OpenFile(path);
-            mainwindowViewmodel.OpenFile(path);
-            //designerCanvas.DesignerCanvasFileProcessor.OpenExecuted(o, args);
+            if (!string.IsNullOrEmpty(path))
+            {
+                mainwindowViewmodel.OpenFile(path);
+                //designerCanvas.DesignerCanvasFileProcessor.OpenExecuted(o, args);
+            }
         }
+
         private void SaveExecuted(object o, ExecutedRoutedEventArgs args)
         {
             var path = ApplicationViewModel.MainIOService.SaveFileDialog(string.Empty);
-            //ViewModelLocator.MainStatic.SaveFile(path);
-            mainwindowViewmodel.SaveFile(path);
-            //designerCanvas.DesignerCanvasFileProcessor.SaveExecuted(o, args);
+            if (!string.IsNullOrEmpty(path))
+            {
+                mainwindowViewmodel.SaveFile(path);
+            }
         }
 
         #region Print Command

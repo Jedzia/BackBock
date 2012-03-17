@@ -6,7 +6,9 @@
              mc:Ignorable="d"
     xmlns:m="clr-namespace:System;assembly=mscorlib"
     xmlns:vm="clr-namespace:Jedzia.BackBock.ViewModel;assembly=Jedzia.BackBock.ViewModel"
-    xmlns:controls="clr-namespace:Jedzia.BackBock.CustomControls.NavBar;assembly=Jedzia.BackBock.CustomControls" xmlns:Application="clr-namespace:Jedzia.BackBock.Application" StartupUri="Window1.xaml" 
+    xmlns:controls="clr-namespace:Jedzia.BackBock.CustomControls.NavBar;assembly=Jedzia.BackBock.CustomControls" 
+             xmlns:Application="clr-namespace:Jedzia.BackBock.Application" 
+             StartupUri="Window1.xaml" 
     Startup="Application_Startup" Exit="Application_Exit">
     <Application.Resources>
         <!-- TestImporters       
