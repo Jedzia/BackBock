@@ -81,6 +81,7 @@ namespace Jedzia.BackBock.Application
         {
             if (_main == null)
             {
+                var bla = container.ResolveAll<Jedzia.BackBock.ViewModel.Data.BackupDataRepository>();
                 _main = container.Resolve<MainWindowViewModel>();
             }
         }

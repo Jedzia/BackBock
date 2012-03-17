@@ -7,13 +7,13 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
 
     public class TaskWizardProvider : ITaskWizardProvider
     {
-        IWindsorContainer container;
+        //IWindsorContainer container;
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TaskWizardProvider"/> class.
         /// </summary>
-        public TaskWizardProvider(IWindsorContainer container)
+        public TaskWizardProvider(/*IWindsorContainer container*/)
         {
-            this.container = container;
+            //this.container = container;
         }
 
         public IStateWizard GetWizard()
@@ -21,7 +21,8 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
             //ViewModelLocator.
             //return new TaskWizard();
             //return ServiceLocator.Current.GetInstance<IStateWizard>();
-            return this.container.Resolve<IStateWizard>();
+            return new TaskWizard();
+            //return this.container.Resolve<IStateWizard>();
         }
     }
 }

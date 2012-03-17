@@ -53,7 +53,8 @@
                 container.Register(Component.For<ITaskService>().UsingFactoryMethod((a, b) => TaskRegistry.GetInstance()));
 
                 //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
-                container.Register(Component.For<ITaskWizardProvider>().Instance( new TaskWizardProvider(container)));
+                //container.Register(Component.For<ITaskWizardProvider>().Instance(new TaskWizardProvider(container)));
+                container.Register(Component.For<ITaskWizardProvider>().ImplementedBy<TaskWizardProvider>());
 
                 //container.Install(FromAssembly.Named(extraAssemblyName));
                 container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>());
@@ -61,7 +62,7 @@
             //.Install(container, store);
 
 
-            /*var eassembly = ReflectionUtil.GetAssemblyNamed(extraAssemblyName);
+            var eassembly = ReflectionUtil.GetAssemblyNamed(extraAssemblyName);
             var assemblies = new[] { eassembly };
             foreach (var assembly in assemblies)
             {
@@ -72,6 +73,11 @@
                                             .FromAssembly(Assembly.LoadFile(assembly.Location))
                                             .BasedOn<IDisposable>()
                                             );
+                    container.Register(
+                            AllTypes
+                            .FromAssembly(Assembly.LoadFile(assembly.Location))
+                            .BasedOn<BackupDataRepository>().WithServiceBase()
+                            );
                 }
                 catch (Exception e)
                 {
@@ -79,7 +85,7 @@
                     //if (_log.IsErrorEnabled)
                     //_log.ErrorFormat(@"An error has occured while loading assembly{0}\n{1}", assembly.FullName, e);
                 }
-            }*/
+            }
 
 
             container.Register(Component.For<IBackupDataService>().ImplementedBy<Jedzia.BackBock.ViewModel.Data.BackupDataService>());

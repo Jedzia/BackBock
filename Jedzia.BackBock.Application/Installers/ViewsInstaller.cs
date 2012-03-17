@@ -54,7 +54,7 @@ using Castle.MicroKernel;
             //container.Register(Component.For<IMainWindow>().UsingFactoryMethod((a, b) => { return (IMainWindow)System.Windows.Application.Current.MainWindow; }));
             //container.Register(Component.For<IMainWindow>().UsingFactoryMethod((a, b) => GetMainWindow(a, b)));
             
-            container.Register(Component.For<IStateWizard>().ImplementedBy<TaskWizard>().LifestyleTransient());
+            //container.Register(Component.For<IStateWizard>().ImplementedBy<TaskWizard>().LifestyleTransient());
             //SimpleIoc.Default.Register<IStateWizard, TaskWizard>(new TransitionLifetime());
             //container.Register(Component.For<IStateWizard>().LifestyleTransient());
 
