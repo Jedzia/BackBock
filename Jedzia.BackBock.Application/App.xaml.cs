@@ -4,8 +4,6 @@
     using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.MainWindow;
     using Jedzia.BackBock.Tasks;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
 
     /// <summary>
     /// Interaction logic for App.xaml

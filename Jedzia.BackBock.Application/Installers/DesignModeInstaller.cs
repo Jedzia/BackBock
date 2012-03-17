@@ -5,16 +5,18 @@
     using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.Design;
     using Jedzia.BackBock.ViewModel.MainWindow;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
     using System.Windows;
     using Jedzia.BackBock.ViewModel.Data;
     using System.Reflection;
     using System;
+    using Castle.MicroKernel.Registration;
+    using Castle.Windsor;
+    using Castle.Core.Internal;
+    using Castle.MicroKernel.SubSystems.Configuration;
 
-    public class DesignModeInstaller : IEssexInstaller
+    public class DesignModeInstaller : IWindsorInstaller
     {
-        public void Install(IEssexContainer container, IConfigurationStore store)
+        public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             var extraAssemblyName = "Jedzia.BackBock.Data.Xml";
             //MessageBox.Show("M00");
@@ -40,7 +42,7 @@
                 container.Register(Component.For<IMainWindow>().ImplementedBy<DesignMainWindow>());
                 container.Register(Component.For<ITaskWizardProvider>().ImplementedBy<DesignTaskWizardProvider>());
 
-                container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>().LifestyleTransient());
+                container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>());
             }
             else
             {
@@ -48,16 +50,18 @@
                 SimpleIoc.Default.Register<ApplicationViewModel>();*/
                 // SimpleIoc.Default.Register<IDataService, DataService>();
                 //container.Register(Component.For<ITaskService>().ImplementedBy<DesignMainWindow>());
-                SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
-                container.Register(Component.For<ITaskWizardProvider>().ImplementedBy<TaskWizardProvider>());
+                container.Register(Component.For<ITaskService>().UsingFactoryMethod((a, b) => TaskRegistry.GetInstance()));
+
+                //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
+                container.Register(Component.For<ITaskWizardProvider>().Instance( new TaskWizardProvider(container)));
 
                 //container.Install(FromAssembly.Named(extraAssemblyName));
-                container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>().LifestyleTransient());
+                container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>());
             }
             //.Install(container, store);
 
 
-            var eassembly = ReflectionUtil.GetAssemblyNamed(extraAssemblyName);
+            /*var eassembly = ReflectionUtil.GetAssemblyNamed(extraAssemblyName);
             var assemblies = new[] { eassembly };
             foreach (var assembly in assemblies)
             {
@@ -75,7 +79,7 @@
                     //if (_log.IsErrorEnabled)
                     //_log.ErrorFormat(@"An error has occured while loading assembly{0}\n{1}", assembly.FullName, e);
                 }
-            }
+            }*/
 
 
             container.Register(Component.For<IBackupDataService>().ImplementedBy<Jedzia.BackBock.ViewModel.Data.BackupDataService>());

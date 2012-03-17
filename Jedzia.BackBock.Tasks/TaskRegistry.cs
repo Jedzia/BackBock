@@ -58,6 +58,10 @@ namespace Jedzia.BackBock.Tasks
             get
             {
                 Type ttask;
+                if (taskName == null)
+                {
+                    return null;
+                }
                 bool found = this.taskTypes.TryGetValue(taskName, out ttask);
                 if (found)
                 {

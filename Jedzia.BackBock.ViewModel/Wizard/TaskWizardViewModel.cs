@@ -76,7 +76,7 @@ namespace Jedzia.BackBock.ViewModel.Wizard
             }
         }
 
-        public IStateWizard stateWizard;
+        private IStateWizard stateWizard;
         /// <summary>
         /// Gets or sets 
         /// </summary>

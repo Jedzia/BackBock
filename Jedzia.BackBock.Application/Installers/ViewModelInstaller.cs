@@ -3,14 +3,14 @@
     using Jedzia.BackBock.Application.Editors.TaskWizard;
     using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.MainWindow;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime;
     using Jedzia.BackBock.ViewModel.Wizard;
+    using Castle.MicroKernel.Registration;
+    using Castle.Windsor;
+    using Castle.MicroKernel.SubSystems.Configuration;
 
-    public class ViewModelInstaller : IEssexInstaller
+    public class ViewModelInstaller : IWindsorInstaller
     {
-        public void Install(IEssexContainer container, IConfigurationStore store)
+        public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             if (ViewModelBase.IsInDesignModeStatic)
             {

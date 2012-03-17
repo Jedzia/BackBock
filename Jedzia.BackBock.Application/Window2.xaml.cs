@@ -11,12 +11,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Jedzia.BackBock.ViewModel.MainWindow;
-using Microsoft.Practices.ServiceLocation;
 using Jedzia.BackBock.ViewModel;
 
 namespace Jedzia.BackBock.Application
 {
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 
     /// <summary>
     /// Interaction logic for Window2.xaml
@@ -35,7 +33,8 @@ namespace Jedzia.BackBock.Application
             //this.DataContext = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
             InitializeComponent();
             //this.DialogControl = this.msgbox;
-            SimpleIoc.Default.Register<IDialogService>(() => { return this; });
+            //ViewModelLocator.
+            //SimpleIoc.Default.Register<IDialogService>(() => { return this; });
         }
 
         private void Window_Initialized(object sender, EventArgs e)

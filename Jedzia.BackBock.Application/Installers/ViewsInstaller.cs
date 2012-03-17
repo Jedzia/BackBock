@@ -6,14 +6,16 @@
     using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.Design;
     using Jedzia.BackBock.ViewModel.MainWindow;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime;
     using Jedzia.BackBock.ViewModel.Wizard;
+    using Castle.MicroKernel.Registration;
+    using Castle.Windsor;
+    using Castle.MicroKernel.SubSystems.Configuration;
+using Castle.MicroKernel;
+    using Castle.MicroKernel.Context;
 
-    public class ViewsInstaller : IEssexInstaller
+    public class ViewsInstaller : IWindsorInstaller
     {
-        public void Install(IEssexContainer container, IConfigurationStore store)
+        public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             if (ViewModelBase.IsInDesignModeStatic)
             {
@@ -34,6 +36,7 @@
 
                 //container.Register(Component.For<ITaskService>().ImplementedBy<DesignTaskService>());
                 //container.Register(Component.For<IDialogService>().ImplementedBy<DesignDialogService>());
+                //container.Register(Component.For<IMainWindow>().Instance(new DesignMainWindow()));
             }
             else
             {
@@ -43,10 +46,14 @@
                 //container.Register(Component.For<ITaskService>().ImplementedBy<DesignMainWindow>());
                 //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
                 //container.Register(Component.For<ITaskWizardProvider>().ImplementedBy<TaskWizardProvider>());
+                container.Register(Component.For<IMainWindow>().Instance((IMainWindow)System.Windows.Application.Current.MainWindow));
             }
             
-            SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
+            //SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
 
+            //container.Register(Component.For<IMainWindow>().UsingFactoryMethod((a, b) => { return (IMainWindow)System.Windows.Application.Current.MainWindow; }));
+            //container.Register(Component.For<IMainWindow>().UsingFactoryMethod((a, b) => GetMainWindow(a, b)));
+            
             container.Register(Component.For<IStateWizard>().ImplementedBy<TaskWizard>().LifestyleTransient());
             //SimpleIoc.Default.Register<IStateWizard, TaskWizard>(new TransitionLifetime());
             //container.Register(Component.For<IStateWizard>().LifestyleTransient());
@@ -64,7 +71,7 @@
             //                    .WithService.DefaultInterfaces());
         }
         
-        private IMainWindow GetMainWindow()
+        private static IMainWindow GetMainWindow(IKernel kernel, CreationContext cre)
         {
             return (IMainWindow)System.Windows.Application.Current.MainWindow;
         }

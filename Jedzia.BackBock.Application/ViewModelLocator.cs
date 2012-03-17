@@ -14,12 +14,12 @@ namespace Jedzia.BackBock.Application
 {
     using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.MainWindow;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using Jedzia.BackBock.ViewModel.Wizard;
-    using Microsoft.Practices.ServiceLocation;
     using System.Windows;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
     using System;
+    using Castle.Windsor;
+    using Castle.Windsor.Installer;
+    using Jedzia.BackBock.Tasks;
 
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -38,69 +38,25 @@ namespace Jedzia.BackBock.Application
         //{
         //	throw new NotImplementedException("Mooo");
         //}
+        private static IWindsorContainer container;
 
         static ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            //IEssexContainer container = new EssexContainer();
-            if (ViewModelBase.IsInDesignModeStatic)
+
+            try
             {
-                // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-                // For out DesignPeeps, hold a Blendable backforce here.
-                //SimpleIoc.Default.Register<ITaskService, Design.DesignTaskService>();
-                //SimpleIoc.Default.Register<IOService, Design.DesignIOService>();
-                //SimpleIoc.Default.Register<IDialogService, Design.DesignDialogService>();
-                //SimpleIoc.Default.Register<IMainWindow, Design.DesignMainWindow>();
-                //return;
-                //container.Install(FromAssembly.InThisApplication());
-            }
-            else
-            {
+                container = new WindsorContainer();
                 //container.Install(FromAssembly.InThisEntry());
-                //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
-                //SimpleIoc.Default.Register<TaskWizardViewModel>();
-                // SimpleIoc.Default.Register<IDataService, DataService>();
+                container.Install(FromAssembly.Containing<ViewModelLocator>());
+                //container.Install(FromAssembly.InThisApplication());
+                //MessageBox.Show("Moo");
+
             }
-
-            container = new EssexContainer();
-            //container.Install(FromAssembly.InThisEntry());
-            container.Install(FromAssembly.InThisApplication());
-
-            //container.Install(FromAssembly.Containing(typeof(ViewModelLocator)));
-            //SimpleIoc.Default.Register<ApplicationViewModel>();
-            //SimpleIoc.Default.Register<MainWindowViewModel>();
-            //SimpleIoc.Default.Register<TaskWizardViewModel>();
-            //MessageBox.Show("M00");
-            //throw new NotImplementedException("m00");
-            //SimpleIoc.Default.Register<MainWindowViewModel>(Guid.NewGuid().ToString());
-            //SimpleIoc.Default.Register<TaskWizardViewModel>();
-            //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime())/*.Release(null)*/;
-            //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime()).Release((o) => o.Cleanup());
-
-            //var bu = SimpleIoc.Default.GetInstance<Jedzia.BackBock.ViewModel.Data.BackupDataRepository>();
-            var buAll = SimpleIoc.Default.GetAllInstances<Jedzia.BackBock.ViewModel.Data.BackupDataRepository>();
-            //var installer = FromAssembly.InThisEntry();
-            //container.Install(installer);
-            //installer.Install(cnt, null);
-            //throw new NotImplementedException("Mooo");
-
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
-
-        /*private static ApplicationViewModel CreateApplicationViewModel()
-        {
-            //return new ApplicationViewModel(new FileIOService(), (IMainWindow)Application.Current.MainWindow);
-            return new ApplicationViewModel(null, (IMainWindow)Application.Current.MainWindow);
-        }
-        private static ApplicationViewModel CreateApplicationViewModelDesign()
-        {
-            //return new ApplicationViewModel(new FileIOService(), (IMainWindow)Application.Current.MainWindow);
-            return new ApplicationViewModel(new Design.DesignIOService(), null);
-        }*/
-
-        //private MainWindowViewModel CreateMainWindowViewModel()
-        //{
-        //return new MainWindowViewModel(App.ApplicationViewModel, this); 
-        //}
 
         /// <summary>
         /// Gets the Main property.
@@ -117,7 +73,7 @@ namespace Jedzia.BackBock.Application
                 return _main;
             }
         }
-        private static IEssexContainer container;
+        
         /// <summary>
         /// Provides a deterministic way to create the Main property.
         /// </summary>
@@ -125,8 +81,7 @@ namespace Jedzia.BackBock.Application
         {
             if (_main == null)
             {
-                //_main = new MainWindowViewModel();
-                _main = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
+                _main = container.Resolve<MainWindowViewModel>();
             }
         }
 
@@ -158,10 +113,7 @@ namespace Jedzia.BackBock.Application
         {
             get
             {
-                //var key = Guid.NewGuid().ToString();
-                //return ServiceLocator.Current.GetInstance<TaskWizardViewModel>(key);
-                return ServiceLocator.Current.GetInstance<TaskWizardViewModel>();
-                //return new TaskWizardViewModel();
+                return container.Resolve<TaskWizardViewModel>();
             }
         }
 
@@ -185,6 +137,7 @@ namespace Jedzia.BackBock.Application
         public static void Cleanup()
         {
             ClearMain();
+            container.Dispose();
         }
 
 

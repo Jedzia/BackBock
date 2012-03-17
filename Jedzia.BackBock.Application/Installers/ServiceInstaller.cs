@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Jedzia.BackBock.ViewModel.MVVM.Ioc;
 using Jedzia.BackBock.ViewModel;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using Castle.MicroKernel.SubSystems.Configuration;
 
 namespace Jedzia.BackBock.Application.Installers
 {
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
 
-    public class ServiceInstaller : IEssexInstaller
+    public class ServiceInstaller : IWindsorInstaller
     {
-        public void Install(IEssexContainer container, IConfigurationStore store)
+        public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             //container.Register(Component.For<FileIOService>());
             container.Register(Component.For<IOService>().ImplementedBy<FileIOService>());

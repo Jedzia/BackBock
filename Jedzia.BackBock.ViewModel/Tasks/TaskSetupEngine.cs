@@ -604,6 +604,10 @@ namespace Jedzia.BackBock.ViewModel.Tasks
         public void AfterTask(ITask task, ICollection<XmlAttribute> taskAttributes)
         {
             //var task = taskInWork;
+            if (task == null)
+            {
+                return;
+            }
             if (task is Backup)
             {
                 //var btask = (Backup)task;

@@ -15,18 +15,17 @@ using System.ComponentModel;
 
 namespace Jedzia.BackBock.Application.Editors.TaskWizard
 {
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Lifetime;
 
     /// <summary>
     /// Interaction logic for TaskWizard.xaml
     /// </summary>
-    public partial class TaskWizard : Window, IStateWizard, IDestructible
+    public partial class TaskWizard : Window, IStateWizard//, IDestructible
     {
         #region IDestructible Members
 
-        private ILifetimeEnds candidate;
+        //private ILifetimeEnds candidate;
 
-        public ILifetimeEnds Candidate
+        /*public ILifetimeEnds Candidate
         {
             get
             {
@@ -36,7 +35,7 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
             {
                 this.candidate = value;
             }
-        }
+        }*/
 
         #endregion
 
@@ -50,9 +49,10 @@ namespace Jedzia.BackBock.Application.Editors.TaskWizard
             //this.Closed += (o, e) => { if (vm.Candidate != null) vm.Candidate.Release(); };
             Closed += (o, e) =>
             {
-                if (Candidate != null)
-                    Candidate.Release();
+                //if (Candidate != null)
+               //     Candidate.Release();
                 vm.Wizard = null;
+                this.DataContext = null;
                 //Candidate = null;
                 //this.DataContext = null;
             };

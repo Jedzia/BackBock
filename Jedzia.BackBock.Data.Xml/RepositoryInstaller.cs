@@ -1,11 +1,13 @@
-﻿using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
-using Jedzia.BackBock.ViewModel.Data;
+﻿using Jedzia.BackBock.ViewModel.Data;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using Castle.MicroKernel.SubSystems.Configuration;
 namespace Jedzia.BackBock.Data.Xml
 {
 
-    public class RepositoryInstaller : IEssexInstaller
+    public class RepositoryInstaller : IWindsorInstaller
     {
-        public void Install(IEssexContainer container, IConfigurationStore store)
+        public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             //    SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
             container.Register(Component.For<BackupDataRepository>().ImplementedBy<XmlDataRepository>().LifestyleTransient());

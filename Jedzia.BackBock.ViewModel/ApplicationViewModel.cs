@@ -40,7 +40,13 @@ namespace Jedzia.BackBock.ViewModel
             //TypeDescriptor.AddProvider(xxx, typeof(TaskItem));
             var conv = TypeDescriptor.GetConverter(typeof(TaskItem));
         }
-        public ApplicationViewModel(IOService ioService /*, IDialogService dialogService*/, IMainWindow mainWindow, ITaskService taskService, ITaskWizardProvider taskWizardProvider)
+        //public ApplicationViewModel(IOService ioService)
+        public ApplicationViewModel(IOService ioService 
+            /*, IDialogService dialogService*/, 
+            IMainWindow mainWindow, 
+            ITaskService taskService, 
+            ITaskWizardProvider taskWizardProvider
+            )
         {
             if (initialized != null)
             {

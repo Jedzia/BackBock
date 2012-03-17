@@ -8,8 +8,6 @@
     using System.ComponentModel;
     using System.Collections;
     using Jedzia.BackBock.ViewModel.Data;
-    using Microsoft.Practices.ServiceLocation;
-    using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using System;
     using System.Diagnostics;
     //    using Jedzia.BackBock.Application.Resources.Styles.Resources.Styles;
@@ -70,14 +68,14 @@
             res.InitializeComponent();
             var exp = res["ClassListDataTemplate-CSharp"];*/
             //wpg.Instance = this.MyDesigner.DataContext;
-            var main1 = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
+            /*var main1 = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
             var main2 = ServiceLocator.Current.GetInstance<MainWindowViewModel>();
             if (object.ReferenceEquals(main1, main2))
             {
 
             }
             var modl = (BackupDataViewModel)MyDesigner.DataContext;
-            ShowDetail(modl.BackupItems[0]);
+            ShowDetail(modl.BackupItems[0]);*/
         }
 
         private void MainWindowBase_Initialized(object sender, System.EventArgs e)
