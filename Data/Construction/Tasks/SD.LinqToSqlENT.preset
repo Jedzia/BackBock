@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preset name="SD.LinqToSqlENT" lastModifiedOn="2012-03-18T00:31:35.09375+01:00" createdBy="" isSealed="false" xmlns="http://sd/llblgen/pro/presetElementDefinitions.xsd">
+  <supportedPlatforms>
+    <platform name=".NET 3.5" />
+  </supportedPlatforms>
+  <supportedTemplateGroups>
+    <templateGroup name="General" />
+  </supportedTemplateGroups>
+  <supportedFrameworks>
+    <framework name="Linq to Sql" />
+  </supportedFrameworks>
+  <taskPresets>
+    <taskGroupPreset name="SD.Tasks.Base.GenericTaskGroup" displayName="Generate Linq to Sql Domain model" forSpecificDatabase="2D18D138-1DD2-467E-86CC-4838250611AE" requiresCleanCache="false">
+      <performRule isEnabled="false" settingName="" operator="0" operand="" />
+      <taskPreset name="SD.Tasks.Base.CreateAFolder" displayName="Create Properties Folder">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="folderToCreate" value="Properties" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.ConsumeLptTemplate" displayName="Generate AssemblyInfo class">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="destinationFolder" value="Properties" />
+          <parameter name="filenameFormat" value="AssemblyInfo.[extension]" />
+          <parameter name="templateID" value="SD_LinqToSqlAssemblyInfo" />
+          <parameter name="failWhenExistent" value="true" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.CreateAFolder" displayName="Create Entities folder">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="folderToCreate" value="EntityClasses" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.CreateAFolder" displayName="Create TypedViews folder">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="folderToCreate" value="TypedViewClasses" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.CreateAFolder" displayName="Create TypedLists folder">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="folderToCreate" value="TypedListClasses" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.CreateAFolder" displayName="Create DTO folder">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="folderToCreate" value="DTO" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.ConsumeLptTemplate" displayName="Generate DTO Classes">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="destinationFolder" value="DTO" />
+          <parameter name="templateID" value="SD_LinqToSqlEntity" />
+          <parameter name="emitType" value="allEntities" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.ConsumeLptTemplate" displayName="Generate Entity Classes">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="destinationFolder" value="EntityClasses" />
+          <parameter name="templateID" value="SD_LinqToSqlEntity" />
+          <parameter name="emitType" value="allEntities" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.ConsumeLptTemplate" displayName="Generate TypedView Classes">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="destinationFolder" value="TypedViewClasses" />
+          <parameter name="filenameFormat" value="[elementName]TypedViewRow.[extension]" />
+          <parameter name="templateID" value="SD_LinqToSqlTypedView" />
+          <parameter name="emitType" value="allTypedViews" />
+          <parameter name="templateAssemblySourceFileFormat" value="" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.ConsumeLptTemplate" displayName="Generate TypedList Classes">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="destinationFolder" value="TypedListClasses" />
+          <parameter name="filenameFormat" value="[elementName]TypedListRow.[extension]" />
+          <parameter name="templateID" value="SD_LinqToSqlTypedList" />
+          <parameter name="emitType" value="allTypedLists" />
+          <parameter name="templateAssemblySourceFileFormat" value="" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.AppConfigFileGenerator" displayName="Generate App.config file">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="destinationFolder" value="" />
+          <parameter name="failWhenExistent" value="true" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.ConsumeLptTemplate" displayName="Generate Context Class">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="destinationFolder" value="" />
+          <parameter name="filenameFormat" value="[containerName]DataContext.[extension]" />
+          <parameter name="templateID" value="SD_LinqToSqlContext" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.ConsumeLptTemplate" displayName="Generate Mapping File">
+        <performRule isEnabled="true" settingName="MappingsAsExternalXmlFile" operator="1" operand="true" />
+        <parameters>
+          <parameter name="destinationFolder" value="" />
+          <parameter name="filenameFormat" value="[containerName]Mappings.xml" />
+          <parameter name="templateID" value="SD_LinqToSqlMappings" />
+          <parameter name="templateAssemblySourceFileFormat" value="" />
+        </parameters>
+      </taskPreset>
+      <taskPreset name="SD.Tasks.Base.GenerateVSNetProject" displayName="Generate VS.NET project file">
+        <performRule isEnabled="false" settingName="" operator="0" operand="" />
+        <parameters>
+          <parameter name="destinationFolder" value="" />
+          <parameter name="filenameFormat" value="[containerName].[extension]proj" />
+          <parameter name="templateID" value="SD_LinqToSqlVsNet" />
+          <parameter name="useRootNameSpaceForProjectName" value="false" />
+          <parameter name="buildActionPerExtension" value=".config;None|xml;EmbeddedResource|;Compile" />
+        </parameters>
+      </taskPreset>
+    </taskGroupPreset>
+  </taskPresets>
+</preset>
