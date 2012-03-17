@@ -121,13 +121,15 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //this.generalCommands = null;
             base.Cleanup();
         }
-
-        public MainWindowViewModel(ApplicationViewModel applicationViewModel, IMainWindow mainWindow)
+        private IBackupDataService dataprovider;
+        public MainWindowViewModel(ApplicationViewModel applicationViewModel, IMainWindow mainWindow,
+            IBackupDataService dataprovider)
         {
             //MessageBox.Show("MainWindowViewModel create0");
             this.applicationViewModel = applicationViewModel;
             //MessageBox.Show("MainWindowViewModel create1");
             this.mainWindow = applicationViewModel.MainWindow;
+            this.dataprovider = dataprovider;
             //MessageBox.Show("MainWindowViewModel create2");
             if (ViewModelBase.IsInDesignModeStatic)
             {
@@ -270,12 +272,49 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //this.mainWindow.Designer.DataContext = bdvm;
         }
 
+        /// <summary>
+        /// Represents a users security context.
+        /// </summary>
+        public class MyPrincipal : System.Security.Principal.IPrincipal
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="T:MyPrincipal"/> class
+            /// </summary>
+            public MyPrincipal()
+            {
+            }
+
+            /// <summary>
+            /// Gets the identity of the current principal.
+            /// </summary>
+            /// <value>The <see cref="T:System.Security.Principal.IIdentity"/> object associated with the current principal.</value>
+            public System.Security.Principal.IIdentity Identity
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            /// <summary>
+            /// Determines whether the current principal belongs to the specified role.
+            /// </summary>
+            /// <param name="role">The name of the role for which to check membership.</param>
+            /// <returns>
+            /// <c>true</c> if the current principal is a member of the specified role; otherwise, <c>false</c>.
+            /// </returns>
+            public bool IsInRole(string role)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public BackupDataViewModel GetSampleData()
         {
             //System.Diagnostics.Debugger.Launch();
 
             //MessageBox.Show("Before MainWindowViewModel GetSampleData");
-            this.Data2 = SampleResourceProvider.GenerateSampleData();
+            this.Data2 = dataprovider.GetBackupData(new MyPrincipal());
             //MessageBox.Show("After MainWindowViewModel GetSampleData");
             return new BackupDataViewModel(this.Data2);
         }

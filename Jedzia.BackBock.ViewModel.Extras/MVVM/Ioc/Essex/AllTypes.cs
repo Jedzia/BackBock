@@ -8,5 +8,15 @@
         {
             return Classes.FromAssembly(Assembly.GetCallingAssembly());
         }
+
+        /// <summary>
+        ///   Prepares to register types from an assembly.
+        /// </summary>
+        /// <param name = "assembly">The assembly.</param>
+        /// <returns>The corresponding <see cref = "FromDescriptor" /></returns>
+        public static FromAssemblyDescriptor FromAssembly(Assembly assembly)
+        {
+            return Classes.FromAssembly(assembly);
+        }
     }
 }

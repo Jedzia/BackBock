@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Jedzia.BackBock.Application\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -46,9 +46,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="RepositoryInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlDataRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Jedzia.BackBock.Model\Jedzia.BackBock.Model.csproj">
+      <Project>{277724C1-B97E-493D-8B08-699110A78052}</Project>
+      <Name>Jedzia.BackBock.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jedzia.BackBock.ViewModel.Extras\Jedzia.BackBock.ViewModel.Extras.csproj">
+      <Project>{1FD5EA5A-029A-4E39-A039-F36F28A6555E}</Project>
+      <Name>Jedzia.BackBock.ViewModel.Extras</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jedzia.BackBock.ViewModel\Jedzia.BackBock.ViewModel.csproj">
       <Project>{BA57B6A9-70FF-4A22-876B-5A8DFE003293}</Project>
       <Name>Jedzia.BackBock.ViewModel</Name>

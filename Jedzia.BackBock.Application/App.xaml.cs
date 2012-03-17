@@ -50,13 +50,14 @@
             //SimpleIoc.Default.Register<ApplicationViewModel>(CreateApplicationViewModel);
 
             //SimpleIoc.Default.Register<MainWindowViewModel>(CreateMainWindowViewModel);
-            SimpleIoc.Default.Register<IOService, FileIOService>();
+            //SimpleIoc.Default.Register<IOService, FileIOService>();
             //SimpleIoc.Default.Register<IDialogService, DialogService>();
             //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
-            SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
+            //SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
 
-            IEssexContainer container = new EssexContainer();
-            container.Install(FromAssembly.InThisEntry());
+            //IEssexContainer container = new EssexContainer();
+            //container.Install(FromAssembly.InThisEntry());
+            
             //container.Install(FromAssembly.InThisApplication());
             //var sauce = container.Resolve<FileIOService>(); 
         }

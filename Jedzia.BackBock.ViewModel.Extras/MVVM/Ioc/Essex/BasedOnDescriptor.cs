@@ -136,6 +136,7 @@
             {
                 return false;
             }
+            // Todo: implement BasedOn
             int x = 1;
             /*
             CastleComponentAttribute defaultsFor = CastleComponentAttribute.GetDefaultsFor(type);

@@ -49,15 +49,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackupDataRepository.cs" />
-    <Compile Include="BackupDataService.cs" />
     <Compile Include="Data\BackupData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BackupData.xsd</DependentUpon>
     </Compile>
     <Compile Include="ModelLoader.cs" />
-    <Compile Include="SampleResourceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +68,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\BackupData01.xml" />
+    <None Include="Data\BackupData01.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jedzia.BackBock.SharedTypes\Jedzia.BackBock.SharedTypes.csproj">

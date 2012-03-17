@@ -40,8 +40,23 @@
 
         protected override IEnumerable<Type> SelectedTypes(IKernel kernel)
         {
-            return assemblies.SelectMany(a => a.GetAvailableTypes(nonPublicTypes));
+            if (this.nonPublicTypes)
+            {
+                return Enumerable.SelectMany<Assembly, Type>(this.assemblies, delegate(Assembly assembly)
+                {
+                    return assembly.GetTypes();
+                });
+            }
+            return Enumerable.SelectMany<Assembly, Type>(this.assemblies, delegate(Assembly assembly)
+            {
+                return assembly.GetExportedTypes();
+            });
         }
+
+        /*protected override IEnumerable<Type> SelectedTypes(IKernel kernel)
+        {
+            return assemblies.SelectMany(a => a.GetAvailableTypes(nonPublicTypes));
+        }*/
     }
 
 }

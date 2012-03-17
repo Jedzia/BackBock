@@ -126,3 +126,29 @@ private static ITaskItem[] ExpandWildcards(ITaskItem[] expand)
   <UsingTask TaskName="Jedzia.BackBock.Tasks.Info" AssemblyName="Jedzia.BackBock.Tasks, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
 </Project>
  
+ IoC stuff
+============================
+I'm using Windsor in such a scenario
+- i'm filtering DLL in a specific folder based on their name
+- then load each assembly:
+
+                        foreach (var assembly in assemblies)
+                        {
+                                try
+                                {
+                                        _container.Register(
+                                                                AllTypes
+                                                                .FromAssembly(Assembly.LoadFile(assembly.FullName))
+                                                                .BasedOn<IPlugin>()
+                                                                );
+                                }
+                                catch (Exception e)
+                                {
+                                        if(_log.IsErrorEnabled)
+                                                _log.ErrorFormat(@"An error has occured while loading assembly
+{0}\n{1}", assembly.FullName, e);
+                                }
+                        }
+
+Regards
+Xavier 

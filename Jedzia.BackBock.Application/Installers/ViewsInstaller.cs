@@ -44,7 +44,9 @@
                 //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
                 //container.Register(Component.For<ITaskWizardProvider>().ImplementedBy<TaskWizardProvider>());
             }
-            // Todo: implement lifetime
+            
+            SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
+
             container.Register(Component.For<IStateWizard>().ImplementedBy<TaskWizard>().LifestyleTransient());
             //SimpleIoc.Default.Register<IStateWizard, TaskWizard>(new TransitionLifetime());
             //container.Register(Component.For<IStateWizard>().LifestyleTransient());
@@ -60,6 +62,11 @@
             //                    .If(Component.IsInSameNamespaceAs<FormsAuthenticationService>())
             //                    .LifestyleTransient()
             //                    .WithService.DefaultInterfaces());
+        }
+        
+        private IMainWindow GetMainWindow()
+        {
+            return (IMainWindow)System.Windows.Application.Current.MainWindow;
         }
     }
 }

@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPGBrushEditor", "WPG\WPGBr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPG", "WPG\WPG\WPG.csproj", "{022EDA6A-0B76-44C3-A530-8312C1B40030}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.ViewModel.Tests", "Jedzia.BackBock.ViewModel.Tests\Jedzia.BackBock.ViewModel.Tests2010.csproj", "{6DAAFD98-9E1C-474E-9D6B-9C52A9CE51F5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{A9CA7A7C-5892-4093-AA0E-CC95DBF21AFB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.CustomControls.Design", "Jedzia.BackBock.CustomControls.Design\Jedzia.BackBock.CustomControls.Design.csproj", "{AF63C559-BCEF-43E9-83A7-A8E8E9DC2724}"

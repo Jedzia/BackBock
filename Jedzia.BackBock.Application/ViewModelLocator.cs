@@ -17,6 +17,9 @@ namespace Jedzia.BackBock.Application
     using Jedzia.BackBock.ViewModel.MVVM.Ioc;
     using Jedzia.BackBock.ViewModel.Wizard;
     using Microsoft.Practices.ServiceLocation;
+    using System.Windows;
+    using Jedzia.BackBock.ViewModel.MVVM.Ioc.Essex;
+    using System;
 
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -31,19 +34,19 @@ namespace Jedzia.BackBock.Application
     /// </summary>
     public class ViewModelLocator
     {
-		//public ViewModelLocator()
+        //public ViewModelLocator()
         //{
-		//	throw new NotImplementedException("Mooo");
-		//}
-		
-        public ViewModelLocator()
+        //	throw new NotImplementedException("Mooo");
+        //}
+
+        static ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             //IEssexContainer container = new EssexContainer();
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-				// For out DesignPeeps, hold a Blendable backforce here.
+                // For out DesignPeeps, hold a Blendable backforce here.
                 //SimpleIoc.Default.Register<ITaskService, Design.DesignTaskService>();
                 //SimpleIoc.Default.Register<IOService, Design.DesignIOService>();
                 //SimpleIoc.Default.Register<IDialogService, Design.DesignDialogService>();
@@ -53,26 +56,33 @@ namespace Jedzia.BackBock.Application
             }
             else
             {
-            	//container.Install(FromAssembly.InThisEntry());
+                //container.Install(FromAssembly.InThisEntry());
                 //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
                 //SimpleIoc.Default.Register<TaskWizardViewModel>();
                 // SimpleIoc.Default.Register<IDataService, DataService>();
             }
 
+            container = new EssexContainer();
+            //container.Install(FromAssembly.InThisEntry());
+            container.Install(FromAssembly.InThisApplication());
+
+            //container.Install(FromAssembly.Containing(typeof(ViewModelLocator)));
             //SimpleIoc.Default.Register<ApplicationViewModel>();
             //SimpleIoc.Default.Register<MainWindowViewModel>();
             //SimpleIoc.Default.Register<TaskWizardViewModel>();
             //MessageBox.Show("M00");
             //throw new NotImplementedException("m00");
-//SimpleIoc.Default.Register<MainWindowViewModel>();
+            //SimpleIoc.Default.Register<MainWindowViewModel>(Guid.NewGuid().ToString());
             //SimpleIoc.Default.Register<TaskWizardViewModel>();
             //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime())/*.Release(null)*/;
             //SimpleIoc.Default.Register<TaskWizardViewModel>(new TransitionLifetime()).Release((o) => o.Cleanup());
 
+            //var bu = SimpleIoc.Default.GetInstance<Jedzia.BackBock.ViewModel.Data.BackupDataRepository>();
+            var buAll = SimpleIoc.Default.GetAllInstances<Jedzia.BackBock.ViewModel.Data.BackupDataRepository>();
             //var installer = FromAssembly.InThisEntry();
             //container.Install(installer);
             //installer.Install(cnt, null);
- //throw new NotImplementedException("Mooo");
+            //throw new NotImplementedException("Mooo");
 
         }
 
@@ -89,7 +99,7 @@ namespace Jedzia.BackBock.Application
 
         //private MainWindowViewModel CreateMainWindowViewModel()
         //{
-            //return new MainWindowViewModel(App.ApplicationViewModel, this); 
+        //return new MainWindowViewModel(App.ApplicationViewModel, this); 
         //}
 
         /// <summary>
@@ -107,6 +117,7 @@ namespace Jedzia.BackBock.Application
                 return _main;
             }
         }
+        private static IEssexContainer container;
         /// <summary>
         /// Provides a deterministic way to create the Main property.
         /// </summary>

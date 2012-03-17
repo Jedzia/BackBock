@@ -103,15 +103,19 @@
     <Compile Include="Data\BackupDataModel.Task.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\BackupDataRepository.cs" />
+    <Compile Include="Data\BackupDataService.cs" />
     <Compile Include="Data\BackupDataViewModel.cs" />
     <Compile Include="Data\BackupItemViewModel.cs" />
     <Compile Include="Data\ClassMemberViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\ExclusionViewModel.cs" />
+    <Compile Include="Data\IBackupDataService.cs" />
     <Compile Include="Data\InclusionViewModel.cs" />
     <Compile Include="Data\PathViewModel.cs" />
     <Compile Include="Data\TaskViewModel.cs" />
+    <Compile Include="Design\Data\DesignBackupDataRepository.cs" />
     <Compile Include="Design\DesignDialogService.cs" />
     <Compile Include="Design\DesignIOService.cs" />
     <Compile Include="Design\DesignMainWindow.cs" />
@@ -218,6 +222,11 @@
     <None Include="Data\BackupDataModel.tt.log">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Jedzia.BackBock.Model\Data\BackupData01.xml">
+      <Link>Design\Data\BackupData01.xml</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

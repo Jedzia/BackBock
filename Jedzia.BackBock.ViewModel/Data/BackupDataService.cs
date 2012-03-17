@@ -1,11 +1,11 @@
-namespace Jedzia.BackBock.Model
+namespace Jedzia.BackBock.ViewModel.Data
 {
     using System;
     using System.Collections.Generic;
     using System.Security.Principal;
     using Jedzia.BackBock.Model.Data;
 
-    public class BackupDataService
+    public class BackupDataService : IBackupDataService
     {
         private readonly BackupDataRepository repository;
 

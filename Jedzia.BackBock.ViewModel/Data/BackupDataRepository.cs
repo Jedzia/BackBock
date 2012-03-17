@@ -1,4 +1,4 @@
-namespace Jedzia.BackBock.Model
+namespace Jedzia.BackBock.ViewModel.Data
 {
     using Jedzia.BackBock.Model.Data;
 

@@ -1,0 +1,8 @@
+﻿<Window x:Class="WpfApplication2.SubWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="SubWindow" Height="300" Width="300">
+    <Grid>
+        <Label Margin="12,83,12,87" Name="label1" FontSize="25">SUB WINDOW</Label>
+    </Grid>
+</Window>

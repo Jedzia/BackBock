@@ -6,9 +6,92 @@
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Text;
+    using System.IO;
+    using System.Diagnostics;
 
     public static class ReflectionUtil
     {
+
+        public static Assembly GetAssemblyNamed(string assemblyName)
+        {
+            Debug.Assert(string.IsNullOrEmpty(assemblyName) == false);
+
+            try
+            {
+                Assembly assembly;
+                if (IsAssemblyFile(assemblyName))
+                {
+#if (SILVERLIGHT)
+					assembly = Assembly.Load(Path.GetFileNameWithoutExtension(assemblyName));
+#else
+                    if (Path.GetDirectoryName(assemblyName) == AppDomain.CurrentDomain.BaseDirectory)
+                    {
+                        assembly = Assembly.Load(Path.GetFileNameWithoutExtension(assemblyName));
+                    }
+                    else
+                    {
+                        assembly = Assembly.LoadFile(assemblyName);
+                    }
+#endif
+                }
+                else
+                {
+                    assembly = Assembly.Load(assemblyName);
+                }
+                return assembly;
+            }
+            catch (FileNotFoundException)
+            {
+                throw;
+            }
+            catch (FileLoadException)
+            {
+                throw;
+            }
+            catch (BadImageFormatException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                // in theory there should be no other exception kind
+                throw new Exception(string.Format("Could not load assembly {0}", assemblyName), e);
+            }
+        }
+
+        public static bool IsAssemblyFile(string filePath)
+        {
+            if (filePath == null)
+            {
+                throw new ArgumentNullException("filePath");
+            }
+
+            string extension;
+            try
+            {
+                extension = Path.GetExtension(filePath);
+            }
+            catch (ArgumentException)
+            {
+                // path contains invalid characters...
+                return false;
+            }
+            return IsDll(extension) || IsExe(extension);
+        }
+
+        private static bool IsDll(string extension)
+        {
+            return ".dll".Equals(extension, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsExe(string extension)
+        {
+            return ".exe".Equals(extension, StringComparison.OrdinalIgnoreCase);
+        }
+
+
+
+
         public static TAttribute[] GetAttributes<TAttribute>(this MemberInfo item) where TAttribute : Attribute
         {
             return (TAttribute[])Attribute.GetCustomAttributes(item, typeof(TAttribute), true);
@@ -27,13 +110,13 @@
             return assemblies;
         }
 
-        public static Type[] GetAvailableTypes(this Assembly assembly)
+        /*public static Type[] GetAvailableTypes(this Assembly assembly)
         {
             bool includeNonExported = false;
             return GetAvailableTypes(assembly, includeNonExported);
-        }
+        }*/
 
-        public static Type[] GetAvailableTypes(this Assembly assembly, bool includeNonExported)
+        /*public static Type[] GetAvailableTypes(this Assembly assembly, bool includeNonExported)
         {
             try
             {
@@ -45,11 +128,11 @@
             }
             catch (ReflectionTypeLoadException e)
             {
-                //return e.Types.FindAll(t => t != null);
+                return e.Types.FindAll(t => t != null);
                 throw;
                 // NOTE: perhaps we should not ignore the exceptions here, and log them?
             }
-        }
+        }*/
 
         private static void AddApplicationAssemblies(Assembly assembly, HashSet<Assembly> assemblies, string applicationName)
         {
@@ -79,6 +162,7 @@
 
         private static Assembly LoadAssembly(AssemblyName assemblyName)
         {
+            // Todo: VS2008 loading problem
             return Assembly.Load(assemblyName);
         }
 
