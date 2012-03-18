@@ -124,6 +124,24 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        public System.String ItemGroup
+        {
+            get
+            {
+                return this.data.ItemGroup;
+            }
+
+            set
+            {
+                if (this.data.ItemGroup == value)
+                {
+                    return;
+                }
+                this.data.ItemGroup = value;
+                RaisePropertyChanged("ItemGroup");
+            }
+        }
+
         // IsEnabled. HasFacets: False AttrQName: 
         //                   propertyType: System.Boolean, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 

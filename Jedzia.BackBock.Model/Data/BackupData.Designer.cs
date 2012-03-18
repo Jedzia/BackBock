@@ -31,6 +31,9 @@ namespace Jedzia.BackBock.Model.Data {
         [EditorBrowsable(EditorBrowsableState.Never)]
         private string datasetNameField;
         
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private string datasetGroupField;
+        
         private static System.Xml.Serialization.XmlSerializer serializer;
         
         /// <summary>
@@ -74,6 +77,25 @@ namespace Jedzia.BackBock.Model.Data {
                 else {
                     this.datasetNameField = value;
                     this.OnPropertyChanged("DatasetName");
+                }
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string DatasetGroup {
+            get {
+                return this.datasetGroupField;
+            }
+            set {
+                if ((this.datasetGroupField != null)) {
+                    if ((datasetGroupField.Equals(value) != true)) {
+                        this.datasetGroupField = value;
+                        this.OnPropertyChanged("DatasetGroup");
+                    }
+                }
+                else {
+                    this.datasetGroupField = value;
+                    this.OnPropertyChanged("DatasetGroup");
                 }
             }
         }
@@ -279,6 +301,9 @@ namespace Jedzia.BackBock.Model.Data {
         private string itemNameField;
         
         [EditorBrowsable(EditorBrowsableState.Never)]
+        private string itemGroupField;
+        
+        [EditorBrowsable(EditorBrowsableState.Never)]
         private bool isEnabledField;
         
         private static System.Xml.Serialization.XmlSerializer serializer;
@@ -342,6 +367,25 @@ namespace Jedzia.BackBock.Model.Data {
                 else {
                     this.itemNameField = value;
                     this.OnPropertyChanged("ItemName");
+                }
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string ItemGroup {
+            get {
+                return this.itemGroupField;
+            }
+            set {
+                if ((this.itemGroupField != null)) {
+                    if ((itemGroupField.Equals(value) != true)) {
+                        this.itemGroupField = value;
+                        this.OnPropertyChanged("ItemGroup");
+                    }
+                }
+                else {
+                    this.itemGroupField = value;
+                    this.OnPropertyChanged("ItemGroup");
                 }
             }
         }

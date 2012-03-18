@@ -96,6 +96,24 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        public System.String DatasetGroup
+        {
+            get
+            {
+                return this.data.DatasetGroup;
+            }
+
+            set
+            {
+                if (this.data.DatasetGroup == value)
+                {
+                    return;
+                }
+                this.data.DatasetGroup = value;
+                RaisePropertyChanged("DatasetGroup");
+            }
+        }
+
         protected virtual void OnDataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             DataPropertyChanged(sender, e);

@@ -7,6 +7,7 @@
                 <xs:element ref="BackupItem"/>
             </xs:sequence>
             <xs:attribute name="DatasetName" type="xs:string" use="required"/>
+            <xs:attribute name="DatasetGroup" type="xs:string" use="optional"/>
         </xs:complexType>
     </xs:element>
     <xs:complexType name="BackupItemType">
@@ -15,6 +16,7 @@
             <xs:element name="Task" type="TaskType"/>
         </xs:sequence>
         <xs:attribute name="ItemName" type="xs:string" use="required"/>
+        <xs:attribute name="ItemGroup" type="xs:string" use="optional"/>
         <xs:attribute name="IsEnabled" type="xs:boolean" default="false"/>
     </xs:complexType>
     <xs:complexType name="PathDataType">
