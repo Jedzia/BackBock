@@ -1,0 +1,18 @@
+DROP TABLE [Groups]
+GO
+
+
+CREATE TABLE Groups
+(
+	[Id] [int] IDENTITY (1,1) NOT NULL, 
+	[GroupName] [nvarchar] (50) NOT NULL 
+) 
+Go
+
+
+ALTER TABLE [Groups] 
+	ADD CONSTRAINT [PK_2d1a38b42fb9673f4990eee30c3] PRIMARY KEY 
+	( 
+		[Id] 
+	) 
+GO
