@@ -79,10 +79,10 @@
             	<StackPanel DockPanel.Dock="Top" Grid.Row="0" Grid.RowSpan="3" Orientation="Vertical">
             		<Button Command="{Binding TestCommand}" Content="Test"/>
             		<StackPanel DataContext="{Binding Data}">
-            			<TextBlock Text="{Binding .}"/>
-            			<TextBlock Text="{Binding DatasetName}"/>
-            			<TextBlock Text="{Binding BackupItems}"/>
-            			<TextBlock Text="{Binding MyProperty}"/>
+            			<TextBlock Text="{Binding .}" Visibility="Collapsed"/>
+            			<TextBlock Text="{Binding DatasetName}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
+            			<TextBlock Text="{Binding BackupItems}" Visibility="Collapsed"/>
+            			<TextBlock Text="{Binding MyProperty}" Visibility="Collapsed"/>
             		</StackPanel>
             	</StackPanel>
         <!--Background="{StaticResource WindowBackgroundBrush}"-->
@@ -118,35 +118,7 @@
             		<wtk:DataGrid x:Name="dataGrid" DockPanel.Dock="Bottom" ItemsSource="{Binding BackupItemsView}"  AutoGenerateColumns="False"
             			VerticalScrollBarVisibility="Auto" SelectionMode="Single"  >
             			<wtk:DataGrid.GroupStyle>
-            				 <GroupStyle>
-            <GroupStyle.HeaderTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Path=GroupName}" />
-                    </StackPanel>
-                </DataTemplate>
-            </GroupStyle.HeaderTemplate>
-            <GroupStyle.ContainerStyle>
-                <Style TargetType="{x:Type GroupItem}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type GroupItem}">
-                                <Expander>
-                                    <Expander.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                          <TextBlock Text="{Binding Path=Name}" />
-                                          <TextBlock Text="{Binding Path=ItemCount}"/>
-                                          <TextBlock Text="Items"/>
-                                        </StackPanel>
-                                    </Expander.Header>
-                                    <ItemsPresenter />
-                                </Expander>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </GroupStyle.ContainerStyle>
-        </GroupStyle>
+            				 <GroupStyle ContainerStyle="{StaticResource MainDataGroupStyle}" HeaderTemplate="{StaticResource MainDataHeaderTemplate1}"/>
             			</wtk:DataGrid.GroupStyle>
             			<!--RowDetailsTemplate="{DynamicResource MainDetailsTemplateX}"-->
             			<wtk:DataGrid.Columns>

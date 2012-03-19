@@ -310,6 +310,31 @@
 			</Border>
 		</Expander>
 	</DataTemplate>
+  <Style x:Key="MainDataGroupStyle" TargetType="{x:Type GroupItem}">
+  	<Setter Property="Template">
+  		<Setter.Value>
+  			<ControlTemplate TargetType="{x:Type GroupItem}">
+  				<Expander IsExpanded="True" >
+  					<Expander.Header>
+  						<DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+  							<TextBlock Text="{Binding Name}" Margin="10,0,0,0" FontStyle="Italic" HorizontalAlignment="Stretch" FontSize="12" />
+  							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+  								<TextBlock Text="{Binding ItemCount}" d:LayoutOverrides="Height" FontWeight="Bold"/>
+  								<TextBlock Text="Items" FontWeight="Bold" d:LayoutOverrides="Height" Margin="5,0,10,0"/>
+  							</StackPanel>
+  						</DockPanel>
+  					</Expander.Header>
+  					<ItemsPresenter />
+  				</Expander>
+  			</ControlTemplate>
+  		</Setter.Value>
+  	</Setter>
+  </Style>
+  <DataTemplate x:Key="MainDataHeaderTemplate1">
+  	<StackPanel>
+  		<TextBlock Text="{Binding GroupName}" />
+  	</StackPanel>
+  </DataTemplate>
 
   <!-- ResourceId=Namespace.Class.Member identifies a member specific template.  -->
   <!--<DataTemplate x:Key="{ComponentResourceKey ResourceId={x:Type tasks:ITaskItem[]}, TypeInTargetAssembly={x:Type wpg:PropertyGrid}}">

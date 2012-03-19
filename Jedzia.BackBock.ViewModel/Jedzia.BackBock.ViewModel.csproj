@@ -184,6 +184,7 @@
     <Compile Include="Tasks\TaskSetupEngine.cs" />
     <Compile Include="Tasks\ViewModelBuildEngine.cs" />
     <Compile Include="Util\Guard.cs" />
+    <Compile Include="Util\TimeProvider.cs" />
     <Compile Include="Util\VisualHelper.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Wizard\TaskWizardFSM.cs" />
