@@ -2,8 +2,10 @@ namespace Jedzia.BackBock.ViewModel
 {
     using Jedzia.BackBock.ViewModel.Wizard;
 
-    public interface ITaskWizardProvider
+    public interface IViewProvider
     {
         IStateWizard GetWizard();
+
+        IDialogWindow GetTaskEditor();
     }
 }

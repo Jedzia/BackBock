@@ -10,13 +10,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Jedzia.BackBock.ViewModel.Wizard;
 
 namespace Jedzia.BackBock.Application.Editors
 {
     /// <summary>
     /// Interaction logic for TaskEditorWindow.xaml
     /// </summary>
-    public partial class TaskEditorWindow : Window
+    public partial class TaskEditorWindow : Window, IDialogWindow
     {
         public TaskEditorWindow()
         {

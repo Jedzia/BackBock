@@ -23,21 +23,6 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
     public sealed class MainWindowViewModel : ViewModelBase
     {
-        #region WindowTypes enum
-
-        public enum WindowTypes
-        {
-            [CheckType(typeof(Window))]
-            TaskWizard,
-            //ClassFieldOptPage,
-            //ClassMethodOptPage,
-            //ClassPropertyOptPage,
-            //ClassEventOptPage,
-            //SettingsPage,
-        }
-
-        #endregion
-
         #region Fields
         private BackupDataViewModel bdvm;
 
@@ -159,7 +144,6 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             this.MessengerInstance.Register<MVVM.Messaging.DialogMessage>(this, MainWindowMessageReceived);
             this.MessengerInstance.Register<Exception>(this, true, MainWindowExceptionReceived);
 
-            var xxx = new { depp = WindowTypes.TaskWizard };
         }
 
         /*private void LogMessageEvent(Exception e)

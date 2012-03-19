@@ -23,21 +23,6 @@ namespace Jedzia.BackBock.ViewModel.Data
 
     public partial class BackupItemViewModel : ILogger
     {
-        #region WindowTypes enum
-
-        public enum WindowTypes
-        {
-            [CheckType(typeof(Window))]
-            TaskEditor,
-            ClassFieldOptPage,
-            ClassMethodOptPage,
-            ClassPropertyOptPage,
-            ClassEventOptPage,
-            SettingsPage,
-        }
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -202,7 +187,9 @@ namespace Jedzia.BackBock.ViewModel.Data
                 //var task = InitTaskEditor(this.taskProvider);
                 this.Task.TaskInstance = task;
 
-                var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskEditor);
+                // Todo: Service Locator anti pattern!
+                //var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskEditor);
+                var wnd = ApplicationViewModel.TaskWizardProvider.GetTaskEditor();
                 wnd.DataContext = this;
                 //wnd.DataContext = task;
                 //this.Task.PropertyChanged += Task_PropertyChanged;

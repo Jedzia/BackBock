@@ -6,6 +6,9 @@ using Gallio.Framework;
 using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
 using Rhino.Mocks;
+using Jedzia.BackBock.ViewModel.Design;
+using Jedzia.BackBock.ViewModel.MainWindow;
+using Jedzia.BackBock.Tasks;
 
 namespace Jedzia.BackBock.ViewModel.Tests
 {
@@ -37,7 +40,8 @@ namespace Jedzia.BackBock.ViewModel.Tests
             mocks.ReplayAll();
             
             // Todo mock the services.
-            ApplicationViewModel target = new ApplicationViewModel(ioService, null, null);
+            ApplicationViewModel target = new ApplicationViewModel(ioService,
+                new DesignMainWindow(), new DesignTaskService(), new DesignViewProvider());
 
             actual = ApplicationViewModel.MainIOService;
             Assert.AreSame(ioService, actual);
@@ -45,18 +49,57 @@ namespace Jedzia.BackBock.ViewModel.Tests
             mocks.VerifyAll();
         }
 
-        /*/// <summary>
-        ///A test for ApplicationCommands
-        ///</summary>
         [Test]
-        public void ApplicationCommandsTest()
+        public void MainWindowTest()
         {
+            IMainWindow expected = mocks.StrictMock<IMainWindow>();
             mocks.ReplayAll();
-            ApplicationViewModel target = new ApplicationViewModel(ioService);
-            var actual = target.ApplicationCommands;
-            Assert.IsNull(actual);
+
+            ApplicationViewModel target = new ApplicationViewModel(ioService,
+                expected, new DesignTaskService(), new DesignViewProvider());
+
             mocks.VerifyAll();
-        }*/
+        }
+
+        [Test]
+        public void TaskServiceTest()
+        {
+            ITaskService expected = mocks.StrictMock<ITaskService>();
+            mocks.ReplayAll();
+
+            ApplicationViewModel target = new ApplicationViewModel(ioService,
+               new DesignMainWindow(), expected, new DesignViewProvider());
+
+            Assert.AreEqual(expected, ApplicationViewModel.TaskService);
+            mocks.VerifyAll();
+        }
+
+        [Test]
+        public void TaskWizardProviderTest()
+        {
+            IViewProvider expected = mocks.StrictMock<IViewProvider>();
+            mocks.ReplayAll();
+
+            ApplicationViewModel target = new ApplicationViewModel(ioService,
+               new DesignMainWindow(),new DesignTaskService(), expected);
+
+            Assert.AreEqual(expected, ApplicationViewModel.TaskWizardProvider);
+            mocks.VerifyAll();
+        }
+
+
+        /*/// <summary>
+            ///A test for ApplicationCommands
+            ///</summary>
+            [Test]
+            public void ApplicationCommandsTest()
+            {
+                mocks.ReplayAll();
+                ApplicationViewModel target = new ApplicationViewModel(ioService);
+                var actual = target.ApplicationCommands;
+                Assert.IsNull(actual);
+                mocks.VerifyAll();
+            }*/
 
         /*/// <summary>
         ///A test for NotifyPropertyChanged
@@ -75,9 +118,12 @@ namespace Jedzia.BackBock.ViewModel.Tests
         public void ApplicationViewModelConstructorTest()
         {
             mocks.ReplayAll();
-            ApplicationViewModel target = new ApplicationViewModel(ioService, null, null);
+            ApplicationViewModel target = new ApplicationViewModel(ioService,
+                new DesignMainWindow(), new DesignTaskService(), new DesignViewProvider());
             mocks.VerifyAll();
-            Assert.Throws<ApplicationException>(() => target = new ApplicationViewModel(ioService, null, null));
+            Assert.Throws<ApplicationException>(() => target =
+                new ApplicationViewModel(ioService, new DesignMainWindow(), 
+                    new DesignTaskService(), new DesignViewProvider()));
         }
 
 

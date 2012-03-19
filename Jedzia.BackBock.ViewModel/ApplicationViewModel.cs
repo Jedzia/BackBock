@@ -17,6 +17,7 @@ namespace Jedzia.BackBock.ViewModel
     using Jedzia.BackBock.ViewModel.MainWindow;
     using Jedzia.BackBock.ViewModel.Wizard;
     using Microsoft.Build.Utilities;
+    using Jedzia.BackBock.ViewModel.Util;
 
     internal sealed class KDA : TypeDescriptionProvider
     {
@@ -30,7 +31,7 @@ namespace Jedzia.BackBock.ViewModel
         private static object initialized;
         private static IOService ioService;
         private static ITaskService taskService;
-        private static ITaskWizardProvider taskWizardProvider;
+        private static IViewProvider taskWizardProvider;
 
         #endregion
 
@@ -41,11 +42,11 @@ namespace Jedzia.BackBock.ViewModel
             var conv = TypeDescriptor.GetConverter(typeof(TaskItem));
         }
         //public ApplicationViewModel(IOService ioService)
-        public ApplicationViewModel(IOService ioService 
-            /*, IDialogService dialogService*/, 
-            IMainWindow mainWindow, 
-            ITaskService taskService, 
-            ITaskWizardProvider taskWizardProvider
+        public ApplicationViewModel(IOService ioService
+            /*, IDialogService dialogService*/,
+            IMainWindow mainWindow,
+            ITaskService taskService,
+            IViewProvider taskWizardProvider
             )
         {
             if (initialized != null)
@@ -57,16 +58,20 @@ namespace Jedzia.BackBock.ViewModel
                 initialized = new object();
             }
 
-            // Guard.NotNull(() => ioService, ioService);
+            Guard.NotNull(() => ioService, ioService);
+            Guard.NotNull(() => mainWindow, mainWindow);
+            Guard.NotNull(() => taskService, taskService);
+            Guard.NotNull(() => taskWizardProvider, taskWizardProvider);
+
             ApplicationViewModel.ioService = ioService;
-            ApplicationViewModel.taskWizardProvider = taskWizardProvider;
             ApplicationViewModel.taskService = taskService;
+            ApplicationViewModel.taskWizardProvider = taskWizardProvider;
 
-// ApplicationViewModel.dialogService = dialogService;
+            // ApplicationViewModel.dialogService = dialogService;
             this.MainWindow = mainWindow;
-            TaskRegistry.GetInstance();
+            //TaskRegistry.GetInstance();
 
-// this.ApplicationCommands = new ApplicationCommandModel(this);
+            // this.ApplicationCommands = new ApplicationCommandModel(this);
 
             /*this.parent = parent;
             //ClassData2 = ClassDataProvider.CreateSampleClassData();
@@ -76,6 +81,7 @@ namespace Jedzia.BackBock.ViewModel
             view.GroupDescriptions.Add(new PropertyGroupDescription(ClassDataItemViewModel.ItemTypeDescriptor));
             ClassData = view;
             this.ClassDataCommands = new ClassDataCommandModel(parent);*/
+            //taskWizardProvider.GetWizard();
         }
 
         #endregion
@@ -106,7 +112,7 @@ namespace Jedzia.BackBock.ViewModel
                 return ioService;
             }
 
-// set { ioService = value; }
+            // set { ioService = value; }
         }
 
         /// <summary>
@@ -123,7 +129,7 @@ namespace Jedzia.BackBock.ViewModel
             }
         }
 
-        public static ITaskWizardProvider TaskWizardProvider
+        public static IViewProvider TaskWizardProvider
         {
             get
             {
@@ -143,7 +149,7 @@ namespace Jedzia.BackBock.ViewModel
             initialized = null;
             ioService = null;
 
-// dialogService = null;
+            // dialogService = null;
         }
 
         private void NotifyPropertyChanged(string propertyName)
@@ -165,10 +171,10 @@ namespace Jedzia.BackBock.ViewModel
 
         public static readonly DependencyProperty RegControlProperty =
             DependencyProperty.RegisterAttached(
-                "RegControl", 
-                typeof(ControlDescriptor), 
-                typeof(ControlRepository), 
-                new UIPropertyMetadata(null), 
+                "RegControl",
+                typeof(ControlDescriptor),
+                typeof(ControlRepository),
+                new UIPropertyMetadata(null),
                 CallBack);
 
         #endregion

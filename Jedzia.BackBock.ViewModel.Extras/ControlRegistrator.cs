@@ -245,9 +245,9 @@ namespace Jedzia.BackBock.ViewModel
         /// registered type identified by <see cref="CheckTypeAttribute"/>.</exception>
         public static void RegisterControl(Enum key, Type type, IInstanceLifetime lifetime)
         {
-            Guard.NotNull(() => key, key);
-            Guard.NotNull(() => type, type);
-            Guard.NotNull(() => lifetime, lifetime);
+            Gu.NotNull(() => key, key);
+            Gu.NotNull(() => type, type);
+            Gu.NotNull(() => lifetime, lifetime);
 
             // classSpecificationWindowType = type;
             // var xxx = Data.BackupItemViewModel.WindowTypes.TaskEditor.GetType();

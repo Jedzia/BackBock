@@ -73,7 +73,6 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayContextMenu.cs" />
     <Compile Include="Commands\SimpleCommand.cs" />
-    <Compile Include="ControlRegistrator.cs" />
     <Compile Include="Converters\BoolToOppositeConverter.cs" />
     <Compile Include="Converters\DisplayModeToVisibility.cs" />
     <Compile Include="Converters\DoubleTypeConverter.cs" />
@@ -120,7 +119,7 @@
     <Compile Include="Design\DesignIOService.cs" />
     <Compile Include="Design\DesignMainWindow.cs" />
     <Compile Include="Design\DesignTaskService.cs" />
-    <Compile Include="Design\DesignTaskWizardProvider.cs" />
+    <Compile Include="Design\DesignViewProvider.cs" />
     <Compile Include="DisplayMode.cs" />
     <Compile Include="DisplayModeViewModel.cs" />
     <Compile Include="Ext\ActivatorExtension.cs" />
@@ -136,7 +135,7 @@
     <Compile Include="IDialogService.cs" />
     <Compile Include="IOService.cs" />
     <Compile Include="ISelectionService.cs" />
-    <Compile Include="ITaskWizardProvider.cs" />
+    <Compile Include="IViewProvider.cs" />
     <Compile Include="MainWindow\IMainWindow.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -145,9 +144,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MainWindow\ISelectionService.cs" />
-    <Compile Include="MainWindow\MainWindowBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="MainWindow\MainWindowCommandModel.cs">
       <SubType>Code</SubType>
     </Compile>

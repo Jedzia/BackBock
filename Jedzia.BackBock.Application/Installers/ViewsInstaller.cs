@@ -72,10 +72,5 @@ using Castle.MicroKernel;
             //                    .LifestyleTransient()
             //                    .WithService.DefaultInterfaces());
         }
-        
-        private static IMainWindow GetMainWindow(IKernel kernel, CreationContext cre)
-        {
-            return (IMainWindow)System.Windows.Application.Current.MainWindow;
-        }
     }
 }

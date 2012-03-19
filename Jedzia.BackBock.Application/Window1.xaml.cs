@@ -87,12 +87,12 @@
 
         static Window1()
         {
-            ControlRegistrator.RegisterControl(BackupItemViewModel.WindowTypes.TaskEditor,
-                typeof(Editors.TaskEditorWindow));
+            //ControlRegistrator.RegisterControl(BackupItemViewModel.WindowTypes.TaskEditor,
+              //  typeof(Editors.TaskEditorWindow));
             //ControlRegistrator.RegisterControl(MainWindowViewModel.WindowTypes.TaskWizard,
             //    typeof(Jedzia.BackBock.CustomControls.Wizard.StateWizard));
-            ControlRegistrator.RegisterControl(MainWindowViewModel.WindowTypes.TaskWizard,
-                typeof(Editors.TaskWizard.TaskWizard));
+            //ControlRegistrator.RegisterControl(MainWindowViewModel.WindowTypes.TaskWizard,
+              //  typeof(Editors.TaskWizard.TaskWizard));
         }
 
         public /*override*/ void ShowDetail(object val)

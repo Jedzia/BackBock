@@ -21,14 +21,14 @@ namespace Jedzia.BackBock.Application.Installers
             {
                 container.Register(Component.For<ITaskService>().ImplementedBy<DesignTaskService>());
                 container.Register(Component.For<IOService>().ImplementedBy<DesignIOService>());
-                container.Register(Component.For<ITaskWizardProvider>().ImplementedBy<DesignTaskWizardProvider>());
+                container.Register(Component.For<IViewProvider>().ImplementedBy<DesignViewProvider>());
                 
                 container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>());
             }
             else
             {
                 container.Register(Component.For<ITaskService>().UsingFactoryMethod((a, b) => TaskRegistry.GetInstance()));
-                container.Register(Component.For<ITaskWizardProvider>().ImplementedBy<TaskWizardProvider>());
+                container.Register(Component.For<IViewProvider>().ImplementedBy<ViewProvider>());
                 container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>());
                
                 container.Register(Component.For<IOService>().ImplementedBy<FileIOService>());
