@@ -1,8 +1,32 @@
 using Jedzia.BackBock.Model.Data;
+using System.Windows.Data;
 namespace Jedzia.BackBock.ViewModel.Data
 {
     public partial class BackupDataViewModel
     {
+
+        public ListCollectionView BackupItemsView
+        //public System.Collections.ObjectModel.ObservableCollection<BackupItemViewModel> BackupItems
+        {
+            get
+            {
+                /*if (this.backupitem == null)
+                {
+                    this.backupitem = new System.Collections.ObjectModel.ObservableCollection<BackupItemViewModel>();
+                    foreach (var item in this.data.BackupItem)
+                    {
+                        var colItem = new BackupItemViewModel(item);
+                        colItem.PropertyChanged += OnDataPropertyChanged;
+                        this.backupitem.Add(colItem);
+                    }
+                    this.backupitem.CollectionChanged += OnBackupItemCollectionChanged;
+                }*/
+                var lc = new ListCollectionView(this.backupitem);
+                lc.GroupDescriptions.Add(new PropertyGroupDescription("ItemGroup"));
+                return lc;
+            }
+        }
+
         /// <summary>
         /// Gets or sets 
         /// </summary>
