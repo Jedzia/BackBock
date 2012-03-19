@@ -187,7 +187,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 //var task = InitTaskEditor(this.taskProvider);
                 this.Task.TaskInstance = task;
 
-                // Todo: Service Locator anti pattern!
+                // Todo: Maybe move the ViewModel creation to the Composition Root of the view.!
                 //var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskEditor);
                 var wnd = ApplicationViewModel.TaskWizardProvider.GetTaskEditor();
                 wnd.DataContext = this;
