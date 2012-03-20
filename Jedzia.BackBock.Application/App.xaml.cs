@@ -4,6 +4,7 @@
     using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.MainWindow;
     using Jedzia.BackBock.Tasks;
+    using Jedzia.BackBock.ViewModel.MVVM.Threading;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -14,7 +15,7 @@
         {
             //IEssexContainer container = new EssexContainer();
             //container.Install(FromAssembly.InThisEntry());
-            
+            DispatcherHelper.Initialize();
             //container.Install(FromAssembly.InThisApplication());
             //var sauce = container.Resolve<FileIOService>(); 
         }

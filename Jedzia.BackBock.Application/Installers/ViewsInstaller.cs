@@ -37,6 +37,8 @@ using Castle.MicroKernel;
                 //container.Register(Component.For<ITaskService>().ImplementedBy<DesignTaskService>());
                 //container.Register(Component.For<IDialogService>().ImplementedBy<DesignDialogService>());
                 //container.Register(Component.For<IMainWindow>().Instance(new DesignMainWindow()));
+                container.Register(Component.For<IViewProvider>().ImplementedBy<DesignViewProvider>());
+                
                 container.Register(Component.For<IDialogService>().ImplementedBy<DesignDialogService>());
                 container.Register(Component.For<IMainWindow>().ImplementedBy<DesignMainWindow>());
             }
@@ -48,6 +50,8 @@ using Castle.MicroKernel;
                 //container.Register(Component.For<ITaskService>().ImplementedBy<DesignMainWindow>());
                 //SimpleIoc.Default.Register<ITaskService>(() => { return TaskRegistry.GetInstance(); });
                 //container.Register(Component.For<ITaskWizardProvider>().ImplementedBy<TaskWizardProvider>());
+                container.Register(Component.For<IViewProvider>().ImplementedBy<ViewProvider>());
+
                 container.Register(Component.For<IMainWindow>().Instance((IMainWindow)System.Windows.Application.Current.MainWindow));
             }
             

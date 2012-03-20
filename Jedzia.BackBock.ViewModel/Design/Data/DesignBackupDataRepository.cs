@@ -16,8 +16,9 @@ namespace Jedzia.BackBock.ViewModel.Design.Data
     using Jedzia.BackBock.Model.Data;
     using Jedzia.BackBock.ViewModel.Data;
     using Jedzia.BackBock.Model;
+    using System;
 
-    public class DesignDataProvider
+    internal class DesignDataProvider
     {
         private BackupData classData;
         public BackupData GenerateSampleData()
@@ -41,15 +42,24 @@ namespace Jedzia.BackBock.ViewModel.Design.Data
         }
     }
 
-    public class DesignBackupDataRepository : BackupDataRepository
+    public class DesignBackupDataRepository : BackupDataRepository, IDisposable
     {
+        private DesignDataProvider d = new DesignDataProvider();
 
         public override BackupData GetBackupData()
         {
-            var d = new DesignDataProvider();
             var data = d.GenerateSampleData();
             data.BackupItem.Insert(0, new BackupItemType() { ItemName = "This is Design Data" });
             return data;
         }
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            d = null;
+        }
+
+        #endregion
     }
 }

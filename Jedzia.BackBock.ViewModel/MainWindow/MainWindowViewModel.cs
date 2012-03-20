@@ -20,6 +20,7 @@ using System.IO;
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     using Microsoft.Build.Framework;
+    using Jedzia.BackBock.ViewModel.MVVM.Threading;
 
     public sealed class MainWindowViewModel : ViewModelBase
     {
@@ -187,7 +188,8 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             logsb.Append(")");
             logsb.Append(Environment.NewLine);
             RaisePropertyChanged(LogTextPropertyName);
-            mainWindow.UpdateLogText();
+            DispatcherHelper.CheckBeginInvokeOnUI(() => mainWindow.UpdateLogText());
+            //mainWindow.UpdateLogText();
             //this.LogText += text + Environment.NewLine;
         }
         private StringBuilder logsb = new StringBuilder();
@@ -392,7 +394,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         {
             //this.Test();
             //MessageBox.Show("Mooo");
+
             Data.BackupItems.Add(new BackupItemViewModel(new Jedzia.BackBock.Model.Data.BackupItemType()));
+            //this.dataprovider.InsertBackup
+
             this.mainWindow.DialogService.ShowMessage("MainWindowViewModel.TestExecuted", "Test!", "Ok", null);
             var xml = @"<?xml version=""1.0"" encoding=""utf-16""?>" + Environment.NewLine +
 @"<Project>" + Environment.NewLine +

@@ -20,6 +20,7 @@ namespace Jedzia.BackBock.ViewModel.Data
     using Jedzia.BackBock.ViewModel.Commands;
     using Jedzia.BackBock.ViewModel.Tasks;
     using Microsoft.Build.Framework;
+    using System.ComponentModel;
 
     public partial class BackupItemViewModel : ILogger
     {
@@ -156,7 +157,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         public ITaskService TaskProvider
         {
-            get 
+            get
             {
                 if (taskProvider == null)
                 {
@@ -169,16 +170,16 @@ namespace Jedzia.BackBock.ViewModel.Data
                         MessageBox.Show("TaskProvider fucking: " + ex.ToString());
                     }
                 }
-                return taskProvider; 
+                return taskProvider;
             }
 
-            internal set 
+            internal set
             {
-                taskProvider = value; 
+                taskProvider = value;
             }
         }
         //private ITaskService taskProvider = TaskRegistry.GetInstance();
-        
+
         private void TaskDataClickedExecuted(object o)
         {
             using (var tse = new TaskSetupEngine(this.TaskProvider, this, this.Paths))
@@ -228,20 +229,30 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
 
         #endregion
-
+        TaskSetupEngine tse;
         public void RunTask()
         {
             if (!this.IsEnabled)
             {
                 return;
             }
-            
+
             try
             {
-                using (var tse = new TaskSetupEngine(this.TaskProvider, this, this.Paths, this.Task))
+                tse = new TaskSetupEngine(this.TaskProvider, this, this.Paths, this.Task);
+                //using (var tse = new TaskSetupEngine(this.TaskProvider, this, this.Paths, this.Task))
                 {
-                    var success = tse.ExecuteTask(this.Task.TypeName, this.task.data.AnyAttr);
-                    MessengerInstance.Send("Finished Task: " + success);
+                    BackgroundWorker bg = new BackgroundWorker();
+                    bg.DoWork += (args, e) =>
+                    {
+                        var success = tse.ExecuteTask(this.Task.TypeName, this.task.data.AnyAttr);
+                        MessengerInstance.Send("Finished Task: " + success);
+                    };
+                    bg.RunWorkerCompleted += (e, x) =>
+                    {
+                        tse.Dispose();
+                    };
+                    bg.RunWorkerAsync();
                 }
             }
             catch (Exception e)
