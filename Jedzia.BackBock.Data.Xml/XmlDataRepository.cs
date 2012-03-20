@@ -13,7 +13,7 @@ namespace Jedzia.BackBock.Data.Xml
 
         public override BackupData GetBackupData()
         {
-            //var d = new XmlBackupDataDataProvider();
+            //var d = new XmlBackupDataProvider();
             // here use internal context which is disposable to access the data.
             var data = new BackupData();
             //var dData = new XmlData.BackupData();

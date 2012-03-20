@@ -28,6 +28,7 @@
             }
             //.Install(container, store);
 
+            // Wiring sequences, Dependency Injection in .NET, S.368
 
             /*var eassembly = ReflectionUtil.GetAssemblyNamed(extraAssemblyName);
             var assemblies = new[] { eassembly };

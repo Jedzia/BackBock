@@ -63,6 +63,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="XmlData\EntityBase.cs" />
+    <Compile Include="XmlData\TaskType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jedzia.BackBock.Model\Jedzia.BackBock.Model.csproj">
