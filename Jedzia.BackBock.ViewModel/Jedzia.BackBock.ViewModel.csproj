@@ -56,7 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationViewModel.cs" />
+    <Compile Include="ApplicationContext.cs" />
     <Compile Include="CheckTypeAttribute.cs" />
     <Compile Include="Commands\BehaviorBinding.cs" />
     <Compile Include="Commands\ClickCommands.cs" />
@@ -118,6 +118,7 @@
     <Compile Include="Design\DesignDialogService.cs" />
     <Compile Include="Design\DesignIOService.cs" />
     <Compile Include="Design\DesignMainWindow.cs" />
+    <Compile Include="Design\DesignSettingsProvider.cs" />
     <Compile Include="Design\DesignTaskService.cs" />
     <Compile Include="Design\DesignViewProvider.cs" />
     <Compile Include="DisplayMode.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="IDialogService.cs" />
     <Compile Include="IOService.cs" />
     <Compile Include="ISelectionService.cs" />
+    <Compile Include="ISettingsProvider.cs" />
     <Compile Include="IViewProvider.cs" />
     <Compile Include="MainWindow\IMainWindow.cs">
       <SubType>Code</SubType>

@@ -334,6 +334,7 @@
     <Compile Include="Editors\TaskWizard\TaskWizard.xaml.cs">
       <DependentUpon>TaskWizard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettingsProvider.cs" />
     <Compile Include="ViewProvider.cs" />
     <Compile Include="FileIOService.cs" />
     <Compile Include="Installers\ViewsInstaller.cs" />
@@ -371,6 +372,7 @@
     <None Include="..\Settings.StyleCop">
       <Link>Settings.StyleCop</Link>
     </None>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -409,6 +411,10 @@
     <ProjectReference Include="..\Jedzia.BackBock.CustomControls\Jedzia.BackBock.CustomControls.csproj">
       <Project>{DE78B73C-1FF3-4CAB-B961-1B6C1CEDE757}</Project>
       <Name>Jedzia.BackBock.CustomControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jedzia.BackBock.Data.Xml\Jedzia.BackBock.Data.Xml.csproj">
+      <Project>{771430A6-1DF4-4B43-AF0A-01556A4E823A}</Project>
+      <Name>Jedzia.BackBock.Data.Xml</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jedzia.BackBock.SharedTypes\Jedzia.BackBock.SharedTypes.csproj">
       <Project>{B1C6E675-2D2F-4B6A-BB46-2205324AF6E8}</Project>

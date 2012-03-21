@@ -211,7 +211,7 @@ namespace Jedzia.BackBock.ViewModel
 
         private void OpenExecuted(object o, ExecutedRoutedEventArgs args)
         {
-            var path = ApplicationViewModel.MainIOService.OpenFileDialog(string.Empty);
+            var path = ApplicationContext.MainIOService.OpenFileDialog(string.Empty);
             if (!string.IsNullOrEmpty(path))
             {
                 mainwindowViewmodel.OpenFile(path);
@@ -221,7 +221,7 @@ namespace Jedzia.BackBock.ViewModel
 
         private void SaveExecuted(object o, ExecutedRoutedEventArgs args)
         {
-            var path = ApplicationViewModel.MainIOService.SaveFileDialog(string.Empty);
+            var path = ApplicationContext.MainIOService.SaveFileDialog(string.Empty);
             if (!string.IsNullOrEmpty(path))
             {
                 mainwindowViewmodel.SaveFile(path);

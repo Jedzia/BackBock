@@ -23,27 +23,37 @@ namespace Jedzia.BackBock.ViewModel
     {
     }
 
-    public class ApplicationViewModel : /*IFolderExplorerViewModel,*/ INotifyPropertyChanged
+    public class ApplicationContext : /*IFolderExplorerViewModel,*/ INotifyPropertyChanged
     {
         // public enum ServiceTypes { TaskEditor,  }
         #region Fields
 
         private static object initialized;
         private static IOService ioService;
+        private readonly ISettingsProvider settings;
+
+        public ISettingsProvider Settings
+        {
+            get { return this.settings; }
+        }
+
         private static ITaskService taskService;
         private static IViewProvider taskWizardProvider;
 
         #endregion
 
         #region Constructors
-        static ApplicationViewModel()
+        static ApplicationContext()
         {
             //TypeDescriptor.AddProvider(xxx, typeof(TaskItem));
             var conv = TypeDescriptor.GetConverter(typeof(TaskItem));
         }
+        
         //public ApplicationViewModel(IOService ioService)
-        public ApplicationViewModel(IOService ioService
-            /*, IDialogService dialogService*/,
+        // refactor into servicefacade
+        public ApplicationContext(IOService ioService,
+            ISettingsProvider settings,
+            /*IDialogService dialogService , */
             IMainWindow mainWindow,
             ITaskService taskService,
             IViewProvider taskWizardProvider
@@ -59,13 +69,15 @@ namespace Jedzia.BackBock.ViewModel
             }
 
             Guard.NotNull(() => ioService, ioService);
+            Guard.NotNull(() => settings, settings);
             Guard.NotNull(() => mainWindow, mainWindow);
             Guard.NotNull(() => taskService, taskService);
             Guard.NotNull(() => taskWizardProvider, taskWizardProvider);
 
-            ApplicationViewModel.ioService = ioService;
-            ApplicationViewModel.taskService = taskService;
-            ApplicationViewModel.taskWizardProvider = taskWizardProvider;
+            this.settings = settings;
+            ApplicationContext.ioService = ioService;
+            ApplicationContext.taskService = taskService;
+            ApplicationContext.taskWizardProvider = taskWizardProvider;
 
             // ApplicationViewModel.dialogService = dialogService;
             this.MainWindow = mainWindow;

@@ -163,7 +163,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 {
                     try
                     {
-                        taskProvider = ApplicationViewModel.TaskService;
+                        taskProvider = ApplicationContext.TaskService;
                     }
                     catch (Exception ex)
                     {
@@ -190,7 +190,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 
                 // Todo: Maybe move the ViewModel creation to the Composition Root of the view.!
                 //var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskEditor);
-                var wnd = ApplicationViewModel.TaskWizardProvider.GetTaskEditor();
+                var wnd = ApplicationContext.TaskWizardProvider.GetTaskEditor();
                 wnd.DataContext = this;
                 //wnd.DataContext = task;
                 //this.Task.PropertyChanged += Task_PropertyChanged;

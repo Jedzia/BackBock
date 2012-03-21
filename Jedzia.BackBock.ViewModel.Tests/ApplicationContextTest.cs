@@ -13,7 +13,7 @@ using Jedzia.BackBock.Tasks;
 namespace Jedzia.BackBock.ViewModel.Tests
 {
     [TestFixture]
-    public class ApplicationViewModelTest
+    public class ApplicationContextTest
     {
 
         MockRepository mocks;
@@ -24,7 +24,7 @@ namespace Jedzia.BackBock.ViewModel.Tests
         {
             mocks = new MockRepository();
             ioService = mocks.StrictMock<IOService>();
-            ApplicationViewModel.Reset();
+            ApplicationContext.Reset();
         }
 
         /// <summary>
@@ -35,15 +35,15 @@ namespace Jedzia.BackBock.ViewModel.Tests
         {
             IOService actual;
             Assert.Throws<ApplicationException>(() =>
-                actual = ApplicationViewModel.MainIOService);
+                actual = ApplicationContext.MainIOService);
 
             mocks.ReplayAll();
             
             // Todo mock the services.
-            ApplicationViewModel target = new ApplicationViewModel(ioService,
+            ApplicationContext target = new ApplicationContext(ioService, new DesignSettingsProvider(),
                 new DesignMainWindow(), new DesignTaskService(), new DesignViewProvider());
 
-            actual = ApplicationViewModel.MainIOService;
+            actual = ApplicationContext.MainIOService;
             Assert.AreSame(ioService, actual);
             //ApplicationViewModel.MainIOService.OpenFileDialog("c:\\tmp");
             mocks.VerifyAll();
@@ -55,7 +55,7 @@ namespace Jedzia.BackBock.ViewModel.Tests
             IMainWindow expected = mocks.StrictMock<IMainWindow>();
             mocks.ReplayAll();
 
-            ApplicationViewModel target = new ApplicationViewModel(ioService,
+            ApplicationContext target = new ApplicationContext(ioService, new DesignSettingsProvider(),
                 expected, new DesignTaskService(), new DesignViewProvider());
 
             mocks.VerifyAll();
@@ -67,10 +67,10 @@ namespace Jedzia.BackBock.ViewModel.Tests
             ITaskService expected = mocks.StrictMock<ITaskService>();
             mocks.ReplayAll();
 
-            ApplicationViewModel target = new ApplicationViewModel(ioService,
+            ApplicationContext target = new ApplicationContext(ioService, new DesignSettingsProvider(),
                new DesignMainWindow(), expected, new DesignViewProvider());
 
-            Assert.AreEqual(expected, ApplicationViewModel.TaskService);
+            Assert.AreEqual(expected, ApplicationContext.TaskService);
             mocks.VerifyAll();
         }
 
@@ -80,10 +80,23 @@ namespace Jedzia.BackBock.ViewModel.Tests
             IViewProvider expected = mocks.StrictMock<IViewProvider>();
             mocks.ReplayAll();
 
-            ApplicationViewModel target = new ApplicationViewModel(ioService,
+            ApplicationContext target = new ApplicationContext(ioService, new DesignSettingsProvider(),
                new DesignMainWindow(),new DesignTaskService(), expected);
 
-            Assert.AreEqual(expected, ApplicationViewModel.TaskWizardProvider);
+            Assert.AreEqual(expected, ApplicationContext.TaskWizardProvider);
+            mocks.VerifyAll();
+        }
+
+        [Test]
+        public void SettingsProviderTest()
+        {
+            ISettingsProvider expected = mocks.StrictMock<ISettingsProvider>();
+            mocks.ReplayAll();
+
+            ApplicationContext target = new ApplicationContext(ioService, expected,
+               new DesignMainWindow(), new DesignTaskService(), new DesignViewProvider());
+
+            //Assert.AreEqual(expected, ApplicationContext.);
             mocks.VerifyAll();
         }
 
@@ -118,11 +131,11 @@ namespace Jedzia.BackBock.ViewModel.Tests
         public void ApplicationViewModelConstructorTest()
         {
             mocks.ReplayAll();
-            ApplicationViewModel target = new ApplicationViewModel(ioService,
+            ApplicationContext target = new ApplicationContext(ioService, new DesignSettingsProvider(),
                 new DesignMainWindow(), new DesignTaskService(), new DesignViewProvider());
             mocks.VerifyAll();
             Assert.Throws<ApplicationException>(() => target =
-                new ApplicationViewModel(ioService, new DesignMainWindow(), 
+                new ApplicationContext(ioService, new DesignSettingsProvider(), new DesignMainWindow(),
                     new DesignTaskService(), new DesignViewProvider()));
         }
 

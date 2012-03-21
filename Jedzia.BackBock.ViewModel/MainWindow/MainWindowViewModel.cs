@@ -27,11 +27,11 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         #region Fields
         private BackupDataViewModel bdvm;
 
-        public ApplicationViewModel ApplicationViewModel
+        public ApplicationContext ApplicationViewModel
         {
             get
             {
-                return this.applicationViewModel;
+                return this.applicationContext;
             }
         }
 
@@ -70,7 +70,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
         }
 
-        private readonly ApplicationViewModel applicationViewModel;
+        private readonly ApplicationContext applicationContext;
         private readonly GeneralCommandsModel generalCommands;
 
         //public static readonly DependencyProperty DesignerCommandsProperty = DependencyProperty.Register(
@@ -108,11 +108,11 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             base.Cleanup();
         }
         private IBackupDataService dataprovider;
-        public MainWindowViewModel(ApplicationViewModel applicationViewModel, IMainWindow mainWindow,
+        public MainWindowViewModel(ApplicationContext applicationViewModel, IMainWindow mainWindow,
             IBackupDataService dataprovider)
         {
             //MessageBox.Show("MainWindowViewModel create0");
-            this.applicationViewModel = applicationViewModel;
+            this.applicationContext = applicationViewModel;
             //MessageBox.Show("MainWindowViewModel create1");
             this.mainWindow = applicationViewModel.MainWindow;
             this.dataprovider = dataprovider;
@@ -228,7 +228,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
                 //var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
                 //throw new NotImplementedException("m999");
-                var taskList = ViewModel.ApplicationViewModel.TaskService.GetRegisteredTasks();
+                var taskList = ViewModel.ApplicationContext.TaskService.GetRegisteredTasks();
                 return taskList;
             }
         }
@@ -300,6 +300,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //System.Diagnostics.Debugger.Launch();
 
             //MessageBox.Show("Before MainWindowViewModel GetSampleData");
+            var startupPath = applicationContext.Settings.GetStartupDataFile();
             this.Data2 = dataprovider.GetBackupData(new MyPrincipal());
             //MessageBox.Show("After MainWindowViewModel GetSampleData");
             return new BackupDataViewModel(this.Data2);
@@ -508,7 +509,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             try
             {
                 //var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskWizard);
-                var wnd = ApplicationViewModel.TaskWizardProvider.GetWizard();
+                var wnd = ApplicationContext.TaskWizardProvider.GetWizard();
                 //wnd.DataContext = this;
                 //wnd.DataContext = task;
                 //this.Task.PropertyChanged += Task_PropertyChanged;
