@@ -21,6 +21,10 @@ namespace Jedzia.BackBock.ViewModel.Data
     using Jedzia.BackBock.ViewModel.Tasks;
     using Microsoft.Build.Framework;
     using System.ComponentModel;
+using System.Collections;
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+    using System.Runtime.Serialization.Formatters.Binary;
 
     public partial class BackupItemViewModel : ILogger
     {
@@ -374,5 +378,121 @@ namespace Jedzia.BackBock.ViewModel.Data
             {
             }
         }
+
+        #region EditorOpening Command
+
+        private RelayCommand editorOpeningCommand;
+
+        [EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public ICommand EditorOpeningCommand
+        {
+            get
+            {
+                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
+                if (this.editorOpeningCommand == null)
+                {
+                    this.editorOpeningCommand = new RelayCommand(this.EditorOpeningExecuted, this.EditorOpeningEnabled);
+                }
+
+                return this.editorOpeningCommand;
+            }
+        }
+
+        public virtual List<PathDataType> ClonePath(List<PathDataType> sources)
+        {
+            List<PathDataType> result = null;
+            using (var ms = new MemoryStream())
+            {
+                //BinaryWriter bw = new BinaryWriter(ms);
+                //ISerializable
+                var bf = new BinaryFormatter();
+                bf.Serialize(ms, sources);
+                ms.Seek(0, SeekOrigin.Begin);
+                result = (List<PathDataType>)bf.Deserialize(ms);
+            }
+            /*List<PathDataType> result = new List<PathDataType>();
+            foreach (var source in sources)
+            {
+                PathDataType n = new PathDataType();
+                n.Path = source.Path;
+                n.UserData = source.UserData;
+                n.Exclusion = source.Exclusion;
+                n.Inclusion = source.Inclusion;
+                //return ((PathDataType)(this.MemberwiseClone()));
+                result.Add(n);
+                //yield return n;
+            }*/
+            return result;
+        }
+
+        List<PathDataType> back;
+        private void EditorOpeningExecuted(object o)
+        {
+            back = ClonePath(this.data.Path);
+            //back = this.Clone();
+            
+            //MessageBox.Show("EditorOpeningExecuted");
+            //this.EditorOpening();
+        }
+
+        private bool EditorOpeningEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
+
+                #region EditorCancel Command
+
+        private RelayCommand editorCancelCommand;
+
+        [EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public ICommand EditorCancelCommand
+        {
+            get
+            {
+                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
+                if (this.editorCancelCommand == null)
+                {
+                    this.editorCancelCommand = new RelayCommand(this.EditorCancelExecuted, this.EditorCancelEnabled);
+                }
+
+                return this.editorCancelCommand;
+            }
+        }
+
+
+        private void EditorCancelExecuted(object o)
+        {
+            //return;
+            // backing field to null, so auto renew the ObservableCollection on the next request.
+            this.path = null;
+            // restore saved data from saved backup.
+            this.data.Path = this.back;
+
+            /*this.path = new System.Collections.ObjectModel.ObservableCollection<PathViewModel>();
+            foreach (var item in this.back)
+            {
+                var colItem = new PathViewModel(item);
+                colItem.PropertyChanged += OnDataPropertyChanged;
+                this.path.Add(colItem);
+            }
+            this.path.CollectionChanged += OnPathCollectionChanged;*/
+            RaisePropertyChanged(() => this.Paths);
+            //this.EditorCancel();
+        }
+
+        private bool EditorCancelEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
+
+        partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+
+        }
+
     }
 }

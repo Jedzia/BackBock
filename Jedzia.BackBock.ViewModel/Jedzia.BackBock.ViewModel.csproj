@@ -115,6 +115,7 @@
     <Compile Include="Data\PathViewModel.cs" />
     <Compile Include="Data\TaskViewModel.cs" />
     <Compile Include="Design\Data\DesignBackupDataRepository.cs" />
+    <Compile Include="Design\Data\DesignBackupDataService.cs" />
     <Compile Include="Design\DesignDialogService.cs" />
     <Compile Include="Design\DesignIOService.cs" />
     <Compile Include="Design\DesignMainWindow.cs" />
@@ -142,6 +143,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MainWindow\IMainWorkArea.cs" />
+    <Compile Include="MainWindow\InitialBackupDataLoader.cs" />
     <Compile Include="MainWindow\ISpecificationWindow.cs">
       <SubType>Code</SubType>
     </Compile>

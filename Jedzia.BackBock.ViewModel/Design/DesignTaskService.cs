@@ -10,11 +10,13 @@ namespace Jedzia.BackBock.ViewModel.Design
 
     public class DesignTaskService : ITaskService
     {
+        private const string error = "DesignTaskService does not provide executable Operations!";
+        
         #region IServiceProvider Members
 
         public object GetService(Type serviceType)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(error);
         }
 
         #endregion
@@ -23,27 +25,27 @@ namespace Jedzia.BackBock.ViewModel.Design
 
         public IEnumerable<string> GetRegisteredTasks()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(error);
         }
 
         public bool Register(ITask task)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(error);
         }
 
         public void Reset()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(error);
         }
 
         public void ResetAll()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(error);
         }
 
         public ITask this[string taskName]
         {
-            get { throw new NotImplementedException(); }
+            get { throw new NotImplementedException(error); }
         }
 
         #endregion

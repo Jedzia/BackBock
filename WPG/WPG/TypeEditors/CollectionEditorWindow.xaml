@@ -34,8 +34,8 @@
         
         <WPG:PropertyGrid Grid.Column="1" Margin="10" AutomaticlyExpandObjects="False" Foreground="White" Instance="{Binding ElementName=myButton}" x:Name="myGrid" ShowDescription="False" ShowPreview="False" DataContext="{Binding}" />
         <StackPanel Grid.Column="2">
-            <Button Name="cmdOk" Click="cmdOk_Click">Ok</Button>
-            <Button Margin="0,10,0,0" Click="Button_Click">Cancel</Button>
+            <Button Name="cmdOk" Click="CmdOk_Click">Ok</Button>
+            <Button Margin="0,10,0,0" Click="CmdCancel_Click">Cancel</Button>
         </StackPanel>
 
     </Grid>

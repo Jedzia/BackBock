@@ -62,8 +62,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="XmlData\BackupDataTrans.cs" />
+    <Compile Include="XmlData\BackupItemType.cs" />
     <Compile Include="XmlData\EntityBase.cs" />
+    <Compile Include="XmlData\PathDataType.cs" />
     <Compile Include="XmlData\TaskType.cs" />
+    <Compile Include="XmlData\Wildcard.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jedzia.BackBock.Model\Jedzia.BackBock.Model.csproj">

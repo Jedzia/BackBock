@@ -31,6 +31,12 @@ namespace WPG.TypeEditors
         {
             InitializeComponent();
             baseControl = ctrl;
+
+            if (baseControl.EditorOpeningCommand != null)
+            {
+                baseControl.EditorOpeningCommand.Execute(baseControl.NumerableValue);
+            }
+
             this.DataContext = baseControl.DataContext;
 
             if(baseControl.NumerableValue != null)
@@ -108,8 +114,12 @@ namespace WPG.TypeEditors
             return canBeConstructed;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CmdCancel_Click(object sender, RoutedEventArgs e)
         {
+            if (baseControl.CancelCommand != null)
+            {
+                baseControl.CancelCommand.Execute(this);
+            }
             this.Close();
         }
 
@@ -118,9 +128,13 @@ namespace WPG.TypeEditors
             myGrid.Instance = myLst.SelectedItem;
         }
 
-        private void cmdOk_Click(object sender, RoutedEventArgs e)
+        private void CmdOk_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
+            if (baseControl.OkCommand != null)
+            {
+                baseControl.OkCommand.Execute(this);
+            }
             this.Close();
         }
 

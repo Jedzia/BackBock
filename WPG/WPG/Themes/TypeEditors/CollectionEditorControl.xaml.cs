@@ -71,6 +71,34 @@ namespace WPG.Themes.TypeEditors
             //txtTypeName.Text = NumerableType.GetType().ToString();
         }
 
+        public ICommand EditorOpeningCommand
+        {
+            get { return (ICommand)GetValue(EditorOpeningCommandProperty); }
+            set { SetValue(EditorOpeningCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty EditorOpeningCommandProperty =
+            DependencyProperty.Register("EditorOpeningCommand", typeof(ICommand), typeof(CollectionEditorControl), new UIPropertyMetadata(null));
+
+        public ICommand CancelCommand
+        {
+            get { return (ICommand)GetValue(CancelCommandProperty); }
+            set { SetValue(CancelCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty CancelCommandProperty =
+            DependencyProperty.Register("CancelCommand", typeof(ICommand), typeof(CollectionEditorControl), new UIPropertyMetadata(null));
+
+        public ICommand OkCommand
+        {
+            get { return (ICommand)GetValue(OkCommandProperty); }
+            set { SetValue(OkCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty OkCommandProperty =
+            DependencyProperty.Register("OkCommand", typeof(ICommand), typeof(CollectionEditorControl), new UIPropertyMetadata(null));
+
+
         public ICommand AddTypeCommand
         {
             get { return (ICommand)GetValue(AddTypeCommandProperty); }

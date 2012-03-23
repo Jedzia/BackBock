@@ -6,6 +6,7 @@
 // <date>$date$</date>
 // <summary>$summary$</summary>
 using System;
+using System.Linq;
 using System.Windows;
 using System.Collections.Generic;
 using Jedzia.BackBock.Model;
@@ -49,6 +50,24 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
                 }
                 this.bdvm = value;
                 RaisePropertyChanged("Data");
+                RaisePropertyChanged("Groups");
+            }
+        }
+
+        public IEnumerable<string> Groups
+        {
+            get
+            {
+                if (this.Data == null || this.Data.BackupItems == null)
+                {
+                    return new List<string>();
+                }
+
+                var groups = this.Data.BackupItems
+                    .Select((o) => o.ItemGroup)
+                    .Distinct()
+                    .OrderBy((x) => x);
+                return groups;
             }
         }
 
@@ -300,8 +319,18 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //System.Diagnostics.Debugger.Launch();
 
             //MessageBox.Show("Before MainWindowViewModel GetSampleData");
-            var startupPath = applicationContext.Settings.GetStartupDataFile();
-            this.Data2 = dataprovider.GetBackupData(new MyPrincipal());
+            string connection = null;
+            /*if (dataprovider.ServiceType == BackupRepositoryType.FileSystemProvider)
+            {
+                var startupPath = applicationContext.Settings.GetStartupDataFile();
+                connection = startupPath;
+            }*/
+            // this.Data2 = dataprovider.GetBackupData(new MyPrincipal());
+            // this.Data2 = dataprovider.GetBackupData(connection, new MyPrincipal(), null);
+
+            // load static => this is the sample data. BackupRepositoryType.FileSystemProvider is
+            // "load from file" and BackupRepositoryType.Database from a database.
+            this.Data2 = dataprovider.GetBackupData(BackupRepositoryType.Static, new MyPrincipal(), null);
             //MessageBox.Show("After MainWindowViewModel GetSampleData");
             return new BackupDataViewModel(this.Data2);
         }
@@ -485,6 +514,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         internal void OpenFile(string path)
         {
+            // Todo: switch this to this.dataprovider.Load( ... );
             this.Data2 = ModelLoader.LoadBackupData(path);
             Data = new BackupDataViewModel(this.Data2);
             //this.mainWindow.Designer.DataContext = bdvm;
@@ -492,6 +522,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         internal void SaveFile(string path)
         {
+            // Todo: switch this to this.dataprovider.Save( ... );
             ModelSaver.SaveBackupData(bdvm.data, path);
         }
 

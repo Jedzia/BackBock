@@ -12,7 +12,8 @@ namespace Jedzia.BackBock.ViewModel.Design
 
         public string GetStartupDataFile()
         {
-            throw new NotImplementedException();
+            return "This is a dummy string from: GetStartupDataFile() "
+                + " Jedzia.BackBock.ViewModel.Design.DesignSettingsProvider";
         }
 
         #endregion

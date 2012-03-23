@@ -108,5 +108,37 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
         #endregion
 
+        #region EditorCancel Command
+
+        private RelayCommand editorCancelCommand;
+
+        [EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public ICommand EditorCancelCommand
+        {
+            get
+            {
+                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
+                if (this.editorCancelCommand == null)
+                {
+                    this.editorCancelCommand = new RelayCommand(this.EditorCancelExecuted, this.EditorCancelEnabled);
+                }
+
+                return this.editorCancelCommand;
+            }
+        }
+
+
+        private void EditorCancelExecuted(object o)
+        {
+            //this.EditorCancel();
+        }
+
+        private bool EditorCancelEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
+
     }
 }

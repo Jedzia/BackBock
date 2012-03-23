@@ -128,11 +128,15 @@
         </StackPanel>
             <wpgtt:CollectionEditorControl Grid.Column="1"
                 NumerableValue="{Binding Value}"                                            
+                DataContext="{Binding .}"
                 MyProperty="{Binding .}"
                 NumerableType="{Binding NumerableType}"
                 NumerableTypeIdentifier="Exclusions"
-                AddTypeCommand="{Binding AddTypeCommand}"
-                RemoveTypeCommand="{Binding RemoveTypeCommand}"
+                OkCommand="{Binding Instance.EditorOkCommand}"
+                CancelCommand="{Binding Instance.EditorCancelCommand}"
+                EditorOpeningCommand="{Binding Instance.EditorOpeningCommand}"
+                AddTypeCommand="{Binding Instance.AddTypeCommand}"
+                RemoveTypeCommand="{Binding Instance.RemoveTypeCommand}"
                 TextBoxVisible="Collapsed"/>
 		</Grid>
     </DataTemplate>
@@ -149,11 +153,15 @@
         </StackPanel>
             <wpgtt:CollectionEditorControl Grid.Column="1"
                 NumerableValue="{Binding Value}"                                            
+                DataContext="{Binding .}"
                 MyProperty="{Binding .}"
                 NumerableType="{Binding NumerableType}"
                 NumerableTypeIdentifier="Inclusions"
-                AddTypeCommand="{Binding AddTypeCommand}"
-                RemoveTypeCommand="{Binding RemoveTypeCommand}"
+                OkCommand="{Binding Instance.EditorOkCommand}"
+                CancelCommand="{Binding Instance.EditorCancelCommand}"
+                EditorOpeningCommand="{Binding Instance.EditorOpeningCommand}"
+                AddTypeCommand="{Binding Instance.AddTypeCommand}"
+                RemoveTypeCommand="{Binding Instance.RemoveTypeCommand}"
                 TextBoxVisible="Collapsed"/>
 		</Grid>
     </DataTemplate>
@@ -232,6 +240,9 @@
                 DataContext="{Binding .}"
                 NumerableType="{Binding NumerableType}"
                 NumerableTypeIdentifier="Paths"
+                OkCommand="{Binding EditorOkCommand}"
+                CancelCommand="{Binding EditorCancelCommand}"
+                EditorOpeningCommand="{Binding EditorOpeningCommand}"
                 AddTypeCommand="{Binding AddTypeCommand}"
                 RemoveTypeCommand="{Binding RemoveTypeCommand}"
                 TextBoxVisible="Collapsed" Grid.Column="1"

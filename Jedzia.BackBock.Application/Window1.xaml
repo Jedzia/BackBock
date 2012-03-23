@@ -39,6 +39,7 @@
                 <Button Content="TEST Me" Click="Button_Click"/>
                 <Expander Header="Flow Chart" Content="FlowChartStencils" IsExpanded="True"/>
                 <Expander Header="Shapes" Content="ShapeStencils" IsExpanded="True"/>
+				<Expander Header="Groups"  IsExpanded="True"><ListBox ItemsSource="{Binding Groups, Mode=OneWay}"/></Expander>
                 <!--<wpg:PropertyGrid x:Name="wpg" Instance="{Binding .}" />-->
             </StackPanel>
             <!-- GridSplitter -->
@@ -122,6 +123,7 @@
             			</wtk:DataGrid.GroupStyle>
             			<!--RowDetailsTemplate="{DynamicResource MainDetailsTemplateX}"-->
             			<wtk:DataGrid.Columns>
+            				<wtk:DataGridTextColumn Header="Group" Binding="{Binding ItemGroup}"/>
             				<wtk:DataGridTextColumn Header="Name" Binding="{Binding ItemName}"/>
             				<!--<wtk:DataGridTextColumn Header="Task" Binding="{Binding Task.TypeName}"/>-->
             				<wtk:DataGridTemplateColumn CellTemplate="{DynamicResource TaskDataTemplate}"  Header="Task" />
