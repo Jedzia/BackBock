@@ -84,12 +84,9 @@
     <add key="VBdocman_linkForExternalNotInFramework"><![CDATA[0]]></add>
     <add key="VBdocman_allowMacrosInComments"><![CDATA[0]]></add>
     <add key="VBdocman_emptyOutputFolder"><![CDATA[0]]></add>
-    <add key="VBdocman_comModules_BackupDataRepository.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_BackupDataService.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_D:...E...Projects...CSharp...BackBock...Jedzia.BackBock.ViewModel...Design...Data...SampleResourceProvider.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Data...BackupData.Designer.cs"><![CDATA[On]]></add>
+    <add key="VBdocman_comModules_Data...BackupDataTrans.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_ModelLoader.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Properties...AssemblyInfo.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_SampleResourceProvider.cs"><![CDATA[On]]></add>
   </appSettings>
 </configuration>

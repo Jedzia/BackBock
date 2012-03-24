@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using Jedzia.BackBock.SharedTypes;
 using Jedzia.BackBock.Model.Data;
 using Jedzia.BackBock.ViewModel.MainWindow;
+using System;
 
 
 namespace Jedzia.BackBock.ViewModel.Data
@@ -28,7 +29,7 @@ namespace Jedzia.BackBock.ViewModel.Data
     /// <summary>
     /// The summary of BackupDataViewModel. BaseType: 
     /// </summary>
-    public partial class BackupDataViewModel : ViewModelBase
+    public partial class BackupDataViewModel : ValidatingViewModelBase
     {
         internal BackupData data;
 
@@ -91,6 +92,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 {
                     return;
                 }
+
                 this.data.DatasetName = value;
                 RaisePropertyChanged("DatasetName");
             }

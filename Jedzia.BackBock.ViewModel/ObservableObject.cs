@@ -102,12 +102,7 @@ namespace Jedzia.BackBock.ViewModel
 #endif
             VerifyPropertyName(propertyName);
 
-            var handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            OnPropertyChanged(propertyName);
 #if WIN8
             }
 #endif
@@ -133,12 +128,22 @@ namespace Jedzia.BackBock.ViewModel
                 return;
             }
 
-            var handler = PropertyChanged;
+            var body = propertyExpression.Body as MemberExpression;
+            var propertyName = body.Member.Name;
 
+            OnPropertyChanged(propertyName);
+        }
+
+        /// <summary>
+        /// Called when a property changes.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
             if (handler != null)
             {
-                var body = propertyExpression.Body as MemberExpression;
-                handler(this, new PropertyChangedEventArgs(body.Member.Name));
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 

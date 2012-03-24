@@ -172,6 +172,7 @@
     <Compile Include="MVVM\Messaging\PropertyChangedMessage.cs" />
     <Compile Include="MVVM\Messaging\PropertyChangedMessageBase.cs" />
     <Compile Include="MVVM\Threading\DispatcherHelper.cs" />
+    <Compile Include="MVVM\Validation\IViewValidator.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="DialogServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Util\Guard.cs" />
     <Compile Include="Util\TimeProvider.cs" />
     <Compile Include="Util\VisualHelper.cs" />
+    <Compile Include="ValidatingViewModelBase.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Wizard\TaskWizardFSM.cs" />
     <Compile Include="Wizard\IStateWizard.cs" />

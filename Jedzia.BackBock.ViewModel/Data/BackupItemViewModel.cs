@@ -21,12 +21,12 @@ namespace Jedzia.BackBock.ViewModel.Data
     using Jedzia.BackBock.ViewModel.Tasks;
     using Microsoft.Build.Framework;
     using System.ComponentModel;
-using System.Collections;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
 
-    public partial class BackupItemViewModel : ILogger
+    public partial class BackupItemViewModel : ILogger, IDataErrorInfo
     {
         #region Constructors
 
@@ -291,13 +291,14 @@ using System.Collections;
             // Mit ObservableCollection kann das ViewModel automatisch auf entfernen und
             // hinzufügen von Objekten reagieren.
 
+            Validate("PathCollectionChanged " + e.Action);
             /*if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
-            {
-                foreach (PathViewModel item in e.NewItems)
-                {
-                    backupitem.Path.Add(item.path);
-                }
-            }*/
+                        {
+                            foreach (PathViewModel item in e.NewItems)
+                            {
+                                backupitem.Path.Add(item.path);
+                            }
+                        }*/
             // Reflect the changes to the underlying data.
             switch (e.Action)
             {
@@ -428,9 +429,10 @@ using System.Collections;
         List<PathDataType> back;
         private void EditorOpeningExecuted(object o)
         {
+            // this is not a good way to make undo.
             back = ClonePath(this.data.Path);
             //back = this.Clone();
-            
+
             //MessageBox.Show("EditorOpeningExecuted");
             //this.EditorOpening();
         }
@@ -442,7 +444,7 @@ using System.Collections;
         }
         #endregion
 
-                #region EditorCancel Command
+        #region EditorCancel Command
 
         private RelayCommand editorCancelCommand;
 
@@ -460,11 +462,12 @@ using System.Collections;
                 return this.editorCancelCommand;
             }
         }
-
-
+        
         private void EditorCancelExecuted(object o)
         {
+
             //return;
+            // this is not a good way to make undo.
             // backing field to null, so auto renew the ObservableCollection on the next request.
             this.path = null;
             // restore saved data from saved backup.
@@ -491,8 +494,52 @@ using System.Collections;
 
         partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            Validate("DataPropertyChanged " + e.PropertyName);
+        }
+        
 
+        private void Validate(string propertyName)
+        {
+            //if (this.Task)
+            {
+                
+            }
+            MessengerInstance.Send(propertyName);
+
+            //MessageBox.Show(propertyName);
         }
 
+        protected override void OnPropertyChanged(string propertyName)
+        {
+            Validate("OnPropertyChanged " + propertyName);
+            base.OnPropertyChanged(propertyName);
+        }
+
+
+        #region IDataErrorInfo Members
+
+        /// <summary>
+        /// Gets an error message indicating what is wrong with this object.
+        /// </summary>
+        /// <returns>
+        /// An error message indicating what is wrong with this object. The default is an empty string ("").
+        ///   </returns>
+        public string Error
+        {
+            get { return "We have an Error!"; }
+        }
+
+        /// <summary>
+        /// Gets the error message for the property with the given name.
+        /// </summary>
+        /// <returns>
+        /// The error message for the property. The default is an empty string ("").
+        ///   </returns>
+        public string this[string columnName]
+        {
+            get { return columnName + " Column Error"; }
+        }
+
+        #endregion
     }
 }
