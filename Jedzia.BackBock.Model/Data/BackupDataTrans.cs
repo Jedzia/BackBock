@@ -12,7 +12,22 @@ namespace Jedzia.BackBock.Model.Data
 
         public string Error
         {
-            get { return null; }
+            get 
+            {
+                return Validate();
+            }
+        }
+
+        private string Validate()
+        {
+            //string result = null;
+            if (this.BackupItem.Count == 0 && this.DatasetName == "Daily")
+            {
+                return "No BackupItems present and you call that 'Daily', you stupid?";
+            }
+
+
+            return null;
         }
 
         public string this[string columnName]
@@ -26,10 +41,10 @@ namespace Jedzia.BackBock.Model.Data
 
                     //if (120 < this.Age)
                     //   return "Age cannot be greater than 120.";
-                    if (this.DatasetName.Contains("x"))
-                        return "DatasetName cannot contain an x.";
-                    if (this.DatasetName.Contains("y"))
-                        return "What the ... Y?";
+                    if (this.DatasetName.Contains("1"))
+                        return "BASE: DatasetName cannot contain an 1.";
+                    //if (this.DatasetName.Contains("y"))
+                    //    return "BASE: What the ... Y?";
                 }
 
                 return null;

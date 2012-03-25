@@ -18,6 +18,13 @@ namespace Jedzia.BackBock.Application.Behaviors
     {
 
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to call EndEdit when the EditableObject lost its focus.
+        /// </summary>
+        /// <value>
+        ///  When <c>true</c> call the EditableObject IEditableObject.EndEdit() method when the control 
+        ///  looses its focus; otherwise, <c>false</c>.
+        /// </value>
         public bool FiresOnLostFocus
         {
             get { return (bool)GetValue(FiresOnLostFocusProperty); }
@@ -29,6 +36,12 @@ namespace Jedzia.BackBock.Application.Behaviors
             DependencyProperty.Register("FiresOnLostFocus", typeof(bool), typeof(EditOnFocusBehavior), new UIPropertyMetadata(false));
 
 
+        /// <summary>
+        /// Gets or sets the editable object.
+        /// </summary>
+        /// <value>
+        /// The editable object.
+        /// </value>
         public object EditableObject
         {
             get { return (object)GetValue(EditableObjectProperty); }
@@ -48,6 +61,11 @@ namespace Jedzia.BackBock.Application.Behaviors
             {
                 this.AssociatedObject.LostFocus -= new RoutedEventHandler(AssociatedObject_LostFocus);
                 this.AssociatedObject.KeyDown -= new KeyEventHandler(AssociatedObject_KeyDown);
+                if (EditableObject is ValidatingViewModelBase)
+                {
+                    var vm = (ValidatingViewModelBase)EditableObject;
+                    vm.PropertyChanged -= vm_PropertyChanged;
+                }
             }
         }
 
@@ -64,8 +82,9 @@ namespace Jedzia.BackBock.Application.Behaviors
                 {
                     if (EditableObject is ValidatingViewModelBase)
                     {
-                        var vm = (ValidatingViewModelBase)EditableObject;
-                        vm.PropertyChanged += new PropertyChangedEventHandler(vm_PropertyChanged);
+                        // Todo: Extra switch, maybe FireViewModelPropertyChanged
+                        //var vm = (ValidatingViewModelBase)EditableObject;
+                        //vm.PropertyChanged += new PropertyChangedEventHandler(vm_PropertyChanged);
                     }
                     else if (this.AssociatedObject is IInputElement)
                     {

@@ -157,7 +157,7 @@
             			<TextBlock Text="{Binding .}" Visibility="Collapsed"/>
             			<TextBox x:Name="tbDatasetNameX" Text="{Binding DatasetName, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
             			<TextBox x:Name="tbDatasetName" Text="{Binding TestInt, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
-            			<TextBlock Text="{Binding TestIntX}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0" Visibility="Collapsed"/>
+            			<TextBox Text="{Binding TestIntX, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, ValidatesOnExceptions=True}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
     <ContentPresenter 
       Content="{Binding (Validation.Errors).CurrentItem, ElementName=tbDatasetNameX}"
       HorizontalAlignment="Left" Visibility="Collapsed"

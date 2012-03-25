@@ -1,8 +1,8 @@
-using Jedzia.BackBock.Model.Data;
 using System.Windows.Data;
 using System.ComponentModel;
 using System;
 using System.ComponentModel.DataAnnotations;
+using Jedzia.BackBock.Model.Data;
 namespace Jedzia.BackBock.ViewModel.Data
 {
     public partial class BackupDataViewModel
@@ -29,7 +29,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 
             set
             {
-                bool isValid = ValidateProperty(TestIntPropertyName, value);
+                //bool isValid = ValidateProperty(TestIntPropertyName, value);
                 //bool isValid2 = ValidateProperty("DatasetName", DatasetName);
                 if (_myProperty == value)
                 {
@@ -40,6 +40,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 {
                     _myProperty = value;
                 }
+                bool isValid2 = ValidateProperty(TestIntPropertyName);
                 RaisePropertyChanged(TestIntPropertyName);
                 //RaisePropertyChanged("Error");
             }
@@ -56,6 +57,8 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// Sets and gets the TestIntX property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
+        //[System.ComponentModel.DataAnnotations.DataType("bka")]
+        [RegularExpression("1..", ErrorMessageResourceType = typeof(ValidationMessageResources), ErrorMessageResourceName = "WrongTestIntXFormat")]
         public int TestIntX
         {
             get
@@ -65,7 +68,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 
             set
             {
-                bool isValid = ValidateProperty(TestIntXPropertyName, value);
+                //bool isValid = ValidateProperty(TestIntXPropertyName, value);
                 if (testIntX == value)
                 {
                     return;
@@ -75,6 +78,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 {
                     testIntX = value;
                 }
+                bool isValid = ValidateProperty(TestIntXPropertyName);
                 RaisePropertyChanged(TestIntXPropertyName);
             }
         }
@@ -92,6 +96,7 @@ namespace Jedzia.BackBock.ViewModel.Data
             //Validate("OnPropertyChanged " + propertyName);
             if (propertyName != "Error")
             {
+                //ValidateProperty(propertyName);
                 OnValidateViewModel();
 
                 //this.EndEdit();
@@ -109,6 +114,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         protected override void ValidateViewModel()
         {
+            SetBusinessRuleError(DataObject.Error);
             /*int testInt = -1;
             if (!Int32.TryParse(this.TestInt, out testInt))
             {
@@ -119,6 +125,7 @@ namespace Jedzia.BackBock.ViewModel.Data
             {
                 SetBusinessRuleError("The combination of 55 as TestInt and DatasetName with 'Daily' is a deadly combination :P");
             }
+
             /*if (this.TestInt == "42")
             {
                 SetBusinessRuleError("The origin of the universe...");

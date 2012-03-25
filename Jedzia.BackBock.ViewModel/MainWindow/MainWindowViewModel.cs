@@ -551,7 +551,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         internal void SaveFile(string path)
         {
             // Todo: switch this to this.dataprovider.Save( ... );
-            ModelSaver.SaveBackupData(bdvm.data, path);
+            ModelSaver.SaveBackupData(bdvm.DataObject, path);
         }
 
         internal void RunAllTasks()

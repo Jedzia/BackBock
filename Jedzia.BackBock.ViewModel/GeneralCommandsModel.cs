@@ -255,6 +255,7 @@ namespace Jedzia.BackBock.ViewModel
         {
             // Todo: make a summary HasErrors property for mainwindowViewmodel.
             bool canExecute = !mainwindowViewmodel.Data.HasErrors;
+            //bool canExecute = true;
             args.CanExecute = canExecute;
         }
 
