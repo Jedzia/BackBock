@@ -70,7 +70,7 @@ namespace Jedzia.BackBock.ViewModel
 		#endregion
 	}
 
-    public class ValidatingViewModelBase : ViewModelBase, IDataErrorInfo
+    public class ValidatingViewModelBaseOld : ViewModelBase, IDataErrorInfo
     {
         private Dictionary<string, PropertyData> _propertyInfo = new Dictionary<string, PropertyData>();
         private Dictionary<string, object> _propertyValues = new Dictionary<string, object>();
@@ -111,6 +111,7 @@ namespace Jedzia.BackBock.ViewModel
             }
             // Store the error
             _fieldErrors[property] = error;
+            //var eee = new System.ComponentModel.DataAnnotations.RegularExpressionAttribute("sadfsdf");
         }
 
         /// <summary>

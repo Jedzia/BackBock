@@ -39,6 +39,9 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -156,6 +159,7 @@
     </Compile>
     <Compile Include="Commands\RelayCommandGeneric.cs" />
     <Compile Include="MainWindow\WorkAreaCommands.cs" />
+    <Compile Include="MVVM\EditableViewModelBase.cs" />
     <Compile Include="MVVM\Helpers\IExecuteWithObject.cs" />
     <Compile Include="MVVM\Helpers\WeakAction.cs" />
     <Compile Include="MVVM\Helpers\WeakActionGeneric.cs" />
@@ -172,7 +176,9 @@
     <Compile Include="MVVM\Messaging\PropertyChangedMessage.cs" />
     <Compile Include="MVVM\Messaging\PropertyChangedMessageBase.cs" />
     <Compile Include="MVVM\Threading\DispatcherHelper.cs" />
+    <Compile Include="MVVM\Validation\IValidatingViewModelBase.cs" />
     <Compile Include="MVVM\Validation\IViewValidator.cs" />
+    <Compile Include="MVVM\Validation\ValidatingViewModelBase.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="DialogServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -187,7 +193,7 @@
     <Compile Include="Util\Guard.cs" />
     <Compile Include="Util\TimeProvider.cs" />
     <Compile Include="Util\VisualHelper.cs" />
-    <Compile Include="ValidatingViewModelBase.cs" />
+    <Compile Include="MVVM\Validation\ValidatingViewModelBaseOld.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Wizard\TaskWizardFSM.cs" />
     <Compile Include="Wizard\IStateWizard.cs" />

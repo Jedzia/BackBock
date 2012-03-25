@@ -33,18 +33,18 @@ namespace Jedzia.BackBock.ViewModel.Tests
         [Test]
         public void MainIOServiceTest()
         {
-            IOService actual;
-            Assert.Throws<ApplicationException>(() =>
-                actual = ApplicationContext.MainIOService);
+            //Assert.Throws<ApplicationException>(() =>
+            //    actual = ApplicationContext.MainIOService);
 
             mocks.ReplayAll();
             
             // Todo mock the services.
             ApplicationContext target = new ApplicationContext(ioService, new DesignSettingsProvider(),
                 new DesignMainWindow(), new DesignTaskService(), new DesignViewProvider());
+            IOService actual = ioService;
 
-            actual = ApplicationContext.MainIOService;
-            Assert.AreSame(ioService, actual);
+            var expected = target.MainIOService;
+            Assert.AreSame(expected, actual);
             //ApplicationViewModel.MainIOService.OpenFileDialog("c:\\tmp");
             mocks.VerifyAll();
         }

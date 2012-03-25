@@ -29,7 +29,7 @@ namespace Jedzia.BackBock.ViewModel
         #region Fields
 
         private static object initialized;
-        private static IOService ioService;
+        private readonly IOService ioService;
         private readonly ISettingsProvider settings;
 
         public ISettingsProvider Settings
@@ -75,7 +75,7 @@ namespace Jedzia.BackBock.ViewModel
             Guard.NotNull(() => taskWizardProvider, taskWizardProvider);
 
             this.settings = settings;
-            ApplicationContext.ioService = ioService;
+            this.ioService = ioService;
             ApplicationContext.taskService = taskService;
             ApplicationContext.taskWizardProvider = taskWizardProvider;
 
@@ -111,7 +111,7 @@ namespace Jedzia.BackBock.ViewModel
 
         #region Properties
 
-        public static IOService MainIOService
+        public IOService MainIOService
         {
             get
             {
@@ -159,7 +159,7 @@ namespace Jedzia.BackBock.ViewModel
         {
             // used in unit tests
             initialized = null;
-            ioService = null;
+            //ioService = null;
 
             // dialogService = null;
         }

@@ -127,13 +127,13 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             base.Cleanup();
         }
         private IBackupDataService dataprovider;
-        public MainWindowViewModel(ApplicationContext applicationViewModel, IMainWindow mainWindow,
+        public MainWindowViewModel(ApplicationContext applicationContext, IMainWindow mainWindow,
             IBackupDataService dataprovider)
         {
             //MessageBox.Show("MainWindowViewModel create0");
-            this.applicationContext = applicationViewModel;
+            this.applicationContext = applicationContext;
             //MessageBox.Show("MainWindowViewModel create1");
-            this.mainWindow = applicationViewModel.MainWindow;
+            this.mainWindow = applicationContext.MainWindow;
             this.dataprovider = dataprovider;
             //MessageBox.Show("MainWindowViewModel create2");
             if (ViewModelBase.IsInDesignModeStatic)
@@ -146,10 +146,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             else
             {
                 // SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-                applicationViewModel.MainWindow.Initialized += this.mainWindow_Initialized;
+                applicationContext.MainWindow.Initialized += this.mainWindow_Initialized;
                 this.generalCommands = new GeneralCommandsModel(/*applicationViewModel,*/ 
                     this,
-                    applicationViewModel.MainWindow);
+                    applicationContext.MainWindow);
             }
             /*if (this.mainWindow.Designer == null)
             {
@@ -512,12 +512,40 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         //private Type classSpecificationWindowType;
 
+        internal void Open()
+        {
+            var path = applicationContext.MainIOService.OpenFileDialog(string.Empty);
+            if (!string.IsNullOrEmpty(path))
+            {
+                this.OpenFile(path);
+                //designerCanvas.DesignerCanvasFileProcessor.OpenExecuted(o, args);
+            }
+        }
+        
         internal void OpenFile(string path)
         {
             // Todo: switch this to this.dataprovider.Load( ... );
             this.Data2 = ModelLoader.LoadBackupData(path);
             Data = new BackupDataViewModel(this.Data2);
             //this.mainWindow.Designer.DataContext = bdvm;
+        }
+
+        internal void Cancel()
+        {
+            bdvm.CancelEdit();
+        }
+
+        internal void Save()
+        {
+            bdvm.EndEdit();
+            if (bdvm.HasErrors)
+                return;
+            var path = applicationContext.MainIOService.SaveFileDialog(string.Empty);
+
+            if (!string.IsNullOrEmpty(path))
+            {
+                this.SaveFile(path);
+            }
         }
 
         internal void SaveFile(string path)
@@ -554,5 +582,8 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
             }
         }
+
+
+
     }
 }

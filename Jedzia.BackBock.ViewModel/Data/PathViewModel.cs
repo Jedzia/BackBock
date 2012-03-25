@@ -97,8 +97,9 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         private void OpenFileClickedExecuted(object o)
         {
-            var path = ApplicationContext.MainIOService.OpenFileDialog(string.Empty);
-            this.Path = path;
+            // Todo: ioService
+            //var path = ApplicationContext.MainIOService.OpenFileDialog(string.Empty);
+            //this.Path = path;
         }
 
         private bool OpenFileClickedEnabled(object sender)

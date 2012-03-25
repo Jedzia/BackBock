@@ -1,4 +1,4 @@
-<Window
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -6,19 +6,14 @@
         xmlns:Main="clr-namespace:Jedzia.BackBock.ViewModel.MainWindow;assembly=Jedzia.BackBock.ViewModel" 
         xmlns:wtk="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
                      xmlns:wpg="clr-namespace:WPG;assembly=WPG"
-                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Jedzia.BackBock.Application.Window1"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:Jedzia_BackBock_Application_Behaviors="clr-namespace:Jedzia.BackBock.Application.Behaviors" 
+    mc:Ignorable="d" x:Class="Jedzia.BackBock.Application.Window1"
         WindowStartupLocation="CenterScreen"
                      Title="{Binding MainWindowTitle}"
         Height="900" Width="1200" 
                      Initialized="MainWindowBase_Initialized">
-<!--
-    DataContext="{Binding RelativeSource={RelativeSource Self},Path=MainWindowViewModel}"
-    Background="{DynamicResource ShadeBrush}"
--->
-    <Window.DataContext>
-        <Binding Path="Main"
-                 Source="{StaticResource Locator}" />
-    </Window.DataContext>
 
 
 
@@ -46,32 +41,43 @@
 
 
 <Style TargetType="{x:Type TextBox}">
+    <Setter Property="Validation.ErrorTemplate">
+        <Setter.Value>
+            <ControlTemplate>
+                <DockPanel LastChildFill="True" 
+                   ToolTip="{Binding AdornedElement.(Validation.Errors)[0].ErrorContent, ElementName=controlWithError}">
+                    <TextBlock DockPanel.Dock="Right" 
+                       Foreground="Red"
+                       FontSize="14pt" 
+                       Margin="-15,0,0,0" FontWeight="Bold"><Run Text="*"/></TextBlock>
+                    <Border BorderBrush="Red" BorderThickness="1">
+                    <AdornedElementPlaceholder x:Name="controlWithError" />
+                    </Border>
+                </DockPanel>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
     <Style.Triggers>
         <Trigger Property="Validation.HasError" Value="true">
             <Setter Property="Background" Value="Pink"/>
             <Setter Property="Foreground" Value="Black"/>
         </Trigger>
     </Style.Triggers>
-    <Setter Property="Validation.ErrorTemplate">
-        <Setter.Value>
-            <ControlTemplate>
-                <DockPanel LastChildFill="True" 
-                   ToolTip="{Binding ElementName=controlWithError,Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
-                    <TextBlock DockPanel.Dock="Right" 
-                       Foreground="Red"
-                       FontSize="14pt" 
-                       Margin="-15,0,0,0" FontWeight="Bold">*
-                    </TextBlock>
-                    <Border BorderBrush="Red" BorderThickness="1">
-                    <AdornedElementPlaceholder Name="controlWithError" />
-                    </Border>
-                </DockPanel>
-            </ControlTemplate>
-        </Setter.Value>
-    </Setter>
 </Style>
 
     </Window.Resources>
+
+
+<!--
+    DataContext="{Binding RelativeSource={RelativeSource Self},Path=MainWindowViewModel}"
+    Background="{DynamicResource ShadeBrush}"
+-->
+    
+    <Window.DataContext>
+        <Binding Path="Main"
+                 Source="{StaticResource Locator}" />
+    </Window.DataContext>
+
 
 
     <Grid Margin="10" >
@@ -84,17 +90,19 @@
         <ContentControl Content="{StaticResource MyToolbar}" />
 
         <Grid x:Name="mGrid" Grid.Row="1" Margin="0,10,0,0">
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="225"/>
-                <ColumnDefinition />
+            	<ColumnDefinition Width="225"/>
+            	<ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <!-- Toolbox -->
+<!-- Designer -->
+<!--<GroupBox Header="Diagram" Grid.Column="1" Margin="3,0,0,0" >--><!-- Toolbox -->
             <StackPanel Grid.Column="0" Margin="0,0,5,0">
+<!--<wpg:PropertyGrid x:Name="wpg" Instance="{Binding .}" />-->
                 <Button Content="TEST Me" Click="Button_Click"/>
                 <Expander Header="Flow Chart" Content="FlowChartStencils" IsExpanded="True"/>
                 <Expander Header="Shapes" Content="ShapeStencils" IsExpanded="True"/>
 				<Expander Header="Groups"  IsExpanded="True"><ListBox ItemsSource="{Binding Groups, Mode=OneWay}"/></Expander>
-                <!--<wpg:PropertyGrid x:Name="wpg" Instance="{Binding .}" />-->
             </StackPanel>
             <!-- GridSplitter -->
             <GridSplitter Focusable="False" Width="2" Background="LightGray"
@@ -134,12 +142,15 @@
             	<StackPanel DockPanel.Dock="Top" Grid.Row="0" Grid.RowSpan="3" Orientation="Vertical">
             		<Button Command="{Binding TestCommand}" Content="Test"/>
             		<StackPanel DataContext="{Binding Data}">
+            			<i:Interaction.Behaviors>
+            				<Jedzia_BackBock_Application_Behaviors:EditOnFocusBehavior EditableObject="{Binding Mode=OneWay}"/>
+            			</i:Interaction.Behaviors>
             			<TextBlock Text="{Binding .}" Visibility="Collapsed"/>
-            			<TextBox x:Name="tbDatasetNameX" Text="{Binding DatasetName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
-            			<TextBox x:Name="tbDatasetName" Text="{Binding TestInt, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
+            			<TextBox x:Name="tbDatasetNameX" Text="{Binding DatasetName, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
+            			<TextBox x:Name="tbDatasetName" Text="{Binding TestInt, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
             			<TextBlock Text="{Binding TestIntX}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
     <ContentPresenter 
-      Content="{Binding ElementName=tbDatasetNameX, Path=(Validation.Errors).CurrentItem}"
+      Content="{Binding (Validation.Errors).CurrentItem, ElementName=tbDatasetNameX}"
       HorizontalAlignment="Left"
       >
       <ContentPresenter.ContentTemplate>
@@ -147,14 +158,14 @@
           <TextBlock
             Foreground="Red"
             FontStyle="Italic"
-            Text="{Binding Path=ErrorContent}"
+            Text="{Binding ErrorContent}"
             />
         </DataTemplate>
       </ContentPresenter.ContentTemplate>
     </ContentPresenter>
 
     <ContentPresenter 
-      Content="{Binding ElementName=tbDatasetName, Path=(Validation.Errors).CurrentItem}"
+      Content="{Binding (Validation.Errors).CurrentItem, ElementName=tbDatasetName}"
       HorizontalAlignment="Left"
       >
       <ContentPresenter.ContentTemplate>
@@ -162,17 +173,18 @@
           <TextBlock
             Foreground="Red"
             FontStyle="Italic"
-            Text="{Binding Path=ErrorContent}"
+            Text="{Binding ErrorContent}"
             />
         </DataTemplate>
       </ContentPresenter.ContentTemplate>
     </ContentPresenter>
             			
-    <TextBox Text="{Binding Path=Error, Mode=OneWay}" HorizontalAlignment="Left" />
+    <TextBox Text="{Binding Error, Mode=OneWay}" HorizontalAlignment="Left" Background="#FFEB7474" />
     <!--<ValidationSummary />-->
             			
             			<TextBlock Text="{Binding BackupItems}" Visibility="Collapsed"/>
             			<TextBlock Text="{Binding MyProperty}" Visibility="Collapsed"/>
+            			<Button x:Name="button" Content="Cancel" Command="{Binding Main.MainApplicationCommands.CancelCommand, Mode=OneWay}" DataContext="{Binding Source={StaticResource Locator}}"/>
             		</StackPanel>
             	</StackPanel>
         <!--Background="{StaticResource WindowBackgroundBrush}"-->
@@ -180,15 +192,15 @@
                                   
             		ContextMenu="{StaticResource DesignerCanvasContextMenu}" SelectedItem="{Binding SelectedItem, ElementName=dataGrid}">
 
-            		<!--<local:MyCanvas.Background>
+<!--<local:MyCanvas.Background>
                             <DrawingBrush TileMode="Tile" Stretch="Fill" Viewport="0 0 50 50" ViewportUnits="Absolute" ViewboxUnits="Absolute" >
                                 <DrawingBrush.Drawing>
                                     <GeometryDrawing Geometry="M0,0 L0,1 0.03,1 0.03,0.03 1,0.03 1,0 Z" Brush="Gray" />
                                 </DrawingBrush.Drawing>
                             </DrawingBrush>
                         </local:MyCanvas.Background>-->
-            		<!--<ListView Grid.Row="1" ItemsSource="{Binding BackupItems}"  View="{DynamicResource BackupDataViewBase1}"/>-->
-            		<!--<ListView Grid.Row="1" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
+<!--<ListView Grid.Row="1" ItemsSource="{Binding BackupItems}"  View="{DynamicResource BackupDataViewBase1}"/>-->
+<!--<ListView Grid.Row="1" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Source}" />
@@ -202,13 +214,12 @@
                                 </GridViewColumn>
                             </GridView>
                         </ListView.View>
-                    </ListView>-->
-        <!--<wtk:DataGrid Grid.Row="2" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
+                    </ListView>--><!--<wtk:DataGrid Grid.Row="2" ItemsSource="{x:Static Fonts.SystemFontFamilies}">
                     </wtk:DataGrid>-->
             		<wtk:DataGrid x:Name="dataGrid" DockPanel.Dock="Bottom" ItemsSource="{Binding BackupItemsView}"  AutoGenerateColumns="False"
             			VerticalScrollBarVisibility="Auto" SelectionMode="Single"  >
             			<wtk:DataGrid.GroupStyle>
-            				 <GroupStyle ContainerStyle="{StaticResource MainDataGroupStyle}" HeaderTemplate="{StaticResource MainDataHeaderTemplate1}"/>
+            				<GroupStyle ContainerStyle="{StaticResource MainDataGroupStyle}" HeaderTemplate="{StaticResource MainDataHeaderTemplate1}"/>
             			</wtk:DataGrid.GroupStyle>
             			<!--RowDetailsTemplate="{DynamicResource MainDetailsTemplateX}"-->
             			<wtk:DataGrid.Columns>
@@ -225,8 +236,6 @@
 
             	</local:MyCanvas>
             </DockPanel>
-            <!-- Designer -->
-            <!--<GroupBox Header="Diagram" Grid.Column="1" Margin="3,0,0,0" >-->
         </Grid>
     </Grid>
 </Window>

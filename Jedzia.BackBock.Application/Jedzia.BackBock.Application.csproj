@@ -322,12 +322,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\ValidationHelperBehavior.cs" />
     <Compile Include="CustomMessageBox.xaml.cs">
       <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomMsgBox.xaml.cs">
       <DependentUpon>CustomMsgBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\EditOnFocusBehavior.cs" />
     <Compile Include="Editors\TaskEditorWindow.xaml.cs">
       <DependentUpon>TaskEditorWindow.xaml</DependentUpon>
     </Compile>

@@ -21,6 +21,7 @@ using Jedzia.BackBock.SharedTypes;
 using Jedzia.BackBock.Model.Data;
 using Jedzia.BackBock.ViewModel.MainWindow;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace Jedzia.BackBock.ViewModel.Data
@@ -29,7 +30,7 @@ namespace Jedzia.BackBock.ViewModel.Data
     /// <summary>
     /// The summary of BackupDataViewModel. BaseType: 
     /// </summary>
-    public partial class BackupDataViewModel : ValidatingViewModelBase
+    public partial class BackupDataViewModel : Jedzia.BackBock.ViewModel.MVVM.Validation.ValidatingViewModelBase
     {
         internal BackupData data;
 
@@ -79,6 +80,7 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// Gets or sets the DatasetName. HasFacets: False AttrQName: 
         /// </summary> // Attribute
         /// <value>The DatasetName.</value>
+        [StringLength(10)]
         public System.String DatasetName
         {
             get
@@ -88,6 +90,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 
             set
             {
+                bool isValid = ValidateProperty("DatasetName", value);
                 if (this.data.DatasetName == value)
                 {
                     return;

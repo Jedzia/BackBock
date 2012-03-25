@@ -40,21 +40,21 @@ namespace Jedzia.BackBock.ViewModel
                 return commands;
             }
         }*/
-       /* /// <summary>
-        /// Gets or sets 
-        /// </summary>
-        public IMainWindow MainWindow
-        {
-            get
-            {
-                return this.mainWindow;
-            }
+        /* /// <summary>
+         /// Gets or sets 
+         /// </summary>
+         public IMainWindow MainWindow
+         {
+             get
+             {
+                 return this.mainWindow;
+             }
 
-            //internal set
-            //{
-            //    this.mainWindow = value;
-            //}
-        }*/
+             //internal set
+             //{
+             //    this.mainWindow = value;
+             //}
+         }*/
         //private ApplicationViewModel applicationViewModel;
         //private IMainWorkArea workArea;
         MainWindowViewModel mainwindowViewmodel;
@@ -90,7 +90,7 @@ namespace Jedzia.BackBock.ViewModel
             //this.designerCanvas.CommandBindings.Add(new CommandBinding(ApplicationCommands.New, New_Executed));
             workArea.AddCommandBinding(ApplicationCommands.New, this.NewExecuted);
             workArea.AddCommandBinding(ApplicationCommands.Open, this.OpenExecuted);
-            workArea.AddCommandBinding(ApplicationCommands.Save, this.SaveExecuted);
+            workArea.AddCommandBinding(ApplicationCommands.Save, this.SaveExecuted, this.SaveEnabled);
             workArea.AddCommandBinding(ApplicationCommands.Print, this.PrintExecuted);
 
             // this.designerCanvas.CommandBindings.Add(new CommandBinding(this.PasteCommand, this.Paste_Executed, Paste_Enabled));
@@ -103,6 +103,7 @@ namespace Jedzia.BackBock.ViewModel
             //SelectAllCommand.InputGestures.Add(new KeyGesture(Key.A, ModifierKeys.Control));
             //System.Windows.Input.KeyBinding f = new KeyBinding(
             //mainWindow.InputBindings.Add(new KeyBinding(this.SelectAllCommand, new KeyGesture(Key.A, ModifierKeys.Control)));
+            mainWindow.InputBindings.Add(new KeyBinding(this.CancelCommand, new KeyGesture(Key.Escape)));
 
             // Apply KeyGestures from Attributes.
             CommandKeyGestureAttribute.ApplyKeyGestures(GetType(), mainWindow, this);
@@ -154,6 +155,37 @@ namespace Jedzia.BackBock.ViewModel
             bool canExecute = designerCanvas.SelectionService.CurrentSelection.Count() > 0;
             return canExecute;
         }*/
+
+        #region Cancel Command
+
+        private RelayCommand cancelCommand;
+
+        public ICommand CancelCommand
+        {
+            get
+            {
+                if (this.cancelCommand == null)
+                {
+                    this.cancelCommand = new RelayCommand(this.CancelExecuted, this.CancelEnabled);
+                }
+
+                return this.cancelCommand;
+            }
+        }
+
+
+        private void CancelExecuted(object o)
+        {
+
+            mainwindowViewmodel.Cancel();
+        }
+
+        private bool CancelEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+        #endregion
 
 
         /*private RelayCommand newCommand;
@@ -211,21 +243,19 @@ namespace Jedzia.BackBock.ViewModel
 
         private void OpenExecuted(object o, ExecutedRoutedEventArgs args)
         {
-            var path = ApplicationContext.MainIOService.OpenFileDialog(string.Empty);
-            if (!string.IsNullOrEmpty(path))
-            {
-                mainwindowViewmodel.OpenFile(path);
-                //designerCanvas.DesignerCanvasFileProcessor.OpenExecuted(o, args);
-            }
+            mainwindowViewmodel.Open();
         }
 
         private void SaveExecuted(object o, ExecutedRoutedEventArgs args)
         {
-            var path = ApplicationContext.MainIOService.SaveFileDialog(string.Empty);
-            if (!string.IsNullOrEmpty(path))
-            {
-                mainwindowViewmodel.SaveFile(path);
-            }
+            mainwindowViewmodel.Save();
+        }
+
+        private void SaveEnabled(object sender, CanExecuteRoutedEventArgs args)
+        {
+            // Todo: make a summary HasErrors property for mainwindowViewmodel.
+            bool canExecute = !mainwindowViewmodel.Data.HasErrors;
+            args.CanExecute = canExecute;
         }
 
         #region Print Command
