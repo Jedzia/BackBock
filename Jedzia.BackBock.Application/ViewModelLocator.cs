@@ -20,6 +20,7 @@ namespace Jedzia.BackBock.Application
     using Castle.Windsor;
     using Castle.Windsor.Installer;
     using Jedzia.BackBock.Tasks;
+    using Jedzia.BackBock.DataAccess;
 
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -81,7 +82,7 @@ namespace Jedzia.BackBock.Application
         {
             if (_main == null)
             {
-                var bla = container.ResolveAll<Jedzia.BackBock.ViewModel.Data.BackupDataRepository>();
+                var bla = container.ResolveAll<BackupDataRepository>();
                 _main = container.Resolve<MainWindowViewModel>();
             }
         }

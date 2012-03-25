@@ -45,6 +45,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{9654AC35-C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.Data.Xml", "Jedzia.BackBock.Data.Xml\Jedzia.BackBock.Data.Xml.csproj", "{771430A6-1DF4-4B43-AF0A-01556A4E823A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jedzia.BackBock.DataAccess", "Jedzia.BackBock.DataAccess\Jedzia.BackBock.DataAccess.csproj", "{3EDE0D14-2134-473D-AEB2-FEA2D29F0803}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,6 +138,12 @@ Global
 		{771430A6-1DF4-4B43-AF0A-01556A4E823A}.Part1|Any CPU.Build.0 = Release|Any CPU
 		{771430A6-1DF4-4B43-AF0A-01556A4E823A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{771430A6-1DF4-4B43-AF0A-01556A4E823A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EDE0D14-2134-473D-AEB2-FEA2D29F0803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EDE0D14-2134-473D-AEB2-FEA2D29F0803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EDE0D14-2134-473D-AEB2-FEA2D29F0803}.Part1|Any CPU.ActiveCfg = Release|Any CPU
+		{3EDE0D14-2134-473D-AEB2-FEA2D29F0803}.Part1|Any CPU.Build.0 = Release|Any CPU
+		{3EDE0D14-2134-473D-AEB2-FEA2D29F0803}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EDE0D14-2134-473D-AEB2-FEA2D29F0803}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,5 +154,6 @@ Global
 		{E26BC89B-3B66-4E96-8FE2-655BD10CFB1B} = {FCA79B06-D7E1-48B2-9C0E-84D07B3FC51B}
 		{022EDA6A-0B76-44C3-A530-8312C1B40030} = {FCA79B06-D7E1-48B2-9C0E-84D07B3FC51B}
 		{771430A6-1DF4-4B43-AF0A-01556A4E823A} = {9654AC35-CE41-49C1-BA31-D7254085F003}
+		{3EDE0D14-2134-473D-AEB2-FEA2D29F0803} = {9654AC35-CE41-49C1-BA31-D7254085F003}
 	EndGlobalSection
 EndGlobal

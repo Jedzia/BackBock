@@ -22,6 +22,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     using Microsoft.Build.Framework;
     using Jedzia.BackBock.ViewModel.MVVM.Threading;
+    using Jedzia.BackBock.DataAccess;
 
     public sealed class MainWindowViewModel : ViewModelBase
     {
@@ -126,6 +127,18 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //this.generalCommands = null;
             base.Cleanup();
         }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public IEnumerable<string> Repositories
+        {
+            get
+            {
+                return this.dataprovider.LoadedServices;
+            }
+        }
+
         private IBackupDataService dataprovider;
         public MainWindowViewModel(ApplicationContext applicationContext, IMainWindow mainWindow,
             IBackupDataService dataprovider)

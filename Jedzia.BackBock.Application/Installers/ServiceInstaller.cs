@@ -11,6 +11,9 @@ using Jedzia.BackBock.ViewModel.Data;
 using Jedzia.BackBock.Application.Editors.TaskWizard;
 using Jedzia.BackBock.Application.Properties;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
+using Castle.Windsor.Installer;
+using Jedzia.BackBock.DataAccess;
+using Jedzia.BackBock.ViewModel.MainWindow;
 
 namespace Jedzia.BackBock.Application.Installers
 {
@@ -36,9 +39,17 @@ namespace Jedzia.BackBock.Application.Installers
                 // Register collection resolver, needed by the BackupDataService dependencies.
                 container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel, false));
                 //container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>());
-                container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.TestBackupDataRepository>());
-                container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.Data.Xml.XmlDataRepository>());
-                container.Register(Component.For<IBackupDataService>().ImplementedBy<Jedzia.BackBock.ViewModel.Data.BackupDataService>());
+
+                container.Register(AllTypes.FromAssemblyContaining<IBackupDataService>()
+                    .BasedOn(typeof(BackupDataRepository)).WithServiceBase());
+                container.Register(AllTypes.FromAssemblyContaining<MainWindowViewModel>()
+                    .BasedOn(typeof(BackupDataRepository)).WithServiceBase());
+                container.Register(AllTypes.FromAssemblyNamed("Jedzia.BackBock.Data.Xml")
+                    .BasedOn(typeof(BackupDataRepository)).WithServiceBase());
+
+                //container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.TestBackupDataRepository>());
+                //container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.Data.Xml.XmlDataRepository>());
+                container.Register(Component.For<IBackupDataService>().ImplementedBy<BackupDataService>());
 
                 container.Register(Component.For<Settings>().Instance(Settings.Default));
                 container.Register(Component.For<ISettingsProvider>().ImplementedBy<SettingsProvider>());

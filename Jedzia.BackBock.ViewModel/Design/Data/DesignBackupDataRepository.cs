@@ -17,6 +17,7 @@ namespace Jedzia.BackBock.ViewModel.Design.Data
     using Jedzia.BackBock.ViewModel.Data;
     using Jedzia.BackBock.Model;
     using System;
+    using Jedzia.BackBock.DataAccess;
 
     internal class DesignDataProvider
     {

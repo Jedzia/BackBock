@@ -1,4 +1,4 @@
-namespace Jedzia.BackBock.ViewModel.Data
+namespace Jedzia.BackBock.DataAccess
 {
     using System;
     using System.Linq;
@@ -6,6 +6,7 @@ namespace Jedzia.BackBock.ViewModel.Data
     using System.Security.Principal;
     using Jedzia.BackBock.Model.Data;
     using System.Collections.Specialized;
+    using Jedzia.BackBock.DataAccess;
 
     public class BackupDataService : IBackupDataService
     {
@@ -66,6 +67,19 @@ namespace Jedzia.BackBock.ViewModel.Data
             //var repo = repositories.OfType<BackupDataFsRepository>().First();
             //return repo.LoadBackupData(...);
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> LoadedServices
+        {
+            get 
+            {
+                return repositories.Select(item => item.RepositoryType.ToString() + ": " + item.GetType().FullName);
+
+                /*foreach (var item in repositories)
+                {
+                    yield return item.RepositoryType.ToString() + item.GetType().FullName;
+                }*/
+            }
         }
 
         #endregion

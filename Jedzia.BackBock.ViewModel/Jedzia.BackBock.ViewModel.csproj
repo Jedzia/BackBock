@@ -105,15 +105,12 @@
     <Compile Include="Data\BackupDataModel.Task.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\BackupDataRepository.cs" />
-    <Compile Include="Data\BackupDataService.cs" />
     <Compile Include="Data\BackupDataViewModel.cs" />
     <Compile Include="Data\BackupItemViewModel.cs" />
     <Compile Include="Data\ClassMemberViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\ExclusionViewModel.cs" />
-    <Compile Include="Data\IBackupDataService.cs" />
     <Compile Include="Data\InclusionViewModel.cs" />
     <Compile Include="Data\PathViewModel.cs" />
     <Compile Include="Data\TaskViewModel.cs" />
@@ -205,6 +202,10 @@
     <Compile Include="Wizard\TaskWizardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Jedzia.BackBock.DataAccess\Jedzia.BackBock.DataAccess.csproj">
+      <Project>{3EDE0D14-2134-473D-AEB2-FEA2D29F0803}</Project>
+      <Name>Jedzia.BackBock.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jedzia.BackBock.Model\Jedzia.BackBock.Model.csproj">
       <Project>{277724C1-B97E-493D-8B08-699110A78052}</Project>
       <Name>Jedzia.BackBock.Model</Name>

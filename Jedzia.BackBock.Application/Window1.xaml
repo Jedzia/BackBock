@@ -112,6 +112,7 @@
                 <Expander Header="Flow Chart" Content="FlowChartStencils" IsExpanded="True"/>
                 <Expander Header="Shapes" Content="ShapeStencils" IsExpanded="True"/>
 				<Expander Header="Groups"  IsExpanded="True"><ListBox ItemsSource="{Binding Groups, Mode=OneWay}"/></Expander>
+				<Expander Header="Repositories"  IsExpanded="True"><ListBox ItemsSource="{Binding Repositories, Mode=OneWay}"/></Expander>
             </StackPanel>
             <!-- GridSplitter -->
             <GridSplitter Focusable="False" Width="2" Background="LightGray"
