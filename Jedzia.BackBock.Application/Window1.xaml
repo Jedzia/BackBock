@@ -8,7 +8,7 @@
                      xmlns:wpg="clr-namespace:WPG;assembly=WPG"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:Jedzia_BackBock_Application_Behaviors="clr-namespace:Jedzia.BackBock.Application.Behaviors" 
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:Jedzia_BackBock_Application_Behaviors="clr-namespace:Jedzia.BackBock.Application.Behaviors" xmlns:ic="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions" 
     mc:Ignorable="d" x:Class="Jedzia.BackBock.Application.Window1"
         WindowStartupLocation="CenterScreen"
                      Title="{Binding MainWindowTitle}"
@@ -19,10 +19,9 @@
 
     <Window.Resources>
 
-            <!--<Setter Property="VerticalAlignment" Value="Center" />-->
-            <!--<Setter Property="Margin" Value="0,2,40,2" />-->
-            <!--<Setter Property="lib:ValidationSummaryValidator.AdornerSite" Value="{Binding ElementName=validationSummary}" />-->
-<!--        <Style TargetType="{x:Type TextBox}">
+<!--<Setter Property="VerticalAlignment" Value="Center" />-->
+<!--<Setter Property="Margin" Value="0,2,40,2" />-->
+<!--<Setter Property="lib:ValidationSummaryValidator.AdornerSite" Value="{Binding ElementName=validationSummary}" />--><!--        <Style TargetType="{x:Type TextBox}">
             <Setter Property="Validation.ErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
@@ -40,30 +39,40 @@
         </Style>-->
 
 
-<Style TargetType="{x:Type TextBox}">
-    <Setter Property="Validation.ErrorTemplate">
-        <Setter.Value>
-            <ControlTemplate>
-                <DockPanel LastChildFill="True" 
-                   ToolTip="{Binding AdornedElement.(Validation.Errors)[0].ErrorContent, ElementName=controlWithError}">
-                    <TextBlock DockPanel.Dock="Right" 
-                       Foreground="Red"
-                       FontSize="14pt" 
-                       Margin="-15,0,0,0" FontWeight="Bold"><Run Text="*"/></TextBlock>
-                    <Border BorderBrush="Red" BorderThickness="1">
-                    <AdornedElementPlaceholder x:Name="controlWithError" />
-                    </Border>
-                </DockPanel>
-            </ControlTemplate>
-        </Setter.Value>
-    </Setter>
-    <Style.Triggers>
-        <Trigger Property="Validation.HasError" Value="true">
-            <Setter Property="Background" Value="Pink"/>
-            <Setter Property="Foreground" Value="Black"/>
-        </Trigger>
-    </Style.Triggers>
-</Style>
+    	<Style TargetType="{x:Type TextBox}">
+    		<Setter Property="Validation.ErrorTemplate">
+    			<Setter.Value>
+    				<ControlTemplate>
+    					<DockPanel LastChildFill="True" 
+    						ToolTip="{Binding AdornedElement.(Validation.Errors)[0].ErrorContent, ElementName=controlWithError}">
+    						<TextBlock DockPanel.Dock="Right" 
+    							Foreground="Red"
+    							FontSize="14pt" 
+    							Margin="-15,0,0,0" FontWeight="Bold"><Run Text="*"/></TextBlock>
+    						<Border BorderBrush="Red" BorderThickness="1">
+    							<AdornedElementPlaceholder x:Name="controlWithError" />
+    						</Border>
+    					</DockPanel>
+    				</ControlTemplate>
+    			</Setter.Value>
+    		</Setter>
+    		<Style.Triggers>
+    			<Trigger Property="Validation.HasError" Value="true">
+    				<Setter Property="Background" Value="Pink"/>
+    				<Setter Property="Foreground" Value="Black"/>
+    			</Trigger>
+    		</Style.Triggers>
+    	</Style>
+    	<Style x:Key="ErrorTextBlockStyle" TargetType="{x:Type TextBlock}">
+    		<Style.Triggers>
+    			<Trigger Property="Text" Value="">
+    				<Setter Property="Visibility" Value="Collapsed"/>			
+				</Trigger>
+    		</Style.Triggers>
+    		<Setter Property="TextWrapping" Value="NoWrap"/>
+    		<Setter Property="TextTrimming" Value="None"/>
+    	</Style>
+    	<Style x:Key="TextBlockStyle1" TargetType="{x:Type TextBlock}"/>
 
     </Window.Resources>
 
@@ -82,8 +91,8 @@
 
     <Grid Margin="10" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+        	<RowDefinition Height="Auto"/>
+        	<RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--<ContentControl Content="{StaticResource MyToolbar}" DataContext="{Binding Path=., RelativeSource={RelativeSource Self}}"/>-->
@@ -98,8 +107,8 @@
 <!-- Designer -->
 <!--<GroupBox Header="Diagram" Grid.Column="1" Margin="3,0,0,0" >--><!-- Toolbox -->
             <StackPanel Grid.Column="0" Margin="0,0,5,0">
-<!--<wpg:PropertyGrid x:Name="wpg" Instance="{Binding .}" />-->
                 <Button Content="TEST Me" Click="Button_Click"/>
+<!--<wpg:PropertyGrid x:Name="wpg" Instance="{Binding .}" />-->
                 <Expander Header="Flow Chart" Content="FlowChartStencils" IsExpanded="True"/>
                 <Expander Header="Shapes" Content="ShapeStencils" IsExpanded="True"/>
 				<Expander Header="Groups"  IsExpanded="True"><ListBox ItemsSource="{Binding Groups, Mode=OneWay}"/></Expander>
@@ -148,10 +157,10 @@
             			<TextBlock Text="{Binding .}" Visibility="Collapsed"/>
             			<TextBox x:Name="tbDatasetNameX" Text="{Binding DatasetName, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
             			<TextBox x:Name="tbDatasetName" Text="{Binding TestInt, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
-            			<TextBlock Text="{Binding TestIntX}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0"/>
+            			<TextBlock Text="{Binding TestIntX}" FontWeight="Bold" FontSize="21.333" Margin="40,0,0,0" Visibility="Collapsed"/>
     <ContentPresenter 
       Content="{Binding (Validation.Errors).CurrentItem, ElementName=tbDatasetNameX}"
-      HorizontalAlignment="Left"
+      HorizontalAlignment="Left" Visibility="Collapsed"
       >
       <ContentPresenter.ContentTemplate>
         <DataTemplate>
@@ -166,7 +175,7 @@
 
     <ContentPresenter 
       Content="{Binding (Validation.Errors).CurrentItem, ElementName=tbDatasetName}"
-      HorizontalAlignment="Left"
+      HorizontalAlignment="Left" Visibility="Collapsed"
       >
       <ContentPresenter.ContentTemplate>
         <DataTemplate>
@@ -179,7 +188,7 @@
       </ContentPresenter.ContentTemplate>
     </ContentPresenter>
             			
-    <TextBox Text="{Binding Error, Mode=OneWay}" HorizontalAlignment="Left" Background="#FFEB7474" />
+            			<TextBlock x:Name="errorText" Text="{Binding Error, Mode=OneWay}" HorizontalAlignment="Left" Style="{DynamicResource ErrorTextBlockStyle}" Background="#FFF78C8C" FontSize="16" />
     <!--<ValidationSummary />-->
             			
             			<TextBlock Text="{Binding BackupItems}" Visibility="Collapsed"/>

@@ -162,6 +162,11 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Validation
         {
             get
             {
+                if (IsInDesignMode)
+                {
+                    return "Sample Error String";
+                }
+
                 // Declare variables
                 string error = null;
 
@@ -226,7 +231,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Validation
             OnValidateViewModel();
         }
 
-        private void OnValidateViewModel()
+        protected void OnValidateViewModel()
         {
             _businessErrors.Clear();
             ValidateViewModel();

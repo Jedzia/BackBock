@@ -90,13 +90,13 @@ namespace Jedzia.BackBock.ViewModel.Data
 
             set
             {
-                bool isValid = ValidateProperty("DatasetName", value);
                 if (this.data.DatasetName == value)
                 {
                     return;
                 }
 
                 this.data.DatasetName = value;
+                bool isValid = ValidateProperty("DatasetName", value);
                 RaisePropertyChanged("DatasetName");
             }
         }

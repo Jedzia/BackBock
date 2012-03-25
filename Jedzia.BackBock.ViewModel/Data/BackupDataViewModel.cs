@@ -30,6 +30,7 @@ namespace Jedzia.BackBock.ViewModel.Data
             set
             {
                 bool isValid = ValidateProperty(TestIntPropertyName, value);
+                //bool isValid2 = ValidateProperty("DatasetName", DatasetName);
                 if (_myProperty == value)
                 {
                     return;
@@ -91,6 +92,8 @@ namespace Jedzia.BackBock.ViewModel.Data
             //Validate("OnPropertyChanged " + propertyName);
             if (propertyName != "Error")
             {
+                OnValidateViewModel();
+
                 //this.EndEdit();
             }
         }
