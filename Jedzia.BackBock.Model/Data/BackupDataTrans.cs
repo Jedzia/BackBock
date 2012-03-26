@@ -8,6 +8,7 @@ namespace Jedzia.BackBock.Model.Data
 {
     public partial class BackupData : IDataErrorInfo 
     {
+        // Here goes bussiness code
         #region IDataErrorInfo Members
 
         public string Error

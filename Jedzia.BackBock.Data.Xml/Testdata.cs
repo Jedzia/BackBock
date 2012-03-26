@@ -20,7 +20,7 @@ namespace Jedzia.BackBock.Data.Xml
                 using (
                     Stream stream =
                         typeof(DesignDataProvider).Assembly.GetManifestResourceStream(
-                            "Jedzia.BackBock.Data.Xml.XmlData.BackupData01.xml"))
+                            "Jedzia.BackBock.Data.Xml.SampleData.BackupData01.xml"))
                 {
                     TextReader txr = new StreamReader(stream);
                     str = txr.ReadToEnd();
@@ -42,7 +42,7 @@ namespace Jedzia.BackBock.Data.Xml
         {
             var data = d.GenerateSampleData();
             var lst = data.BackupItem.ToList();
-            lst.Insert(0, new BackupItemType() { ItemName = "This from Xml Test Data" });
+            lst.Insert(0, new BackupItemType() { ItemName = "This is from Xml Test Data" });
             data.BackupItem = lst.ToArray();
             return data.ToHostType();
         }

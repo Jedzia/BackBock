@@ -69,9 +69,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\BackupData01.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Jedzia.BackBock.SharedTypes\Jedzia.BackBock.SharedTypes.csproj">
       <Project>{5033C48F-59BF-4E59-B76B-C61F2BC02F19}</Project>
       <Name>Jedzia.BackBock.SharedTypes</Name>

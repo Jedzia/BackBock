@@ -8,25 +8,28 @@ using System.Xml;
 
 namespace Jedzia.BackBock.Model
 {
+    [Obsolete("Data Access happens in Jedzia.BackBock.DataAccess, etc.")]
     public static class ModelLoader
     {
         public static BackupData LoadBackupData(string path)
         {
-            var classData = BackupData.LoadFromFile(path);
-            return classData;
+            //var classData = BackupData.LoadFromFile(path);
+            return null;
         }
     }
+    
+    [Obsolete("Data Access happens in Jedzia.BackBock.DataAccess, etc.")]
     public static class ModelSaver
     {
         public static void SaveBackupData(BackupData data, string path)
         {
             try
             {
-                var xml = data.Serialize();
+                /*var xml = data.Serialize();
                 var doc = new XmlDocument();
                 doc.LoadXml(xml);
                 doc.Normalize();
-                doc.Save(path);
+                doc.Save(path);*/
 
             }
             catch (Exception ex)

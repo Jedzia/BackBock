@@ -239,9 +239,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Jedzia.BackBock.Model\Data\BackupData01.xml">
-      <Link>Design\Data\BackupData01.xml</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="Data\ValidationMessageResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ValidationMessageResources.Designer.cs</LastGenOutput>
