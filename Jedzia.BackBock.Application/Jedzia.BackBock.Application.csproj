@@ -414,10 +414,6 @@
       <Project>{DE78B73C-1FF3-4CAB-B961-1B6C1CEDE757}</Project>
       <Name>Jedzia.BackBock.CustomControls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Jedzia.BackBock.Data.Xml\Jedzia.BackBock.Data.Xml.csproj">
-      <Project>{771430A6-1DF4-4B43-AF0A-01556A4E823A}</Project>
-      <Name>Jedzia.BackBock.Data.Xml</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Jedzia.BackBock.DataAccess\Jedzia.BackBock.DataAccess.csproj">
       <Project>{3EDE0D14-2134-473D-AEB2-FEA2D29F0803}</Project>
       <Name>Jedzia.BackBock.DataAccess</Name>

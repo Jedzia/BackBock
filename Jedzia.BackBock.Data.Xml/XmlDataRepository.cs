@@ -33,19 +33,20 @@ namespace Jedzia.BackBock.Data.Xml
 
             //var d = new XmlBackupDataProvider();
             // here use internal context which is disposable to access the data.
-            var data = new Jedzia.BackBock.DataAccess.DTO.BackupData();
+            var data = ModelLoader.LoadBackupData(filename);
+            //var data = new Jedzia.BackBock.DataAccess.DTO.BackupData();
             //data.toh
             //var dData = new XmlData.BackupData();
             // transform XmlData.BackupData to Model.BackupData
             //data.BackupItem.Insert(0, new Jedzia.BackBock.Model.Data.BackupItemType() { ItemName = "This is from Xml" });
-            data.BackupItem = new[] 
+            /*data.BackupItem = new[] 
             {
                 new Jedzia.BackBock.DataAccess.DTO.BackupItemType() 
                 { 
                     ItemName = "This is from Xml" 
                 } 
-            };
-            return data;
+            };*/
+            return data.ToHostType();
         }
     }
 }

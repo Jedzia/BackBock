@@ -65,11 +65,11 @@ namespace Jedzia.BackBock.DataAccess
         public BackupData Load(string filename, IPrincipal user, StringDictionary parameters)
         {
             // use the 
-            // var repo = repositories.First(x => x.RepositoryType == BackupRepositoryType.FileSystemProvider);
-            
+            var repo = repositories.First(x => x.RepositoryType == BackupRepositoryType.FileSystemProvider);
+            var fileRepo = (BackupDataFsRepository)repo;
             //var repo = repositories.OfType<BackupDataFsRepository>().First();
-            //return repo.LoadBackupData(...);
-            throw new NotImplementedException();
+            return fileRepo.LoadBackupData(filename,parameters).FromDTO();
+            //throw new NotImplementedException();
         }
 
         public IEnumerable<string> LoadedServices

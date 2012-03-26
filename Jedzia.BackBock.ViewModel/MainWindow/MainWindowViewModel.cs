@@ -201,7 +201,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             logsb.Append(e);
             logsb.Append(Environment.NewLine);
             RaisePropertyChanged(LogTextPropertyName);
-            mainWindow.UpdateLogText();
+            DispatcherHelper.CheckBeginInvokeOnUI(() => mainWindow.UpdateLogText());
         }
 
         private void LogMessageEvent(BuildMessageEventArgs e)
@@ -538,7 +538,8 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         internal void OpenFile(string path)
         {
             // Todo: switch this to this.dataprovider.Load( ... );
-            this.Data2 = ModelLoader.LoadBackupData(path);
+            //this.Data2 = ModelLoader.LoadBackupData(path);
+            this.Data2 = dataprovider.Load(path, new MyPrincipal(), null);
             Data = new BackupDataViewModel(this.Data2);
             //this.mainWindow.Designer.DataContext = bdvm;
         }
@@ -564,7 +565,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         internal void SaveFile(string path)
         {
             // Todo: switch this to this.dataprovider.Save( ... );
-            ModelSaver.SaveBackupData(bdvm.DataObject, path);
+            //ModelSaver.SaveBackupData(bdvm.DataObject, path);
         }
 
         internal void RunAllTasks()

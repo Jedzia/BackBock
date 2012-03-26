@@ -55,7 +55,6 @@
       <DependentUpon>BackupData.xsd</DependentUpon>
     </Compile>
     <Compile Include="Data\BackupDataTrans.cs" />
-    <Compile Include="ModelLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

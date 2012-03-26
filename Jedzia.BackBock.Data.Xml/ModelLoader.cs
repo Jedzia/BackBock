@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Jedzia.BackBock.Model.Data;
 using System.IO;
 using System.Xml;
+using Jedzia.BackBock.Data.Xml.XmlData;
 
-namespace Jedzia.BackBock.Model
+namespace Jedzia.BackBock.Data.Xml
 {
     [Obsolete("Data Access happens in Jedzia.BackBock.DataAccess, etc.")]
     public static class ModelLoader
     {
         public static BackupData LoadBackupData(string path)
         {
-            //var classData = BackupData.LoadFromFile(path);
-            return null;
+            var classData = BackupData.LoadFromFile(path);
+            return classData;
         }
     }
     
@@ -25,18 +25,18 @@ namespace Jedzia.BackBock.Model
         {
             try
             {
-                /*var xml = data.Serialize();
+                var xml = data.Serialize();
                 var doc = new XmlDocument();
                 doc.LoadXml(xml);
                 doc.Normalize();
-                doc.Save(path);*/
+                doc.Save(path);
 
             }
             catch (Exception ex)
             {
                 // Todo: remove this after testing. ! evil. no one knows when no save occurs.
             }   
-            //data.SaveToFile(path);
+            data.SaveToFile(path);
         }
     }
 }
