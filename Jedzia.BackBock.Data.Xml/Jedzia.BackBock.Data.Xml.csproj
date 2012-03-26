@@ -81,6 +81,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Settings.StyleCop">
+      <Link>Settings.StyleCop</Link>
+    </None>
+    <None Include="BackupData.spp" />
     <None Include="XmlData\BackupData.xsd">
       <Generator>Xsd2CodeCustomTool</Generator>
       <LastGenOutput>BackupData.Designer.cs</LastGenOutput>

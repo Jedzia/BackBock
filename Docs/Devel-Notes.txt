@@ -153,6 +153,11 @@ I'm using Windsor in such a scenario
 Regards
 Xavier 
 
+Schema Files:
+==============
+Main location at Jedzia.BackBock.Model
+Try to use links to this, when possible ... for DTO, or Business Model auto-generated sources.
+
 
 ValidationError Test
 =======================

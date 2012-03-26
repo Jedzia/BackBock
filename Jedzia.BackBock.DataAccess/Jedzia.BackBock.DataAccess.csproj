@@ -50,10 +50,10 @@
     <Compile Include="BackupDataService.cs" />
     <Compile Include="BackupRepositoryType.cs" />
     <Compile Include="BackupDataFsRepository.cs" />
-    <Compile Include="DTO\BackupData.Designer.cs">
+    <Compile Include="DTO\BackupData.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BackupData.xsd</DependentUpon>
+      <DependentUpon>BackupData.tt</DependentUpon>
     </Compile>
     <Compile Include="IBackupDataService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,10 +65,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DTO\BackupData.xsd">
-      <Generator>Xsd2CodeCustomTool</Generator>
-      <LastGenOutput>BackupData.Designer.cs</LastGenOutput>
+    <None Include="..\Settings.StyleCop">
+      <Link>Settings.StyleCop</Link>
     </None>
+    <None Include="DTO\BackupData.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BackupData.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

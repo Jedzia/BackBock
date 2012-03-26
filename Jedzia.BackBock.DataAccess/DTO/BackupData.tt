@@ -1,0 +1,29 @@
+﻿<#@ template inherits="Microsoft.VisualStudio.TextTemplating.VSHost.ModelingTextTransformation" language="C#v3.5" 
+debug="true" hostSpecific="true" #>
+<#@ include file="DTO/DTOGenerator.tt" #>
+<# 
+    // <copyright file="ViewModelFromXsd2.tt" company="EvePanix">
+    //  Copyright 2012 © Jedzia. All Rights Reserved.
+    // </copyright>
+    // Shows how to generate a ViewModel with a Schema from a nested definition 
+    // in an XML file.  
+
+    var gen = new DTOGenerator(Host, @"../../Jedzia.BackBock.Model/Data/BackupData.xsd");
+    gen.ListType = FoundElementHelper.ListType.Array;
+    //gen.BackingFieldname = "data";
+    //gen.UseCollectionChanged = false;
+   
+    //gen.CustomUsings.Add("Jedzia.BackBock.Model.Data");
+    //gen.CustomUsings.Add("Jedzia.BackBock.ViewModel.MainWindow");
+    //gen.Properties["ViewModelBaseType"]["ClassMemberViewModel"] = "DisplayModeViewModel";
+    //gen.Properties["ViewModelBaseType"]["RandaleViewModel"] = "ClassMemberViewModel";
+
+    //gen.ViewModelBaseType = @"OlderDepp";
+
+    //gen.EnumProject = @"../SharedDataTypes/SharedDataTypes.csproj";
+    //gen.EnumFile = @"../SharedDataTypes/Enumerations.cs";
+    //gen.EnumNamespace = "XsdT4Transforms";
+    //gen.SkipAllButEnums = true;
+
+    gen.Run();
+#>

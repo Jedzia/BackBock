@@ -7,7 +7,10 @@ using Jedzia.BackBock.Model.Data;
 
 namespace Jedzia.BackBock.DataAccess
 {
-    public class BackupDataAssembler
+    /// <summary>
+    /// Converts from DTO classes to the model and back.
+    /// </summary>
+    internal class BackupDataAssembler
     {
         public BackupData ConvertFromDTO(DTO.BackupData source)
         {
