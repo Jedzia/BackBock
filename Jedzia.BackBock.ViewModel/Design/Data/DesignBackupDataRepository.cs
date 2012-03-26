@@ -26,7 +26,7 @@ namespace Jedzia.BackBock.ViewModel.Design.Data
         {
             if (classData == null)
             {
-                // Das ist Model Stuff
+                /*// Das ist Model Stuff
                 string str = string.Empty;
                 using (
                     Stream stream =
@@ -36,7 +36,18 @@ namespace Jedzia.BackBock.ViewModel.Design.Data
                     TextReader txr = new StreamReader(stream);
                     str = txr.ReadToEnd();
                 }
-                classData = BackupData.Deserialize(str);
+                classData = BackupData.Deserialize(str);*/
+
+                classData = new BackupData();
+                classData.DatasetGroup = "Main";
+                classData.DatasetName = "Daily";
+
+                classData.BackupItem.Add(new BackupItemType()
+                {
+                    ItemGroup = "Standard",
+                    IsEnabled = true,
+                    ItemName = "All from Temp, exclude *.msi;B* "
+                });
             }
 
             return classData;
@@ -64,32 +75,5 @@ namespace Jedzia.BackBock.ViewModel.Design.Data
         #endregion
     }
     
-    [Obsolete("Remove this provider after testing")]
-    public class TestBackupDataRepository : BackupDataRepository, IDisposable
-    {
-        // ...or make a initial-setup / sample-data provider of it.
-        private DesignDataProvider d = new DesignDataProvider();
-
-        public override BackupData GetBackupData()
-        {
-            var data = d.GenerateSampleData();
-            data.BackupItem.Insert(0, new BackupItemType() { ItemName = "This is Design Data" });
-            return data;
-        }
-
-        #region IDisposable Members
-
-        public void Dispose()
-        {
-            d = null;
-        }
-
-        #endregion
-
-        public override BackupRepositoryType RepositoryType
-        {
-            get { return BackupRepositoryType.Static; }
-        }
-    }
 
 }

@@ -31,7 +31,10 @@ namespace Jedzia.BackBock.DataAccess
             }
 
             var repo = repositories.First(x => x.RepositoryType == repotype);
-            return repo.GetBackupData();
+            var dto = repo.GetBackupData();
+            var mapper = new BackupDataAssembler();
+            var bussinessData = mapper.ConvertFromDTO(dto);
+            return bussinessData;
 
             /*if (this.repository is BackupDataFsRepository)
             {

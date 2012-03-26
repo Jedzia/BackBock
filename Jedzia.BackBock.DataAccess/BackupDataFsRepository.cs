@@ -1,8 +1,8 @@
 namespace Jedzia.BackBock.DataAccess
 {
-    using Jedzia.BackBock.Model.Data;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using Jedzia.BackBock.DataAccess.DTO;
 
     public abstract class BackupDataFsRepository : BackupDataRepository
     {

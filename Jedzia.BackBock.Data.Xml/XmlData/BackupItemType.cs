@@ -7,25 +7,29 @@ namespace Jedzia.BackBock.Data.Xml.XmlData
 {
     public partial class BackupItemType 
     {
-        public Jedzia.BackBock.Model.Data.BackupItemType ToHostType()
+        public Jedzia.BackBock.DataAccess.DTO.BackupItemType ToHostType()
         {
-            Jedzia.BackBock.Model.Data.BackupItemType h = new Jedzia.BackBock.Model.Data.BackupItemType();
+            Jedzia.BackBock.DataAccess.DTO.BackupItemType h = new Jedzia.BackBock.DataAccess.DTO.BackupItemType();
             h.IsEnabled = this.IsEnabled;
             h.ItemGroup = this.ItemGroup;
             h.ItemName = this.ItemName;
-            h.Task = this.Task.ToHostType();
-            h.Path = this.Path.ConvertAll(wld => wld.ToHostType());
+            if (this.Task != null)
+                h.Task = this.Task.ToHostType();
+            if (this.Path != null)
+                h.Path = this.Path.Select(wld => wld.ToHostType()).ToArray();
             return h;
         }
 
-        public static BackupItemType FromHostType(Jedzia.BackBock.Model.Data.BackupItemType source)
+        public static BackupItemType FromHostType(Jedzia.BackBock.DataAccess.DTO.BackupItemType source)
         {
             var local = new BackupItemType();
             local.IsEnabled = source.IsEnabled;
             local.ItemGroup = source.ItemGroup;
             local.ItemName = source.ItemName;
-            local.Task = TaskType.FromHostType(source.Task);
-            local.Path = source.Path.ConvertAll(wld => PathDataType.FromHostType(wld));
+            if (source.Task != null)
+                local.Task = TaskType.FromHostType(source.Task);
+            if (source.Path != null)
+                local.Path = source.Path.Select(wld => PathDataType.FromHostType(wld)).ToArray();
             return local;
         }
     }

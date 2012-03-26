@@ -56,6 +56,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="RepositoryInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Testdata.cs" />
     <Compile Include="XmlDataRepository.cs" />
     <Compile Include="XmlData\BackupData.Designer.cs">
       <DependentUpon>BackupData.xsd</DependentUpon>
@@ -74,10 +75,6 @@
       <Project>{3EDE0D14-2134-473D-AEB2-FEA2D29F0803}</Project>
       <Name>Jedzia.BackBock.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Jedzia.BackBock.Model\Jedzia.BackBock.Model.csproj">
-      <Project>{277724C1-B97E-493D-8B08-699110A78052}</Project>
-      <Name>Jedzia.BackBock.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Jedzia.BackBock.SharedTypes\Jedzia.BackBock.SharedTypes.csproj">
       <Project>{5033C48F-59BF-4E59-B76B-C61F2BC02F19}</Project>
       <Name>Jedzia.BackBock.SharedTypes</Name>
@@ -88,6 +85,9 @@
       <Generator>Xsd2CodeCustomTool</Generator>
       <LastGenOutput>BackupData.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="XmlData\BackupData01.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

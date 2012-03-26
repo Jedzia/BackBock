@@ -7,23 +7,27 @@ namespace Jedzia.BackBock.Data.Xml.XmlData
 {
     public partial class PathDataType 
     {
-        public Jedzia.BackBock.Model.Data.PathDataType ToHostType()
+        public Jedzia.BackBock.DataAccess.DTO.PathDataType ToHostType()
         {
-            Jedzia.BackBock.Model.Data.PathDataType h = new Jedzia.BackBock.Model.Data.PathDataType();
+            Jedzia.BackBock.DataAccess.DTO.PathDataType h = new Jedzia.BackBock.DataAccess.DTO.PathDataType();
             h.Path = this.Path;
             h.UserData = this.UserData;
-            h.Exclusion = this.Exclusion.ConvertAll(wld => wld.ToHostType());
-            h.Inclusion = this.Inclusion.ConvertAll(wld => wld.ToHostType());
+            if (this.Exclusion != null)
+                h.Exclusion = this.Exclusion.Select(wld => wld.ToHostType()).ToArray();
+            if (this.Inclusion != null)
+                h.Inclusion = this.Inclusion.Select(wld => wld.ToHostType()).ToArray();
             return h;
         }
 
-        public static PathDataType FromHostType(Jedzia.BackBock.Model.Data.PathDataType source)
+        public static PathDataType FromHostType(Jedzia.BackBock.DataAccess.DTO.PathDataType source)
         {
             var local = new PathDataType();
             local.Path = source.Path;
             local.UserData = source.UserData;
-            local.Exclusion = source.Exclusion.ConvertAll(wld => Wildcard.FromHostType(wld));
-            local.Inclusion = source.Inclusion.ConvertAll(wld => Wildcard.FromHostType(wld));
+            if (source.Exclusion != null)
+                local.Exclusion = source.Exclusion.Select(wld => Wildcard.FromHostType(wld)).ToArray();
+            if (source.Inclusion != null)
+                local.Inclusion = source.Inclusion.Select(wld => Wildcard.FromHostType(wld)).ToArray();
             return local;
         }
     }

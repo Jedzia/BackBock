@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 rel. 2 (http://www.altova.com) by Venom (ICO) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="BackupData">
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="BackupItem"/>
+            </xs:sequence>
+            <xs:attribute name="DatasetName" type="xs:string" use="required"/>
+            <xs:attribute name="DatasetGroup" type="xs:string" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="BackupItemType">
+        <xs:sequence maxOccurs="1">
+            <xs:element ref="Path" maxOccurs="unbounded"/>
+            <xs:element name="Task" type="TaskType"/>
+        </xs:sequence>
+        <xs:attribute name="ItemName" type="xs:string" use="required"/>
+        <xs:attribute name="ItemGroup" type="xs:string" use="optional"/>
+        <xs:attribute name="IsEnabled" type="xs:boolean" default="false"/>
+    </xs:complexType>
+    <xs:complexType name="PathDataType">
+        <xs:sequence>
+            <xs:element name="Exclusion" type="Wildcard" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Inclusion" type="Wildcard" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="Path" type="xs:string" use="required"/>
+        <xs:attribute name="UserData" type="xs:string" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="Wildcard">
+        <xs:attribute name="Pattern" type="xs:string" use="required"/>
+        <xs:attribute name="Enabled" type="xs:boolean" default="false"/>
+    </xs:complexType>
+    <xs:element name="BackupItem" type="BackupItemType"/>
+    <xs:element name="Path" type="PathDataType"/>
+    <xs:complexType name="TaskType">
+        <xs:attribute name="TypeName" type="xs:string"/>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+    </xs:complexType>
+</xs:schema>

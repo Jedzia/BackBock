@@ -7,15 +7,15 @@ namespace Jedzia.BackBock.Data.Xml.XmlData
 {
     public partial class Wildcard 
     {
-        public Jedzia.BackBock.Model.Data.Wildcard ToHostType()
+        public Jedzia.BackBock.DataAccess.DTO.Wildcard ToHostType()
         {
-            Jedzia.BackBock.Model.Data.Wildcard h = new Jedzia.BackBock.Model.Data.Wildcard();
+            Jedzia.BackBock.DataAccess.DTO.Wildcard h = new Jedzia.BackBock.DataAccess.DTO.Wildcard();
             h.Enabled = this.Enabled;
             h.Pattern = this.Pattern;
             return h;
         }
 
-        public static Wildcard FromHostType(Jedzia.BackBock.Model.Data.Wildcard source)
+        public static Wildcard FromHostType(Jedzia.BackBock.DataAccess.DTO.Wildcard source)
         {
             var local = new Wildcard();
             local.Enabled = source.Enabled;
