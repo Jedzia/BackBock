@@ -132,11 +132,18 @@ Only Nunit-->
 		<Exec Command="&quot;$(LibsDir)\MbUnit\bin\MbUnit.cons.exe&quot;  /report-type:xml  /report-folder:&quot;$(BuildTempDir)&quot;  /report-name-format:&quot;TestReport-%(TestGroups.GroupName)$(TestX)-$(Version)&quot; @(TestGroups,' ')" WorkingDirectory="$(LibsDir)\MbUnit\bin" IgnoreExitCode="True" Condition="('%(TestGroups.Type)'=='mbunit') AND false">
 			<Output TaskParameter="ExitCode" PropertyName="MbUnitExitCode" />
 		</Exec>
+		<Exec Command="&quot;$(GallioEchoPath)&quot;  /report-type:xml  /report-directory:&quot;$(BuildTempDir)&quot;  /report-name-format:&quot;TestReport-%(TestGroups.GroupName)$(TestX)-$(Version)&quot; @(TestGroups,' ')" WorkingDirectory="$(LibsDir)\MbUnit\bin" IgnoreExitCode="True" Condition="('%(TestGroups.Type)'=='gallio') AND false">
+			<Output TaskParameter="ExitCode" PropertyName="MbUnitExitCode" />
+		</Exec>
 		<!--with ncover-->
 		<Exec Command="&quot;$(NCoverExe)&quot; &quot;$(LibsDir)\MbUnit\bin\MbUnit.cons.exe&quot;  /report-type:xml  /report-folder:&quot;$(BuildTempDir)&quot;  /report-name-format:&quot;TestReport-%(TestGroups.GroupName)$(TestX)-$(Version)&quot; &quot;@(TestGroups,'&quot; &quot;')&quot;  //x &quot;$(BuildTempDir)\Coverage-%(TestGroups.GroupName)$(TestX)-$(Version).xml&quot; //reg" WorkingDirectory="$(LibsDir)\MbUnit\bin" IgnoreExitCode="True" Condition="'%(TestGroups.Type)'=='mbunit'">
 			<Output TaskParameter="ExitCode" PropertyName="MbUnitExitCode" />
 		</Exec>
+		<Exec Command="&quot;$(NCoverExe)&quot; &quot;$(GallioEchoPath)&quot;  /report-type:xml  /report-directory:&quot;$(BuildTempDir)&quot;  /report-name-format:&quot;TestReport-%(TestGroups.GroupName)$(TestX)-$(Version)&quot; &quot;@(TestGroups,'&quot; &quot;')&quot;  //x &quot;$(BuildTempDir)\Coverage-%(TestGroups.GroupName)$(TestX)-$(Version).xml&quot; //reg" WorkingDirectory="$(LibsDir)\MbUnit\bin" IgnoreExitCode="True" Condition="'%(TestGroups.Type)'=='gallio'">
+			<Output TaskParameter="ExitCode" PropertyName="MbUnitExitCode" />
+		</Exec>
 		<Warning Text="Some tests failed!" Condition="'$(MbUnitExitCode)'!='0' AND '%(TestGroups.Type)'=='mbunit'" />
+		<Warning Text="Some tests failed!" Condition="'$(MbUnitExitCode)'!='0' AND '%(TestGroups.Type)'=='gallio'" />
 	</Target>
 	<Target Name="TestX">
 		<Warning Text="Some tests failed!" Condition="'$(MbUnitExitCode)'!='0'" />
@@ -325,7 +332,8 @@ Only Nunit-->
 	<Import Project="$(MSBuildProjectDirectory)\Coverage.settings" />
 	
 	<!--	<UsingTask AssemblyFile="$(NCoverExplorerPath)\NCoverExplorer.MSBuildTasks.dll" TaskName="NCoverExplorer.MSBuildTasks.NCoverExplorer" />-->
-	<UsingTask AssemblyFile="D:\Temp\RefDreck\RefDreck\BuildTools\NCoverExplorer\NCoverExplorer.MSBuildTasks.dll" TaskName="NCoverExplorer.MSBuildTasks.NCoverExplorer" />
+	        <UsingTask AssemblyFile="$(NCoverExplorerPath)\NCoverExplorer.MSBuildTasks.dll" TaskName="NCoverExplorer.MSBuildTasks.NCoverExplorer" />
+	<!--<UsingTask AssemblyFile="D:\Temp\RefDreck\RefDreck\BuildTools\NCoverExplorer\NCoverExplorer.MSBuildTasks.dll" TaskName="NCoverExplorer.MSBuildTasks.NCoverExplorer" />-->
 	<!-- ***** build, run tests and create reports. ***** -->
 	<Target Name="CreateTestReports" DependsOnTargets="CreateBuildDir; Test; CreateTestReportsNUnitOnly; CreateTestReportsMbUnitOnly">
 		<!--'%(TestGroups.Type)'=='nunit' OR '%(TestGroups.Type)'=='' -->
@@ -338,6 +346,7 @@ Only Nunit-->
 	
 	<ItemGroup>
 		<ReportImageSourceFiles Include="$(LibsDir)\Reports\Images\**\*.*" />
+		<ReportGallioSourceFiles Include="$(LibsDir)\Reports\gallio\**\*.*" Exclude="$(LibsDir)\Reports\gallio\xsl\**"/>
 	</ItemGroup>
 	
 	<Target Name="CreateTestReportsNUnitOnly" DependsOnTargets="CopyImageFiles">
@@ -360,10 +369,18 @@ $(BuildReportsDir)\TestResult.html-->
 		<Exec Command="&quot;$(LibsDir)\Reports\nunit-summary.exe&quot; TestReport-%(TestGroups.GroupName)$(TestX)-$(Version).xml -xsl=&quot;$(LibsDir)\Reports\MBUnitDetails.xsl&quot;   &gt; &quot;$(BuildReportsDir)\TestDetails-%(TestGroups.GroupName)$(TestX)-$(Version).html&quot;" WorkingDirectory="$(BuildTempDir)" Condition="'%(TestGroups.Type)'=='mbunit' "></Exec>
 		<!--Coverage-->
 		<Exec Command="&quot;$(LibsDir)\Reports\nunit-summary.exe&quot; Coverage-%(TestGroups.GroupName)$(TestX)-$(Version).xml -xsl=&quot;$(LibsDir)\NCover\Coverage.xsl&quot;   &gt; &quot;$(BuildReportsDir)\Coverage-%(TestGroups.GroupName)$(TestX)-$(Version).html&quot;" WorkingDirectory="$(BuildTempDir)" Condition="'%(TestGroups.Type)'=='mbunit' AND false"></Exec>
+		<!--Gallio-summary-->
+		<Exec Command="&quot;$(LibsDir)\Reports\nunit-summary.exe&quot; TestReport-%(TestGroups.GroupName)$(TestX)-$(Version).xml -xsl=&quot;$(LibsDir)\Reports\gallio\xsl\Gallio-Report.ccnet-details-condensed.xsl&quot;   &gt; &quot;$(BuildReportsDir)\TestReport-%(TestGroups.GroupName)$(TestX)-$(Version).html&quot;" WorkingDirectory="$(BuildTempDir)" Condition="'%(TestGroups.Type)'=='gallio'"></Exec>
+		<!--Gallio-Details-->
+		<Exec Command="&quot;$(LibsDir)\Reports\nunit-summary.exe&quot; TestReport-%(TestGroups.GroupName)$(TestX)-$(Version).xml -xsl=&quot;$(LibsDir)\Reports\gallio\xsl\Gallio-Report.ccnet-details.xsl&quot;   &gt; &quot;$(BuildReportsDir)\TestDetails-%(TestGroups.GroupName)$(TestX)-$(Version).html&quot;" WorkingDirectory="$(BuildTempDir)" Condition="'%(TestGroups.Type)'=='gallio' "></Exec>
+		<!--Gallio-->
+		<Exec Command="&quot;$(LibsDir)\Reports\nunit-summary.exe&quot; Coverage-%(TestGroups.GroupName)$(TestX)-$(Version).xml -xsl=&quot;$(LibsDir)\NCover\Coverage.xsl&quot;   &gt; &quot;$(BuildReportsDir)\Coverage-%(TestGroups.GroupName)$(TestX)-$(Version).html&quot;" WorkingDirectory="$(BuildTempDir)" Condition="'%(TestGroups.Type)'=='gallio' AND false"></Exec>
 	</Target>
 	<Target Name="CopyImageFiles">
 		<Copy DestinationFolder="$(BuildReportsDir)\Images" SkipUnchangedFiles="True" SourceFiles="@(ReportImageSourceFiles)" Condition="'%(TestGroups.Type)'=='nunit' OR '%(TestGroups.Type)'=='' " />
 		<Copy DestinationFolder="$(BuildReportsDir)\Images" SkipUnchangedFiles="True" SourceFiles="@(ReportImageSourceFiles)" Condition="'%(TestGroups.Type)'=='mbunit' OR $(TestAllWithMbUnit)" />
+		<Copy DestinationFolder="$(BuildReportsDir)\Images" SkipUnchangedFiles="True" SourceFiles="@(ReportImageSourceFiles)" Condition="'%(TestGroups.Type)'=='gallio' OR $(TestAllWithMbUnit)" />
+		<Copy DestinationFolder="$(BuildReportsDir)\gallio\%(RecursiveDir)" SkipUnchangedFiles="True" SourceFiles="@(ReportGallioSourceFiles)" Condition="'%(TestGroups.Type)'=='gallio' OR $(TestAllWithMbUnit)" />
 		<Copy SourceFiles="@(ReportImageSourceFiles)" DestinationFolder="$(BuildReportsDir)\Images" SkipUnchangedFiles="True" Condition="'%(StyleCop.Name)'!='' AND '%(StyleCop.Type)'=='Source'" />
 	</Target>
 </Project>

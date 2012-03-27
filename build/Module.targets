@@ -13,6 +13,7 @@
 		<TargetExtrasDir>$(TargetDir)\extras</TargetExtrasDir>
 		<MSBuildCommunityTasksPath>$(MSBuildExtensionsPath)\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
 		<NCoverExplorerPath>$(LibsDir)\NCoverExplorer</NCoverExplorerPath>
+		<GallioEchoPath>C:\Program Files\Gallio\bin\Gallio.Echo.exe</GallioEchoPath>
 		<BuildToolsFolder>trunk</BuildToolsFolder>
 	</PropertyGroup>
 	

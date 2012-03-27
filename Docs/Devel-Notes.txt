@@ -158,6 +158,28 @@ Schema Files:
 Main location at Jedzia.BackBock.Model
 Try to use links to this, when possible ... for DTO, or Business Model auto-generated sources.
 
+Build
+==============
+To create test reports:
+build> msbuild /v:m /t:CreateTestReports
+
+To run the unit tests:
+msbuild /t:Test
+
+Create a StyleCop report:
+msbuild /v:m /t:BuildStyleCop
+
+	<Target Name="All" DependsOnTargets="Build;BuildSourceServerIndex;BuildDocs;BuildInstaller;CreateTestReports;BuildFxCop;BuildInstaller;BuildZip"></Target>
+	<Target Name="Complete" DependsOnTargets="Build;BuildSourceServerIndex;BuildDocs;BuildInstaller;CreateTestReports;BuildFxCop;BuildInstaller;BuildZip"></Target>
+	
+	<Target Name="Release" DependsOnTargets="Clean;Build;BuildSourceServerIndex;BuildDocs;BuildInstaller;BuildZip" />
+	<Target Name="Build" DependsOnTargets="$(BuildDependsOnTargets)"></Target>
+	<Target Name="Rebuild" DependsOnTargets="$(RebuildDependsOnTargets)"></Target>
+	<Target Name="Clean" DependsOnTargets="$(CleanDependsOnTargets)"></Target>
+
+
+
+
 
 ValidationError Test
 =======================
