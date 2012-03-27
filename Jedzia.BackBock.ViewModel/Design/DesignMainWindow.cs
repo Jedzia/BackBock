@@ -24,7 +24,7 @@ namespace Jedzia.BackBock.ViewModel.Design
             get { throw new NotImplementedException(); }
         }
 
-        public void UpdateLogText()
+        public void UpdateLogText(string text)
         {
             throw new NotImplementedException();
         }
@@ -63,6 +63,16 @@ namespace Jedzia.BackBock.ViewModel.Design
         public IDialogService DialogService
         {
             get { throw new NotImplementedException(); }
+        }
+
+        #endregion
+
+        #region IMainWindow Members
+
+
+        public void ResetLogText()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -128,10 +128,15 @@
         #region IMainWindow Members
 
 
-        public void UpdateLogText()
+        public void UpdateLogText(string text)
         {
-            logtext.CaretIndex = logtext.Text.Length - 1;
-            logtext.Focus();
+            logtext.AppendText(text);
+            logtext.ScrollToEnd();
+        }
+
+        public void ResetLogText()
+        {
+            logtext.Clear();
         }
 
         #endregion

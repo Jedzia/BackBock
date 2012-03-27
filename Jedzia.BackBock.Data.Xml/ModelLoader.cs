@@ -8,8 +8,7 @@ using Jedzia.BackBock.Data.Xml.XmlData;
 
 namespace Jedzia.BackBock.Data.Xml
 {
-    [Obsolete("Data Access happens in Jedzia.BackBock.DataAccess, etc.")]
-    public static class ModelLoader
+    internal static class ModelLoader
     {
         public static BackupData LoadBackupData(string path)
         {
@@ -17,9 +16,8 @@ namespace Jedzia.BackBock.Data.Xml
             return classData;
         }
     }
-    
-    [Obsolete("Data Access happens in Jedzia.BackBock.DataAccess, etc.")]
-    public static class ModelSaver
+
+    internal static class ModelSaver
     {
         public static void SaveBackupData(BackupData data, string path)
         {

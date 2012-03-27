@@ -152,9 +152,6 @@ namespace Jedzia.BackBock.Tasks
             }
         }
 
-        /// <summary>
-        /// Gets the name of the Task.
-        /// </summary>
         /*[Browsable(false)]
         public override string Name
         {

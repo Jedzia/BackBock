@@ -83,6 +83,9 @@ namespace Jedzia.BackBock.Application
             if (_main == null)
             {
                 var bla = container.ResolveAll<BackupDataRepository>();
+                var blax = container.Resolve<IDings>();
+                var factory = container.Resolve<IDingsFactory>();
+                var dings = factory.Create();
                 _main = container.Resolve<MainWindowViewModel>();
             }
         }

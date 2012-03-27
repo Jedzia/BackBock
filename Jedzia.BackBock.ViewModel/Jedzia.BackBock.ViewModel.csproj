@@ -22,6 +22,8 @@
     <DefineConstants>TRACE;DEBUG;NET_1_1;NET_2_0;NET_3_5</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -139,6 +141,7 @@
     <Compile Include="ISelectionService.cs" />
     <Compile Include="ISettingsProvider.cs" />
     <Compile Include="IViewProvider.cs" />
+    <Compile Include="MainWindow\ILogger.cs" />
     <Compile Include="MainWindow\IMainWindow.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -151,6 +154,7 @@
     <Compile Include="MainWindow\MainWindowCommandModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MainWindow\MainWindowLogger.cs" />
     <Compile Include="MainWindow\MainWindowViewModel.cs">
       <SubType>Code</SubType>
     </Compile>

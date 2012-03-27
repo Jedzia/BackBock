@@ -18,8 +18,10 @@
 
         IMainWorkArea WorkArea { get; }
         //MainWindowViewModel MainWindowViewModel { get; }
-        void UpdateLogText();
+        void UpdateLogText(string text);
+        void ResetLogText();
 
         #endregion
+
     }
 }

@@ -23,6 +23,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
     using Microsoft.Build.Framework;
     using Jedzia.BackBock.ViewModel.MVVM.Threading;
     using Jedzia.BackBock.DataAccess;
+    using Jedzia.BackBock.ViewModel.Util;
 
     public sealed class MainWindowViewModel : ViewModelBase
     {
@@ -139,15 +140,20 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
         }
 
-        private IBackupDataService dataprovider;
-        public MainWindowViewModel(ApplicationContext applicationContext, IMainWindow mainWindow,
-            IBackupDataService dataprovider)
+        private readonly IBackupDataService dataprovider;
+        private readonly ILogger logger;
+        public MainWindowViewModel(ApplicationContext applicationContext,
+            IBackupDataService dataprovider, ILogger logger)
         {
+            Guard.NotNull(() => applicationContext, applicationContext);
+            Guard.NotNull(() => dataprovider, dataprovider);
+            Guard.NotNull(() => logger, logger);
             //MessageBox.Show("MainWindowViewModel create0");
             this.applicationContext = applicationContext;
             //MessageBox.Show("MainWindowViewModel create1");
             this.mainWindow = applicationContext.MainWindow;
             this.dataprovider = dataprovider;
+            this.logger = logger;
             //MessageBox.Show("MainWindowViewModel create2");
             if (ViewModelBase.IsInDesignModeStatic)
             {
@@ -170,10 +176,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }*/
 
             //ListBox lb;
-            this.MessengerInstance.Register<BuildMessageEventArgs>(this, LogMessageEvent);
+            this.MessengerInstance.Register<BuildMessageEventArgs>(this, logger.LogMessageEvent);
             //this.MessengerInstance.Register<TaskCommandLineEventArgs>(this, LogMessageEvent);
             //this.MessengerInstance.Register<string>(this, MainWindowMessageReceived);
-            this.MessengerInstance.Register<string>(this, LogMessageEvent);
+            this.MessengerInstance.Register<string>(this, logger.LogMessageEvent);
             this.MessengerInstance.Register<MVVM.Messaging.DialogMessage>(this, MainWindowMessageReceived);
             this.MessengerInstance.Register<Exception>(this, true, MainWindowExceptionReceived);
 
@@ -193,63 +199,6 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         {
             this.mainWindow.DialogService.ShowMessage(e.Message, e.Source, "Ok", null);
         }
-
-        private void LogMessageEvent(string e)
-        {
-            logsb.Append(DateTime.Now);
-            logsb.Append(": ");
-            logsb.Append(e);
-            logsb.Append(Environment.NewLine);
-            RaisePropertyChanged(LogTextPropertyName);
-            DispatcherHelper.CheckBeginInvokeOnUI(() => mainWindow.UpdateLogText());
-        }
-
-        private void LogMessageEvent(BuildMessageEventArgs e)
-        {
-            //var text = e.Timestamp + ":[" + e.ThreadId + "." + e.SenderName + "]" + e.Message + e.HelpKeyword;
-            logsb.Append(e.Timestamp);
-            logsb.Append(":[");
-            logsb.Append(e.ThreadId);
-            logsb.Append(".");
-            logsb.Append(e.SenderName);
-            logsb.Append("]");
-            logsb.Append(" ");
-            logsb.Append(e.Message);
-            logsb.Append("    (");
-            logsb.Append(e.HelpKeyword);
-            logsb.Append(")");
-            logsb.Append(Environment.NewLine);
-            RaisePropertyChanged(LogTextPropertyName);
-            DispatcherHelper.CheckBeginInvokeOnUI(() => mainWindow.UpdateLogText());
-            //mainWindow.UpdateLogText();
-            //this.LogText += text + Environment.NewLine;
-        }
-        private StringBuilder logsb = new StringBuilder();
-
-
-        /// <summary>
-        /// The <see cref="LogText" /> property's name.
-        /// </summary>
-        public const string LogTextPropertyName = "LogText";
-
-        /// <summary>
-        /// Sets and gets the LogText property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string LogText
-        {
-            get
-            {
-                //return logText;
-                return logsb.ToString();
-            }
-            set
-            {
-                //Set(LogTextPropertyName, ref logText, value);
-                //
-            }
-        }
-
 
         /// <summary>
         /// Gets the list of available task types.
@@ -511,8 +460,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private void ClearLog()
         {
-            this.logsb.Length = 0;
-            RaisePropertyChanged(LogTextPropertyName);
+            this.logger.Reset();
         }
 
         private bool ClearLogEnabled(object sender)

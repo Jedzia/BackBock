@@ -10,9 +10,6 @@
     [DisplayName("Touch Task")]
     public class Touch : TaskExtension
     {
-        /// <summary>
-        /// Gets the name of the Task.
-        /// </summary>
         /*public override string Name
         {
             get

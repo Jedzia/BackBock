@@ -50,14 +50,15 @@ namespace Jedzia.BackBock.Application
             get { return this.MyDesigner as IMainWorkArea; }
         }
 
-        public void UpdateLogText()
+        public void UpdateLogText(string text)
         {
+            //logtext.AppendText(text);
         }
 
-        #endregion
-
-        #region IMainWindow Members
-
+        public void ResetLogText()
+        {
+            //logtext.Clear();
+        }
 
         public MainWindowViewModel MainWindowViewModel
         {
