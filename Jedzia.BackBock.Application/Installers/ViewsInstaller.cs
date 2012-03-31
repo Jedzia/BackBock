@@ -2,7 +2,6 @@
 {
     using System;
     using Jedzia.BackBock.Application.Editors.TaskWizard;
-    using Jedzia.BackBock.Tasks;
     using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.Design;
     using Jedzia.BackBock.ViewModel.MainWindow;
@@ -10,7 +9,7 @@
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
     using Castle.MicroKernel.SubSystems.Configuration;
-using Castle.MicroKernel;
+    using Castle.MicroKernel;
     using Castle.MicroKernel.Context;
 
     public class ViewsInstaller : IWindsorInstaller
@@ -38,7 +37,7 @@ using Castle.MicroKernel;
                 //container.Register(Component.For<IDialogService>().ImplementedBy<DesignDialogService>());
                 //container.Register(Component.For<IMainWindow>().Instance(new DesignMainWindow()));
                 container.Register(Component.For<IViewProvider>().ImplementedBy<DesignViewProvider>());
-                
+
                 container.Register(Component.For<IDialogService>().ImplementedBy<DesignDialogService>());
                 container.Register(Component.For<IMainWindow>().ImplementedBy<DesignMainWindow>());
             }
@@ -54,12 +53,12 @@ using Castle.MicroKernel;
 
                 container.Register(Component.For<IMainWindow>().Instance((IMainWindow)System.Windows.Application.Current.MainWindow));
             }
-            
+
             //SimpleIoc.Default.Register<IMainWindow>(GetMainWindow);
 
             //container.Register(Component.For<IMainWindow>().UsingFactoryMethod((a, b) => { return (IMainWindow)System.Windows.Application.Current.MainWindow; }));
             //container.Register(Component.For<IMainWindow>().UsingFactoryMethod((a, b) => GetMainWindow(a, b)));
-            
+
             //container.Register(Component.For<IStateWizard>().ImplementedBy<TaskWizard>().LifestyleTransient());
             //SimpleIoc.Default.Register<IStateWizard, TaskWizard>(new TransitionLifetime());
             //container.Register(Component.For<IStateWizard>().LifestyleTransient());

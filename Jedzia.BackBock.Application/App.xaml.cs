@@ -3,7 +3,6 @@
     using System.Windows;
     using Jedzia.BackBock.ViewModel;
     using Jedzia.BackBock.ViewModel.MainWindow;
-    using Jedzia.BackBock.Tasks;
     using Jedzia.BackBock.ViewModel.MVVM.Threading;
 
     /// <summary>
