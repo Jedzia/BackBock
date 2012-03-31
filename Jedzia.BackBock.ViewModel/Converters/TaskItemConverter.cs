@@ -18,6 +18,7 @@ namespace Jedzia.BackBock.ViewModel.Converters
     /// <summary>
     /// Provides value conversion for <see cref="TaskItem"/>'s.
     /// </summary>
+    [ValueConversion(typeof(TaskItem), typeof(string))]
     public class TaskItemConverter : IValueConverter
     {
         /// <summary>
