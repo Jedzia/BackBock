@@ -1,7 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IViewValidator.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Jedzia.BackBock.ViewModel.MVVM.Validation
 {
@@ -11,7 +16,7 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Validation
     public interface IViewValidator
     {
         /// <summary>
-        /// Callback for full-View validation, called to determine if this blood pressure test can be saved.
+        /// Callback for full-View validation, called to determine if the model can be persisted.
         /// </summary>
         /// <returns>
         /// Returns if this View is valid.

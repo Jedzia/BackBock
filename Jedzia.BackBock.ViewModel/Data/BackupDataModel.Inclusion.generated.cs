@@ -32,6 +32,10 @@ namespace Jedzia.BackBock.ViewModel.Data
     {
         internal Wildcard data;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InclusionViewModel"/> class.
+        /// </summary>
+        /// <param name="inclusion">The inclusion.</param>
         public InclusionViewModel(Wildcard inclusion)
         {
             this.data = inclusion;
@@ -41,9 +45,12 @@ namespace Jedzia.BackBock.ViewModel.Data
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
-        /// Gets or sets the Pattern. HasFacets: False AttrQName: 
-        /// </summary> // Attribute
-        /// <value>The Pattern.</value>
+        /// Gets or sets the Pattern. HasFacets: False AttrQName:
+        /// </summary>
+        /// <value>
+        /// The Pattern.
+        /// </value>
+        /// // Attribute
         public System.String Pattern
         {
             get
@@ -66,9 +73,12 @@ namespace Jedzia.BackBock.ViewModel.Data
         //                   propertyType: System.Boolean, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
-        /// Gets or sets the Enabled. HasFacets: False AttrQName: 
-        /// </summary> // Attribute
-        /// <value>The Enabled.</value>
+        /// Gets or sets the Enabled. HasFacets: False AttrQName:
+        /// </summary>
+        /// <value>
+        /// The Enabled.
+        /// </value>
+        /// // Attribute
         public System.Boolean Enabled
         {
             get
@@ -87,13 +97,27 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Called when [data property changed].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnDataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             DataPropertyChanged(sender, e);
         }
 
+        /// <summary>
+        /// Datas the property changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e);
 
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
         public InclusionViewModel Clone()
         {
             return (InclusionViewModel)this.MemberwiseClone();

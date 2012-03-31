@@ -32,6 +32,10 @@ namespace Jedzia.BackBock.ViewModel.Data
     {
         internal TaskType data;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskViewModel"/> class.
+        /// </summary>
+        /// <param name="task">The task.</param>
         public TaskViewModel(TaskType task)
         {
             this.data = task;
@@ -41,9 +45,12 @@ namespace Jedzia.BackBock.ViewModel.Data
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
-        /// Gets or sets the TypeName. HasFacets: False AttrQName: 
-        /// </summary> // Attribute
-        /// <value>The TypeName.</value>
+        /// Gets or sets the TypeName. HasFacets: False AttrQName:
+        /// </summary>
+        /// <value>
+        /// The TypeName.
+        /// </value>
+        /// // Attribute
         public System.String TypeName
         {
             get
@@ -62,13 +69,27 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Called when [data property changed].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnDataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             DataPropertyChanged(sender, e);
         }
 
+        /// <summary>
+        /// Datas the property changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e);
 
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
         public TaskViewModel Clone()
         {
             return (TaskViewModel)this.MemberwiseClone();

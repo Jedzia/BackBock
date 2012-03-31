@@ -32,6 +32,10 @@ namespace Jedzia.BackBock.ViewModel.Data
     {
         internal BackupItemType data;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BackupItemViewModel"/> class.
+        /// </summary>
+        /// <param name="backupItem">The backup item.</param>
         public BackupItemViewModel(BackupItemType backupItem)
         {
             this.data = backupItem;
@@ -45,6 +49,9 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// </summary>
         private System.Collections.ObjectModel.ObservableCollection<PathViewModel> path;
 
+        /// <summary>
+        /// Gets the paths.
+        /// </summary>
         public System.Collections.ObjectModel.ObservableCollection<PathViewModel> Paths
         {
             get
@@ -64,11 +71,21 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Called when [path collection changed].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnPathCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             PathCollectionChanged(sender, e);
         }
 
+        /// <summary>
+        /// Pathes the collection changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         partial void PathCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e);
 
         // Task. HasFacets: False AttrQName: 
@@ -79,6 +96,9 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// </summary>
         private TaskViewModel task;
 
+        /// <summary>
+        /// Gets the task.
+        /// </summary>
         public TaskViewModel Task
         {
             get
@@ -92,11 +112,21 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Called when [task collection changed].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnTaskCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             TaskCollectionChanged(sender, e);
         }
 
+        /// <summary>
+        /// Tasks the collection changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         partial void TaskCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e);
 
         // ItemName. HasFacets: False AttrQName: 
@@ -124,6 +154,12 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Gets or sets the item group.
+        /// </summary>
+        /// <value>
+        /// The item group.
+        /// </value>
         public System.String ItemGroup
         {
             get
@@ -167,13 +203,27 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Called when [data property changed].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnDataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             DataPropertyChanged(sender, e);
         }
 
+        /// <summary>
+        /// Datas the property changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e);
 
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
         public BackupItemViewModel Clone()
         {
             return (BackupItemViewModel)this.MemberwiseClone();

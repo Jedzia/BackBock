@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
+// Todo: DeleteME. Only here as template.
+
 namespace Jedzia.BackBock.ViewModel
 {
     	public class PropertyData

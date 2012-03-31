@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ValidatingViewModelBase.cs" company="EvePanix">
+// <copyright file="ValidatingViewModelBaseGeneric.cs" company="EvePanix">
 //   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
 //   See the license notes shipped with this source and the GNU GPL.
 // </copyright>
@@ -15,13 +15,22 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Validation
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using System.Reflection;
+    using Jedzia.BackBock.ViewModel.Util;
 
     /// <summary>
-    /// Base class for a validating <c>ViewModel</c> that implements <see cref="IDataErrorInfo"/> data validation.
+    /// Generic Base class for a validating <c>ViewModel</c> that implements <see cref="IDataErrorInfo"/> data validation.
     /// </summary>
-    public abstract class ValidatingViewModelBase : EditableViewModelBase, IValidatingViewModelBase, IDataErrorInfo
+    /// <typeparam name="T">Data type of the underlying validation class.</typeparam>
+    public abstract class ValidatingViewModelBase<T> : EditableViewModelBase, IValidatingViewModelBase, IDataErrorInfo
     {
+        // Todo: implement as : where IDataErrorInfo.
         #region Fields
+
+        /// <summary>
+        /// Reference to the underlying data model.
+        /// </summary>
+        protected T data;
 
         /// <summary>
         /// Internal list of errors.
@@ -33,11 +42,40 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Validation
         /// </summary>
         private readonly List<string> businessErrors = new List<string>();
 
+        private readonly bool isIDataErrorInfo;
         private string objectValidationErrorMessage;
 
         #endregion
 
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ValidatingViewModelBase&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="wrappedObject">The wrapped data object.</param>
+        protected ValidatingViewModelBase(T wrappedObject)
+        {
+            Guard.NotNull(() => wrappedObject, wrappedObject);
+            this.data = wrappedObject;
+            this.isIDataErrorInfo = this.data is IDataErrorInfo;
+        }
+
+        #endregion
+
         #region Properties
+
+        /// <summary>
+        /// Gets the data object of this instance.
+        /// </summary>
+        public T DataObject
+        {
+            get
+            {
+                return this.data;
+            }
+
+            // protected set { data = value; }
+        }
 
         /// <summary>
         /// Gets an error message indicating what is wrong with this object.
@@ -98,7 +136,6 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Validation
         {
             get
             {
-                // Todo: implement this ... seems to be Error...
                 return this.objectValidationErrorMessage;
             }
 
@@ -226,46 +263,78 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Validation
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns><c>true</c> on a valid property.</returns>
-        public virtual bool ValidateProperty(string propertyName /*, object propertyValue*/)
+        public bool ValidateProperty(string propertyName)
+        {
+            return this.ValidateProperty(propertyName, false);
+        }
+
+        /// <summary>
+        /// Validates the property.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="checkUnderlyingType">if set to <c>true</c> [checks the underlying data type].</param>
+        /// <returns>
+        /// <c>true</c> on a valid property.
+        /// </returns>
+        public bool ValidateProperty(string propertyName, bool checkUnderlyingType)
+        {
+            var type = GetType();
+            var property = type.GetProperty(propertyName);
+            object propertyValue = property.GetValue(this, null);
+            return this.ValidateProperty(propertyName, propertyValue, checkUnderlyingType);
+        }
+
+        /// <summary>
+        /// Validates the property.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="propertyValue">The value of the property.</param>
+        /// <param name="checkUnderlyingType">if set to <c>true</c> [checks the underlying data type].</param>
+        /// <returns>
+        /// <c>true</c> on a valid property.
+        /// </returns>
+        public virtual bool ValidateProperty(string propertyName, object propertyValue, bool checkUnderlyingType)
         {
             // Setup context and output variable
-            // var validationResults = new List<ValidationResult>();
+            // List<ValidationResult> validationResults = new List<ValidationResult>();
 
             // ValidationContext validationContext = new ValidationContext(this, null, null);
             // validationContext.MemberName = propertyName;
 
             // Perform validation
-            bool isValid = true;
-
             // Validator.TryValidateProperty(propertyValue, validationContext, validationResults);
             this.RemoveErrors(propertyName);
 
-            var type = GetType();
-            var property = type.GetProperty(propertyName);
+            bool isValid = true;
             {
-                object propertyValue = property.GetValue(this, null);
-                foreach(ValidationAttribute attribute in
-                    property.GetCustomAttributes(typeof(ValidationAttribute), true))
-                {
-                    // if (!attribute.IsValid(property.GetValue(this, null)))
-                    try
-                    {
-                        // if (!attribute.IsValid(propertyValue))
-                        if (!attribute.IsValid(propertyValue))
-                        {
-                            // ValidationResult.ValidResult
-                            // BrokenRules.Add(attribute.ErrorMessage);
-                            var msg = attribute.FormatErrorMessage(propertyName);
-                            this.AddError(propertyName, msg);
-                            isValid = false;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        isValid = false;
-                        this.AddError(propertyName, ex.Message);
+                var type = GetType();
+                var property = type.GetProperty(propertyName);
+                isValid &= this.CheckProperty(propertyName, property, propertyValue);
+            }
 
-                        // throw;
+            if (checkUnderlyingType)
+            {
+                // Todo: Mapping to subpropertyName.
+                var subpropertyName = propertyName;
+
+                // Try to check the underlying type.
+                var type = this.data.GetType();
+                var property = type.GetProperty(subpropertyName);
+                if (property != null)
+                {
+                    object subpropertyValue = property.GetValue(this.data, null);
+                    isValid &= this.CheckProperty(subpropertyName, property, subpropertyValue);
+                }
+
+                // use IDataErrorInfo of the underlying type.
+                if (this.isIDataErrorInfo)
+                {
+                    var errDataInfo = (IDataErrorInfo)this.data;
+                    var msg = errDataInfo[subpropertyName];
+                    if (!string.IsNullOrEmpty(msg))
+                    {
+                        this.AddError(propertyName, msg);
+                        isValid = false;
                     }
                 }
             }
@@ -286,6 +355,18 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Validation
                 RemoveErrors(propertyName);
             }*/
             return isValid;
+        }
+
+        /// <summary>
+        /// Validates the with a underlying data property of the same name.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns>
+        /// <c>true</c> on a valid property.
+        /// </returns>
+        public bool ValidateWithSubProperty(string propertyName)
+        {
+            return this.ValidateProperty(propertyName, true);
         }
 
         /// <summary>
@@ -350,5 +431,45 @@ namespace Jedzia.BackBock.ViewModel.MVVM.Validation
         /// Validates the view model.
         /// </summary>
         protected abstract void ValidateViewModel();
+
+        /// <summary>
+        /// Checks the property for validity.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="property">The property info.</param>
+        /// <param name="propertyValue">The property value.</param>
+        /// <returns>
+        /// <c>true</c> on a valid property.
+        /// </returns>
+        private bool CheckProperty(string propertyName, PropertyInfo property, object propertyValue)
+        {
+            bool isValid = true;
+            foreach (ValidationAttribute attribute in
+                property.GetCustomAttributes(typeof(ValidationAttribute), true))
+            {
+                // if (!attribute.IsValid(property.GetValue(this, null)))
+                try
+                {
+                    // if (!attribute.IsValid(propertyValue))
+                    if (!attribute.IsValid(propertyValue))
+                    {
+                        // ValidationResult.ValidResult
+                        // BrokenRules.Add(attribute.ErrorMessage);
+                        var msg = attribute.FormatErrorMessage(propertyName);
+                        this.AddError(propertyName, msg);
+                        isValid = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    isValid = false;
+                    this.AddError(propertyName, ex.Message);
+
+                    // throw;
+                }
+            }
+
+            return isValid;
+        }
     }
 }

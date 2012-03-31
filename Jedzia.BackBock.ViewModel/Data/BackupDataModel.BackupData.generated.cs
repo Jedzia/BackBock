@@ -40,6 +40,10 @@ namespace Jedzia.BackBock.ViewModel.Data
             protected set { data = value; }
         }*/
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BackupDataViewModel"/> class.
+        /// </summary>
+        /// <param name="backupData">The backup data.</param>
         public BackupDataViewModel(BackupData backupData)
             : base(backupData)
         {
@@ -54,6 +58,9 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// </summary>
         private System.Collections.ObjectModel.ObservableCollection<BackupItemViewModel> backupitem;
 
+        /// <summary>
+        /// Gets the backup items.
+        /// </summary>
         public System.Collections.ObjectModel.ObservableCollection<BackupItemViewModel> BackupItems
         {
             get
@@ -73,20 +80,33 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Called when [backup item collection changed].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnBackupItemCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             BackupItemCollectionChanged(sender, e);
         }
 
+        /// <summary>
+        /// Backups the item collection changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         partial void BackupItemCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e);
 
         // DatasetName. HasFacets: False AttrQName: 
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
-        /// Gets or sets the DatasetName. HasFacets: False AttrQName: 
-        /// </summary> // Attribute
-        /// <value>The DatasetName.</value>
+        /// Gets or sets the DatasetName. HasFacets: False AttrQName:
+        /// </summary>
+        /// <value>
+        /// The DatasetName.
+        /// </value>
+        /// // Attribute
         [StringLength(10)]
         [Required]
         public System.String DatasetName
@@ -110,6 +130,12 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Gets or sets the dataset group.
+        /// </summary>
+        /// <value>
+        /// The dataset group.
+        /// </value>
         public System.String DatasetGroup
         {
             get
@@ -128,13 +154,27 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Called when [data property changed].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnDataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             DataPropertyChanged(sender, e);
         }
 
+        /// <summary>
+        /// Datas the property changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e);
 
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
         public BackupDataViewModel Clone()
         {
             return (BackupDataViewModel)this.MemberwiseClone();

@@ -187,6 +187,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ValidationMessageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="MVVM\Validation\ValidatingViewModelBaseGeneric.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="DialogServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -195,10 +196,11 @@
     <Compile Include="Serialization\ItemsControlCustomTypeDescriptor.cs" />
     <Compile Include="Serialization\ItemsControlTypeDescriptionProvider.cs" />
     <Compile Include="Serialization\XamlSerializer.cs" />
+    <Compile Include="Util\DefaultTimeProvider.cs" />
     <Compile Include="Util\Guard.cs" />
     <Compile Include="Util\TimeProvider.cs" />
     <Compile Include="Util\VisualHelper.cs" />
-    <Compile Include="MVVM\Validation\ValidatingViewModelBaseOld.cs" />
+    <None Include="MVVM\Validation\ValidatingViewModelBaseOld.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Wizard\IDialog.cs" />
     <Compile Include="Wizard\IDialogWindow.cs" />

@@ -32,6 +32,10 @@ namespace Jedzia.BackBock.ViewModel.Data
     {
         internal PathDataType data;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PathViewModel"/> class.
+        /// </summary>
+        /// <param name="path">The path.</param>
         public PathViewModel(PathDataType path)
         {
             this.data = path;
@@ -45,6 +49,9 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// </summary>
         private System.Collections.ObjectModel.ObservableCollection<ExclusionViewModel> exclusion;
 
+        /// <summary>
+        /// Gets the exclusions.
+        /// </summary>
         public System.Collections.ObjectModel.ObservableCollection<ExclusionViewModel> Exclusions
         {
             get
@@ -64,11 +71,21 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Called when [exclusion collection changed].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnExclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             ExclusionCollectionChanged(sender, e);
         }
 
+        /// <summary>
+        /// Exclusions the collection changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         partial void ExclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e);
 
         // Inclusion. HasFacets: False AttrQName: 
@@ -79,6 +96,9 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// </summary>
         private System.Collections.ObjectModel.ObservableCollection<InclusionViewModel> inclusion;
 
+        /// <summary>
+        /// Gets the inclusions.
+        /// </summary>
         public System.Collections.ObjectModel.ObservableCollection<InclusionViewModel> Inclusions
         {
             get
@@ -98,20 +118,33 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Called when [inclusion collection changed].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnInclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             InclusionCollectionChanged(sender, e);
         }
 
+        /// <summary>
+        /// Inclusions the collection changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         partial void InclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e);
 
         // Path. HasFacets: False AttrQName: 
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
-        /// Gets or sets the Path. HasFacets: False AttrQName: 
-        /// </summary> // Attribute
-        /// <value>The Path.</value>
+        /// Gets or sets the Path. HasFacets: False AttrQName:
+        /// </summary>
+        /// <value>
+        /// The Path.
+        /// </value>
+        /// // Attribute
         public System.String Path
         {
             get
@@ -134,9 +167,12 @@ namespace Jedzia.BackBock.ViewModel.Data
         //                   propertyType: System.String, IsChoiceRoot: False, BaseType: 
         //                   ListType: None, HasCommonBaseType: False, xxxx: 
         /// <summary>
-        /// Gets or sets the UserData. HasFacets: False AttrQName: 
-        /// </summary> // Attribute
-        /// <value>The UserData.</value>
+        /// Gets or sets the UserData. HasFacets: False AttrQName:
+        /// </summary>
+        /// <value>
+        /// The UserData.
+        /// </value>
+        /// // Attribute
         public System.String UserData
         {
             get
@@ -155,13 +191,27 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Called when [data property changed].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnDataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             DataPropertyChanged(sender, e);
         }
 
+        /// <summary>
+        /// Datas the property changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e);
 
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
         public PathViewModel Clone()
         {
             return (PathViewModel)this.MemberwiseClone();
