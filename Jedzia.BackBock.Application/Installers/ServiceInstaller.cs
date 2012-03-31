@@ -19,6 +19,8 @@ using Castle.Facilities.TypedFactory;
 
 namespace Jedzia.BackBock.Application.Installers
 {
+    using Jedzia.BackBock.Model;
+
     public class LoggerInterceptor : IInterceptor
     {
         #region IInterceptor Members
@@ -38,15 +40,27 @@ namespace Jedzia.BackBock.Application.Installers
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 container.Register(Component.For<ITaskService>().ImplementedBy<DesignTaskService>());
+                container.Register(Component.For<TaskContext>().ImplementedBy<DesignTaskContext>());
                 container.Register(Component.For<IOService>().ImplementedBy<DesignIOService>());
 
                 //container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>());
                 container.Register(Component.For<ISettingsProvider>().ImplementedBy<DesignSettingsProvider>());
-                container.Register(Component.For<IBackupDataService>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataService>());
+                container.Register(Component.For<IBackupDataService>().ImplementedBy<ViewModel.Design.Data.DesignBackupDataService>());
             }
             else
             {
-                container.Register(Component.For<ITaskService>().UsingFactoryMethod((a, b) => TaskRegistry.GetInstance()));
+                container.Register(Component.For<ITaskService>()
+                    .UsingFactoryMethod(
+                    (a, b) =>
+                    {
+                        var taskService = TaskRegistry.GetInstance();
+                        // taskService.Register( ... additional tasks)
+                        return taskService;
+                    })
+                );
+                container.Register(Component.For<TaskContext>().ImplementedBy<ApplicationTaskContext>());
+
+                
                 container.Register(Component.For<IOService>().ImplementedBy<FileIOService>());
 
                 // Register collection resolver, needed by the BackupDataService dependencies.
@@ -100,13 +114,13 @@ namespace Jedzia.BackBock.Application.Installers
                 //container.Register(Component.For<IBackupDataService>().ImplementedBy<BackupDataService>()
                 //    .Interceptors(typeof(BackupDataRepository), typeof(RepositoryLogger)));
                 //container.Register(Component.For<IBackupDataService>().ImplementedBy<BackupDataService>()
-               //     .Proxy.AdditionalInterfaces(typeof(BackupDataRepository))
+                //     .Proxy.AdditionalInterfaces(typeof(BackupDataRepository))
                 //    .Interceptors(typeof(RepositoryLogger)));
 
                 //container.Register(Component.For<IBackupDataService>()
-                  //  .ServiceOverrides(new { repositories = "logger" })
-                    //.ImplementedBy<BackupDataService>()
-                   // );
+                //  .ServiceOverrides(new { repositories = "logger" })
+                //.ImplementedBy<BackupDataService>()
+                // );
 
                 //container.Register(Component.For<LoggerInterceptor>());
                 container.Register(Component

@@ -12,14 +12,13 @@
 
 namespace Jedzia.BackBock.Application
 {
-    using Jedzia.BackBock.ViewModel;
+    using Jedzia.BackBock.Model;
     using Jedzia.BackBock.ViewModel.MainWindow;
     using Jedzia.BackBock.ViewModel.Wizard;
     using System.Windows;
     using System;
     using Castle.Windsor;
     using Castle.Windsor.Installer;
-    using Jedzia.BackBock.Tasks;
     using Jedzia.BackBock.DataAccess;
 
     /// <summary>
@@ -86,6 +85,9 @@ namespace Jedzia.BackBock.Application
                 var blax = container.Resolve<IDings>();
                 var factory = container.Resolve<IDingsFactory>();
                 var dings = factory.Create();
+
+                //TaskContext.Default = container.Resolve<ITaskService>();
+                TaskContext.Default = container.Resolve<TaskContext>();
                 _main = container.Resolve<MainWindowViewModel>();
             }
         }

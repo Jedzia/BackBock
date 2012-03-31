@@ -1,31 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Build.Framework;
-using Jedzia.BackBock.ViewModel.Util;
-using Jedzia.BackBock.ViewModel.MVVM.Threading;
-using Jedzia.BackBock.DataAccess;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MainWindowLogger.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
+    using System;
+    using System.Text;
+    using Jedzia.BackBock.ViewModel.MVVM.Threading;
+    using Jedzia.BackBock.ViewModel.Util;
+
     public sealed class MainWindowLogger : ILogger
     {
-        //private readonly StringBuilder logsb = new StringBuilder();
+        // private readonly StringBuilder logsb = new StringBuilder();
+        #region Fields
+
         private readonly IMainWindow mainWindow;
 
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindowLogger"/> class.
+        /// </summary>
+        /// <param name="mainWindow">The main window.</param>
         public MainWindowLogger(IMainWindow mainWindow)
         {
             Guard.NotNull(() => mainWindow, mainWindow);
             this.mainWindow = mainWindow;
         }
 
-        public void Reset()
-        {
-            //this.logsb.Length = 0;
-            DispatcherHelper.CheckBeginInvokeOnUI(() => mainWindow.ClearLogText());
-        }
+        #endregion
 
+        /// <summary>
+        /// Appends message event data to the log.
+        /// </summary>
+        /// <param name="e">The message text.</param>
         public void LogMessageEvent(string e)
         {
             var logsb = new StringBuilder();
@@ -33,10 +49,19 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             logsb.Append(": ");
             logsb.Append(e);
             logsb.Append(Environment.NewLine);
-            DispatcherHelper.CheckBeginInvokeOnUI(() => mainWindow.UpdateLogText(e));
+            DispatcherHelper.CheckBeginInvokeOnUI(() => this.mainWindow.UpdateLogText(e));
         }
 
-        public void LogMessageEvent(BuildMessageEventArgs e)
+        /// <summary>
+        /// Clears this instances log.
+        /// </summary>
+        public void Reset()
+        {
+            // this.logsb.Length = 0;
+            DispatcherHelper.CheckBeginInvokeOnUI(() => this.mainWindow.ClearLogText());
+        }
+
+        /*public void LogMessageEvent(BuildMessageEventArgs e)
         {
             //var text = e.Timestamp + ":[" + e.ThreadId + "." + e.SenderName + "]" + e.Message + e.HelpKeyword;
 
@@ -58,7 +83,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             DispatcherHelper.CheckBeginInvokeOnUI(() => mainWindow.UpdateLogText(str));
             //mainWindow.UpdateLogText();
             //this.LogText += text + Environment.NewLine;
-        }
+        }*/
 
         /*/// <summary>
         /// Sets and gets the LogText property.
@@ -74,76 +99,82 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
             }
         }*/
-
     }
 
-    public class RepositoryLogger : BackupDataFsRepository
-    {
-        private readonly BackupDataRepository innerRepository;
-        private readonly ILogger auditor;
-        public RepositoryLogger(BackupDataRepository repository, ILogger auditor)
-        {
-            Guard.NotNull(() => repository, repository);
-            Guard.NotNull(() => auditor, auditor);
-            this.innerRepository = repository;
-            this.auditor = auditor;
-        }
-
-        public override Jedzia.BackBock.DataAccess.DTO.BackupData GetBackupData()
-        {
-            auditor.LogMessageEvent("GetBackupData()");
-            return innerRepository.GetBackupData();
-        }
-
-        public override BackupRepositoryType RepositoryType
-        {
-            get { return innerRepository.RepositoryType; }
-        }
-
-        public override Jedzia.BackBock.DataAccess.DTO.BackupData LoadBackupData(string filename, System.Collections.Specialized.StringDictionary parameters)
-        {
-            auditor.LogMessageEvent("LoadBackupData(" + filename+ ")");
-            return ((BackupDataFsRepository)innerRepository).LoadBackupData(filename,  parameters);
-        }
-    }
-
+    /// <summary>
+    /// For testing, remove me.
+    /// </summary>
     public interface IDings
     {
-
     }
 
+    /// <summary>
+    /// For testing, remove me.
+    /// </summary>
     public class Dings : IDings
-	{
-        static int count = 0;
-        public int MyCount { get; set; }
+    {
+        #region Fields
+
+        private static int count;
+
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Dings"/> class.
         /// </summary>
         public Dings()
         {
-            MyCount = count;
+            this.MyCount = count;
             count++;
         }
-	}
 
+        #endregion
 
+        #region Properties
+
+        public int MyCount { get; set; }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// For testing, remove me.
+    /// </summary>
     public class ProxyDings : IDings
     {
-        static int count = 0;
-        public int MyCount { get; set; }
+        #region Fields
+
+        private static int count;
         private readonly IDings innerdings;
+
+        #endregion
+
+        #region Constructors
+
         public ProxyDings(IDings innerdings)
         {
             Guard.NotNull(() => innerdings, innerdings);
             this.innerdings = innerdings;
-            MyCount = count;
+            this.MyCount = count;
             count++;
         }
+
+        #endregion
+
+        #region Properties
+
+        public int MyCount { get; set; }
+
+        #endregion
     }
 
+    /// <summary>
+    /// For testing, remove me.
+    /// </summary>
     public interface IDingsFactory
     {
         IDings Create();
     }
-
 }

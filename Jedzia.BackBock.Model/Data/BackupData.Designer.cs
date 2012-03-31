@@ -15,6 +15,7 @@ namespace Jedzia.BackBock.Model.Data {
     using System.Collections.Generic;
     
     
+    [Serializable]
     public partial class BackupData : System.ComponentModel.INotifyPropertyChanged {
         
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -96,8 +97,10 @@ namespace Jedzia.BackBock.Model.Data {
             }
         }
     }
-    
-    public partial class BackupItemType : System.ComponentModel.INotifyPropertyChanged {
+
+    [Serializable]
+    public partial class BackupItemType : System.ComponentModel.INotifyPropertyChanged
+    {
         
         [EditorBrowsable(EditorBrowsableState.Never)]
         private List<PathDataType> pathField;
@@ -214,8 +217,10 @@ namespace Jedzia.BackBock.Model.Data {
             }
         }
     }
-    
-    public partial class PathDataType : System.ComponentModel.INotifyPropertyChanged {
+
+    [Serializable]
+    public partial class PathDataType : System.ComponentModel.INotifyPropertyChanged
+    {
         
         [EditorBrowsable(EditorBrowsableState.Never)]
         private List<Wildcard> exclusionField;
@@ -318,8 +323,10 @@ namespace Jedzia.BackBock.Model.Data {
             }
         }
     }
-    
-    public partial class Wildcard : System.ComponentModel.INotifyPropertyChanged {
+
+    [Serializable]
+    public partial class Wildcard : System.ComponentModel.INotifyPropertyChanged
+    {
         
         [EditorBrowsable(EditorBrowsableState.Never)]
         private string patternField;
@@ -371,8 +378,10 @@ namespace Jedzia.BackBock.Model.Data {
             }
         }
     }
-    
-    public partial class TaskType : System.ComponentModel.INotifyPropertyChanged {
+
+    [Serializable]
+    public partial class TaskType : System.ComponentModel.INotifyPropertyChanged
+    {
         
         [EditorBrowsable(EditorBrowsableState.Never)]
         private string typeNameField;

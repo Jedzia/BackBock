@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
-using Jedzia.BackBock.Tasks;
 
 namespace Jedzia.BackBock.ViewModel.Data
 {
-    using Microsoft.Build.Framework;
-
     public class MyStructure
     {
         private int valueOne;
@@ -55,14 +49,15 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// <summary>
         /// The summary.
         /// </summary>
-        private ITask taskInstance;
+        [NonSerialized]
+        private object taskInstance;
 
         /// <summary>
         /// Gets or sets the Task.
         /// </summary>
         /// <value>The Task.</value>
         [Browsable(false)]
-        public ITask TaskInstance
+        public object TaskInstance
         {
             get
             {
@@ -79,6 +74,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                 RaisePropertyChanged("TaskInstance");
             }
         }
+
         /// <summary>
         /// Gets or sets 
         /// </summary>

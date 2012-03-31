@@ -1,4 +1,14 @@
-﻿namespace Jedzia.BackBock.ViewModel.MainWindow
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IMainWindow.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Jedzia.BackBock.ViewModel.MainWindow
 {
     using System;
     using Jedzia.BackBock.ViewModel.Commands;
@@ -6,10 +16,13 @@
     /// <summary>
     /// Main window of the application
     /// </summary>
-    public interface IMainWindow : ICanInputBind, ICanCommandBind/*, ISelectionService*/, IDialogServiceProvider
+    public interface IMainWindow : ICanInputBind, ICanCommandBind /*, ISelectionService*/, IDialogServiceProvider
     {
         #region Events
 
+        /// <summary>
+        /// Occurs when the main window is initialized.
+        /// </summary>
         event EventHandler Initialized;
 
         #endregion
@@ -20,20 +33,20 @@
         /// Gets the work area.
         /// </summary>
         IMainWorkArea WorkArea { get; }
-        //MainWindowViewModel MainWindowViewModel { get; }
-        
-        /// <summary>
-        /// Updates the log text.
-        /// </summary>
-        /// <param name="text">The text.</param>
-        void UpdateLogText(string text);
-        
+
+        #endregion
+
+        // MainWindowViewModel MainWindowViewModel { get; }
+
         /// <summary>
         /// Clears the log text.
         /// </summary>
         void ClearLogText();
 
-        #endregion
-
+        /// <summary>
+        /// Updates the log text of the main window.
+        /// </summary>
+        /// <param name="text">The logging text to show.</param>
+        void UpdateLogText(string text);
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 namespace Jedzia.BackBock.ViewModel.Design
 {
     /// <summary>
-    /// DialogService for Design-Time. Empty stub.
+    /// Dialog service for Design-Time. Empty stub.
     /// </summary>
     public class DesignDialogService : IDialogService
     {

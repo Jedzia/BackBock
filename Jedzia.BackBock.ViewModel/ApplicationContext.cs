@@ -46,7 +46,7 @@ namespace Jedzia.BackBock.ViewModel
         static ApplicationContext()
         {
             //TypeDescriptor.AddProvider(xxx, typeof(TaskItem));
-            var conv = TypeDescriptor.GetConverter(typeof(TaskItem));
+            //var conv = TypeDescriptor.GetConverter(typeof(TaskItem));
         }
         
         //public ApplicationViewModel(IOService ioService)

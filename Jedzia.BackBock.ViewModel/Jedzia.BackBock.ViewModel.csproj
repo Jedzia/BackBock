@@ -83,6 +83,7 @@
     <Compile Include="Converters\EnumTypeConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\ObjectToVisibility.cs" />
+    <Compile Include="Converters\TaskItemConverter.cs" />
     <Compile Include="Data\BackupDataModel.BackupData.generated.cs">
       <DependentUpon>BackupDataModel.tt</DependentUpon>
     </Compile>
@@ -121,6 +122,7 @@
     <Compile Include="Design\DesignIOService.cs" />
     <Compile Include="Design\DesignMainWindow.cs" />
     <Compile Include="Design\DesignSettingsProvider.cs" />
+    <Compile Include="Design\DesignTaskContext.cs" />
     <Compile Include="Design\DesignTaskService.cs" />
     <Compile Include="Design\DesignViewProvider.cs" />
     <Compile Include="DisplayMode.cs" />
@@ -158,6 +160,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\RelayCommandGeneric.cs" />
+    <Compile Include="MainWindow\RepositoryLogger.cs" />
     <Compile Include="MainWindow\WorkAreaCommands.cs" />
     <Compile Include="MVVM\EditableViewModelBase.cs" />
     <Compile Include="MVVM\Helpers\IExecuteWithObject.cs" />
@@ -192,9 +195,6 @@
     <Compile Include="Serialization\ItemsControlCustomTypeDescriptor.cs" />
     <Compile Include="Serialization\ItemsControlTypeDescriptionProvider.cs" />
     <Compile Include="Serialization\XamlSerializer.cs" />
-    <Compile Include="Tasks\Consts.cs" />
-    <Compile Include="Tasks\TaskSetupEngine.cs" />
-    <Compile Include="Tasks\ViewModelBuildEngine.cs" />
     <Compile Include="Util\Guard.cs" />
     <Compile Include="Util\TimeProvider.cs" />
     <Compile Include="Util\VisualHelper.cs" />
@@ -246,6 +246,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ValidationMessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tasks\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

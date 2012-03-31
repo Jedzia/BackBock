@@ -336,6 +336,7 @@
     <Compile Include="Editors\TaskWizard\TaskWizard.xaml.cs">
       <DependentUpon>TaskWizard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Installers\ApplicationTaskContext.cs" />
     <Compile Include="SettingsProvider.cs" />
     <Compile Include="ViewProvider.cs" />
     <Compile Include="FileIOService.cs" />
@@ -417,6 +418,10 @@
     <ProjectReference Include="..\Jedzia.BackBock.DataAccess\Jedzia.BackBock.DataAccess.csproj">
       <Project>{3EDE0D14-2134-473D-AEB2-FEA2D29F0803}</Project>
       <Name>Jedzia.BackBock.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jedzia.BackBock.Model\Jedzia.BackBock.Model.csproj">
+      <Project>{277724C1-B97E-493D-8B08-699110A78052}</Project>
+      <Name>Jedzia.BackBock.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jedzia.BackBock.SharedTypes\Jedzia.BackBock.SharedTypes.csproj">
       <Project>{B1C6E675-2D2F-4B6A-BB46-2205324AF6E8}</Project>

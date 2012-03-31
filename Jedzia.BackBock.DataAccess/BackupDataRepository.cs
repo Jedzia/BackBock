@@ -1,16 +1,41 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BackupDataRepository.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Jedzia.BackBock.DataAccess
 {
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
     using Jedzia.BackBock.DataAccess.DTO;
 
+    /// <summary>
+    /// A repository that provides backup data.
+    /// </summary>
     public abstract class BackupDataRepository
     {
-            public abstract BackupData GetBackupData();
+        #region Properties
 
-            public abstract BackupRepositoryType RepositoryType { get; }
+        /// <summary>
+        /// Gets the type of the repository.
+        /// </summary>
+        /// <value>
+        /// The type of the repository.
+        /// </value>
+        public abstract BackupRepositoryType RepositoryType { get; }
 
-            /*public abstract void DeleteBackup(int id);
+        #endregion
+
+        /// <summary>
+        /// Gets the backup data.
+        /// </summary>
+        /// <returns>The backup data.</returns>
+        public abstract BackupData GetBackupData();
+
+        /*public abstract void DeleteBackup(int id);
 
             public abstract void InsertBackup(BackupData backup);
 

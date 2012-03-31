@@ -1,64 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Jedzia.BackBock.Data.Xml.XmlData;
-using Jedzia.BackBock.DataAccess;
-using System.IO;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Testdata.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Jedzia.BackBock.Data.Xml
 {
-    internal class DesignDataProvider
-    {
-        private BackupData classData;
-        public BackupData GenerateSampleData()
-        {
-            if (classData == null)
-            {
-                // Das ist Model Stuff
-                string str = string.Empty;
-                using (
-                    Stream stream =
-                        typeof(DesignDataProvider).Assembly.GetManifestResourceStream(
-                            "Jedzia.BackBock.Data.Xml.SampleData.BackupData01.xml"))
-                {
-                    TextReader txr = new StreamReader(stream);
-                    str = txr.ReadToEnd();
-                }
-                classData = BackupData.Deserialize(str);
-            }
+    using System;
+    using System.Linq;
+    using Jedzia.BackBock.Data.Xml.XmlData;
+    using Jedzia.BackBock.DataAccess;
 
-            return classData;
-        }
-    }
-
+    /// <summary>
+    /// A <see cref="BackupDataRepository"/> that provides test data. 
+    /// </summary>
     [Obsolete("Remove this provider after testing")]
     public class TestBackupDataRepository : BackupDataRepository, IDisposable
     {
         // ...or make a initial-setup / sample-data provider of it.
+        #region Fields
+
+        /// <summary>
+        /// Internal data source.
+        /// </summary>
         private DesignDataProvider d = new DesignDataProvider();
 
-        public override Jedzia.BackBock.DataAccess.DTO.BackupData GetBackupData()
-        {
-            var data = d.GenerateSampleData();
-            var lst = data.BackupItem.ToList();
-            lst.Insert(0, new BackupItemType() { ItemName = "This is from Xml Test Data" });
-            data.BackupItem = lst.ToArray();
-            return data.ToHostType();
-        }
+        #endregion
 
-        #region IDisposable Members
+        #region Properties
 
-        public void Dispose()
+        /// <summary>
+        /// Gets the type of the repository.
+        /// </summary>
+        /// <value>
+        /// The type of the repository.
+        /// </value>
+        public override BackupRepositoryType RepositoryType
         {
-            d = null;
+            get
+            {
+                return BackupRepositoryType.Static;
+            }
         }
 
         #endregion
 
-        public override BackupRepositoryType RepositoryType
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
         {
-            get { return BackupRepositoryType.Static; }
+            this.d = null;
+        }
+
+        /// <summary>
+        /// Gets the backup data.
+        /// </summary>
+        /// <returns>
+        /// The backup data.
+        /// </returns>
+        public override DataAccess.DTO.BackupData GetBackupData()
+        {
+            var data = this.d.GenerateSampleData();
+            var lst = data.BackupItem.ToList();
+            lst.Insert(0, new BackupItemType { ItemName = "This is from Xml Test Data" });
+            data.BackupItem = lst.ToArray();
+            return data.ToHostType();
         }
     }
 }

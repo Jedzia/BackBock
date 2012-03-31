@@ -1,10 +1,13 @@
-﻿// <copyright file="$FileName$" company="$Company$">
-// Copyright (c) 2012 All Right Reserved
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ITaskService.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
 // </copyright>
 // <author>Jedzia</author>
 // <email>jed69@gmx.de</email>
 // <date>$date$</date>
-// <summary>$summary$</summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Jedzia.BackBock.Tasks
 {
     using System.Collections.Generic;
@@ -13,8 +16,9 @@ namespace Jedzia.BackBock.Tasks
     /// <summary>
     /// Provides access to a <see cref="ITask"/> exposing service.
     /// </summary>
-    public interface ITaskService //: IServiceProvider
+    public interface ITaskService
     {
+        // : IServiceProvider
         #region Indexers
 
         /// <summary>
@@ -22,7 +26,11 @@ namespace Jedzia.BackBock.Tasks
         /// </summary>
         /// <param name="taskName">The <paramref name="taskName"/> of the element to get.</param>
         /// <value>The <see cref="ITask"/> with the specified <paramref name="taskName"/>.</value>
-        ITask this[string taskName] { get; /*set;*/ }
+        ITask this[string taskName]
+        {
+            get;
+            /*set;*/
+        }
 
         #endregion
 
@@ -35,7 +43,7 @@ namespace Jedzia.BackBock.Tasks
         /// <summary>
         /// Registers the specified task.
         /// </summary>
-        /// <param name="task">The task.</param>
+        /// <param name="task">The task to register.</param>
         /// <returns><c>true</c> if the task was successfully registered.</returns>
         bool Register(ITask task);
 

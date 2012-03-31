@@ -84,10 +84,10 @@
     <add key="VBdocman_linkForExternalNotInFramework"><![CDATA[0]]></add>
     <add key="VBdocman_allowMacrosInComments"><![CDATA[0]]></add>
     <add key="VBdocman_emptyOutputFolder"><![CDATA[0]]></add>
-    <add key="VBdocman_comModules_BackupDataRepository.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Data...BackupData.Designer.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Data...BackupDataTrans.cs"><![CDATA[On]]></add>
-    <add key="VBdocman_comModules_ModelLoader.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Properties...AssemblyInfo.cs"><![CDATA[On]]></add>
+    <add key="VBdocman_comModules_TaskContext.cs"><![CDATA[On]]></add>
+    <add key="VBdocman_comModules_Tasks...TaskSetupEngine.cs"><![CDATA[On]]></add>
   </appSettings>
 </configuration>

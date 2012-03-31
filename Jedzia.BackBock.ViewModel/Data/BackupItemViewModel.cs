@@ -1,32 +1,26 @@
-﻿// <copyright file="$FileName$" company="$Company$">
-// Copyright (c) 2012 All Right Reserved
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BackupItemViewModel.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
 // </copyright>
 // <author>Jedzia</author>
 // <email>jed69@gmx.de</email>
 // <date>$date$</date>
-// <summary>$summary$</summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Jedzia.BackBock.ViewModel.Data
 {
     using System;
-    using System.Collections.Specialized;
-    using System.IO;
-    using System.Windows;
-    using System.Windows.Input;
-    using System.Windows.Markup;
-    using System.Xml;
-    using System.Xml.Serialization;
-    using Jedzia.BackBock.Model.Data;
-    using Jedzia.BackBock.Tasks;
-    using Jedzia.BackBock.ViewModel.Commands;
-    using Jedzia.BackBock.ViewModel.Tasks;
-    using Microsoft.Build.Framework;
-    using System.ComponentModel;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
+    using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Windows.Input;
+    using Jedzia.BackBock.Model.Data;
+    using Jedzia.BackBock.ViewModel.Commands;
 
-    public partial class BackupItemViewModel : ILogger, IDataErrorInfo
+    public partial class BackupItemViewModel : IDataErrorInfo
     {
         #region Constructors
 
@@ -40,18 +34,31 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets an error message indicating what is wrong with this object.
+        /// </summary>
+        /// <returns>
+        /// An error message indicating what is wrong with this object. The default is an empty string ("").
+        ///   </returns>
+        public string Error
+        {
+            get
+            {
+                return "We have an Error!";
+            }
+        }
+
         /*private void LogMessageEvent(BuildMessageEventArgs e)
         {
             MessengerInstance.Send(e);
         }*/
-
-        #region Properties
-
         public Type NumerableType
         {
             get
             {
-                //return typeof(PathViewModel);
+                // return typeof(PathViewModel);
                 return null;
             }
         }
@@ -93,8 +100,8 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         private void EditCollectionExecuted(object o)
         {
-            //this.EditCollection();
-            //MessageBox.Show("Edit Collection");
+            // this.EditCollection();
+            // MessageBox.Show("Edit Collection");
             // Start collection editor this.Paths.
             /*PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(this);
             var col = new WPG.Themes.TypeEditors.CollectionEditorControl();
@@ -134,6 +141,7 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #endregion
 
+        /*
         private static void SerializeTest(ITask task)
         {
             var xaml = XamlWriter.Save(task);
@@ -150,61 +158,53 @@ namespace Jedzia.BackBock.ViewModel.Data
             ser.Serialize(wrx, task);
             var strx = wrx.ToString();
         }
-
+*/
         private bool TaskDataClickedEnabled(object sender)
         {
             bool canExecute = true;
             return canExecute;
         }
 
-        private ITaskService taskProvider;
-
-        public ITaskService TaskProvider
-        {
-            get
-            {
-                if (taskProvider == null)
-                {
-                    try
-                    {
-                        taskProvider = ApplicationContext.TaskService;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("TaskProvider fucking: " + ex.ToString());
-                    }
-                }
-                return taskProvider;
-            }
-
-            internal set
-            {
-                taskProvider = value;
-            }
-        }
-        //private ITaskService taskProvider = TaskRegistry.GetInstance();
+        // private ITaskService taskProvider = TaskRegistry.GetInstance();
 
         private void TaskDataClickedExecuted(object o)
         {
-            using (var tse = new TaskSetupEngine(this.TaskProvider, this, this.Paths))
-            {
-                var task = tse.InitTaskEditor(this.Task.TypeName, this.task.data.AnyAttr);
-                //var task = InitTaskEditor(this.taskProvider);
-                this.Task.TaskInstance = task;
+            this.data.ModifyTaskData(
+                this.Log,
+                rtask =>
+                {
+                    this.Task.TaskInstance = rtask;
 
-                // Todo: Maybe move the ViewModel creation to the Composition Root of the view.!
-                //var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskEditor);
-                var wnd = ApplicationContext.TaskWizardProvider.GetTaskEditor();
-                wnd.DataContext = this;
-                //wnd.DataContext = task;
-                //this.Task.PropertyChanged += Task_PropertyChanged;
-                var result = wnd.ShowDialog();
-                //this.Task.PropertyChanged -= Task_PropertyChanged;
-                tse.AfterTask(task, this.task.data.AnyAttr);
-            }
-
+                    // Todo: Maybe move the ViewModel creation to the Composition Root of the view.!
+                    // var wnd = ControlRegistrator.GetInstanceOfType<Window>(WindowTypes.TaskEditor);
+                    var wnd = ApplicationContext.TaskWizardProvider.GetTaskEditor();
+                    wnd.DataContext = this;
+                    // wnd.DataContext = task;
+                    this.Task.PropertyChanged += this.TaskPropertyChanged;
+                    var result = wnd.ShowDialog();
+                    this.Task.PropertyChanged -= this.TaskPropertyChanged;
+                    return result;
+                });
         }
 
+        private void TaskPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "TypeName")
+            {
+                this.Task.data.AnyAttr.Clear();
+                this.Task.TaskInstance = this.data.UpdateTaskData(this.Log);
+                this.Task.data.OnPropertyChanged("AnyAttr");
+
+                // var tvm = (TaskType)sender;
+                // tvm.AnyAttr.Clear();
+
+                // var task = this.InitTaskEditor(tvm.TypeName, tvm.AnyAttr);
+                // Todo: fix.
+                /*tvm.TaskInstance = task;
+
+                tvm.data.OnPropertyChanged("AnyAttr");*/
+            }
+        }
 
         #endregion
 
@@ -212,8 +212,8 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #region Fields
 
-        private RelayCommand runTaskCommand;
         private bool EnableLogging = true;
+        private RelayCommand runTaskCommand;
 
         #endregion
 
@@ -233,36 +233,11 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
 
         #endregion
-        TaskSetupEngine tse;
+
+        // TaskSetupEngine tse;
         public void RunTask()
         {
-            if (!this.IsEnabled)
-            {
-                return;
-            }
-
-            try
-            {
-                tse = new TaskSetupEngine(this.TaskProvider, this, this.Paths, this.Task);
-                //using (var tse = new TaskSetupEngine(this.TaskProvider, this, this.Paths, this.Task))
-                {
-                    BackgroundWorker bg = new BackgroundWorker();
-                    bg.DoWork += (args, e) =>
-                    {
-                        var success = tse.ExecuteTask(this.Task.TypeName, this.task.data.AnyAttr);
-                        MessengerInstance.Send("Finished Task: " + success);
-                    };
-                    bg.RunWorkerCompleted += (e, x) =>
-                    {
-                        tse.Dispose();
-                    };
-                    bg.RunWorkerAsync();
-                }
-            }
-            catch (Exception e)
-            {
-                MessengerInstance.Send("Exception: " + e);
-            }
+            this.data.RunTask(this.Log);
         }
 
         private bool RunTaskEnabled(object sender)
@@ -275,30 +250,69 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             var taskTypeName = this.Task.TypeName;
             var msg = "Running " + taskTypeName + "-Task: '" + this.ItemName + "'";
-            //this.MessengerInstance.Send(msg);
-            //MessengerInstance.Send(
-            //    new DialogMessage(this, msg, null) { Caption = "Executing Task" }
-            //   );
+
+            // this.MessengerInstance.Send(msg);
+            // MessengerInstance.Send(
+            // new DialogMessage(this, msg, null) { Caption = "Executing Task" }
+            // );
             MessengerInstance.Send("Executing Task" + msg);
-            //ApplicationViewModel..DialogService.ShowMessage(msg, "Executing Task", "Ok", null);
+
+            // ApplicationViewModel..DialogService.ShowMessage(msg, "Executing Task", "Ok", null);
             this.RunTask();
         }
 
         #endregion
 
+        #region Indexers
+
+        /// <summary>
+        /// Gets the error message for the property with the given name.
+        /// </summary>
+        /// <returns>
+        /// The error message for the property. The default is an empty string ("").
+        ///   </returns>
+        public string this[string columnName]
+        {
+            get
+            {
+                return columnName + " Column Error";
+            }
+        }
+
+        #endregion
+
+        protected override void OnPropertyChanged(string propertyName)
+        {
+            this.Validate("OnPropertyChanged " + propertyName);
+            base.OnPropertyChanged(propertyName);
+        }
+
+        partial void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.Validate("DataPropertyChanged " + e.PropertyName);
+        }
+
+        private void Log(string e)
+        {
+            if (this.EnableLogging)
+            {
+                MessengerInstance.Send(e + Environment.NewLine);
+            }
+        }
+
         partial void PathCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             // Mit ObservableCollection kann das ViewModel automatisch auf entfernen und
             // hinzufügen von Objekten reagieren.
+            this.Validate("PathCollectionChanged " + e.Action);
 
-            Validate("PathCollectionChanged " + e.Action);
             /*if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
-                        {
-                            foreach (PathViewModel item in e.NewItems)
-                            {
-                                backupitem.Path.Add(item.path);
-                            }
-                        }*/
+                                    {
+                                        foreach (PathViewModel item in e.NewItems)
+                                        {
+                                            backupitem.Path.Add(item.path);
+                                        }
+                                    }*/
             // Reflect the changes to the underlying data.
             switch (e.Action)
             {
@@ -307,6 +321,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                     {
                         this.data.Path.Add(item.data);
                     }
+
                     break;
                 case NotifyCollectionChangedAction.Move:
                     break;
@@ -315,6 +330,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                     {
                         this.data.Path.Remove(item.data);
                     }
+
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     break;
@@ -325,66 +341,31 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
-        /// <summary>
-        /// Initializes the specified event source.
-        /// </summary>
-        /// <param name="eventSource">The event source.</param>
-        public void Initialize(IEventSource eventSource)
-        {
-            eventSource.MessageRaised += Log;
-            eventSource.WarningRaised += Log;
-            eventSource.ErrorRaised += Log;
-        }
 
-        private void Log(object sender, BuildErrorEventArgs e)
+        private void Validate(string propertyName)
         {
-            if (this.EnableLogging)
-                MessengerInstance.Send(e);
-        }
-
-        private void Log(object sender, BuildWarningEventArgs e)
-        {
-            if (this.EnableLogging)
-                MessengerInstance.Send(e);
-        }
-
-        private void Log(object sender, BuildMessageEventArgs e)
-        {
-            if (this.EnableLogging)
-                MessengerInstance.Send(e);
-        }
-
-        public void Shutdown()
-        {
-        }
-
-        public string Parameters
-        {
-            get
             {
-                return string.Empty;
+                // if (this.Task)
             }
-            set
-            {
-            }
-        }
 
-        public LoggerVerbosity Verbosity
-        {
-            get
-            {
-                return LoggerVerbosity.Detailed;
-            }
-            set
-            {
-            }
+            MessengerInstance.Send(propertyName);
+
+            // MessageBox.Show(propertyName);
         }
 
         #region EditorOpening Command
 
+        #region Fields
+
+        private List<PathDataType> back;
         private RelayCommand editorOpeningCommand;
 
-        [EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        #endregion
+
+        #region Properties
+
+        [EditorBrowsable(EditorBrowsableState.Never),
+         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ICommand EditorOpeningCommand
         {
             get
@@ -399,42 +380,34 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        #endregion
+
         public virtual List<PathDataType> ClonePath(List<PathDataType> sources)
         {
             List<PathDataType> result = null;
             using (var ms = new MemoryStream())
             {
-                //BinaryWriter bw = new BinaryWriter(ms);
-                //ISerializable
+                // BinaryWriter bw = new BinaryWriter(ms);
+                // ISerializable
                 var bf = new BinaryFormatter();
                 bf.Serialize(ms, sources);
                 ms.Seek(0, SeekOrigin.Begin);
                 result = (List<PathDataType>)bf.Deserialize(ms);
             }
+
             /*List<PathDataType> result = new List<PathDataType>();
-            foreach (var source in sources)
-            {
-                PathDataType n = new PathDataType();
-                n.Path = source.Path;
-                n.UserData = source.UserData;
-                n.Exclusion = source.Exclusion;
-                n.Inclusion = source.Inclusion;
-                //return ((PathDataType)(this.MemberwiseClone()));
-                result.Add(n);
-                //yield return n;
-            }*/
+                        foreach (var source in sources)
+                        {
+                            PathDataType n = new PathDataType();
+                            n.Path = source.Path;
+                            n.UserData = source.UserData;
+                            n.Exclusion = source.Exclusion;
+                            n.Inclusion = source.Inclusion;
+                            //return ((PathDataType)(this.MemberwiseClone()));
+                            result.Add(n);
+                            //yield return n;
+                        }*/
             return result;
-        }
-
-        List<PathDataType> back;
-        private void EditorOpeningExecuted(object o)
-        {
-            // this is not a good way to make undo.
-            back = ClonePath(this.data.Path);
-            //back = this.Clone();
-
-            //MessageBox.Show("EditorOpeningExecuted");
-            //this.EditorOpening();
         }
 
         private bool EditorOpeningEnabled(object sender)
@@ -442,13 +415,32 @@ namespace Jedzia.BackBock.ViewModel.Data
             bool canExecute = true;
             return canExecute;
         }
+
+        private void EditorOpeningExecuted(object o)
+        {
+            // this is not a good way to make undo.
+            this.back = this.ClonePath(this.data.Path);
+
+            // back = this.Clone();
+
+            // MessageBox.Show("EditorOpeningExecuted");
+            // this.EditorOpening();
+        }
+
         #endregion
 
         #region EditorCancel Command
 
+        #region Fields
+
         private RelayCommand editorCancelCommand;
 
-        [EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        #endregion
+
+        #region Properties
+
+        [EditorBrowsable(EditorBrowsableState.Never),
+         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ICommand EditorCancelCommand
         {
             get
@@ -462,14 +454,22 @@ namespace Jedzia.BackBock.ViewModel.Data
                 return this.editorCancelCommand;
             }
         }
-        
+
+        #endregion
+
+        private bool EditorCancelEnabled(object sender)
+        {
+            bool canExecute = true;
+            return canExecute;
+        }
+
         private void EditorCancelExecuted(object o)
         {
-
-            //return;
+            // return;
             // this is not a good way to make undo.
             // backing field to null, so auto renew the ObservableCollection on the next request.
             this.path = null;
+
             // restore saved data from saved backup.
             this.data.Path = this.back;
 
@@ -482,62 +482,8 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
             this.path.CollectionChanged += OnPathCollectionChanged;*/
             RaisePropertyChanged(() => this.Paths);
-            //this.EditorCancel();
-        }
 
-        private bool EditorCancelEnabled(object sender)
-        {
-            bool canExecute = true;
-            return canExecute;
-        }
-        #endregion
-
-        partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            Validate("DataPropertyChanged " + e.PropertyName);
-        }
-        
-
-        private void Validate(string propertyName)
-        {
-            //if (this.Task)
-            {
-                
-            }
-            MessengerInstance.Send(propertyName);
-
-            //MessageBox.Show(propertyName);
-        }
-
-        protected override void OnPropertyChanged(string propertyName)
-        {
-            Validate("OnPropertyChanged " + propertyName);
-            base.OnPropertyChanged(propertyName);
-        }
-
-
-        #region IDataErrorInfo Members
-
-        /// <summary>
-        /// Gets an error message indicating what is wrong with this object.
-        /// </summary>
-        /// <returns>
-        /// An error message indicating what is wrong with this object. The default is an empty string ("").
-        ///   </returns>
-        public string Error
-        {
-            get { return "We have an Error!"; }
-        }
-
-        /// <summary>
-        /// Gets the error message for the property with the given name.
-        /// </summary>
-        /// <returns>
-        /// The error message for the property. The default is an empty string ("").
-        ///   </returns>
-        public string this[string columnName]
-        {
-            get { return columnName + " Column Error"; }
+            // this.EditorCancel();
         }
 
         #endregion

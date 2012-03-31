@@ -20,7 +20,6 @@ using System.IO;
 
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
-    using Microsoft.Build.Framework;
     using Jedzia.BackBock.ViewModel.MVVM.Threading;
     using Jedzia.BackBock.DataAccess;
     using Jedzia.BackBock.ViewModel.Util;
@@ -176,7 +175,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }*/
 
             //ListBox lb;
-            this.MessengerInstance.Register<BuildMessageEventArgs>(this, logger.LogMessageEvent);
+            //this.MessengerInstance.Register<BuildMessageEventArgs>(this, logger.LogMessageEvent);
             //this.MessengerInstance.Register<TaskCommandLineEventArgs>(this, LogMessageEvent);
             //this.MessengerInstance.Register<string>(this, MainWindowMessageReceived);
             this.MessengerInstance.Register<string>(this, logger.LogMessageEvent);
@@ -209,7 +208,8 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
                 //var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
                 //throw new NotImplementedException("m999");
-                var taskList = ViewModel.ApplicationContext.TaskService.GetRegisteredTasks();
+                //var tasklist = TaskContext.GetRegisteredTasks();
+                var taskList = ApplicationContext.TaskService.GetRegisteredTasks();
                 return taskList;
             }
         }
