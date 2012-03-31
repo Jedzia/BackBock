@@ -19,8 +19,8 @@
    -->
         <ResourceDictionary>
             <m:Boolean x:Key="{x:Static controls:CustomResources.DebugKey}">False</m:Boolean>
-
-            <Application:ViewModelLocator x:Key="Locator" x:Name="Locator"
+<!--x:Name="Locator"-->
+            <Application:ViewModelLocator x:Key="Locator" 
                                  d:IsDataSource="True" />
 
             <ResourceDictionary.MergedDictionaries>

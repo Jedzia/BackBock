@@ -116,23 +116,6 @@ namespace Jedzia.BackBock.Application.Installers
                     );
 
 
-                //container.Register(Component.For<ProxyDings>().Named("Heiner"));
-                container.Register(
-                    // Decorator
-                    Component.For<IDings>().ImplementedBy<ProxyDings>().LifestyleTransient(),
-                    // Decorated object.
-                    Component.For<IDings>().ImplementedBy<Dings>()
-                    );
-
-                container.AddFacility<TypedFactoryFacility>();
-
-                container.Register(Component
-                    .For<IDingsFactory>()
-                    .AsFactory()
-                    .LifestyleTransient()
-                    );
-
-
 
                 //container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.TestBackupDataRepository>());
                 //container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.Data.Xml.XmlDataRepository>());
@@ -159,6 +142,23 @@ namespace Jedzia.BackBock.Application.Installers
                 container.Register(Component.For<Settings>().Instance(Settings.Default));
                 container.Register(Component.For<ISettingsProvider>().ImplementedBy<SettingsProvider>());
             }
+
+
+                //container.Register(Component.For<ProxyDings>().Named("Heiner"));
+                container.Register(
+                    // Decorator
+                    Component.For<IDings>().ImplementedBy<ProxyDings>().LifestyleTransient(),
+                    // Decorated object.
+                    Component.For<IDings>().ImplementedBy<Dings>()
+                    );
+
+                container.AddFacility<TypedFactoryFacility>();
+
+                container.Register(Component
+                    .For<IDingsFactory>()
+                    .AsFactory()
+                    .LifestyleTransient()
+                    );
 
 
         }

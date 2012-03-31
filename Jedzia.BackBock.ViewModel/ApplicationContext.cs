@@ -56,10 +56,9 @@ namespace Jedzia.BackBock.ViewModel
         {
             if (initialized != null)
             {
-                throw new ApplicationException("Double initialization of the ApplicationViewModel.");
+				if(!ViewModelBase.IsInDesignModeStatic)
+                	throw new ApplicationException("Double initialization of the ApplicationViewModel.");
             }
-
-            initialized = new object();
 
             Guard.NotNull(() => inoutService, inoutService);
             Guard.NotNull(() => settings, settings);
@@ -71,9 +70,13 @@ namespace Jedzia.BackBock.ViewModel
             this.inoutService = inoutService;
             
             ApplicationContext.taskContext = taskContext;
-            TaskContext.Default = taskContext;
-
-            ApplicationContext.taskWizardProvider = taskWizardProvider;
+    
+			if (!ViewModelBase.IsInDesignModeStatic)
+            {
+	            TaskContext.Default = taskContext;
+			}
+            
+			ApplicationContext.taskWizardProvider = taskWizardProvider;
 
             // ApplicationViewModel.dialogService = dialogService;
             this.MainWindow = mainWindow;
@@ -92,6 +95,7 @@ namespace Jedzia.BackBock.ViewModel
             this.ClassDataCommands = new ClassDataCommandModel(parent);*/
 
             // taskWizardProvider.GetWizard();
+            initialized = new object();
         }
 
         #endregion

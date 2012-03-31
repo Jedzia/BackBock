@@ -81,16 +81,49 @@ namespace Jedzia.BackBock.Application
         {
             if (_main == null)
             {
-                var bla = container.ResolveAll<BackupDataRepository>();
-                var blax = container.Resolve<IDings>();
-                var factory = container.Resolve<IDingsFactory>();
-                var dings = factory.Create();
-
-                //TaskContext.Default = container.Resolve<ITaskService>();
-                //var tskcontext = container.Resolve<TaskContext>("TaskContext");
-
-                //TaskContext.Default = container.Resolve<TaskContext>();
-                _main = container.Resolve<MainWindowViewModel>();
+				try
+				{
+					var bla = container.ResolveAll<BackupDataRepository>();
+					var blax = container.Resolve<IDings>();
+					var factory = container.Resolve<IDingsFactory>();
+					var dings = factory.Create();
+	
+					//TaskContext.Default = container.Resolve<ITaskService>();
+					//var tskcontext = container.Resolve<TaskContext>("TaskContext");
+	
+					//TaskContext.Default = container.Resolve<TaskContext>();
+					_main = container.Resolve<MainWindowViewModel>();
+				}
+				catch(Exception e)
+				{
+					if(MainWindowViewModel.IsInDesignModeStatic)
+					{
+						var msg = e.Message  + Environment.NewLine;
+						//msg += e.StackTrace + Environment.NewLine;
+						var inner = e.InnerException;
+						if(inner != null)
+							msg += inner.Message + Environment.NewLine;
+						inner = inner.InnerException ;
+						if(inner != null)
+						{
+							msg += inner.Message + Environment.NewLine;
+							msg += inner.StackTrace + Environment.NewLine;
+						}
+						/*inner = inner.InnerException;
+						if(inner != null)
+							msg += inner.Message + Environment.NewLine;
+						inner = inner.InnerException;
+						if(inner != null)
+							msg += inner.Message + Environment.NewLine;
+						inner = inner.InnerException;
+						if(inner != null)
+							msg += inner.Message + Environment.NewLine;*/
+						
+						MessageBox.Show(msg);
+					}
+					else
+						throw;
+				}
             }
         }
 
