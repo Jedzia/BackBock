@@ -118,6 +118,7 @@
     <Compile Include="Data\TaskViewModel.cs" />
     <Compile Include="Design\Data\DesignBackupDataRepository.cs" />
     <Compile Include="Design\Data\DesignBackupDataService.cs" />
+    <Compile Include="Design\Data\DesignDataProvider.cs" />
     <Compile Include="Design\DesignDialogService.cs" />
     <Compile Include="Design\DesignIOService.cs" />
     <Compile Include="Design\DesignMainWindow.cs" />

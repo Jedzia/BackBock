@@ -22,7 +22,7 @@ namespace Jedzia.BackBock.ViewModel.Design
     {
         #region Fields
 
-        private const string ERROR = "DesignTaskService does not provide executable Operations!";
+        private const string Error = "DesignTaskService does not provide executable Operations!";
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace Jedzia.BackBock.ViewModel.Design
         {
             get
             {
-                throw new NotImplementedException(ERROR);
+                throw new NotImplementedException(Error);
             }
         }
 
@@ -44,35 +44,35 @@ namespace Jedzia.BackBock.ViewModel.Design
         /// <exception cref="NotImplementedException"><c>DesignTaskService</c> does not provide executable Operations!</exception>
         public IEnumerable<string> GetRegisteredTasks()
         {
-            throw new NotImplementedException(ERROR);
+            throw new NotImplementedException(Error);
         }
 
         /// <inheritdoc/>
         /// <exception cref="NotImplementedException"><c>DesignTaskService</c> does not provide executable Operations!</exception>
         public object GetService(Type serviceType)
         {
-            throw new NotImplementedException(ERROR);
+            throw new NotImplementedException(Error);
         }
 
         /// <inheritdoc/>
         /// <exception cref="NotImplementedException"><c>DesignTaskService</c> does not provide executable Operations!</exception>
         public bool Register(ITask task)
         {
-            throw new NotImplementedException(ERROR);
+            throw new NotImplementedException(Error);
         }
 
         /// <inheritdoc/>
         /// <exception cref="NotImplementedException"><c>DesignTaskService</c> does not provide executable Operations!</exception>
         public void Reset()
         {
-            throw new NotImplementedException(ERROR);
+            throw new NotImplementedException(Error);
         }
 
         /// <inheritdoc/>
         /// <exception cref="NotImplementedException"><c>DesignTaskService</c> does not provide executable Operations!</exception>
         public void ResetAll()
         {
-            throw new NotImplementedException(ERROR);
+            throw new NotImplementedException(Error);
         }
     }
 }
