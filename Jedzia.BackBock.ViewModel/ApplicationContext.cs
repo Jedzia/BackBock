@@ -69,7 +69,10 @@ namespace Jedzia.BackBock.ViewModel
 
             this.settings = settings;
             this.inoutService = inoutService;
+            
             ApplicationContext.taskContext = taskContext;
+            TaskContext.Default = taskContext;
+
             ApplicationContext.taskWizardProvider = taskWizardProvider;
 
             // ApplicationViewModel.dialogService = dialogService;

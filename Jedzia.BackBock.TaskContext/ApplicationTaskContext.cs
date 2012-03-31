@@ -8,12 +8,49 @@
 // <date>$date$</date>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Jedzia.BackBock.Application.Installers
+namespace Jedzia.BackBock.TaskContext
 {
     using Jedzia.BackBock.Model;
     using Jedzia.BackBock.Tasks;
+    using Microsoft.Build.Framework;
 
-    internal class ApplicationTaskContext : TaskContext
+    internal class XyzTask : ITask
+    {
+        #region ITask Members
+
+        public bool Execute()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IBuildEngine BuildEngine
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
+        public ITaskHost HostObject
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+                throw new System.NotImplementedException();
+            }
+        }
+
+        #endregion
+    }
+
+    public class ApplicationTaskContext : TaskContext
     {
         #region Fields
 
@@ -30,6 +67,7 @@ namespace Jedzia.BackBock.Application.Installers
         public ApplicationTaskContext(ITaskService taskService)
         {
             this.taskService = taskService;
+            this.taskService.Register(new XyzTask());
         }
 
         #endregion

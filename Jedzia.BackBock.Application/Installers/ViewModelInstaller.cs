@@ -17,6 +17,7 @@
             container.Register(Component.For<ILogger>().ImplementedBy<MainWindowLogger>());
 
             container.Register(Component.For<ApplicationContext>());
+            //container.Register(Component.For<ApplicationContext>().DependsOn(new { taskContext = container.Resolve("TaskContext") }));
             container.Register(Component.For<MainWindowViewModel>());
             container.Register(Component.For<TaskWizardViewModel>());
 

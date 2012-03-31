@@ -16,10 +16,10 @@ using Jedzia.BackBock.DataAccess;
 using Jedzia.BackBock.ViewModel.MainWindow;
 using Castle.DynamicProxy;
 using Castle.Facilities.TypedFactory;
+using Castle.Core.Configuration;
 
 namespace Jedzia.BackBock.Application.Installers
 {
-    using Jedzia.BackBock.Model;
 
     public class LoggerInterceptor : IInterceptor
     {
@@ -40,7 +40,19 @@ namespace Jedzia.BackBock.Application.Installers
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 container.Register(Component.For<ITaskService>().ImplementedBy<DesignTaskService>());
-                container.Register(Component.For<TaskContext>().ImplementedBy<DesignTaskContext>());
+
+                //container.Register(Component.For<TaskContext>().ImplementedBy<DesignTaskContext>());
+                container.Register(AllTypes.FromAssemblyContaining<DesignTaskService>()
+                    .InSameNamespaceAs<DesignTaskService>()
+                    .If(fil => fil.Name == "DesignTaskContext")
+                    .Configure(e =>
+                    {
+                        var bs = e.Implementation.BaseType;
+                        e.Forward(bs);
+                        e.Named("TaskContext");
+                    })
+                    );
+                
                 container.Register(Component.For<IOService>().ImplementedBy<DesignIOService>());
 
                 //container.Register(Component.For<BackupDataRepository>().ImplementedBy<Jedzia.BackBock.ViewModel.Design.Data.DesignBackupDataRepository>());
@@ -58,9 +70,24 @@ namespace Jedzia.BackBock.Application.Installers
                         return taskService;
                     })
                 );
-                container.Register(Component.For<TaskContext>().ImplementedBy<ApplicationTaskContext>());
+
+                //container.Register(Component.For<DesignTaskContext>()
+                  //  .ImplementedBy<DesignTaskContext>().
+                    //.WithServiceBase());
 
                 
+                //container.Register(Component.For<TaskContext>().ImplementedBy<ApplicationTaskContext>());
+                container.Register(AllTypes.FromAssemblyNamed("Jedzia.BackBock.TaskContext")
+                    .Where(type => type.Name == "ApplicationTaskContext")
+                    .Configure(e =>
+                    {
+                        var bs = e.Implementation.BaseType;
+                        e.Forward(bs);
+                    })
+                    );
+
+
+
                 container.Register(Component.For<IOService>().ImplementedBy<FileIOService>());
 
                 // Register collection resolver, needed by the BackupDataService dependencies.
