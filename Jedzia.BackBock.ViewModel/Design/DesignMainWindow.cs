@@ -70,7 +70,7 @@ namespace Jedzia.BackBock.ViewModel.Design
         #region IMainWindow Members
 
 
-        public void ResetLogText()
+        public void ClearLogText()
         {
             throw new NotImplementedException();
         }

@@ -134,7 +134,7 @@
             logtext.ScrollToEnd();
         }
 
-        public void ResetLogText()
+        public void ClearLogText()
         {
             logtext.Clear();
         }

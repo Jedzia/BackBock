@@ -23,7 +23,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         public void Reset()
         {
             //this.logsb.Length = 0;
-            DispatcherHelper.CheckBeginInvokeOnUI(() => mainWindow.ResetLogText());
+            DispatcherHelper.CheckBeginInvokeOnUI(() => mainWindow.ClearLogText());
         }
 
         public void LogMessageEvent(string e)

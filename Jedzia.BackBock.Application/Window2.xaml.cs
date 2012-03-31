@@ -55,7 +55,7 @@ namespace Jedzia.BackBock.Application
             //logtext.AppendText(text);
         }
 
-        public void ResetLogText()
+        public void ClearLogText()
         {
             //logtext.Clear();
         }

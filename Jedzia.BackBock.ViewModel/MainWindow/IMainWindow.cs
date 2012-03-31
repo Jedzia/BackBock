@@ -16,10 +16,22 @@
 
         #region Properties
 
+        /// <summary>
+        /// Gets the work area.
+        /// </summary>
         IMainWorkArea WorkArea { get; }
         //MainWindowViewModel MainWindowViewModel { get; }
+        
+        /// <summary>
+        /// Updates the log text.
+        /// </summary>
+        /// <param name="text">The text.</param>
         void UpdateLogText(string text);
-        void ResetLogText();
+        
+        /// <summary>
+        /// Clears the log text.
+        /// </summary>
+        void ClearLogText();
 
         #endregion
 
