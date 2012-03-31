@@ -15,11 +15,17 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
     using Jedzia.BackBock.ViewModel.MVVM.Threading;
     using Jedzia.BackBock.ViewModel.Util;
 
+    /// <summary>
+    /// Main window logger.
+    /// </summary>
     public sealed class MainWindowLogger : ILogger
     {
         // private readonly StringBuilder logsb = new StringBuilder();
         #region Fields
 
+        /// <summary>
+        /// Reference to the main window.
+        /// </summary>
         private readonly IMainWindow mainWindow;
 
         #endregion

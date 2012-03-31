@@ -28,7 +28,8 @@ bmp
 spr
 MVVM
 Ioc
-</UserWords>
+IO
+inout</UserWords>
               </CustomDictionary>
               <CustomDictionary>
                 <Name>de-DE</Name>
@@ -266,7 +267,7 @@ Ioc
                 <MustNotHaveSuffixes />
               </NamingConventionRule>
               <NamingConventionRule>
-                <IsDisabled>false</IsDisabled>
+                <IsDisabled>true</IsDisabled>
                 <Matches>
                   <Match>
                     <AccessLevel>Any</AccessLevel>
@@ -754,6 +755,7 @@ Ioc
             <Exclusions>
               <string>Ioc</string>
               <string>MVVM</string>
+              <string>IO</string>
             </Exclusions>
           </NamingConventionSettings>
           <IdentifiersToSpellCheck>
@@ -835,6 +837,7 @@ Ioc
           <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateStaticReadonly" />
           <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="EnumMember" />
           <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
+          <Abbreviation Text="IO" />
         </Naming2>
         <CustomMemberReorderingPatterns><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <Patterns xmlns="urn:shemas-jetbrains-com:member-reordering-patterns">
@@ -1454,8 +1457,16 @@ Copyright (c) 2012 All Right Reserved
         <StringEmpty>SUGGESTION</StringEmpty>
         <ValueAnalysis>WARNING</ValueAnalysis>
         <Return>WARNING</Return>
+        <WordIsNotInDictionary>SUGGESTION</WordIsNotInDictionary>
+        <WordCanBeSurroundedWithMetaTags>SUGGESTION</WordCanBeSurroundedWithMetaTags>
+        <PublicMembersMustHaveComments>SUGGESTION</PublicMembersMustHaveComments>
+        <DelcarationDoesntConformToNamingConventions>WARNING</DelcarationDoesntConformToNamingConventions>
+        <ResxSpellCheckSuggestion>WARNING</ResxSpellCheckSuggestion>
+        <StringLiteralsWordIsNotInDictionary>HINT</StringLiteralsWordIsNotInDictionary>
+        <VerbatimStringLiteralsWordIsNotInDictionary>SUGGESTION</VerbatimStringLiteralsWordIsNotInDictionary>
+        <IdentifierWordIsNotInDictionary>HINT</IdentifierWordIsNotInDictionary>
         <StyleCop.DefaultSeverity>SUGGESTION</StyleCop.DefaultSeverity>
-        <StyleCop.SA1600>SUGGESTION</StyleCop.SA1600>
+        <StyleCop.SA1600>WARNING</StyleCop.SA1600>
         <StyleCop.SA1601>SUGGESTION</StyleCop.SA1601>
         <StyleCop.SA1602>SUGGESTION</StyleCop.SA1602>
         <StyleCop.SA1603>SUGGESTION</StyleCop.SA1603>
@@ -1609,17 +1620,9 @@ Copyright (c) 2012 All Right Reserved
         <StyleCop.SA1025>SUGGESTION</StyleCop.SA1025>
         <StyleCop.SA1026>SUGGESTION</StyleCop.SA1026>
         <StyleCop.SA1027>SUGGESTION</StyleCop.SA1027>
-        <WordIsNotInDictionary>SUGGESTION</WordIsNotInDictionary>
-        <WordCanBeSurroundedWithMetaTags>SUGGESTION</WordCanBeSurroundedWithMetaTags>
-        <PublicMembersMustHaveComments>SUGGESTION</PublicMembersMustHaveComments>
-        <DelcarationDoesntConformToNamingConventions>WARNING</DelcarationDoesntConformToNamingConventions>
-        <ResxSpellCheckSuggestion>WARNING</ResxSpellCheckSuggestion>
-        <StringLiteralsWordIsNotInDictionary>HINT</StringLiteralsWordIsNotInDictionary>
-        <VerbatimStringLiteralsWordIsNotInDictionary>SUGGESTION</VerbatimStringLiteralsWordIsNotInDictionary>
-        <IdentifierWordIsNotInDictionary>HINT</IdentifierWordIsNotInDictionary>
       </SeverityTable>
     </HighlightingSettings>
-    <CodeCleanup SilentCleanup="StyleCop" RecentlyUsed="XML">
+    <CodeCleanup SilentCleanup="StyleCop" RecentlyUsed="StyleCop">
       <Profile name="StyleCop">
         <CSArrangeThisQualifier>True</CSArrangeThisQualifier>
         <CSRemoveCodeRedundancies>True</CSRemoveCodeRedundancies>

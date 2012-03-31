@@ -11,20 +11,23 @@
 namespace Jedzia.BackBock.ViewModel
 {
     using System;
-    
+
+    /// <summary>
+    /// Base class for a <see cref="ViewModel"/> with <see cref="DisplayMode"/>'s.
+    /// </summary>
     public class DisplayModeViewModel : ViewModelBase
     {
         #region Fields
 
-        /// <summary>
-        /// The summary.
-        /// </summary>
         private DisplayMode displayMode = DisplayMode.Standard;
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets the Visibility string for <see cref="ViewModel.DisplayMode.All"/>.
+        /// </summary>
         public string DisplayAll
         {
             get
@@ -33,6 +36,9 @@ namespace Jedzia.BackBock.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the Visibility string for <see cref="ViewModel.DisplayMode.Expert"/>.
+        /// </summary>
         public string DisplayExpert
         {
             get
@@ -42,9 +48,11 @@ namespace Jedzia.BackBock.ViewModel
         }
 
         /// <summary>
-        /// Gets or sets the summary.
+        /// Gets or sets the display mode.
         /// </summary>
-        /// <value>The summary.</value>
+        /// <value>
+        /// The display mode.
+        /// </value>
         /// <exception cref="ArgumentOutOfRangeException"><c>value</c> is out of range.</exception>
         public DisplayMode DisplayMode
         {
@@ -125,6 +133,12 @@ namespace Jedzia.BackBock.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is in display mode  <see cref="ViewModel.DisplayMode.All"/>.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is in All display mode; otherwise, <c>false</c>.
+        /// </value>
         public bool IsAllDisplayMode
         {
             get
@@ -133,6 +147,12 @@ namespace Jedzia.BackBock.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is in display mode  <see cref="ViewModel.DisplayMode.Expert"/>.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is Expert display mode; otherwise, <c>false</c>.
+        /// </value>
         public bool IsExpertDisplayMode
         {
             get
@@ -142,6 +162,12 @@ namespace Jedzia.BackBock.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is in display mode  <see cref="ViewModel.DisplayMode.Standard"/>.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is Standard display mode; otherwise, <c>false</c>.
+        /// </value>
         public bool IsStandardDisplayMode
         {
             get

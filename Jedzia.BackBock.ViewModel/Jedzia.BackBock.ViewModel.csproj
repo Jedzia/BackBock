@@ -139,7 +139,7 @@
     <Compile Include="IDialogControl.cs" />
     <Compile Include="IDialogService.cs" />
     <Compile Include="IOService.cs" />
-    <Compile Include="ISelectionService.cs" />
+    <Compile Include="IDialogServiceProvider.cs" />
     <Compile Include="ISettingsProvider.cs" />
     <Compile Include="IViewProvider.cs" />
     <Compile Include="MainWindow\ILogger.cs" />
@@ -200,6 +200,8 @@
     <Compile Include="Util\VisualHelper.cs" />
     <Compile Include="MVVM\Validation\ValidatingViewModelBaseOld.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Compile Include="Wizard\IDialog.cs" />
+    <Compile Include="Wizard\IDialogWindow.cs" />
     <Compile Include="Wizard\TaskWizardFSM.cs" />
     <Compile Include="Wizard\IStateWizard.cs" />
     <Compile Include="Wizard\TaskWizardViewModel.cs" />

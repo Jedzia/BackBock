@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ICanInputBind.cs" company="EvePanix">
+// <copyright file="IDialog.cs" company="EvePanix">
 //   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
 //   See the license notes shipped with this source and the GNU GPL.
 // </copyright>
@@ -8,25 +8,22 @@
 // <date>$date$</date>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Jedzia.BackBock.ViewModel.Commands
+namespace Jedzia.BackBock.ViewModel.Wizard
 {
-    using System.Windows.Input;
-
     /// <summary>
-    /// Implements input binding capabilities.
+    /// Implements the basic dialog characteristics. 
     /// </summary>
-    public interface ICanInputBind
+    public interface IDialog
     {
-        #region Properties
-
         /// <summary>
-        /// Gets the collection of input bindings associated with this element.
+        /// Closes this instance.
         /// </summary>
-        /// <returns>
-        /// The collection of input bindings.
-        /// </returns>
-        InputBindingCollection InputBindings { get; }
-
-        #endregion
+        void Close();
+        
+        /// <summary>
+        /// Shows the dialog to the user.
+        /// </summary>
+        /// <returns><c>true</c> if the user committed O.K. or <c>false</c> on cancellation.</returns>
+        bool? ShowDialog();
     }
 }

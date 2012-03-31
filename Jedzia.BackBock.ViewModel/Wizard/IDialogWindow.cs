@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ICanInputBind.cs" company="EvePanix">
+// <copyright file="IDialogWindow.cs" company="EvePanix">
 //   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
 //   See the license notes shipped with this source and the GNU GPL.
 // </copyright>
@@ -8,24 +8,26 @@
 // <date>$date$</date>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Jedzia.BackBock.ViewModel.Commands
+namespace Jedzia.BackBock.ViewModel.Wizard
 {
-    using System.Windows.Input;
-
     /// <summary>
-    /// Implements input binding capabilities.
+    /// A dialog window with a data binding <c>DataContext</c>.
     /// </summary>
-    public interface ICanInputBind
+    public interface IDialogWindow : IDialog
     {
         #region Properties
 
         /// <summary>
-        /// Gets the collection of input bindings associated with this element.
+        /// Gets or sets the data context for an element when it participates in data binding. 
+        /// This is a dependency property.
         /// </summary>
+        /// <value>
+        /// The data context.
+        /// </value>
         /// <returns>
-        /// The collection of input bindings.
+        /// The object to use as data context.
         /// </returns>
-        InputBindingCollection InputBindings { get; }
+        object DataContext { get; set; }
 
         #endregion
     }

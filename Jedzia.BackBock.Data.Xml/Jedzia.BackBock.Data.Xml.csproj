@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DesignDataProvider.cs" />
     <Compile Include="ModelLoader.cs" />
     <Compile Include="RepositoryInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

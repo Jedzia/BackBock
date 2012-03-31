@@ -13,13 +13,13 @@
 // </license>
 // ****************************************************************************
 
-////using GalaSoft.Utilities.Attributes;
+//// using GalaSoft.Utilities.Attributes;
 
 namespace Jedzia.BackBock.ViewModel
 {
     /// <summary>
     /// Defines a common interface for classes that should be cleaned up,
-    /// but without the implications that IDisposable presupposes. An instance
+    /// but without the implications that <see cref="System.IDisposable"/> presupposes. An instance
     /// implementing ICleanup can be cleaned up without being
     /// disposed and garbage collected.
     /// </summary>

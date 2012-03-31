@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ICanInputBind.cs" company="EvePanix">
+// <copyright file="IDialogServiceProvider.cs" company="EvePanix">
 //   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
 //   See the license notes shipped with this source and the GNU GPL.
 // </copyright>
@@ -8,24 +8,19 @@
 // <date>$date$</date>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Jedzia.BackBock.ViewModel.Commands
+namespace Jedzia.BackBock.ViewModel
 {
-    using System.Windows.Input;
-
     /// <summary>
-    /// Implements input binding capabilities.
+    /// Provides a <see cref="DialogService"/>.
     /// </summary>
-    public interface ICanInputBind
+    public interface IDialogServiceProvider
     {
         #region Properties
 
         /// <summary>
-        /// Gets the collection of input bindings associated with this element.
+        /// Gets the dialog service for this instance.
         /// </summary>
-        /// <returns>
-        /// The collection of input bindings.
-        /// </returns>
-        InputBindingCollection InputBindings { get; }
+        IDialogService DialogService { get; }
 
         #endregion
     }

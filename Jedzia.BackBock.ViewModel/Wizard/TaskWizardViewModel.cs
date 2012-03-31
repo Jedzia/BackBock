@@ -1,10 +1,20 @@
-﻿
-using System.Windows.Input;
-using Jedzia.BackBock.ViewModel.Commands;
-using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TaskWizardViewModel.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Jedzia.BackBock.ViewModel.Wizard
 {
+    using System;
+    using System.Threading;
+    using System.Windows.Input;
+    using Jedzia.BackBock.ViewModel.Commands;
+
     /// <summary>
     /// This class contains properties that a View can data bind to.
     /// <para>
@@ -16,69 +26,177 @@ namespace Jedzia.BackBock.ViewModel.Wizard
     /// </summary>
     public class TaskWizardViewModel : ViewModelBase
     {
-        /// <summary>
-        /// The <see cref="Title" /> property's name.
-        /// </summary>
-        public const string TitlePropertyName = "Title";
-
-        private string title = "Task Wizard";
-
-        /// <summary>
-        /// Sets and gets the Title property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
-
-            set
-            {
-                if (title == value)
-                {
-                    return;
-                }
-
-                title = value;
-                RaisePropertyChanged(TitlePropertyName);
-            }
-        }
+        #region Fields
 
         /// <summary>
         /// The <see cref="Path" /> property's name.
         /// </summary>
         public const string PathPropertyName = "Path";
 
-        private string path;
+        /// <summary>
+        /// The <see cref="Title" /> property's name.
+        /// </summary>
+        public const string TitlePropertyName = "Title";
+
+        private RelayCommand cancelCommand;
 
         /// <summary>
-        /// Sets and gets the Path property.
+        /// The event handler for the <see cref="TaskWizardViewModel.Closed"/> event.
+        /// </summary>
+        private EventHandler<EventArgs> closed;
+
+        private RelayCommand finishCommand;
+        private TaskWizardFsm fsm;
+        private RelayCommand nextCommand;
+
+        private string path;
+        private RelayCommand previousCommand;
+
+        private IStateWizard stateWizard;
+        private string title = "Task Wizard";
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Occurs when the Wizard is closed.
+        /// </summary>
+        public event EventHandler<EventArgs> Closed
+        {
+            add
+            {
+                this.closed += value;
+            }
+
+            remove
+            {
+                this.closed -= value;
+            }
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the wizards cancel command.
+        /// </summary>
+        public ICommand CancelCommand
+        {
+            get
+            {
+                if (this.cancelCommand == null)
+                {
+                    this.cancelCommand = new RelayCommand(
+                        o => this.fsm.Fire(Trigger.Cancel));
+                }
+
+                return this.cancelCommand;
+            }
+        }
+
+        /// <summary>
+        /// Gets the wizards finish command.
+        /// </summary>
+        public ICommand FinishCommand
+        {
+            get
+            {
+                if (this.finishCommand == null)
+                {
+                    this.finishCommand = new RelayCommand(
+                        o => this.fsm.Fire(Trigger.Finished),
+                        sender =>
+                        {
+                            if (this.CheckWizard(false))
+                            {
+                                return false;
+                            }
+
+                            return this.fsm.State == State.ReadyToAccept;
+                        });
+                }
+
+                return this.finishCommand;
+            }
+        }
+
+        /// <summary>
+        /// Gets the next wizard page command.
+        /// </summary>
+        public ICommand NextCommand
+        {
+            get
+            {
+                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
+                return this.nextCommand ?? (this.nextCommand = new RelayCommand(this.NextExecuted, this.NextEnabled));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Path property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
         public string Path
         {
             get
             {
-                return path;
+                return this.path;
             }
 
             set
             {
-                if (path == value)
+                if (this.path == value)
                 {
                     return;
                 }
 
-                path = value;
-                RaisePropertyChanged(() => Path);
+                this.path = value;
+                RaisePropertyChanged(() => this.Path);
             }
         }
 
-        private IStateWizard stateWizard;
         /// <summary>
-        /// Gets or sets 
+        /// Gets the previous wizard page command.
+        /// </summary>
+        public ICommand PreviousCommand
+        {
+            get
+            {
+                return this.previousCommand ??
+                       (this.previousCommand = new RelayCommand(this.PreviousExecuted, this.PreviousEnabled));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Title property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        /// <value>
+        /// The Title property.
+        /// </value>
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+
+            set
+            {
+                if (this.title == value)
+                {
+                    return;
+                }
+
+                this.title = value;
+                RaisePropertyChanged(TitlePropertyName);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Wizard of the View.
         /// </summary>
         public IStateWizard Wizard
         {
@@ -93,182 +211,23 @@ namespace Jedzia.BackBock.ViewModel.Wizard
                 {
                     return;
                 }
+
                 this.stateWizard = value;
+
                 // On a new assigned Wizard, this means a new Window, reset the fsm, etc. to initial conditions.
-                Reset();
-            }
-        }
-        /// <summary>
-        /// Initializes a new instance of the TaskWizardViewModel class.
-        /// </summary>
-        public TaskWizardViewModel(/*IStateWizard instance*/)
-        {
-            //MessengerInstance.Send(pagecount.ToString());
-            //baseWizard = new BaseWizard();
-        }
-        private TaskWizardFSM fsm;
-
-        #region Next Command
-
-        private RelayCommand nextCommand;
-
-        public ICommand NextCommand
-        {
-            get
-            {
-                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
-                if (this.nextCommand == null)
-                {
-                    this.nextCommand = new RelayCommand(this.NextExecuted, this.NextEnabled);
-                }
-
-                return this.nextCommand;
+                this.Reset();
             }
         }
 
-
-        private void NextExecuted(object o)
-        {
-            CheckWizard(true);
-            var pgc = this.Wizard.PageCount;
-            var pgs = this.Wizard.SelectedPage;
-            fsm.Fire(Trigger.Next);
-            this.Wizard.SelectedPage++;
-            //this.Next();
-        }
-
-        private bool NextEnabled(object sender)
-        {
-            if (CheckWizard(false))
-            {
-                return false;
-            }
-
-            bool canExecute = 
-                fsm.State == State.Initial | 
-                fsm.State == State.ChooseTaskType | 
-                fsm.State == State.SelectFolders;
-            return canExecute;
-        }
         #endregion
 
-                #region Previous Command
-
-        private RelayCommand previousCommand;
-
-        public ICommand PreviousCommand
-        {
-            get
-            {
-                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
-                if (this.previousCommand == null)
-                {
-                    this.previousCommand = new RelayCommand(this.PreviousExecuted, this.PreviousEnabled);
-                }
-
-                return this.previousCommand;
-            }
-        }
-
-
-        private void PreviousExecuted(object o)
-        {
-            CheckWizard(true);
-            //this.Previous();
-            fsm.Fire(Trigger.Previous);
-            this.Wizard.SelectedPage--;
-        }
-
         /// <summary>
-        /// Checks if the wizard was injected.
+        /// Raises the <see cref="Closed"/> event.
         /// </summary>
-        /// <param name="doThrow">if set to <c>true</c> does throw an Exception.</param>
-        /// <returns><c>true</c> if the wizard instance is ready.</returns>
-        private bool CheckWizard(bool doThrow)
-        {
-            if (Wizard == null)
-            {
-                Title = "  !!! No Wizard Instance Set. !!!  ";
-                if (doThrow)
-                {
-                    throw new NotSupportedException("The Wizard instance was not set up correctly before calling a method.");
-                }
-                return true;
-            }
-            return false;
-        }
-
-        private bool PreviousEnabled(object sender)
-        {
-            if (CheckWizard(false))
-            {
-                return false;
-            }
-
-            bool canExecute =
-                fsm.State == State.ChooseTaskType |
-                fsm.State == State.SelectFolders |
-                fsm.State == State.ReadyToAccept;
-            return canExecute;
-        }
-        #endregion
-
-        private void Reset()
-        {
-
-            this.fsm = new TaskWizardFSM();
-            this.fsm.Canceled += fsm_Canceled;
-            this.fsm.Finished += fsm_Finished;
-        }
-
-        private void Tidyup()
-        {
-            if (this.fsm != null)
-            {
-                this.fsm.Canceled -= fsm_Canceled;
-                this.fsm.Finished -= fsm_Finished;
-            }
-
-            //this.fsm = null;
-            //SimpleIoc.Default.Unregister<TaskWizardViewModel>(this);
-
-            this.Wizard.Close();
-            //this.Wizard = null;
-            OnClosed(EventArgs.Empty);
-            //this.Candidate.Destroy();
-            //base.Cleanup();
-        }
-
-        /// <summary>
-        /// The event handler for the <see cref="E:TaskWizardViewModel.Closed"/> event.
-        /// </summary>
-        private EventHandler<EventArgs> closed;
-
-        /// <summary>
-        /// Occurs when 
-        /// </summary>
-        public event EventHandler<EventArgs> Closed
-        {
-            add
-            {
-                // TODO: write your implementation of the add accessor here
-                this.closed += value;
-            }
-
-            remove
-            {
-                // TODO: write your implementation of the remove accessor here
-                this.closed -= value;
-            }
-        }
-
-        /// <summary>
-        /// Raises the <see cref="E:"/> event.
-        /// </summary>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected virtual void OnClosed(EventArgs e)
         {
-            EventHandler<EventArgs> handler = System.Threading.Interlocked.CompareExchange(ref this.closed, null, null);
+            EventHandler<EventArgs> handler = Interlocked.CompareExchange(ref this.closed, null, null);
 
             if (handler != null)
             {
@@ -276,87 +235,114 @@ namespace Jedzia.BackBock.ViewModel.Wizard
             }
         }
 
-        void fsm_Finished(object sender, EventArgs e)
+        /// <summary>
+        /// Checks if the wizard was injected.
+        /// </summary>
+        /// <param name="doThrow">if set to <c>true</c> does throw an Exception.</param>
+        /// <returns><c>true</c> if the wizard instance is ready.</returns>
+        /// <exception cref="NotSupportedException">The Wizard instance was not set up correctly before calling a method.</exception>
+        private bool CheckWizard(bool doThrow)
+        {
+            if (this.Wizard == null)
+            {
+                this.Title = "  !!! No Wizard Instance Set. !!!  ";
+                if (doThrow)
+                {
+                    throw new NotSupportedException(
+                        "The Wizard instance was not set up correctly before calling a method.");
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private void FsmCanceled(object sender, EventArgs e)
+        {
+            this.Tidyup();
+        }
+
+        private void FsmFinished(object sender, EventArgs e)
         {
             // do task creation
             // this.MessengerInstance.Send<SomeFormOfData>(this.data, MessengerTokens.TaskCreation);
             this.Tidyup();
         }
 
-        void fsm_Canceled(object sender, EventArgs e)
+        private bool NextEnabled(object sender)
         {
-            this.Tidyup();
-        }
-
-                #region Cancel Command
-
-        private RelayCommand cancelCommand;
-
-        public ICommand CancelCommand
-        {
-            get
-            {
-                if (this.cancelCommand == null)
-                {
-                    this.cancelCommand = new RelayCommand(this.CancelExecuted, this.CancelEnabled);
-                }
-
-                return this.cancelCommand;
-            }
-        }
-
-
-        private void CancelExecuted(object o)
-        {
-            this.fsm.Fire(Trigger.Cancel);
-            //BackgroundWorker
-            //this.Wizard.Close();
-            //this.Cancel();
-        }
-
-        private bool CancelEnabled(object sender)
-        {
-            bool canExecute = true;
-            return canExecute;
-        }
-        #endregion
-
-                #region Finish Command
-
-        private RelayCommand finishCommand;
-
-        public ICommand FinishCommand
-        {
-            get
-            {
-                if (this.finishCommand == null)
-                {
-                    this.finishCommand = new RelayCommand(this.FinishExecuted, this.FinishEnabled);
-                }
-
-                return this.finishCommand;
-            }
-        }
-
-
-        private void FinishExecuted(object o)
-        {
-            this.fsm.Fire(Trigger.Finished);
-            //this.Wizard.Close();
-        }
-
-        private bool FinishEnabled(object sender)
-        {
-            if (CheckWizard(false))
+            if (this.CheckWizard(false))
             {
                 return false;
             }
 
             bool canExecute =
-                fsm.State == State.ReadyToAccept;
+                this.fsm.State == State.Initial |
+                this.fsm.State == State.ChooseTaskType |
+                this.fsm.State == State.SelectFolders;
             return canExecute;
         }
-        #endregion
 
+        private void NextExecuted(object o)
+        {
+            this.CheckWizard(true);
+            
+            // var pgc = this.Wizard.PageCount;
+            // var pgs = this.Wizard.SelectedPage;
+            this.fsm.Fire(Trigger.Next);
+            this.Wizard.SelectedPage++;
+
+            // this.Next();
+        }
+
+        private bool PreviousEnabled(object sender)
+        {
+            if (this.CheckWizard(false))
+            {
+                return false;
+            }
+
+            bool canExecute =
+                this.fsm.State == State.ChooseTaskType |
+                this.fsm.State == State.SelectFolders |
+                this.fsm.State == State.ReadyToAccept;
+            return canExecute;
+        }
+
+        private void PreviousExecuted(object o)
+        {
+            this.CheckWizard(true);
+
+            // this.Previous();
+            this.fsm.Fire(Trigger.Previous);
+            this.Wizard.SelectedPage--;
+        }
+
+        private void Reset()
+        {
+            this.fsm = new TaskWizardFsm();
+            this.fsm.Canceled += this.FsmCanceled;
+            this.fsm.Finished += this.FsmFinished;
+        }
+
+        private void Tidyup()
+        {
+            if (this.fsm != null)
+            {
+                this.fsm.Canceled -= this.FsmCanceled;
+                this.fsm.Finished -= this.FsmFinished;
+            }
+
+            // this.fsm = null;
+            // SimpleIoc.Default.Unregister<TaskWizardViewModel>(this);
+            this.Wizard.Close();
+
+            // this.Wizard = null;
+            this.OnClosed(EventArgs.Empty);
+
+            // this.Candidate.Destroy();
+            // base.Cleanup();
+        }
     }
 }

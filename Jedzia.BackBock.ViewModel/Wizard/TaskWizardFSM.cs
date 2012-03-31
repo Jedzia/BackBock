@@ -1,45 +1,170 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Stateless;
-using System.Windows;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TaskWizardFSM.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Jedzia.BackBock.ViewModel.Wizard
 {
-    enum Trigger
+    using System;
+    using System.Threading;
+    using System.Windows;
+    using Stateless;
+
+    /// <summary>
+    /// Triggers for the <see cref="TaskWizardFsm"/> state machine.
+    /// </summary>
+    internal enum Trigger
     {
+        /// <summary>
+        /// Introduction was read.
+        /// </summary>
         IntroRead,
+
+        /// <summary>
+        /// A task was choosen.
+        /// </summary>
         TaskChoosen,
+
+        /// <summary>
+        /// Folders are selected.
+        /// </summary>
         FoldersSelected,
+
+        /// <summary>
+        /// Finished with the wizard.
+        /// </summary>
         Finished,
+
+        /// <summary>
+        /// Wizard cancelled.
+        /// </summary>
         Cancel,
+
+        /// <summary>
+        /// Wizard move to previous page.
+        /// </summary>
         Previous,
+
+        /// <summary>
+        /// Wizard move to next page.
+        /// </summary>
         Next
     }
 
-    enum State
+    /// <summary>
+    /// States of the <see cref="TaskWizardFsm"/> state machine.
+    /// </summary>
+    internal enum State
     {
+        /// <summary>
+        /// Starting state.
+        /// </summary>
         Initial,
+
+        /// <summary>
+        /// At step: choose the task type.
+        /// </summary>
         ChooseTaskType,
+
+        /// <summary>
+        /// At step: select the pats.
+        /// </summary>
         SelectFolders,
+
+        /// <summary>
+        /// At step: ready to accept the wizards result.
+        /// </summary>
         ReadyToAccept,
+
+        /// <summary>
+        /// At step: user has finished the wizard.
+        /// </summary>
         Finish,
+
+        /// <summary>
+        /// At step: user has canceled the wizard.
+        /// </summary>
         Canceled
     }
 
-    class TaskWizardFSM
+    /// <summary>
+    /// <c>TaskWizard</c> finite state machine.
+    /// </summary>
+    internal class TaskWizardFsm
     {
+        #region Fields
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:BaseWizard"/> class.
+        /// The event handler for the <see cref="TaskWizardFsm.Canceled"/> event.
         /// </summary>
-        public TaskWizardFSM()
+        private EventHandler<EventArgs> canceled;
+
+        /// <summary>
+        /// The event handler for the <see cref="TaskWizardFsm.Finished"/> event.
+        /// </summary>
+        private EventHandler<EventArgs> finished;
+
+        private StateMachine<State, Trigger> wizardState;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskWizardFsm"/> class.
+        /// </summary>
+        public TaskWizardFsm()
         {
-            Init();
+            this.Init();
+        }
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Occurs on state Canceled.
+        /// </summary>
+        public event EventHandler<EventArgs> Canceled
+        {
+            add
+            {
+                this.canceled += value;
+            }
+
+            remove
+            {
+                this.canceled -= value;
+            }
         }
 
         /// <summary>
-        /// Gets or sets 
+        /// Occurs on the finished state. 
+        /// </summary>
+        public event EventHandler<EventArgs> Finished
+        {
+            add
+            {
+                this.finished += value;
+            }
+
+            remove
+            {
+                this.finished -= value;
+            }
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the current state of this instance.
         /// </summary>
         public State State
         {
@@ -47,91 +172,37 @@ namespace Jedzia.BackBock.ViewModel.Wizard
             {
                 return this.wizardState.State;
             }
-            
+
             /*internal set
-            {
-                this.wizardState.State = value;
-            }*/
+                        {
+                            this.wizardState.State = value;
+                        }*/
         }
 
-        StateMachine<State, Trigger> wizardState;
-        private void Init()
-        {
-            wizardState = new StateMachine<State, Trigger>(State.Initial);
+        #endregion
 
-            wizardState.Configure(State.Initial).Permit(Trigger.Next, State.ChooseTaskType);
-            wizardState.Configure(State.Initial).Permit(Trigger.Cancel, State.Canceled);
-            wizardState.Configure(State.ChooseTaskType).Permit(Trigger.Previous, State.Initial);
-
-            wizardState.Configure(State.ChooseTaskType).Permit(Trigger.Next, State.SelectFolders);
-            wizardState.Configure(State.ChooseTaskType).Permit(Trigger.Cancel, State.Canceled);
-            wizardState.Configure(State.SelectFolders).Permit(Trigger.Previous, State.ChooseTaskType);
-
-            wizardState.Configure(State.SelectFolders).Permit(Trigger.Next, State.ReadyToAccept);
-            wizardState.Configure(State.SelectFolders).Permit(Trigger.Cancel, State.Canceled);
-            wizardState.Configure(State.ReadyToAccept).Permit(Trigger.Previous, State.SelectFolders);
-
-            wizardState.Configure(State.ReadyToAccept).Permit(Trigger.Finished, State.Finish);
-            wizardState.Configure(State.ReadyToAccept).Permit(Trigger.Cancel, State.Canceled);
-            wizardState.Configure(State.Finish).Permit(Trigger.Previous, State.ReadyToAccept);
-
-            wizardState.Configure(State.Canceled).OnEntry(t => CanceledTransition());
-            wizardState.Configure(State.Finish).OnEntry(t => FinishedTransition());
-        }
-
+        /// <summary>
+        /// Fires the specified trigger.
+        /// </summary>
+        /// <param name="trigger">The trigger to fire.</param>
         public void Fire(Trigger trigger)
         {
-            var oldState = wizardState.State;
-            //Console.WriteLine(msg);
-            wizardState.Fire(trigger);
-            var msg = string.Format("[Firing:] {0}, Transition from {1} to {2}.", trigger, oldState, wizardState.State);
+            var oldState = this.wizardState.State;
+
+            // Console.WriteLine(msg);
+            this.wizardState.Fire(trigger);
+            var msg = string.Format(
+                "[Firing:] {0}, Transition from {1} to {2}.", trigger, oldState, this.wizardState.State);
             MessageBox.Show(msg);
         }
 
-        void CanceledTransition()
-        {
-            var msg = string.Format("Canceled called [State:] {0}", wizardState.State);
-            MessageBox.Show(msg);
-            OnCanceled(EventArgs.Empty);
-        }
-
-        void FinishedTransition()
-        {
-            var msg = string.Format("Finished called [State:] {0}", wizardState.State);
-            MessageBox.Show(msg);
-            OnFinished(EventArgs.Empty);
-        }
-
         /// <summary>
-        /// The event handler for the <see cref="E:TaskWizardFSM.Canceled"/> event.
-        /// </summary>
-        private EventHandler<EventArgs> canceled;
-
-        /// <summary>
-        /// Occurs when 
-        /// </summary>
-        public event EventHandler<EventArgs> Canceled
-        {
-            add
-            {
-                // TODO: write your implementation of the add accessor here
-                this.canceled += value;
-            }
-
-            remove
-            {
-                // TODO: write your implementation of the remove accessor here
-                this.canceled -= value;
-            }
-        }
-
-        /// <summary>
-        /// Raises the <see cref="E:"/> event.
+        /// Raises the <see cref="Canceled"/> event.
         /// </summary>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected virtual void OnCanceled(EventArgs e)
         {
-            EventHandler<EventArgs> handler = System.Threading.Interlocked.CompareExchange(ref this.canceled, null, null);
+            EventHandler<EventArgs> handler = Interlocked.CompareExchange(ref this.canceled, null, null);
 
             if (handler != null)
             {
@@ -139,42 +210,59 @@ namespace Jedzia.BackBock.ViewModel.Wizard
             }
         }
 
-
         /// <summary>
-        /// The event handler for the <see cref="E:TaskWizardFSM.Finished"/> event.
-        /// </summary>
-        private EventHandler<EventArgs> finished;
-
-        /// <summary>
-        /// Occurs when 
-        /// </summary>
-        public event EventHandler<EventArgs> Finished
-        {
-            add
-            {
-                // TODO: write your implementation of the add accessor here
-                this.finished += value;
-            }
-
-            remove
-            {
-                // TODO: write your implementation of the remove accessor here
-                this.finished -= value;
-            }
-        }
-
-        /// <summary>
-        /// Raises the <see cref="E:"/> event.
+        /// Raises the <see cref="Finished"/> event.
         /// </summary>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected virtual void OnFinished(EventArgs e)
         {
-            EventHandler<EventArgs> handler = System.Threading.Interlocked.CompareExchange(ref this.finished, null, null);
+            EventHandler<EventArgs> handler = Interlocked.CompareExchange(ref this.finished, null, null);
 
             if (handler != null)
             {
                 handler(this, e);
             }
+        }
+
+        private void CanceledTransition()
+        {
+            var msg = string.Format("Canceled called [State:] {0}", this.wizardState.State);
+            MessageBox.Show(msg);
+            this.OnCanceled(EventArgs.Empty);
+        }
+
+        private void FinishedTransition()
+        {
+            var msg = string.Format("Finished called [State:] {0}", this.wizardState.State);
+            MessageBox.Show(msg);
+            this.OnFinished(EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        private void Init()
+        {
+            this.wizardState = new StateMachine<State, Trigger>(State.Initial);
+
+            this.wizardState.Configure(State.Initial).Permit(Trigger.Next, State.ChooseTaskType);
+            this.wizardState.Configure(State.Initial).Permit(Trigger.Cancel, State.Canceled);
+            this.wizardState.Configure(State.ChooseTaskType).Permit(Trigger.Previous, State.Initial);
+
+            this.wizardState.Configure(State.ChooseTaskType).Permit(Trigger.Next, State.SelectFolders);
+            this.wizardState.Configure(State.ChooseTaskType).Permit(Trigger.Cancel, State.Canceled);
+            this.wizardState.Configure(State.SelectFolders).Permit(Trigger.Previous, State.ChooseTaskType);
+
+            this.wizardState.Configure(State.SelectFolders).Permit(Trigger.Next, State.ReadyToAccept);
+            this.wizardState.Configure(State.SelectFolders).Permit(Trigger.Cancel, State.Canceled);
+            this.wizardState.Configure(State.ReadyToAccept).Permit(Trigger.Previous, State.SelectFolders);
+
+            this.wizardState.Configure(State.ReadyToAccept).Permit(Trigger.Finished, State.Finish);
+            this.wizardState.Configure(State.ReadyToAccept).Permit(Trigger.Cancel, State.Canceled);
+            this.wizardState.Configure(State.Finish).Permit(Trigger.Previous, State.ReadyToAccept);
+
+            this.wizardState.Configure(State.Canceled).OnEntry(t => this.CanceledTransition());
+            this.wizardState.Configure(State.Finish).OnEntry(t => this.FinishedTransition());
         }
     }
 }

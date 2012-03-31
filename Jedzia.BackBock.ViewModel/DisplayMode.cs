@@ -10,10 +10,24 @@
 
 namespace Jedzia.BackBock.ViewModel
 {
+    /// <summary>
+    /// Identifies a display mode with different detail level modes. 
+    /// </summary>
     public enum DisplayMode
     {
+        /// <summary>
+        /// Normal display mode.
+        /// </summary>
         Standard, 
+
+        /// <summary>
+        /// Enhanced display mode.
+        /// </summary>
         Expert, 
+
+        /// <summary>
+        /// Advanced display mode.
+        /// </summary>
         All
     }
 }

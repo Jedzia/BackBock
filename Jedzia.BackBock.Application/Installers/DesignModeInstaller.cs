@@ -1,32 +1,39 @@
-﻿namespace Jedzia.BackBock.Application.Installers
-{
-    using Jedzia.BackBock.Application.Editors.TaskWizard;
-    using Jedzia.BackBock.Tasks;
-    using Jedzia.BackBock.ViewModel;
-    using Jedzia.BackBock.ViewModel.Design;
-    using Jedzia.BackBock.ViewModel.MainWindow;
-    using System.Windows;
-    using Jedzia.BackBock.ViewModel.Data;
-    using System.Reflection;
-    using System;
-    using Castle.MicroKernel.Registration;
-    using Castle.Windsor;
-    using Castle.Core.Internal;
-    using Castle.MicroKernel.SubSystems.Configuration;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DesignModeInstaller.cs" company="EvePanix">
+//   Copyright (c) Jedzia 2001-2012, EvePanix. All rights reserved.
+//   See the license notes shipped with this source and the GNU GPL.
+// </copyright>
+// <author>Jedzia</author>
+// <email>jed69@gmx.de</email>
+// <date>$date$</date>
+// --------------------------------------------------------------------------------------------------------------------
 
+namespace Jedzia.BackBock.Application.Installers
+{
+    using Castle.MicroKernel.Registration;
+    using Castle.MicroKernel.SubSystems.Configuration;
+    using Castle.Windsor;
+    using Jedzia.BackBock.ViewModel;
+
+    /// <summary>
+    /// Design-Time installer.
+    /// </summary>
     public class DesignModeInstaller : IWindsorInstaller
     {
+        /// <summary>
+        /// Performs the installation in the <see cref="T:Castle.Windsor.IWindsorContainer"/>.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        /// <param name="store">The configuration store.</param>
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            var extraAssemblyName = "Jedzia.BackBock.Data.Xml";
+            // var extraAssemblyName = "Jedzia.BackBock.Data.Xml";
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                //container.Register(Component.For<IDialogService>().ImplementedBy<DesignDialogService>());
+                // container.Register(Component.For<IDialogService>().ImplementedBy<DesignDialogService>());
             }
-            else
-            {
-            }
-            //.Install(container, store);
+
+            // .Install(container, store);
 
             // Wiring sequences, Dependency Injection in .NET, S.368
 
@@ -55,19 +62,17 @@
                 }
             }*/
 
+            // SimpleIoc.Default.Register<ApplicationViewModel>();
+            // SimpleIoc.Default.Register<MainWindowViewModel>();
+            // SimpleIoc.Default.Register<TaskWizardViewModel>();
 
-
-            //SimpleIoc.Default.Register<ApplicationViewModel>();
-            //SimpleIoc.Default.Register<MainWindowViewModel>();
-            //SimpleIoc.Default.Register<TaskWizardViewModel>();
-
-            //container.Register(AllTypes.FromThisAssembly().BasedOn<ViewModelBase>());
-            //container.Register(AllTypes.FromThisAssembly().Pick()
-            //    .If(Component.IsInSameNamespaceAs<FileIOService>()));
-            //container.Register(AllTypes.FromThisAssembly().Pick()
-            //                    .If(Component.IsInSameNamespaceAs<FormsAuthenticationService>())
-            //                    .LifestyleTransient()
-            //                    .WithService.DefaultInterfaces());
+            // container.Register(AllTypes.FromThisAssembly().BasedOn<ViewModelBase>());
+            // container.Register(AllTypes.FromThisAssembly().Pick()
+            // .If(Component.IsInSameNamespaceAs<FileIOService>()));
+            // container.Register(AllTypes.FromThisAssembly().Pick()
+            // .If(Component.IsInSameNamespaceAs<FormsAuthenticationService>())
+            // .LifestyleTransient()
+            // .WithService.DefaultInterfaces());
         }
     }
 }

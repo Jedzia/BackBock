@@ -40,7 +40,7 @@ namespace Jedzia.BackBock.ViewModel.Tests
             
             // Todo mock the services.
             ApplicationContext target = new ApplicationContext(ioService, new DesignSettingsProvider(),
-                new DesignMainWindow(), new DesignTaskService(), new DesignViewProvider());
+                new DesignMainWindow(), new DesignTaskContext(new DesignTaskService()), new DesignViewProvider());
             IOService actual = ioService;
 
             var expected = target.MainIOService;
@@ -56,7 +56,7 @@ namespace Jedzia.BackBock.ViewModel.Tests
             mocks.ReplayAll();
 
             ApplicationContext target = new ApplicationContext(ioService, new DesignSettingsProvider(),
-                expected, new DesignTaskService(), new DesignViewProvider());
+                expected, new DesignTaskContext(new DesignTaskService()), new DesignViewProvider());
 
             mocks.VerifyAll();
         }
@@ -64,13 +64,14 @@ namespace Jedzia.BackBock.ViewModel.Tests
         [Test]
         public void TaskServiceTest()
         {
-            ITaskService expected = mocks.StrictMock<ITaskService>();
+            //ITaskService expected =  mocks.StrictMock<ITaskService>();
+            var expected = new DesignTaskContext(new DesignTaskService());
             mocks.ReplayAll();
 
             ApplicationContext target = new ApplicationContext(ioService, new DesignSettingsProvider(),
                new DesignMainWindow(), expected, new DesignViewProvider());
 
-            Assert.AreEqual(expected, ApplicationContext.TaskService);
+            Assert.AreEqual(expected, ApplicationContext.TaskContext);
             mocks.VerifyAll();
         }
 
@@ -81,7 +82,7 @@ namespace Jedzia.BackBock.ViewModel.Tests
             mocks.ReplayAll();
 
             ApplicationContext target = new ApplicationContext(ioService, new DesignSettingsProvider(),
-               new DesignMainWindow(),new DesignTaskService(), expected);
+               new DesignMainWindow(), new DesignTaskContext(new DesignTaskService()), expected);
 
             Assert.AreEqual(expected, ApplicationContext.TaskWizardProvider);
             mocks.VerifyAll();
@@ -94,7 +95,7 @@ namespace Jedzia.BackBock.ViewModel.Tests
             mocks.ReplayAll();
 
             ApplicationContext target = new ApplicationContext(ioService, expected,
-               new DesignMainWindow(), new DesignTaskService(), new DesignViewProvider());
+               new DesignMainWindow(), new DesignTaskContext(new DesignTaskService()), new DesignViewProvider());
 
             //Assert.AreEqual(expected, ApplicationContext.);
             mocks.VerifyAll();
@@ -132,11 +133,11 @@ namespace Jedzia.BackBock.ViewModel.Tests
         {
             mocks.ReplayAll();
             ApplicationContext target = new ApplicationContext(ioService, new DesignSettingsProvider(),
-                new DesignMainWindow(), new DesignTaskService(), new DesignViewProvider());
+                new DesignMainWindow(), new DesignTaskContext(new DesignTaskService()), new DesignViewProvider());
             mocks.VerifyAll();
             Assert.Throws<ApplicationException>(() => target =
                 new ApplicationContext(ioService, new DesignSettingsProvider(), new DesignMainWindow(),
-                    new DesignTaskService(), new DesignViewProvider()));
+                    new DesignTaskContext(new DesignTaskService()), new DesignViewProvider()));
         }
 
 

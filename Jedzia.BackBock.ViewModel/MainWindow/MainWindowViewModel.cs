@@ -209,7 +209,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
                 //var taskService = SimpleIoc.Default.GetInstance<ITaskService>();
                 //throw new NotImplementedException("m999");
                 //var tasklist = TaskContext.GetRegisteredTasks();
-                var taskList = ApplicationContext.TaskService.GetRegisteredTasks();
+                var taskList = ApplicationContext.TaskContext.TaskService.GetRegisteredTasks();
                 return taskList;
             }
         }
