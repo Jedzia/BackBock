@@ -39,7 +39,7 @@ namespace Jedzia.BackBock.Application
             DialogControl = RequestDialogControl();
             if (DialogControl != null)
             {
-                DialogControl.Owner = (Window)ViewModelLocator.MainStatic.ApplicationViewModel.MainWindow;
+                DialogControl.Owner = (Window)ViewModelLocator.MainStatic.ApplicationContext.MainWindow;
                 DialogControl.IsShowingError = true;
                 DialogControl.Message = message;
                 DialogControl.Title = title;
@@ -60,7 +60,7 @@ namespace Jedzia.BackBock.Application
             DialogControl = RequestDialogControl();
             if (DialogControl != null)
             {
-                DialogControl.Owner = (Window)ViewModelLocator.MainStatic.ApplicationViewModel.MainWindow;
+                DialogControl.Owner = (Window)ViewModelLocator.MainStatic.ApplicationContext.MainWindow;
                 DialogControl.IsShowingError = true;
                 DialogControl.Message = error.Message;
                 DialogControl.Title = title;
@@ -86,7 +86,7 @@ namespace Jedzia.BackBock.Application
             DialogControl = RequestDialogControl();
             if (DialogControl != null)
             {
-                DialogControl.Owner = (Window)ViewModelLocator.MainStatic.ApplicationViewModel.MainWindow;
+                DialogControl.Owner = (Window)ViewModelLocator.MainStatic.ApplicationContext.MainWindow;
                 DialogControl.IsShowingError = false;
                 DialogControl.Message = message;
                 DialogControl.Title = title;
@@ -107,7 +107,7 @@ namespace Jedzia.BackBock.Application
             DialogControl = RequestDialogControl();
             if (DialogControl != null)
             {
-                DialogControl.Owner = (Window)ViewModelLocator.MainStatic.ApplicationViewModel.MainWindow;
+                DialogControl.Owner = (Window)ViewModelLocator.MainStatic.ApplicationContext.MainWindow;
                 DialogControl.IsShowingError = false;
                 DialogControl.Message = message;
                 DialogControl.Title = title;

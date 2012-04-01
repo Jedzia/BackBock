@@ -52,7 +52,7 @@
         /// <summary>
         /// Loads the backup data from a specified file.
         /// </summary>
-        /// <param name="filename">The full path to the file with <see cref="BackupData"/>.</param>
+        /// <param name="filename">The full path to the file with <see cref="Jedzia.BackBock.DataAccess.DTO.BackupData"/>.</param>
         /// <param name="parameters">Additional parameters used by the repository.</param>
         /// <returns>
         /// The backup data from the specified file.

@@ -37,12 +37,12 @@ namespace Jedzia.BackBock.ViewModel.Data
     }
 
     /// <summary>
-    /// DataViewModel representation of the <see cref="TaskType"/> data.
+    /// DataViewModel representation of the <see cref="Jedzia.BackBock.Model.Data.TaskType"/> data.
     /// </summary>
     public partial class TaskViewModel
     {
         private MyStructure myProperty = new MyStructure();
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskViewModel"/> class.
         /// </summary>

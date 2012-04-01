@@ -8,6 +8,10 @@ using Jedzia.BackBock.ViewModel.Data;
 
 namespace Jedzia.BackBock.ViewModel.MainWindow
 {
+    /// <summary>
+    /// Holds the <see cref="ICommand"/>s of the main window's work area.
+    /// </summary>
+    /// <remarks>Used by the <see cref="MainWindowViewModel"/>.</remarks>
     public class WorkAreaCommands
     {
         private IMainWorkArea workArea;
@@ -16,6 +20,8 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         /// <summary>
         /// Initializes a new instance of the <see cref="T:WorkAreaCommands"/> class.
         /// </summary>
+        /// <param name="mainWindowViewModel">The main window view model.</param>
+        /// <param name="workArea">The work area of the main window.</param>
         public WorkAreaCommands(MainWindowViewModel mainWindowViewModel, IMainWorkArea workArea)
         {
             this.workArea = workArea;
@@ -26,6 +32,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private RelayCommand runTaskCommand;
 
+        /// <summary>
+        /// Gets the run task command. Runs a selected task.
+        /// </summary>
         public ICommand RunTaskCommand
         {
             get
@@ -64,6 +73,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private RelayCommand runAllTasksCommand;
 
+        /// <summary>
+        /// Gets the run all tasks command. Runs all enabled tasks.
+        /// </summary>
         public ICommand RunAllTasksCommand
         {
             get
@@ -97,6 +109,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private RelayCommand runTaskWizardCommand;
 
+        /// <summary>
+        /// Gets the run task wizard command. Opens the task wizard.
+        /// </summary>
         public ICommand RunTaskWizardCommand
         {
             get

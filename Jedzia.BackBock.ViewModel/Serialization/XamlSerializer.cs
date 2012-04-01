@@ -124,13 +124,18 @@
             return String.Format("clr-namespace:{0};assembly={1}", type.Namespace, type.Assembly.GetName().Name);
         }
 
-        //==========================================================================
+        // ==========================================================================
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XamlSerializer"/> class.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
         public XamlSerializer(object instance)
         {
             MarkupObject = MarkupWriter.GetMarkupObjectFor(instance);
         }
 
-        //==========================================================================
+        // ==========================================================================
         private void SaveObject(XmlElement parent, MarkupObject markupObject)
         {
             XmlElement element = Document.CreateElement(GetNamespacePrefix(markupObject.ObjectType),

@@ -24,12 +24,18 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
     using Jedzia.BackBock.DataAccess;
     using Jedzia.BackBock.ViewModel.Util;
 
+    /// <summary>
+    /// Main window ViewModel.
+    /// </summary>
     public sealed class MainWindowViewModel : ViewModelBase
     {
         #region Fields
         private BackupDataViewModel bdvm;
 
-        public ApplicationContext ApplicationViewModel
+        /// <summary>
+        /// Gets the application context.
+        /// </summary>
+        public ApplicationContext ApplicationContext
         {
             get
             {
@@ -37,6 +43,12 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
         }
 
+        /// <summary>
+        /// Gets or sets the DataViewModel.
+        /// </summary>
+        /// <value>
+        /// The current active DataViewModel.
+        /// </value>
         public BackupDataViewModel Data
         {
             get
@@ -55,6 +67,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
         }
 
+        /// <summary>
+        /// Gets the group description of all <see cref="BackupItemViewModel"/>'s.
+        /// </summary>
         public IEnumerable<string> Groups
         {
             get
@@ -73,7 +88,14 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         }
 
         private BackupData data2;
-        public BackupData Data2
+        
+        /// <summary>
+        /// Gets or sets the underlying <see cref="BackupData"/>.
+        /// </summary>
+        /// <value>
+        /// The underlying <see cref="BackupData"/>.
+        /// </value>
+        internal BackupData Data2
         {
             get
             {
@@ -86,7 +108,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
                     return;
                 }
                 this.data2 = value;
-                RaisePropertyChanged("Data2");
+                //RaisePropertyChanged("Data2");
             }
         }
 
@@ -109,7 +131,12 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
 
         #region Constructors
-        
+
+        /// <summary>
+        /// Unregisters this instance from the Messenger class.
+        /// <para>To cleanup additional resources, override this method, clean
+        /// up and then call base.Cleanup().</para>
+        /// </summary>
         public override void Cleanup()
         {
             if (this.generalCommands != null)
@@ -129,7 +156,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         }
 
         /// <summary>
-        /// Gets or sets 
+        /// Gets the list of registered repositories.
         /// </summary>
         public IEnumerable<string> Repositories
         {
@@ -141,6 +168,13 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private readonly IBackupDataService dataprovider;
         private readonly ILogger logger;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
+        /// </summary>
+        /// <param name="applicationContext">The application context.</param>
+        /// <param name="dataprovider">The BackupData data provider.</param>
+        /// <param name="logger">The logging facility.</param>
         public MainWindowViewModel(ApplicationContext applicationContext,
             IBackupDataService dataprovider, ILogger logger)
         {
@@ -194,7 +228,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             mainWindow.UpdateLogText();
         }*/
 
-        void MainWindowExceptionReceived(Exception e)
+        private void MainWindowExceptionReceived(Exception e)
         {
             this.mainWindow.DialogService.ShowMessage(e.Message, e.Source, "Ok", null);
         }
@@ -214,17 +248,17 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
         }
 
-        void MainWindowMessageReceived(string e)
+        private void MainWindowMessageReceived(string e)
         {
             this.mainWindow.DialogService.ShowMessage(e, "Message", "Ok", null);
         }
 
-        void MainWindowMessageReceived(MVVM.Messaging.DialogMessage e)
+        private void MainWindowMessageReceived(MVVM.Messaging.DialogMessage e)
         {
             this.mainWindow.DialogService.ShowMessage(e.Content, e.Caption, "Ok", null);
         }
 
-        void mainWindow_Initialized(object sender, EventArgs e)
+        private void mainWindow_Initialized(object sender, EventArgs e)
         {
             try
             {
@@ -276,7 +310,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
         }
 
-        public BackupDataViewModel GetSampleData()
+        private BackupDataViewModel GetSampleData()
         {
             //System.Diagnostics.Debugger.Launch();
 
@@ -301,6 +335,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #region Properties
 
+        /// <summary>
+        /// Gets the main application commands.
+        /// </summary>
         public GeneralCommandsModel MainApplicationCommands
         {
             get
@@ -313,6 +350,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
         }
 
+        /// <summary>
+        /// Gets the main window commands.
+        /// </summary>
         public MainWindowCommandModel MainWindowCommands
         {
             get
@@ -325,11 +365,14 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
         }
 
+        /// <summary>
+        /// Gets the main window title.
+        /// </summary>
         public static string MainWindowTitle
         {
             get
             {
-                return "Das ist mein Diagram Designer";
+                return "BackBock - " + Application.Current.MainWindow.GetType().AssemblyQualifiedName;
             }
         }
 
@@ -367,6 +410,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private RelayCommand testCommand;
 
+        /// <summary>
+        /// Gets the test command. Currently adds a new <see cref="BackupItemViewModel"/> with a new 
+        /// <see cref="Jedzia.BackBock.Model.Data.BackupItemType"/>.
+        /// </summary>
         public ICommand TestCommand
         {
             get
@@ -438,6 +485,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private RelayCommand clearLogCommand;
 
+        /// <summary>
+        /// Gets the clear log command. Clears the logging window.
+        /// </summary>
         public ICommand ClearLogCommand
         {
             get
@@ -471,8 +521,11 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         #endregion
 
 
-        //private Type classSpecificationWindowType;
+        // private Type classSpecificationWindowType;
 
+        /// <summary>
+        /// Presents the user an OpenFileDialog and opens a new set of backup data.
+        /// </summary>
         internal void Open()
         {
             var path = applicationContext.MainIOService.OpenFileDialog(string.Empty);
@@ -482,7 +535,11 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
                 //designerCanvas.DesignerCanvasFileProcessor.OpenExecuted(o, args);
             }
         }
-        
+
+        /// <summary>
+        /// Opens a new set of Backup Data from the specified file name.
+        /// </summary>
+        /// <param name="path">The full path to the backup data file on disk.</param>
         internal void OpenFile(string path)
         {
             // Todo: switch this to this.dataprovider.Load( ... );
@@ -492,11 +549,17 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //this.mainWindow.Designer.DataContext = bdvm;
         }
 
+        /// <summary>
+        /// Cancels an edit operation begun by this instance.
+        /// </summary>
         internal void Cancel()
         {
             bdvm.CancelEdit();
         }
 
+        /// <summary>
+        /// Presents the user an SaveFileDialog and saves the actual set of backup data.
+        /// </summary>
         internal void Save()
         {
             bdvm.EndEdit();
@@ -510,12 +573,19 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             }
         }
 
+        /// <summary>
+        /// Persists the actual set of backup data.
+        /// </summary>
+        /// <param name="path">The full path to the backup data file on disk.</param>
         internal void SaveFile(string path)
         {
-            // Todo: switch this to this.dataprovider.Save( ... );
+            // Todo: implement;
             //ModelSaver.SaveBackupData(bdvm.DataObject, path);
         }
 
+        /// <summary>
+        /// Runs all the enabled backup data tasks of this instance. 
+        /// </summary>
         internal void RunAllTasks()
         {
             foreach (var item in this.Data.BackupItems)
@@ -525,6 +595,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         }
 
 
+        /// <summary>
+        /// Presents the task wizard to the user.
+        /// </summary>
         internal void RunTaskWizard()
         {
             try
@@ -544,8 +617,5 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             {
             }
         }
-
-
-
     }
 }

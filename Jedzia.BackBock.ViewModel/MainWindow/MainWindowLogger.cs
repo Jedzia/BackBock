@@ -140,6 +140,12 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets my count.
+        /// </summary>
+        /// <value>
+        /// My count.
+        /// </value>
         public int MyCount { get; set; }
 
         #endregion
@@ -159,6 +165,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProxyDings"/> class.
+        /// </summary>
+        /// <param name="innerdings">The innerdings.</param>
         public ProxyDings(IDings innerdings)
         {
             Guard.NotNull(() => innerdings, innerdings);
@@ -171,6 +181,12 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets my count.
+        /// </summary>
+        /// <value>
+        /// My count.remove me.
+        /// </value>
         public int MyCount { get; set; }
 
         #endregion
@@ -181,6 +197,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
     /// </summary>
     public interface IDingsFactory
     {
+        /// <summary>
+        /// Creates this instance.
+        /// </summary>
+        /// <returns>yes remove me.</returns>
         IDings Create();
     }
 }

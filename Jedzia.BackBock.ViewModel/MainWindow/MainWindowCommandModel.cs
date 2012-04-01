@@ -16,6 +16,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
     using System.Collections.Generic;
     using Jedzia.BackBock.ViewModel.MVVM.Messaging;
 
+    /// <summary>
+    /// Holds the <see cref="ICommand"/>s of the applications main window.
+    /// </summary>
+    /// <remarks>Used by the <see cref="MainWindowViewModel"/>.</remarks>
     public sealed class MainWindowCommandModel //: INotifyPropertyChanged
     {
         #region Fields
@@ -23,6 +27,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         //private readonly IMainWorkArea mainWorkArea;
         private WorkAreaCommands workAreaCommands;
 
+        /// <summary>
+        /// Gets the work area commands.
+        /// </summary>
         public WorkAreaCommands WorkAreaCommands
         {
             get { return workAreaCommands; }
@@ -35,6 +42,11 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         //private MainWindowViewModel mainWindowViewModel;
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindowCommandModel"/> class.
+        /// </summary>
+        /// <param name="mainWindowViewModel">The main window view model.</param>
+        /// <param name="mainWindow">The main window of the application.</param>
         public MainWindowCommandModel(MainWindowViewModel mainWindowViewModel, IMainWindow mainWindow)
         {
             //this.mainWindowViewModel = mainWindowViewModel;
@@ -55,6 +67,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         #region Properties
 
+        /// <summary>
+        /// Gets the test1 command. 
+        /// </summary>
         public ICommand Test1Command
         {
             get
@@ -98,6 +113,9 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
         private RelayCommand test2Command;
 
+        /// <summary>
+        /// Gets the test2 command.
+        /// </summary>
         public ICommand Test2Command
         {
             get
@@ -144,7 +162,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
 
 
         /// <summary>
-        /// Gets or sets 
+        /// Gets my property. DeleteME
         /// </summary>
         public string MyProperty
         {
