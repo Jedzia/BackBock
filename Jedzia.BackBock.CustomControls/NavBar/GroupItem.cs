@@ -20,7 +20,7 @@ namespace Jedzia.BackBock.CustomControls.NavBar
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GroupItem), new FrameworkPropertyMetadata(typeof(GroupItem)));
             return;
-            ResourceDictionary destination = Application.Current.Resources;
+            /*ResourceDictionary destination = Application.Current.Resources;
             bool reinitDestination = false;
             Application.Current.Dispatcher.BeginInvoke(
                 (ChangeTheme)((d, reinit) =>
@@ -39,7 +39,7 @@ namespace Jedzia.BackBock.CustomControls.NavBar
                              ),
                 DispatcherPriority.ApplicationIdle,
                 destination,
-                reinitDestination);
+                reinitDestination);*/
         }
 
         //static NavBarStyles n = new NavBarStyles();

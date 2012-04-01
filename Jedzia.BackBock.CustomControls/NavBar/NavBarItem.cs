@@ -22,7 +22,7 @@ namespace Jedzia.BackBock.CustomControls.NavBar
         #region Fields
 
         internal static bool USEmres = false;
-        internal static ResourceDictionary mres;
+        internal static ResourceDictionary mres = null;
 
         /*internal static ResourceDictionary mres = new ResourceDictionary
                                                       {
@@ -39,7 +39,7 @@ namespace Jedzia.BackBock.CustomControls.NavBar
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NavBarItem), new FrameworkPropertyMetadata(typeof(NavBarItem)));
             return;
-            ResourceDictionary destination = Application.Current.Resources;
+            /*ResourceDictionary destination = Application.Current.Resources;
             bool reinitDestination = false;
             Application.Current.Dispatcher.BeginInvoke(
                 (ChangeTheme)((d, reinit) =>
@@ -52,7 +52,7 @@ namespace Jedzia.BackBock.CustomControls.NavBar
                              ),
                 DispatcherPriority.ApplicationIdle,
                 destination,
-                reinitDestination);
+                reinitDestination);*/
         }
 
         //static NavBarStyles n = new NavBarStyles();

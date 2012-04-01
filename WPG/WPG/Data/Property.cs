@@ -8,9 +8,9 @@ namespace WPG.Data
 {
 	public class Property : Item, IDisposable, INotifyPropertyChanged
 	{
-        public event PropertyChangedEventHandler PropertyChanged;
+        public new event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(String info)
+        private new void NotifyPropertyChanged(String info)
         {
             if (PropertyChanged != null)
             {

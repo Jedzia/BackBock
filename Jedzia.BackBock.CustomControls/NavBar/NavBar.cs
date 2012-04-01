@@ -46,7 +46,7 @@ namespace Jedzia.BackBock.CustomControls.NavBar
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NavBar), new FrameworkPropertyMetadata(typeof(NavBar)));
             var x = SystemColors.WindowBrush;
             return;
-            ResourceDictionary destination = Application.Current.Resources;
+            /*ResourceDictionary destination = Application.Current.Resources;
             bool reinitDestination = false;
             Application.Current.Dispatcher.BeginInvoke(
                 (ChangeTheme)((d, reinit) =>
@@ -59,7 +59,7 @@ namespace Jedzia.BackBock.CustomControls.NavBar
                              ),
                 DispatcherPriority.ApplicationIdle,
                 destination,
-                reinitDestination);
+                reinitDestination);*/
         }
 
         public NavBar()

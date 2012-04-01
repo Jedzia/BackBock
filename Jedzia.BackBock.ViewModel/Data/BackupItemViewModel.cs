@@ -20,6 +20,9 @@ namespace Jedzia.BackBock.ViewModel.Data
     using Jedzia.BackBock.Model.Data;
     using Jedzia.BackBock.ViewModel.Commands;
 
+    /// <summary>
+    /// DataViewModel representation of the <see cref="BackupItemType"/> data.
+    /// </summary>
     public partial class BackupItemViewModel : IDataErrorInfo
     {
         #region Constructors
@@ -54,6 +57,13 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             MessengerInstance.Send(e);
         }*/
+        
+        /// <summary>
+        /// Gets the type of the numerable. For Testing, DeleteME
+        /// </summary>
+        /// <value>
+        /// The type of the numerable.
+        /// </value>
         public Type NumerableType
         {
             get
@@ -75,6 +85,9 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #region Properties
 
+        /// <summary>
+        /// Gets the edit collection command.
+        /// </summary>
         public ICommand EditCollectionCommand
         {
             get
@@ -124,6 +137,9 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #region Properties
 
+        /// <summary>
+        /// Gets the task data clicked command. Opens the task data editor.
+        /// </summary>
         public ICommand TaskDataClickedCommand
         {
             get
@@ -219,6 +235,9 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #region Properties
 
+        /// <summary>
+        /// Gets the run task command. Start the execution of a selected task.
+        /// </summary>
         public ICommand RunTaskCommand
         {
             get
@@ -234,7 +253,9 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #endregion
 
-        // TaskSetupEngine tse;
+        /// <summary>
+        /// Runs the task associated with this instance.
+        /// </summary>
         public void RunTask()
         {
             this.data.RunTask(this.Log);
@@ -281,12 +302,21 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #endregion
 
+        /// <summary>
+        /// Called when a property changes.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
         protected override void OnPropertyChanged(string propertyName)
         {
             this.Validate("OnPropertyChanged " + propertyName);
             base.OnPropertyChanged(propertyName);
         }
 
+        /// <summary>
+        /// Called when a data property of the auto-generated set changes.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         partial void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             this.Validate("DataPropertyChanged " + e.PropertyName);
@@ -296,10 +326,16 @@ namespace Jedzia.BackBock.ViewModel.Data
         {
             if (this.EnableLogging)
             {
-                MessengerInstance.Send(e + Environment.NewLine);
+                MessengerInstance.Send(e);
+                MessengerInstance.Send(Environment.NewLine);
             }
         }
 
+        /// <summary>
+        /// Called when the Pathproperty of the auto-generated set is modified.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
         partial void PathCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             // Mit ObservableCollection kann das ViewModel automatisch auf entfernen und
@@ -364,13 +400,15 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #region Properties
 
+        /// <summary>
+        /// Gets the editor opening command. Called on opening the Path data editor.
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never),
          DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ICommand EditorOpeningCommand
         {
             get
             {
-                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
                 if (this.editorOpeningCommand == null)
                 {
                     this.editorOpeningCommand = new RelayCommand(this.EditorOpeningExecuted, this.EditorOpeningEnabled);
@@ -382,6 +420,11 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #endregion
 
+        /// <summary>
+        /// Clones the specified list of path data. Todo: better implement this at the PathDataType side.
+        /// </summary>
+        /// <param name="sources">The sources.</param>
+        /// <returns>clones of the input path data.</returns>
         public virtual List<PathDataType> ClonePath(List<PathDataType> sources)
         {
             List<PathDataType> result = null;
@@ -439,6 +482,10 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         #region Properties
 
+        /// <summary>
+        /// Gets the editor cancel command. Called when the Path data editor is cancelled. 
+        /// Restores the stored PathDataType values of EditorOpeningCommand.
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never),
          DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ICommand EditorCancelCommand

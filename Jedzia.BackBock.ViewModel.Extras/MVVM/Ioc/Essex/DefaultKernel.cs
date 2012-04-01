@@ -278,13 +278,13 @@
         object IKernelInternal.Resolve(Type service, IDictionary arguments, IReleasePolicy policy)
         {
             throw new NotImplementedException();
-            var handler = (this as IKernelInternal).LoadHandlerByType(null, service, arguments);
+            /*var handler = (this as IKernelInternal).LoadHandlerByType(null, service, arguments);
             if (handler == null)
             {
                 //throw new ComponentNotFoundException(key, service, otherHandlers);
                 throw new ArgumentOutOfRangeException(service.ToString());
             }
-            return ResolveComponent(handler, service, arguments, policy);
+            return ResolveComponent(handler, service, arguments, policy);*/
         }
 
         IHandler IKernelInternal.LoadHandlerByType(string name, Type service, IDictionary arguments)

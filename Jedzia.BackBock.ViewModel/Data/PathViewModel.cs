@@ -9,17 +9,26 @@ using System.Windows.Input;
 
 namespace Jedzia.BackBock.ViewModel.Data
 {
-    //public class ExclusionViewModelList : List<ExclusionViewModel> { }
-
+    /// <summary>
+    /// DataViewModel representation of the <see cref="PathDataType"/> data.
+    /// </summary>
     [DisplayName("Path to use")]
     public partial class PathViewModel //: ICustomTypeDescriptor
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PathViewModel"/> class.
+        /// </summary>
         public PathViewModel()
         {
             data = new PathDataType();
             data.Path = "Moese, hehehe";
         }
 
+        /// <summary>
+        /// Called when the Exclusion collection is changed.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         partial void ExclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             // Reflect the changes to the underlying data.
@@ -48,6 +57,11 @@ namespace Jedzia.BackBock.ViewModel.Data
             }
         }
 
+        /// <summary>
+        /// Called when the Inclusion collection is changed.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         partial void InclusionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             // Reflect the changes to the underlying data.
@@ -80,6 +94,9 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         private RelayCommand openFileClickedCommand;
 
+        /// <summary>
+        /// Gets the open file clicked command. Opens a FileDialog chooser.
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ICommand OpenFileClickedCommand
         {
@@ -113,12 +130,14 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         private RelayCommand editorCancelCommand;
 
+        /// <summary>
+        /// Gets the editor cancel command.
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ICommand EditorCancelCommand
         {
             get
             {
-                // See S.142 Listing 5–18. Using Attached Command Behavior to Add Double-Click Functionality to a List Item
                 if (this.editorCancelCommand == null)
                 {
                     this.editorCancelCommand = new RelayCommand(this.EditorCancelExecuted, this.EditorCancelEnabled);

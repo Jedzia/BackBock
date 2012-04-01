@@ -75,7 +75,11 @@ namespace Jedzia.BackBock.ViewModel.Commands
 
         #endregion
 
-        //Creates an EventHandler on runtime and registers that handler to the Event specified
+        /// <summary>
+        /// Creates an EventHandler on runtime and registers that handler to the Event specified.
+        /// </summary>
+        /// <param name="owner">The owner of the event.</param>
+        /// <param name="eventName">Name of the event.</param>
         public void BindEvent(DependencyObject owner, string eventName)
         {
             EventName = eventName;

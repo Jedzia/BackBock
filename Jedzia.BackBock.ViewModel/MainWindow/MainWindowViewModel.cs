@@ -281,7 +281,7 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
             //System.Diagnostics.Debugger.Launch();
 
             //MessageBox.Show("Before MainWindowViewModel GetSampleData");
-            string connection = null;
+            //string connection = null;
             /*if (dataprovider.ServiceType == BackupRepositoryType.FileSystemProvider)
             {
                 var startupPath = applicationContext.Settings.GetStartupDataFile();

@@ -12,6 +12,9 @@ using System.Collections.Specialized;
 
 namespace Jedzia.BackBock.ViewModel.Commands
 {
+    /// <summary>
+    /// A collection of command behaviors.
+    /// </summary>
     public class CommandBehaviorCollection
     {
         #region Behaviors
@@ -25,13 +28,18 @@ namespace Jedzia.BackBock.ViewModel.Commands
             = DependencyProperty.RegisterAttachedReadOnly("BehaviorsInternal", typeof(BehaviorBindingCollection), typeof(CommandBehaviorCollection),
                 new FrameworkPropertyMetadata((BehaviorBindingCollection)null));
 
+        /// <summary>
+        /// Behaviors Read-Only Dependency Property.
+        /// </summary>
         public static readonly DependencyProperty BehaviorsProperty
             = BehaviorsPropertyKey.DependencyProperty;
 
         /// <summary>
-        /// Gets the Behaviors property.  
+        /// Gets the Behaviors property.
         /// Here we initialze the collection and set the Owner property
         /// </summary>
+        /// <param name="d">The dependency object to use.</param>
+        /// <returns>a related BehaviorBindingCollection.</returns>
         public static BehaviorBindingCollection GetBehaviors(DependencyObject d)
         {
             if (d == null)
@@ -58,6 +66,11 @@ namespace Jedzia.BackBock.ViewModel.Commands
             collection.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
         }
 
+        /// <summary>
+        /// Handles the CollectionChanged event of the <see cref="BehaviorsPropertyKey"/> dependency property.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         static void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             BehaviorBindingCollection sourceCollection = (BehaviorBindingCollection)sender;

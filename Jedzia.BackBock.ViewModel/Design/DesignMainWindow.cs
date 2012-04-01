@@ -44,6 +44,10 @@ namespace Jedzia.BackBock.ViewModel.Design
         {
             get
             {
+                if (Initialized != null)
+                {
+
+                }
                 throw new NotImplementedException();
             }
         }

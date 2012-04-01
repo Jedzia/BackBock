@@ -16,10 +16,12 @@ namespace Jedzia.BackBock.ViewModel.Commands
         /// Generates a delegate with a matching signature of the supplied eventHandlerType
         /// This method only supports Events that have a delegate of type void
         /// </summary>
-        /// <param name="eventInfo">The delegate type to wrap. Note that this must always be a void delegate</param>
+        /// <param name="eventHandlerType">The delegate type to wrap. Note that this must always be a void delegate</param>
         /// <param name="methodToInvoke">The method to invoke</param>
         /// <param name="methodInvoker">The object where the method resides</param>
-        /// <returns>Returns a delegate with the same signature as eventHandlerType that calls the methodToInvoke inside</returns>
+        /// <returns>
+        /// Returns a delegate with the same signature as eventHandlerType that calls the methodToInvoke inside
+        /// </returns>
         public static Delegate CreateDelegate(Type eventHandlerType, MethodInfo methodToInvoke, object methodInvoker)
         {
             //Get the eventHandlerType signature

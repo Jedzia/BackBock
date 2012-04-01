@@ -14,6 +14,9 @@ namespace Jedzia.BackBock.ViewModel.Commands
     using System.Windows.Input;
     using Jedzia.BackBock.ViewModel.Util;
 
+    /// <summary>
+    /// Describes the binding of <see cref="ICommand"/> properties with <see cref="KeyGesture"/>'s.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = true)]
     public sealed class CommandKeyGestureAttribute : Attribute
     {
@@ -21,7 +24,7 @@ namespace Jedzia.BackBock.ViewModel.Commands
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandKeyGestureAttribute"/> class with
-        /// the specified System.Windows.Input.Key.
+        /// the specified System.Windows.Input.Key and target filter.
         /// </summary>
         /// <param name="key">The key associated with this gesture..</param>
         /// <param name="target">The filtering target type. Specify a backing field of the instance to 
@@ -32,72 +35,78 @@ namespace Jedzia.BackBock.ViewModel.Commands
             this.Target = target;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandKeyGestureAttribute"/> class with
+        /// the specified System.Windows.Input.Key.
+        /// </summary>
+        /// <param name="key">The key associated with this gesture..</param>
         public CommandKeyGestureAttribute(Key key)
             : this(key, null)
         {
         }
 
 
-        // Summary:
-        // Initializes a new instance of the System.Windows.Input.KeyGesture class with
-        // the specified System.Windows.Input.Key and System.Windows.Input.ModifierKeys.
-        // Parameters:
-        // key:
-        // The key associated with the gesture.
-        // modifiers:
-        // The modifier keys associated with the gesture.
-        // Exceptions:
-        // System.ComponentModel.InvalidEnumArgumentException:
-        // modifiers is not a valid System.Windows.Input.ModifierKeys -or- key is not
-        // a valid System.Windows.Input.Key.
-        // System.NotSupportedException:
-        // key and modifiers do not form a valid System.Windows.Input.KeyGesture.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandKeyGestureAttribute"/> class with.
+        /// the specified System.Windows.Input.Key, filter and System.Windows.Input.ModifierKeys.
+        /// </summary>
         /// <param name="key">The key associated with this gesture..</param>
-        /// <param name="target">The filtering target type. Specify a backing field of the instance to 
+        /// <param name="modifiers">The modifier keys associated with the gesture.</param>
+        /// <param name="target">The filtering target type. Specify a backing field of the instance to
         /// tag the gesture to only types stored in this field.</param>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">modifiers is not a valid 
+        /// <see cref="System.Windows.Input.ModifierKeys"/> -or- key is not a valid 
+        /// <see cref="System.Windows.Input.Key"/>.</exception>
+        /// <exception cref="System.NotSupportedException">key and modifiers do not form a valid System.Windows.Input.KeyGesture.</exception>
         public CommandKeyGestureAttribute(Key key, ModifierKeys modifiers, string target)
         {
             this.Key = new KeyGesture(key, modifiers);
             this.Target = target;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandKeyGestureAttribute"/> class with.
+        /// the specified System.Windows.Input.Key and System.Windows.Input.ModifierKeys.
+        /// </summary>
+        /// <param name="key">The key associated with this gesture..</param>
+        /// <param name="modifiers">The modifier keys associated with the gesture.</param>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">modifiers is not a valid
+        /// <see cref="System.Windows.Input.ModifierKeys"/> -or- key is not a valid <see cref="System.Windows.Input.Key"/>.</exception>
+        /// <exception cref="System.NotSupportedException">key and modifiers do not form a valid System.Windows.Input.KeyGesture.</exception>
         public CommandKeyGestureAttribute(Key key, ModifierKeys modifiers)
         {
             this.Key = new KeyGesture(key, modifiers);
             this.Target = null;
         }
 
-        // Summary:
-        // Initializes a new instance of the System.Windows.Input.KeyGesture class with
-        // the specified System.Windows.Input.Key, System.Windows.Input.ModifierKeys,
-        // and display string.
-        // Parameters:
-        // key:
-        // The key associated with the gesture.
-        // modifiers:
-        // The modifier keys associated with the gesture.
-        // displayString:
-        // A string representation of the System.Windows.Input.KeyGesture.
-        // Exceptions:
-        // System.ComponentModel.InvalidEnumArgumentException:
-        // modifiers is not a valid System.Windows.Input.ModifierKeys -or- key is not
-        // a valid System.Windows.Input.Key.
-        // System.ArgumentNullException:
-        // displayString is null.
-        // System.NotSupportedException:
-        // key and modifiers do not form a valid System.Windows.Input.KeyGesture.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandKeyGestureAttribute"/> class with.
+        /// the specified System.Windows.Input.Key, System.Windows.Input.ModifierKeys.
+        /// input filter and display string.
+        /// </summary>
         /// <param name="key">The key associated with this gesture..</param>
-        /// <param name="target">The filtering target type. Specify a backing field of the instance to 
+        /// <param name="modifiers">The modifier keys associated with the gesture.</param>
+        /// <param name="displayString">A string representation of the System.Windows.Input.KeyGesture.</param>
+        /// <param name="target">The filtering target type. Specify a backing field of the instance to
         /// tag the gesture to only types stored in this field. Specify a null target if you wan't to
         /// ignore filtering.</param>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">modifiers is not a valid
+        ///   <see cref="System.Windows.Input.ModifierKeys"/> -or- key is not a valid
+        ///   <see cref="System.Windows.Input.Key"/>.</exception>
+        /// <exception cref="System.NotSupportedException">key and modifiers do not form a valid System.Windows.Input.KeyGesture.</exception>
+        /// <exception cref="System.ArgumentNullException">displayString is null.</exception>
         public CommandKeyGestureAttribute(Key key, ModifierKeys modifiers, string displayString, string target)
         {
             this.Key = new KeyGesture(key, modifiers, displayString);
             this.Target = target;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandKeyGestureAttribute"/> class
+        /// with the specified System.Windows.Input.Key and filter target.
+        /// </summary>
         /// <param name="key">The key associated with this gesture..</param>
-        /// <param name="target">The filtering target type. Specify a backing field of the instance to 
+        /// <param name="target">The filtering target type. Specify a backing field of the instance to
         /// tag the gesture to only types stored in this field.</param>
         public CommandKeyGestureAttribute(KeyGesture key, string target)
         {
@@ -106,6 +115,11 @@ namespace Jedzia.BackBock.ViewModel.Commands
             this.Target = target;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandKeyGestureAttribute"/> class
+        /// with the specified System.Windows.Input.Key.
+        /// </summary>
+        /// <param name="key">The key associated with this gesture..</param>
         public CommandKeyGestureAttribute(KeyGesture key)
             : this(key, null)
         {
@@ -115,8 +129,14 @@ namespace Jedzia.BackBock.ViewModel.Commands
 
         #region Properties
 
+        /// <summary>
+        /// Gets the associated KeyGesture.
+        /// </summary>
         public KeyGesture Key { get; private set; }
 
+        /// <summary>
+        /// Gets the target of the KeyGesture.
+        /// </summary>
         public string Target { get; private set; }
 
         #endregion

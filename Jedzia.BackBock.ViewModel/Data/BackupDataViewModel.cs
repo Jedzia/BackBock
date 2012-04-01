@@ -172,7 +172,7 @@ namespace Jedzia.BackBock.ViewModel.Data
                     break;
                 case TestIntPropertyName:
                     int testInt;
-                    string msg = null;
+                    //string msg = null;
 
                     if (string.IsNullOrEmpty(this.TestInt))
                     {

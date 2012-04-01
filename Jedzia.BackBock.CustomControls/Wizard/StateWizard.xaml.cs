@@ -83,7 +83,7 @@ namespace Jedzia.BackBock.CustomControls.Wizard
 
         public void Blabla()
         {
-            ContentControl bla;
+            //ContentControl bla;
             //bla.Content
             //this.OnPropertyChanged
         }

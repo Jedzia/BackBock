@@ -11,12 +11,19 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
     using System.Windows.Controls;
     using Jedzia.BackBock.ViewModel.Commands;
 
+    /// <summary>
+    /// Specifies the working area of the main application window.
+    /// </summary>
     public interface IMainWorkArea : ICanInputBind, ICanCommandBind, IInputElement, ISelectionService
     {
         #region Properties
 
 
+        /// <summary>
+        /// Gets the children of the working area.
+        /// </summary>
         UIElementCollection Children { get; }
+        
         //object DataContext { get; set; }
         #endregion
 

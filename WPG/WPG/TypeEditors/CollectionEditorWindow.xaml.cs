@@ -163,7 +163,8 @@ namespace WPG.TypeEditors
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("error in WPG-newElem: " + baseControl.MyProperty.PropertyType);
+                    MessageBox.Show("error in WPG-newElem: " + baseControl.MyProperty.PropertyType 
+                        + Environment.NewLine + ex.Message);
                 }
             }
 

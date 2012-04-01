@@ -10,9 +10,15 @@ using System.Windows;
 
 namespace Jedzia.BackBock.ViewModel.Data
 {
+    /// <summary>
+    /// DataViewModel representation of the <see cref="Wildcard"/> Exclusion data.
+    /// </summary>
     [DisplayName("Wildcard's to exclude")]
     public partial class ExclusionViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExclusionViewModel"/> class.
+        /// </summary>
         public ExclusionViewModel()
         {
             this.data = new Wildcard();
@@ -22,6 +28,9 @@ namespace Jedzia.BackBock.ViewModel.Data
 
         private RelayCommand editorCancelCommand;
 
+        /// <summary>
+        /// Gets the editor cancel command.
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ICommand EditorCancelCommand
         {

@@ -3,10 +3,19 @@ using System.ComponentModel;
 
 namespace Jedzia.BackBock.ViewModel.Data
 {
+    /// <summary>
+    /// Test. DeleteME
+    /// </summary>
     public class MyStructure
     {
         private int valueOne;
 
+        /// <summary>
+        /// Gets or sets the value one.
+        /// </summary>
+        /// <value>
+        /// The value one.
+        /// </value>
         public int ValueOne
         {
             get { return valueOne; }
@@ -14,6 +23,12 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
         private Boolean valueTwo;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [value two].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [value two]; otherwise, <c>false</c>.
+        /// </value>
         public Boolean ValueTwo
         {
             get { return valueTwo; }
@@ -21,15 +36,22 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
     }
 
+    /// <summary>
+    /// DataViewModel representation of the <see cref="TaskType"/> data.
+    /// </summary>
     public partial class TaskViewModel
     {
         private MyStructure myProperty = new MyStructure();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskViewModel"/> class.
+        /// </summary>
         public TaskViewModel()
         {
             this.data = new Jedzia.BackBock.Model.Data.TaskType();
             this.data.TypeName = "NasenBock";
         }
+
         /*/// <summary>
         /// Gets or sets 
         /// </summary>
@@ -47,15 +69,17 @@ namespace Jedzia.BackBock.ViewModel.Data
         }*/
 
         /// <summary>
-        /// The summary.
+        /// Backing field of the TaskInstance property.
         /// </summary>
         [NonSerialized]
         private object taskInstance;
 
         /// <summary>
-        /// Gets or sets the Task.
+        /// Gets or sets the task instance used to display task data editors.
         /// </summary>
-        /// <value>The Task.</value>
+        /// <value>
+        /// The task instance.
+        /// </value>
         [Browsable(false)]
         public object TaskInstance
         {
@@ -76,8 +100,11 @@ namespace Jedzia.BackBock.ViewModel.Data
         }
 
         /// <summary>
-        /// Gets or sets 
+        /// Gets or sets my property. DeleteMe
         /// </summary>
+        /// <value>
+        /// My property.
+        /// </value>
         [DisplayNameAttribute("Arschloch")]
         public MyStructure MyProperty
         {
