@@ -12,6 +12,7 @@ namespace Jedzia.BackBock.Model.Util
 {
     using System;
     using Microsoft.Build.Framework;
+    using System.Globalization;
 
     /// <summary>
     /// Helper-Wrapper for Logging Microsoft.Build.Framework <see cref="BuildEventArgs"/> events.
@@ -23,7 +24,7 @@ namespace Jedzia.BackBock.Model.Util
         /// <summary>
         /// For testing purposes. Switch logging of with <c>false</c>.
         /// </summary>
-        private const bool ENABLELOGGING = true;
+        private bool ENABLELOGGING = true;
 
         /// <summary>
         /// Holds a reference to the logging method.
@@ -118,7 +119,18 @@ namespace Jedzia.BackBock.Model.Util
         {
             if (ENABLELOGGING)
             {
-                this.log(e.Message);
+                var msg = string.Format(
+                    CultureInfo.CurrentCulture,
+                    "{1}:{3}:{0} [{7}]   Error: {4}({5}{6}):{2}",
+                    e.Timestamp,
+                    e.ThreadId,
+                    e.Message,
+                    e.SenderName,
+                    e.File,
+                    e.LineNumber,
+                    e.ColumnNumber,
+                    e.Code);
+                this.log(msg);
             }
         }
 
@@ -131,7 +143,18 @@ namespace Jedzia.BackBock.Model.Util
         {
             if (ENABLELOGGING)
             {
-                this.log(e.Message);
+                var msg = string.Format(
+                    CultureInfo.CurrentCulture,
+                    "{1}:{3}:{0} [{7}] Warning: {4}({5}{6}):{2}",
+                    e.Timestamp,
+                    e.ThreadId,
+                    e.Message,
+                    e.SenderName,
+                    e.File,
+                    e.LineNumber,
+                    e.ColumnNumber,
+                    e.Code);
+                this.log(msg);
             }
         }
 
@@ -144,7 +167,14 @@ namespace Jedzia.BackBock.Model.Util
         {
             if (ENABLELOGGING)
             {
-                this.log(e.Message);
+                var msg = string.Format(
+                    CultureInfo.CurrentCulture,
+                    "{1}:{3}:{0} {2}",
+                    e.Timestamp, 
+                    e.ThreadId,
+                    e.Message,
+                    e.SenderName);
+                this.log(msg);
             }
         }
     }

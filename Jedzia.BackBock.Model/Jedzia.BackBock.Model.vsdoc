@@ -89,5 +89,7 @@
     <add key="VBdocman_comModules_Properties...AssemblyInfo.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_TaskContext.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Tasks...TaskSetupEngine.cs"><![CDATA[On]]></add>
+    <add key="VBdocman_comModules_Util...DefaultTimeProvider.cs"><![CDATA[On]]></add>
+    <add key="VBdocman_comModules_Util...TimeProvider.cs"><![CDATA[On]]></add>
   </appSettings>
 </configuration>

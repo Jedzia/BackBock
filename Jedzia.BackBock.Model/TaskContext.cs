@@ -84,12 +84,11 @@ namespace Jedzia.BackBock.Model
         }
 
         /// <summary>
-        /// Gets the registered tasks.
+        /// Resets to a deterministic starting position for unit tests.
         /// </summary>
-        /// <returns>A list of strings with the names of registered tasks.</returns>
-        internal IEnumerable<string> GetRegisteredTasks()
+        internal static void ResetToTestCondition()
         {
-            return Default.GetRegisteredTasks();
+            defaultContext = null;
         }
     }
 }

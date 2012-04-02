@@ -197,9 +197,7 @@
     <Compile Include="Serialization\ItemsControlCustomTypeDescriptor.cs" />
     <Compile Include="Serialization\ItemsControlTypeDescriptionProvider.cs" />
     <Compile Include="Serialization\XamlSerializer.cs" />
-    <Compile Include="Util\DefaultTimeProvider.cs" />
     <Compile Include="Util\Guard.cs" />
-    <Compile Include="Util\TimeProvider.cs" />
     <Compile Include="Util\VisualHelper.cs" />
     <None Include="MVVM\Validation\ValidatingViewModelBaseOld.cs" />
     <Compile Include="ViewModelBase.cs" />

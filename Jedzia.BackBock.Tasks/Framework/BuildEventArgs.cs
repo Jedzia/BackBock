@@ -76,13 +76,14 @@ namespace Microsoft.Build.Framework
 		}
 		// Gets the integer hash code value of the thread that raised
 		// the event
-		public int ThreadId {
+        public virtual int ThreadId
+        {
 			get {
 				return threadId;
 			}
 		}
 		// Time when event was fired
-		public DateTime Timestamp {
+		public virtual DateTime Timestamp {
 			get {
 				return timestamp;
 			}

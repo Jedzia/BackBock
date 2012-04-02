@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{277724C1-B97E-493D-8B08-699110A78052}</ProjectGuid>
+    <ProjectGuid>{443CA847-A7A7-4C90-B25F-380D690EFE2A}</ProjectGuid>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Jedzia.BackBock.Model</RootNamespace>
-    <AssemblyName>Jedzia.BackBock.Model</AssemblyName>
+    <RootNamespace>Jedzia.BackBock.Model.Tests</RootNamespace>
+    <AssemblyName>Jedzia.BackBock.Model.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,7 +32,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gallio" />
+    <Reference Include="MbUnit" />
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BuildTools\rhino-mocks\Rhino.Mocks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Gallio35" />
+    <Reference Include="MbUnit35" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -42,43 +52,18 @@
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\BackupData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BackupData.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Data\BackupDataTrans.cs" />
-    <Compile Include="Data\BackupData.cs" />
-    <Compile Include="Data\BackupItemType.cs" />
-    <Compile Include="DefaultTaskContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TaskContext.cs" />
-    <Compile Include="Tasks\EventSource.cs" />
-    <Compile Include="Tasks\TaskSetupEngine.cs" />
-    <Compile Include="Util\DefaultTimeProvider.cs" />
-    <Compile Include="Util\LogHelper.cs" />
-    <Compile Include="Util\TimeProvider.cs" />
+    <Compile Include="TaskContextTest.cs" />
+    <Compile Include="Util\Template.cs" />
+    <Compile Include="Util\LogHelperTest.cs" />
+    <Compile Include="Util\TimeProviderTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Settings.StyleCop">
-      <Link>Settings.StyleCop</Link>
-    </None>
-    <None Include="Data\BackupData.xsd">
-      <Generator>Xsd2CodeCustomTool</Generator>
-      <LastGenOutput>BackupData.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Jedzia.BackBock.SharedTypes\Jedzia.BackBock.SharedTypes.csproj">
-      <Project>{5033C48F-59BF-4E59-B76B-C61F2BC02F19}</Project>
-      <Name>Jedzia.BackBock.SharedTypes</Name>
+    <ProjectReference Include="..\Jedzia.BackBock.Model\Jedzia.BackBock.Model.csproj">
+      <Project>{277724C1-B97E-493D-8B08-699110A78052}</Project>
+      <Name>Jedzia.BackBock.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jedzia.BackBock.Tasks\Jedzia.BackBock.Tasks.csproj">
       <Project>{07B3FA8E-2DF4-4F3C-A060-E919EB9D3C98}</Project>

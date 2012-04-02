@@ -8,7 +8,7 @@
 // <date>$date$</date>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Jedzia.BackBock.ViewModel.Util
+namespace Jedzia.BackBock.Model.Util
 {
     using System;
 
