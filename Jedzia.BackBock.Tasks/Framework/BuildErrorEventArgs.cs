@@ -105,7 +105,23 @@ namespace Microsoft.Build.Framework {
 				return subcategory;
 			}
 		}
-	}
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append("[BuildErrorEventArgs] Message:");
+            sb.Append(this.Message);
+            sb.Append(", SenderName:");
+            sb.Append(this.SenderName);
+            return sb.ToString();
+        }
+    }
 }
 
 #endif

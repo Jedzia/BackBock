@@ -35,13 +35,29 @@ namespace Jedzia.BackBock.Model.Tasks
         private const string allFilesPattern = "*.*";
         private const string fullrecursivePattern = @"\" + recursivePattern + @"\" + allFilesPattern;
         private const string recursivePattern = "**";
-        public bool IsDisposed;
+        private bool isDisposed;
         private readonly EventSource eventSource;
         private readonly ILogger logger;
         private ITask taskInWork;
         private ITaskService taskService;
 
         #endregion
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public bool IsDisposed
+        {
+            get
+            {
+                return this.isDisposed;
+            }
+
+            private set
+            {
+                this.isDisposed = value;
+            }
+        }
 
         #region Constructors
 
@@ -213,6 +229,31 @@ namespace Jedzia.BackBock.Model.Tasks
         }
 
         /// <summary>
+        /// The default build engine.
+        /// </summary>
+        private Engine buildEngine;
+
+        /// <summary>
+        /// Gets or sets the default build engine.
+        /// </summary>
+        /// <value>The default build engine.</value>
+        public Engine DefaultBuildEngine
+        {
+            get
+            {
+                if (this.buildEngine == null)
+                {
+                    return new Engine(@"D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Application\bin\Debug");
+                }
+                return this.buildEngine;
+            }
+
+            set
+            {
+                this.buildEngine = value;
+            }
+        }
+        /// <summary>
         /// Executes a task specified by a string with the specified parameters.
         /// </summary>
         /// <param name="taskTypeName">Name of the task type.</param>
@@ -241,7 +282,9 @@ namespace Jedzia.BackBock.Model.Tasks
 
             // var proj2 = new Project();
             // var engine = new Engine(Consts.BinPath);
-            var engine = new Engine(@"D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Application\bin\Debug");
+
+            var engine = this.DefaultBuildEngine;
+            //var engine = new Engine(@"D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Application\bin\Debug");
             engine.RegisterLogger(this.logger);
 
             // var proj2 = engine.CreateNewProject();
@@ -286,6 +329,12 @@ namespace Jedzia.BackBock.Model.Tasks
 
             foreach (var path in this.Paths)
             {
+                if (string.IsNullOrEmpty(path.Path))
+                {
+                    // No valid path, move to the next one.
+                    continue;
+                }
+
                 // var cr = big.AddNewItem("FilesToZip", @"C:\Temp\**;C:\Temp\FolderB\**\*.*");
                 BuildItem cr;
 
@@ -357,8 +406,8 @@ namespace Jedzia.BackBock.Model.Tasks
             var batask = target.AddNewTask(btasktype.FullName);
 
             // batask.SetParameterValue("SourceFiles", @"C:\Temp\company.xmi");
-            batask.SetParameterValue(sourceParameter, @"@(FilesToZip)");
-            var pars = batask.GetParameterNames();
+            //batask.SetParameterValue(sourceParameter, @"@(FilesToZip)");
+            //var pars = batask.GetParameterNames();
 
             foreach (var item in taskAttributes)
             {
