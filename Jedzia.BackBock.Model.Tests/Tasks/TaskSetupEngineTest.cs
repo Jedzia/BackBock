@@ -19,11 +19,336 @@ using Microsoft.Build.BuildEngine;
 
 namespace Jedzia.BackBock.Model.Tests.Tasks
 {
+
+    [TestFixture]
+    public class TaskSetupEngineTest
+    {
+        private static readonly DateTime TestTimeStamp = new DateTime(2001, 11, 9, 8, 46, 13);
+        private static readonly string TimeStampString = TestTimeStamp.ToString(CultureInfo.InvariantCulture);
+        //private TaskSetupEngine testObject;
+        private MockRepository mocks;
+        private TestLogger logger;
+        private IEnumerable<PathDataType> paths;
+        //private IEventSource eventSource;
+        private string resultOfLogHelper;
+        private TestTask theOnlyTask;
+        //private Engine engine;
+
+        [FixtureSetUp]
+        public void FixtureSetUp()
+        {
+            System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
+            //theOnlyTask = MockRepository.GenerateStrictMock<ITask>();
+            theOnlyTask = new TestTask();
+            TaskContext.Default = new TestTaskContext(theOnlyTask);
+        }
+
+        [FixtureTearDown]
+        public void FixtureTearDown()
+        {
+            TaskContext.ResetToDefault();
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.mocks = new MockRepository();
+
+            TestTask.HasExecuted = false;
+            TestTask.Instantiated = 0;
+            TestTask.MyBuildEngine = null;
+            TestTask.MyHostObject = null;
+
+            //this.logger = mocks.StrictMock<ILogger>();
+            //eventSource = mocks.StrictMock<IEventSource>();
+            resultOfLogHelper = string.Empty;
+            Action<string> logMethod = (log) => resultOfLogHelper += log /*+ Environment.NewLine*/;
+            //this.logger = mocks.StrictMock<TestLogger>(new LogHelper(logMethod), eventSource);
+            //this.logger = new TestLogger(logMethod);
+            this.logger = mocks.StrictMock<TestLogger>(logMethod);
+
+            this.paths = new[] { new PathDataType() };
+
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this.logger = null;
+            this.paths = null;
+            //if (!testObject.IsDisposed)
+            //{
+            //    testObject.Dispose();
+            //}
+            mocks = null;
+        }
+
+        [Test]
+        public void ConstructorNullArgumentShouldThrow()
+        {
+            Assert.Throws<ArgumentNullException>(() => new TaskSetupEngine(null, null));
+            Assert.Throws<ArgumentNullException>(() => new TaskSetupEngine(this.logger, null));
+            //Assert.Throws<ArgumentNullException>(() => new TaskSetupEngine(null, this.paths));
+        }
+
+        [Test]
+        public void Construction()
+        {
+            //logger.BackToRecord();
+            //logger.Expect((e) => e.Initialize(null)).Constraints(Is.NotNull());
+            var evs = new EventSource();
+            //logger.Initialize(evs);
+
+            //Expect.Call(delegate { eventSource.MessageRaised += null; }).Constraints(Is.NotNull());
+            //Expect.Call(delegate { eventSource.WarningRaised += null; }).Constraints(Is.NotNull());
+            //Expect.Call(delegate { eventSource.ErrorRaised += null; }).Constraints(Is.NotNull());
+
+            Expect.Call(delegate { logger.Initialize(null); }).Constraints(Is.TypeOf<EventSource>())
+                .CallOriginalMethod(OriginalCallOptions.CreateExpectation)
+               ;
+
+            // new BuildMessageEventArgs("a", "b", "c", MessageImportance.High)
+
+            Expect.Call(delegate
+            {
+                logger.Log(null, (BuildMessageEventArgs)null);
+            }).Constraints(Is.TypeOf<TaskSetupEngine>(), Is.NotNull() && Property.Value("Message", "Initialized"))
+            .CallOriginalMethod(OriginalCallOptions.CreateExpectation);
+
+            //LastCall.Constraints(Is.TypeOf<EventSource>());
+
+            //var resultOfLogHelper = string.Empty;
+            //Action<string> logMethod = (log) => resultOfLogHelper += log;
+            //logger = new LogHelper(logMethod);
+
+            //LastCall.Return(null);
+            //Expect.Call(delegate { logger.Initialize(null); }); 
+            //logger.Initialize(null);
+            //logger.Expect((e) => e.Initialize(null));
+            string count;
+            //logger.MessageRaised += (sender, args) => { count += "MessageRaised"; Assert.AreEqual(this, sender); Assert.IsNull(args); };
+
+            mocks.ReplayAll();
+            var testObject = new TaskSetupEngine(logger, paths);
+            //eventSource.BackToRecord();
+            Assert.EndsWith(resultOfLogHelper, "Initialized");
+
+            //logger.VerifyAllExpectations();
+            mocks.VerifyAll();
+        }
+
+        [Test]
+        public void ConstructionXXX()
+        {
+            Action<string> logMethod = (log) => resultOfLogHelper += log;
+            this.logger = new TestLogger(logMethod);
+
+            mocks.ReplayAll();
+            var testObject = new TaskSetupEngine(logger, paths);
+            Assert.EndsWith(resultOfLogHelper, "Initialized");
+
+            mocks.VerifyAll();
+        }
+
+        [Test]
+        public void ConstructionWithoutLogger()
+        {
+            mocks.ReplayAll();
+            var testObject = new TaskSetupEngine(null, paths);
+
+            //Assert.IsNotNull(testObject.
+            mocks.VerifyAll();
+        }
+
+        [Test]
+        public void AfterTask()
+        {
+
+            // Setup mocks
+            // LogHelper should subscribe to the events of IEventSource.
+            //Expect.Call(delegate { eventSource.MessageRaised += null; }).Constraints(Is.NotNull());
+            //Expect.Call(delegate { eventSource.WarningRaised += null; }).Constraints(Is.NotNull());
+            //Expect.Call(delegate { eventSource.ErrorRaised += null; }).Constraints(Is.NotNull());
+            //Expect.Call(() => logger.Initialize(null));
+            //logger.Initialize(null);
+
+            //Expect.Call(delegate { logger.Initialize(null); }).Constraints(Is.TypeOf<EventSource>()).CallOriginalMethod(OriginalCallOptions.CreateExpectation);
+            //Expect.Call(delegate { logger.Log(null, (BuildMessageEventArgs)null); }).Constraints(Is.TypeOf<TaskSetupEngine>(), Is.NotNull() && Property.Value("Message", "Initialized")).CallOriginalMethod(OriginalCallOptions.CreateExpectation);
+
+            var task = mocks.StrictMock<ITask>();
+            var taskAttributes = new List<XmlAttribute>();
+            
+            var doc = new XmlDocument();
+            var attr = doc.CreateAttribute("TestAttribute");
+            attr.Value = "TheValue";
+            taskAttributes.Add(attr);
+
+            var testObject = new TaskSetupEngine(logger, paths);
+            logger.BackToRecord();
+            mocks.ReplayAll();
+
+            testObject.AfterTask(task, taskAttributes);
+
+            mocks.VerifyAll();
+
+        }
+
+        [Test]
+        public void ExecuteTask()
+        {
+
+            // Setup mocks
+            // LogHelper should subscribe to the events of IEventSource.
+            //Expect.Call(delegate { eventSource.MessageRaised += null; }).Constraints(Is.NotNull());
+            //Expect.Call(delegate { eventSource.WarningRaised += null; }).Constraints(Is.NotNull());
+            //Expect.Call(delegate { eventSource.ErrorRaised += null; }).Constraints(Is.NotNull());
+            //Expect.Call(() => logger.Initialize(null));
+            //logger.Initialize(null);
+
+            var testObject = new TaskSetupEngine(logger, paths);
+            logger.BackToRecord();
+
+            Expect.Call(delegate { logger.Initialize(null); })
+                .Constraints(Is.NotNull() && !Is.TypeOf<EventSource>())
+                .Repeat.Once()
+                .CallOriginalMethod(OriginalCallOptions.CreateExpectation);
+
+
+            Expect.Call(delegate { logger.Log(null, (BuildMessageEventArgs)null); })
+                .Constraints(
+                Is.TypeOf<Microsoft.Build.BuildEngine.Engine>(),
+                Is.NotNull()
+                ).Repeat.Times(5)
+                .CallOriginalMethod(OriginalCallOptions.CreateExpectation)
+                ;
+
+            /*Expect.Call(delegate { logger.Log(null, (BuildMessageEventArgs)null); })
+                .Constraints(
+                Is.TypeOf<TaskSetupEngine>(),
+                Is.NotNull()
+                ).Repeat.Times(0)
+                .CallOriginalMethod(OriginalCallOptions.CreateExpectation)
+                ;*/
+
+            /*
+            Expect.Call(delegate { logger.Log(null, (BuildErrorEventArgs)null); })
+                .Constraints(
+                Is.TypeOf<Microsoft.Build.BuildEngine.Engine>(),
+                Is.NotNull()
+                ).Repeat.Any()
+                .CallOriginalMethod(OriginalCallOptions.CreateExpectation);
+            */
+            //var task = mocks.StrictMock<ITask>();
+            var taskAttributes = new List<XmlAttribute>();
+
+            //var engine = mocks.Stub<Engine>("");
+            //testObject.DefaultBuildEngine = engine;
+
+            //var project = mocks.StrictMock<Project>();
+            //Expect.Call(engine.CreateNewProject()).Return(project);
+            //theOnlyTask.Expect(t => t.Execute());
+
+            mocks.ReplayAll();
+
+            //var testObject = new TaskSetupEngine(logger, paths);
+            //logger.BackToRecord();
+            //logger.Replay();
+            testObject.ExecuteTask("NameNotRelevant", taskAttributes);
+
+            Assert.IsTrue(TestTask.HasExecuted);
+            Assert.AreEqual(1, TestTask.Instantiated);
+            Assert.IsNotNull(TestTask.MyBuildEngine);
+            Assert.IsNull(TestTask.MyHostObject);
+
+            mocks.VerifyAll();
+            //Assert.EndsWith(resultOfLogHelper, "Initialized");
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        [Test]
+        public void LogBuildMessageEvent()
+        {
+            /*
+            // Setup mocks
+            IEventRaiser messageRaised = Expect.Call(delegate { eventSource.MessageRaised += null; }).IgnoreArguments().GetEventRaiser();
+            Expect.Call(delegate { eventSource.WarningRaised += null; }).Constraints(Is.NotNull());
+            Expect.Call(delegate { eventSource.ErrorRaised += null; }).Constraints(Is.NotNull());
+
+            var args = mocks.StrictMock<BuildMessageEventArgs>("msg", "helpkey", "sender", MessageImportance.High);
+            Expect.Call(args.Timestamp).Return(TestTimeStamp).Repeat.Twice();
+            Expect.Call(args.ThreadId).Return(33);
+            mocks.ReplayAll();
+
+            // Test
+            testObject.Initialize(eventSource);
+            messageRaised.Raise(42, args);
+
+            var actualTimestamp = args.Timestamp;
+            Assert.AreEqual(TestTimeStamp, actualTimestamp);
+
+            var expected = "33:sender:11/09/2001 08:46:13 msg";
+            var actual = resultOfLogHelper;
+            Assert.AreEqual(expected, actual);
+
+            //TestContext.CurrentContext.LogWriter.Default.WriteLine(actualTimestamp.ToString(CultureInfo.InvariantCulture));
+            //TestContext.CurrentContext.LogWriter.Default.Write(resultOfLogHelper);
+
+            // Verify
+            mocks.VerifyAll();
+            */
+        }
+
+        [Test]
+        public void PropertyIsDisposed()
+        {
+            var testObject = new TaskSetupEngine(logger, paths);
+            var expected = false;
+            var actual = testObject.IsDisposed;
+            Assert.AreEqual(expected, actual);
+
+            expected = true;
+            testObject.Dispose();
+            actual = testObject.IsDisposed;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void DisposeTheTestObject()
+        {
+            var testObject = new TaskSetupEngine(logger, paths);
+            testObject.Dispose();
+            Assert.Throws<InvalidOperationException>(() => testObject.Dispose());
+        }
+    }
+
+
+
     public class TestTask : ITask
     {
         public static bool HasExecuted;
-        public IBuildEngine MyBuildEngine;
-        public ITaskHost MyHostObject;
+        public static IBuildEngine MyBuildEngine;
+        public static ITaskHost MyHostObject;
+        public static int Instantiated;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TestTask"/> class.
+        /// </summary>
+        public TestTask()
+        {
+            Instantiated++;
+        }
 
         #region ITask Members
 
@@ -288,304 +613,4 @@ namespace Jedzia.BackBock.Model.Tests.Tasks
         }
     }
 
-    [TestFixture]
-    public class TaskSetupEngineTest
-    {
-        private static readonly DateTime TestTimeStamp = new DateTime(2001, 11, 9, 8, 46, 13);
-        private static readonly string TimeStampString = TestTimeStamp.ToString(CultureInfo.InvariantCulture);
-        //private TaskSetupEngine testObject;
-        private MockRepository mocks;
-        private TestLogger logger;
-        private IEnumerable<PathDataType> paths;
-        //private IEventSource eventSource;
-        private string resultOfLogHelper;
-        private TestTask theOnlyTask;
-        //private Engine engine;
-
-        [FixtureSetUp]
-        public void FixtureSetUp()
-        {
-            System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-
-            //theOnlyTask = MockRepository.GenerateStrictMock<ITask>();
-            theOnlyTask = new TestTask();
-            TaskContext.Default = new TestTaskContext(theOnlyTask);
-        }
-
-        [FixtureTearDown]
-        public void FixtureTearDown()
-        {
-            TaskContext.ResetToDefault();
-        }
-
-        [SetUp]
-        public void SetUp()
-        {
-            this.mocks = new MockRepository();
-
-            TestTask.HasExecuted = false;
-            //this.logger = mocks.StrictMock<ILogger>();
-            //eventSource = mocks.StrictMock<IEventSource>();
-            resultOfLogHelper = string.Empty;
-            Action<string> logMethod = (log) => resultOfLogHelper += log + Environment.NewLine;
-            //this.logger = mocks.StrictMock<TestLogger>(new LogHelper(logMethod), eventSource);
-            //this.logger = new TestLogger(logMethod);
-            this.logger = mocks.StrictMock<TestLogger>(logMethod);
-
-            this.paths = new[] { new PathDataType() };
-
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            this.logger = null;
-            this.paths = null;
-            //if (!testObject.IsDisposed)
-            //{
-            //    testObject.Dispose();
-            //}
-            mocks = null;
-        }
-
-        [Test]
-        public void ConstructorNullArgumentShouldThrow()
-        {
-            Assert.Throws<ArgumentNullException>(() => new TaskSetupEngine(null, null));
-            Assert.Throws<ArgumentNullException>(() => new TaskSetupEngine(this.logger, null));
-            //Assert.Throws<ArgumentNullException>(() => new TaskSetupEngine(null, this.paths));
-        }
-
-        [Test]
-        public void Construction()
-        {
-            //logger.BackToRecord();
-            //logger.Expect((e) => e.Initialize(null)).Constraints(Is.NotNull());
-            var evs = new EventSource();
-            //logger.Initialize(evs);
-
-            //Expect.Call(delegate { eventSource.MessageRaised += null; }).Constraints(Is.NotNull());
-            //Expect.Call(delegate { eventSource.WarningRaised += null; }).Constraints(Is.NotNull());
-            //Expect.Call(delegate { eventSource.ErrorRaised += null; }).Constraints(Is.NotNull());
-
-            Expect.Call(delegate { logger.Initialize(null); }).Constraints(Is.TypeOf<EventSource>())
-                .CallOriginalMethod(OriginalCallOptions.CreateExpectation)
-               ;
-
-            // new BuildMessageEventArgs("a", "b", "c", MessageImportance.High)
-
-            Expect.Call(delegate
-            {
-                logger.Log(null, (BuildMessageEventArgs)null);
-            }).Constraints(Is.TypeOf<TaskSetupEngine>(), Is.NotNull() && Property.Value("Message", "Initialized"))
-            .CallOriginalMethod(OriginalCallOptions.CreateExpectation);
-
-            //LastCall.Constraints(Is.TypeOf<EventSource>());
-
-            //var resultOfLogHelper = string.Empty;
-            //Action<string> logMethod = (log) => resultOfLogHelper += log;
-            //logger = new LogHelper(logMethod);
-
-            //LastCall.Return(null);
-            //Expect.Call(delegate { logger.Initialize(null); }); 
-            //logger.Initialize(null);
-            //logger.Expect((e) => e.Initialize(null));
-            string count;
-            //logger.MessageRaised += (sender, args) => { count += "MessageRaised"; Assert.AreEqual(this, sender); Assert.IsNull(args); };
-
-            mocks.ReplayAll();
-            var testObject = new TaskSetupEngine(logger, paths);
-            //eventSource.BackToRecord();
-            Assert.EndsWith(resultOfLogHelper, "Initialized");
-
-            //logger.VerifyAllExpectations();
-            mocks.VerifyAll();
-        }
-
-        [Test]
-        public void ConstructionXXX()
-        {
-            Action<string> logMethod = (log) => resultOfLogHelper += log;
-            this.logger = new TestLogger(logMethod);
-
-            mocks.ReplayAll();
-            var testObject = new TaskSetupEngine(logger, paths);
-            Assert.EndsWith(resultOfLogHelper, "Initialized");
-
-            mocks.VerifyAll();
-        }
-
-        [Test]
-        public void ConstructionWithoutLogger()
-        {
-            mocks.ReplayAll();
-            var testObject = new TaskSetupEngine(null, paths);
-
-            //Assert.IsNotNull(testObject.
-            mocks.VerifyAll();
-        }
-
-        [Test]
-        public void AfterTask()
-        {
-
-            // Setup mocks
-            // LogHelper should subscribe to the events of IEventSource.
-            //Expect.Call(delegate { eventSource.MessageRaised += null; }).Constraints(Is.NotNull());
-            //Expect.Call(delegate { eventSource.WarningRaised += null; }).Constraints(Is.NotNull());
-            //Expect.Call(delegate { eventSource.ErrorRaised += null; }).Constraints(Is.NotNull());
-            //Expect.Call(() => logger.Initialize(null));
-            //logger.Initialize(null);
-
-            //Expect.Call(delegate { logger.Initialize(null); }).Constraints(Is.TypeOf<EventSource>()).CallOriginalMethod(OriginalCallOptions.CreateExpectation);
-            //Expect.Call(delegate { logger.Log(null, (BuildMessageEventArgs)null); }).Constraints(Is.TypeOf<TaskSetupEngine>(), Is.NotNull() && Property.Value("Message", "Initialized")).CallOriginalMethod(OriginalCallOptions.CreateExpectation);
-
-            var task = mocks.StrictMock<ITask>();
-            var taskAttributes = new List<XmlAttribute>();
-            var testObject = new TaskSetupEngine(logger, paths);
-            mocks.ReplayAll();
-
-            logger.BackToRecord();
-            logger.Replay();
-            testObject.AfterTask(task, taskAttributes);
-
-            mocks.VerifyAll();
-
-        }
-
-        [Test]
-        public void ExecuteTask()
-        {
-
-            // Setup mocks
-            // LogHelper should subscribe to the events of IEventSource.
-            //Expect.Call(delegate { eventSource.MessageRaised += null; }).Constraints(Is.NotNull());
-            //Expect.Call(delegate { eventSource.WarningRaised += null; }).Constraints(Is.NotNull());
-            //Expect.Call(delegate { eventSource.ErrorRaised += null; }).Constraints(Is.NotNull());
-            //Expect.Call(() => logger.Initialize(null));
-            //logger.Initialize(null);
-
-            var testObject = new TaskSetupEngine(logger, paths);
-            logger.BackToRecord();
-
-            Expect.Call(delegate { logger.Initialize(null); })
-                .Constraints(Is.NotNull() && !Is.TypeOf<EventSource>())
-                .Repeat.Once()
-                .CallOriginalMethod(OriginalCallOptions.CreateExpectation);
-
-
-            Expect.Call(delegate { logger.Log(null, (BuildMessageEventArgs)null); })
-                .Constraints(
-                Is.TypeOf<Microsoft.Build.BuildEngine.Engine>(),
-                Is.NotNull()
-                ).Repeat.Times(5)
-                .CallOriginalMethod(OriginalCallOptions.CreateExpectation)
-                ;
-
-            Expect.Call(delegate { logger.Log(null, (BuildMessageEventArgs)null); })
-                .Constraints(
-                Is.TypeOf<TaskSetupEngine>(),
-                Is.NotNull()
-                ).Repeat.Any()
-                .CallOriginalMethod(OriginalCallOptions.CreateExpectation)
-                ;
-
-            /*
-            Expect.Call(delegate { logger.Log(null, (BuildErrorEventArgs)null); })
-                .Constraints(
-                Is.TypeOf<Microsoft.Build.BuildEngine.Engine>(),
-                Is.NotNull()
-                ).Repeat.Any()
-                .CallOriginalMethod(OriginalCallOptions.CreateExpectation);
-            */
-            //var task = mocks.StrictMock<ITask>();
-            var taskAttributes = new List<XmlAttribute>();
-
-            //var engine = mocks.Stub<Engine>("");
-            //testObject.DefaultBuildEngine = engine;
-
-            //var project = mocks.StrictMock<Project>();
-            //Expect.Call(engine.CreateNewProject()).Return(project);
-            //theOnlyTask.Expect(t => t.Execute());
-
-            mocks.ReplayAll();
-
-            //var testObject = new TaskSetupEngine(logger, paths);
-            //logger.BackToRecord();
-            //logger.Replay();
-            testObject.ExecuteTask("NameNotRelevant", taskAttributes);
-
-            Assert.IsTrue(TestTask.HasExecuted);
-
-            mocks.VerifyAll();
-            //Assert.EndsWith(resultOfLogHelper, "Initialized");
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-        [Test]
-        public void LogBuildMessageEvent()
-        {
-            /*
-            // Setup mocks
-            IEventRaiser messageRaised = Expect.Call(delegate { eventSource.MessageRaised += null; }).IgnoreArguments().GetEventRaiser();
-            Expect.Call(delegate { eventSource.WarningRaised += null; }).Constraints(Is.NotNull());
-            Expect.Call(delegate { eventSource.ErrorRaised += null; }).Constraints(Is.NotNull());
-
-            var args = mocks.StrictMock<BuildMessageEventArgs>("msg", "helpkey", "sender", MessageImportance.High);
-            Expect.Call(args.Timestamp).Return(TestTimeStamp).Repeat.Twice();
-            Expect.Call(args.ThreadId).Return(33);
-            mocks.ReplayAll();
-
-            // Test
-            testObject.Initialize(eventSource);
-            messageRaised.Raise(42, args);
-
-            var actualTimestamp = args.Timestamp;
-            Assert.AreEqual(TestTimeStamp, actualTimestamp);
-
-            var expected = "33:sender:11/09/2001 08:46:13 msg";
-            var actual = resultOfLogHelper;
-            Assert.AreEqual(expected, actual);
-
-            //TestContext.CurrentContext.LogWriter.Default.WriteLine(actualTimestamp.ToString(CultureInfo.InvariantCulture));
-            //TestContext.CurrentContext.LogWriter.Default.Write(resultOfLogHelper);
-
-            // Verify
-            mocks.VerifyAll();
-            */
-        }
-
-        [Test]
-        public void PropertyIsDisposed()
-        {
-            var testObject = new TaskSetupEngine(logger, paths);
-            var expected = false;
-            var actual = testObject.IsDisposed;
-            Assert.AreEqual(expected, actual);
-
-            expected = true;
-            testObject.Dispose();
-            actual = testObject.IsDisposed;
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void DisposeTheTestObject()
-        {
-            var testObject = new TaskSetupEngine(logger, paths);
-            testObject.Dispose();
-            Assert.Throws<InvalidOperationException>(() => testObject.Dispose());
-        }
-    }
 }
