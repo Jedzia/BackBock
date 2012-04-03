@@ -861,7 +861,7 @@ inout</UserWords>
     <Match>
       <And Weight="100">
         <Kind Is="class"/>
-        <HasAttribute CLRName="NUnit.Framework.TestFixtureAttribute" 
+        <HasAttribute CLRName="TestFixtureAttribute" 
                       Inherit="true"/>
       </And>
     </Match>
@@ -872,13 +872,13 @@ inout</UserWords>
         <And>
           <Kind Is="method"/>
           <Or>
-            <HasAttribute CLRName="NUnit.Framework.SetUpAttribute" 
+            <HasAttribute CLRName="SetUpAttribute" 
                           Inherit="true"/>
-            <HasAttribute CLRName="NUnit.Framework.TearDownAttribute" 
+            <HasAttribute CLRName="TearDownAttribute" 
                           Inherit="true"/>
-            <HasAttribute CLRName="NUnit.Framework.FixtureSetUpAttribute" 
+            <HasAttribute CLRName="FixtureSetUpAttribute" 
                           Inherit="true"/>
-            <HasAttribute CLRName="NUnit.Framework.FixtureTearDownAttribute" 
+            <HasAttribute CLRName="FixtureTearDownAttribute" 
                           Inherit="true"/>
           </Or>
         </And>
@@ -894,7 +894,7 @@ inout</UserWords>
       <Match>
         <And Weight="100">
           <Kind Is="method"/>
-          <HasAttribute CLRName="NUnit.Framework.TestAttribute" 
+          <HasAttribute CLRName="TestAttribute" 
                         Inherit="false"/>
         </And>
       </Match>
@@ -1457,14 +1457,6 @@ Copyright (c) 2012 All Right Reserved
         <StringEmpty>SUGGESTION</StringEmpty>
         <ValueAnalysis>WARNING</ValueAnalysis>
         <Return>WARNING</Return>
-        <WordIsNotInDictionary>SUGGESTION</WordIsNotInDictionary>
-        <WordCanBeSurroundedWithMetaTags>SUGGESTION</WordCanBeSurroundedWithMetaTags>
-        <PublicMembersMustHaveComments>SUGGESTION</PublicMembersMustHaveComments>
-        <DelcarationDoesntConformToNamingConventions>WARNING</DelcarationDoesntConformToNamingConventions>
-        <ResxSpellCheckSuggestion>WARNING</ResxSpellCheckSuggestion>
-        <StringLiteralsWordIsNotInDictionary>HINT</StringLiteralsWordIsNotInDictionary>
-        <VerbatimStringLiteralsWordIsNotInDictionary>SUGGESTION</VerbatimStringLiteralsWordIsNotInDictionary>
-        <IdentifierWordIsNotInDictionary>HINT</IdentifierWordIsNotInDictionary>
         <StyleCop.DefaultSeverity>SUGGESTION</StyleCop.DefaultSeverity>
         <StyleCop.SA1600>WARNING</StyleCop.SA1600>
         <StyleCop.SA1601>SUGGESTION</StyleCop.SA1601>
@@ -1620,6 +1612,14 @@ Copyright (c) 2012 All Right Reserved
         <StyleCop.SA1025>SUGGESTION</StyleCop.SA1025>
         <StyleCop.SA1026>SUGGESTION</StyleCop.SA1026>
         <StyleCop.SA1027>SUGGESTION</StyleCop.SA1027>
+        <WordIsNotInDictionary>SUGGESTION</WordIsNotInDictionary>
+        <WordCanBeSurroundedWithMetaTags>SUGGESTION</WordCanBeSurroundedWithMetaTags>
+        <PublicMembersMustHaveComments>SUGGESTION</PublicMembersMustHaveComments>
+        <DelcarationDoesntConformToNamingConventions>WARNING</DelcarationDoesntConformToNamingConventions>
+        <ResxSpellCheckSuggestion>WARNING</ResxSpellCheckSuggestion>
+        <StringLiteralsWordIsNotInDictionary>HINT</StringLiteralsWordIsNotInDictionary>
+        <VerbatimStringLiteralsWordIsNotInDictionary>SUGGESTION</VerbatimStringLiteralsWordIsNotInDictionary>
+        <IdentifierWordIsNotInDictionary>HINT</IdentifierWordIsNotInDictionary>
       </SeverityTable>
     </HighlightingSettings>
     <CodeCleanup SilentCleanup="StyleCop" RecentlyUsed="StyleCop">

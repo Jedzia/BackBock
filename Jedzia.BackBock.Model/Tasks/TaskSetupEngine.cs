@@ -35,31 +35,31 @@ namespace Jedzia.BackBock.Model.Tasks
         private const string allFilesPattern = "*.*";
         private const string fullrecursivePattern = @"\" + recursivePattern + @"\" + allFilesPattern;
         private const string recursivePattern = "**";
-        private bool isDisposed;
-        private readonly EventSource eventSource;
-        private readonly ILogger logger;
+        private readonly IBuildLogger buildLogger;
+
+        /// <summary>
+        /// The default build engine.
+        /// </summary>
+        private Engine buildEngine;
+        private ITaskComposerBuilder defaultTaskComposerBuilder;
+
         private ITask taskInWork;
         private ITaskService taskService;
 
         #endregion
 
-        /// <summary>
-        /// Gets or sets 
-        /// </summary>
-        public bool IsDisposed
-        {
-            get
-            {
-                return this.isDisposed;
-            }
-
-            private set
-            {
-                this.isDisposed = value;
-            }
-        }
-
         #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskSetupEngine"/> class.
+        /// </summary>
+        /// <param name="paths">The paths to setup the task.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="paths" /> is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException">The <see cref="TaskContext"/>.Default.TaskService delivered no valid ITaskService.</exception>
+        public TaskSetupEngine(IEnumerable<PathDataType> paths)
+            : this((ILogger)null, paths)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskSetupEngine"/> class.
@@ -67,11 +67,27 @@ namespace Jedzia.BackBock.Model.Tasks
         /// <param name="logger">The logger used by this instance. Can be <c>null</c>.</param>
         /// <param name="paths">The paths to setup the task.</param>
         /// <exception cref="ArgumentNullException"><paramref name="paths" /> is <c>null</c>.</exception>
-        /// <exception cref="InvalidOperationException">taskService</exception>
+        /// <exception cref="InvalidOperationException">The <see cref="TaskContext"/>.Default.TaskService delivered no valid ITaskService.</exception>
+        public TaskSetupEngine(ILogger logger, IEnumerable<PathDataType> paths)
+            : this(new BuildLogger(logger), paths)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskSetupEngine"/> class.
+        /// </summary>
+        /// <param name="buildLogger">The build logger.</param>
+        /// <param name="paths">The paths to setup the task.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="paths"/> is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException">The <see cref="TaskContext"/>.Default.TaskService delivered no valid ITaskService.</exception>
         public TaskSetupEngine(
-            ILogger logger,
+            IBuildLogger buildLogger,
             IEnumerable<PathDataType> paths)
         {
+            if (buildLogger == null)
+            {
+                throw new ArgumentNullException("buildLogger");
+            }
             if (paths == null)
             {
                 throw new ArgumentNullException("paths");
@@ -81,24 +97,70 @@ namespace Jedzia.BackBock.Model.Tasks
             this.taskService = TaskContext.Default.TaskService;
             if (this.taskService == null)
             {
-                throw new InvalidOperationException("taskService");
+                throw new InvalidOperationException("The TaskContext.Default.TaskService delivered no valid ITaskService.");
             }
 
-            this.logger = logger;
             this.Paths = paths;
-            this.eventSource = new EventSource();
+            this.buildLogger = buildLogger;
 
-            if (logger != null)
-            {
-                logger.Initialize(this.eventSource);
-            }
-
-            this.LogMessage("Initialized");
+            this.buildLogger.LogBuildMessage(this, GetType().Name, "Initialized");
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the default build engine.
+        /// </summary>
+        /// <value>The default build engine.</value>
+        public Engine DefaultBuildEngine
+        {
+            get
+            {
+                if (this.buildEngine == null)
+                {
+                    return new Engine(@"D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Application\bin\Debug");
+                }
+
+                return this.buildEngine;
+            }
+
+            set
+            {
+                this.buildEngine = value;
+            }
+        }
+        
+        /// <summary>
+        /// Gets or sets the default task composer builder used by this instance.
+        /// </summary>
+        /// <value>The default task composer builder used by this instance.</value>
+        public ITaskComposerBuilder DefaultTaskComposerBuilder
+        {
+            get
+            {
+                if (this.defaultTaskComposerBuilder == null)
+                {
+                    return new TaskComposerBuilder();
+                }
+
+                return this.defaultTaskComposerBuilder;
+            }
+
+            set
+            {
+                this.defaultTaskComposerBuilder = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is disposed; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsDisposed { get; private set; }
 
         /// <summary>
         /// Gets or sets the paths that are processed.
@@ -195,8 +257,7 @@ namespace Jedzia.BackBock.Model.Tasks
             }
             catch (Exception ex)
             {
-                // Todo: log me with LogError.
-                this.LogMessage(ex.Message);
+                this.buildLogger.LogBuildMessage(this, GetType().Name, ex.Message);
             }
         }
 
@@ -229,35 +290,10 @@ namespace Jedzia.BackBock.Model.Tasks
         }
 
         /// <summary>
-        /// The default build engine.
-        /// </summary>
-        private Engine buildEngine;
-
-        /// <summary>
-        /// Gets or sets the default build engine.
-        /// </summary>
-        /// <value>The default build engine.</value>
-        public Engine DefaultBuildEngine
-        {
-            get
-            {
-                if (this.buildEngine == null)
-                {
-                    return new Engine(@"D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Application\bin\Debug");
-                }
-                return this.buildEngine;
-            }
-
-            set
-            {
-                this.buildEngine = value;
-            }
-        }
-        /// <summary>
         /// Executes a task specified by a string with the specified parameters.
         /// </summary>
         /// <param name="taskTypeName">Name of the task type.</param>
-        /// <param name="taskAttributes">The task attributes.</param>
+        /// <param name="taskAttributes">The list of Xml attributes with the parameters of the task.</param>
         /// <returns><c>true</c> if the operation succeeds.</returns>
         public bool ExecuteTask(string taskTypeName, IEnumerable<XmlAttribute> taskAttributes)
         {
@@ -282,10 +318,11 @@ namespace Jedzia.BackBock.Model.Tasks
 
             // var proj2 = new Project();
             // var engine = new Engine(Consts.BinPath);
-
             var engine = this.DefaultBuildEngine;
-            //var engine = new Engine(@"D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Application\bin\Debug");
-            engine.RegisterLogger(this.logger);
+
+            // var engine = new Engine(@"D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Application\bin\Debug");
+            // Todo: check if this is detached, later.
+            buildLogger.RegisterLogger(engine);
 
             // var proj2 = engine.CreateNewProject();
 
@@ -341,33 +378,9 @@ namespace Jedzia.BackBock.Model.Tasks
                 // cr.Exclude = @"*.msi";
                 if (path.Inclusion.Count > 0)
                 {
-                    // var inclEle = string.Empty;
-                    var inclEle = new StringBuilder();
-                    for (int index = 0; index < path.Inclusion.Count; index++)
-                    {
-                        var incl = path.Inclusion[index];
-                        inclEle.Append(path.Path);
-                        inclEle.Append(incl.Pattern);
-                        if (index != path.Inclusion.Count - 1)
-                        {
-                            inclEle.Append(";");
-                        }
-                    }
-
-                    cr = big.AddNewItem("FilesToZip", inclEle.ToString());
-                    var exclEle = new StringBuilder();
-                    for (int index = 0; index < path.Exclusion.Count; index++)
-                    {
-                        var excl = path.Exclusion[index];
-                        exclEle.Append(path.Path);
-                        exclEle.Append(excl.Pattern);
-                        if (index != path.Exclusion.Count - 1)
-                        {
-                            exclEle.Append(";");
-                        }
-                    }
-
-                    cr.Exclude = exclEle.ToString();
+                    var itemInclude = ComposePathFromWildcards(path.Path, path.Inclusion);
+                    cr = big.AddNewItem("FilesToZip", itemInclude);
+                    cr.Exclude = ComposePathFromWildcards(path.Path, path.Exclusion);
                 }
                 else
                 {
@@ -382,44 +395,15 @@ namespace Jedzia.BackBock.Model.Tasks
                     }
 
                     cr = big.AddNewItem("FilesToZip", strit);
-                    var exclEle = new StringBuilder();
-                    for (int index = 0; index < path.Exclusion.Count; index++)
-                    {
-                        var excl = path.Exclusion[index];
-                        exclEle.Append(path.Path);
-                        exclEle.Append(excl.Pattern);
-                        if (index != path.Exclusion.Count - 1)
-                        {
-                            exclEle.Append(";");
-                        }
-                    }
-
-                    cr.Exclude = exclEle.ToString();
+                    cr.Exclude = ComposePathFromWildcards(path.Path, path.Exclusion);
                 }
 
                 // cr.Exclude = @"*.msi";
             }
 
-            // Type btasktype = typeof(Backup);
-            Type btasktype = task.GetType();
-            proj.AddNewUsingTaskFromAssemblyName(btasktype.FullName, btasktype.Assembly.FullName);
-            var batask = target.AddNewTask(btasktype.FullName);
-
-            // batask.SetParameterValue("SourceFiles", @"C:\Temp\company.xmi");
-            //batask.SetParameterValue(sourceParameter, @"@(FilesToZip)");
-            //var pars = batask.GetParameterNames();
-
-            foreach (var item in taskAttributes)
-            {
-                batask.SetParameterValue(item.Name, item.Value);
-                this.eventSource.FireMessageRaised(
-                    this,
-                    new BuildMessageEventArgs(
-                        "Setting parameter " + item.Name + " to " + item.Value,
-                        string.Empty,
-                        task.GetType().Name,
-                        MessageImportance.Low));
-            }
+            var tc = DefaultTaskComposerBuilder.CreateComposer(proj, task.GetType(), this.buildLogger);
+            var batask = tc.CreateNewTaskOnTarget(target, sourceParameter);
+            tc.SetParametersOnCreatedTask(taskAttributes);
 
             res = proj.Build("mainTarget");
             var str = PrettyPrintXml(proj.Xml);
@@ -435,6 +419,7 @@ namespace Jedzia.BackBock.Model.Tasks
             // var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
             return res;
         }
+
 
         // private IBuildEngine buildEngine;
 
@@ -521,6 +506,24 @@ namespace Jedzia.BackBock.Model.Tasks
             // SerializeTest(task);
         }
 
+        private static string ComposePathFromWildcards(string fullPath, List<Wildcard> wildCards)
+        {
+            var inclEle = new StringBuilder();
+            for (int index = 0; index < wildCards.Count; index++)
+            {
+                var incl = wildCards[index];
+                inclEle.Append(fullPath);
+                inclEle.Append(incl.Pattern);
+                if (index != wildCards.Count - 1)
+                {
+                    inclEle.Append(";");
+                }
+            }
+
+            var itemInclude = inclEle.ToString();
+            return itemInclude;
+        }
+
         /// <summary>
         /// Pretty print XML data.
         /// </summary>
@@ -551,15 +554,6 @@ namespace Jedzia.BackBock.Model.Tasks
             return lattr;
         }
 
-        /// <summary>
-        /// Posts a message to the logger.
-        /// </summary>
-        /// <param name="message">The message for the logger.</param>
-        private void LogMessage(string message)
-        {
-            this.eventSource.FireMessageRaised(
-                this, new BuildMessageEventArgs(message, string.Empty, GetType().Name, MessageImportance.Low));
-        }
 
         /// <summary>
         /// Prepares the 'SourceFiles', etc., <see cref="TaskItem"/> data.
@@ -596,6 +590,7 @@ namespace Jedzia.BackBock.Model.Tasks
                                     return new TaskItem(e.Path + "\\" + t.Pattern);
                                 }
                             }
+
                             ).ToArray();
                     }
                     else

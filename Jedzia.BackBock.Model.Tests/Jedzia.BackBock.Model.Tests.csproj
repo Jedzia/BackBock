@@ -57,6 +57,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskContextTest.cs" />
     <Compile Include="Tasks\EventSourceTest.cs" />
+    <Compile Include="Tasks\Logging\TestLogger.cs" />
+    <Compile Include="Tasks\Logging\TestTask.cs" />
+    <Compile Include="Tasks\Logging\TestTaskContext.cs" />
     <Compile Include="Tasks\TaskSetupEngineTest.cs" />
     <Compile Include="Util\Template.cs" />
     <Compile Include="Util\LogHelperTest.cs" />
