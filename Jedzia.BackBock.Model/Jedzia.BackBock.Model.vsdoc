@@ -88,6 +88,7 @@
     <add key="VBdocman_comModules_Data...BackupDataTrans.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Properties...AssemblyInfo.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_TaskContext.cs"><![CDATA[On]]></add>
+    <add key="VBdocman_comModules_Tasks...ItemGroupComposer.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Tasks...TaskComposer.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Tasks...TaskSetupEngine.cs"><![CDATA[On]]></add>
     <add key="VBdocman_comModules_Util...DefaultTimeProvider.cs"><![CDATA[On]]></add>

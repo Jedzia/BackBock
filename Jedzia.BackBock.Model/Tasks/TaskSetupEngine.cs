@@ -299,35 +299,10 @@ namespace Jedzia.BackBock.Model.Tasks
         {
             var task = this.taskService[taskTypeName];
 
-            bool res = false;
-            string xml =
-                @"<Project ToolsVersion=""3.5"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">" +
-                Environment.NewLine +
-                "\t" + @"<UsingTask AssemblyFile=""C:\Program Files\MSBuild\ExtensionPack\MSBuild.ExtensionPack.dll"" " +
-                @"TaskName=""MSBuild.ExtensionPack.Compression.Zip"" />" + Environment.NewLine +
-                "\t" + @"<Target Name=""Target1"">" + Environment.NewLine +
-                "\t" + string.Empty + "\t" + @"<ItemGroup>" + Environment.NewLine +
-                "\t" + string.Empty + "\t" + string.Empty + "\t" + @"<FilesToZip Include=""C:\Temp\**"" />" +
-                Environment.NewLine +
-                "\t" + string.Empty + "\t" + @"</ItemGroup>" + Environment.NewLine +
-                "\t" + string.Empty + "\t" +
-                @"<MSBuild.ExtensionPack.Compression.Zip ZipFileName=""D:\TestZip.zip"" TaskAction=""Create"" " +
-                @"CompressFiles=""@(FilesToZip)"" />" + Environment.NewLine +
-                "\t" + @"</Target>" + Environment.NewLine +
-                @"</Project>";
-
-            // var proj2 = new Project();
-            // var engine = new Engine(Consts.BinPath);
             var engine = this.DefaultBuildEngine;
-
-            // var engine = new Engine(@"D:\E\Projects\CSharp\BackBock\Jedzia.BackBock.Application\bin\Debug");
             // Todo: check if this is detached, later.
             buildLogger.RegisterLogger(engine);
 
-            // var proj2 = engine.CreateNewProject();
-
-            // proj2.LoadXml(xml);
-            // proj2.Build();
             var sourceParameter = string.Empty;
 
             // Todo: put this task generation extra.);
@@ -345,26 +320,33 @@ namespace Jedzia.BackBock.Model.Tasks
                 sourceParameter = "CompressFiles";
             }
 
-            // btask.SourceFiles = new[] { new TaskItem(@"C:\Temp\raabeXX.jpg"), };
-            // btask.DestinationFolder = new TaskItem(@"C:\tmp\%(RecursiveDir)");
-            // btask.BuildEngine = this.BuildEngine;
             var proj = engine.CreateNewProject();
             proj.DefaultToolsVersion = "3.5";
-
-            // var proj = new Project(this.buildEngine, "3.5");
-            // var proj = new Project(Engine.GlobalEngine, "3.5");
             var target = proj.Targets.AddNewTarget("mainTarget");
 
-            // var grp = target.AddNewTask("ItemGroup");
+            var sourceParaIdent = "FilesToZip";
+            //var big = proj.AddNewItemGroup();
+            var igComp = DefaultTaskComposerBuilder.CreateItemGroupComposer();
+            var big = igComp.GenerateBuildItemGroup(proj, this.Paths, sourceParaIdent);
+            //var big = GenerateBuildItemGroup(proj, this.Paths, sourceParaIdent);
+
+            var taskComp = DefaultTaskComposerBuilder.CreateTaskComposer(proj, task.GetType(), this.buildLogger);
+            var batask = taskComp.CreateNewTaskOnTarget(target, sourceParaIdent, sourceParameter);
+            taskComp.SetParametersOnCreatedTask(taskAttributes);
+
+            var result = proj.Build("mainTarget");
+            var str = PrettyPrintXml(proj.Xml);
+
+            return result;
+        }
+
+        private BuildItemGroup GenerateBuildItemGroup(
+            Project proj, 
+            IEnumerable<PathDataType> paths,
+            string sourceParameterIdentifier)
+        {
             var big = proj.AddNewItemGroup();
-
-            // var cr = new BuildItem("Item","");
-            // var big = new BuildItemGroup();
-
-            // cr = big.AddNewItem("FilesToZip", @"C:\Temp\FolderB\**\*.*");
-            // cr.Exclude = @"*.msi";
-
-            foreach (var path in this.Paths)
+            foreach (var path in paths)
             {
                 if (string.IsNullOrEmpty(path.Path))
                 {
@@ -372,14 +354,11 @@ namespace Jedzia.BackBock.Model.Tasks
                     continue;
                 }
 
-                // var cr = big.AddNewItem("FilesToZip", @"C:\Temp\**;C:\Temp\FolderB\**\*.*");
                 BuildItem cr;
-
-                // cr.Exclude = @"*.msi";
                 if (path.Inclusion.Count > 0)
                 {
                     var itemInclude = ComposePathFromWildcards(path.Path, path.Inclusion);
-                    cr = big.AddNewItem("FilesToZip", itemInclude);
+                    cr = big.AddNewItem(sourceParameterIdentifier, itemInclude);
                     cr.Exclude = ComposePathFromWildcards(path.Path, path.Exclusion);
                 }
                 else
@@ -394,30 +373,11 @@ namespace Jedzia.BackBock.Model.Tasks
                         strit = path.Path;
                     }
 
-                    cr = big.AddNewItem("FilesToZip", strit);
+                    cr = big.AddNewItem(sourceParameterIdentifier, strit);
                     cr.Exclude = ComposePathFromWildcards(path.Path, path.Exclusion);
                 }
-
-                // cr.Exclude = @"*.msi";
             }
-
-            var tc = DefaultTaskComposerBuilder.CreateComposer(proj, task.GetType(), this.buildLogger);
-            var batask = tc.CreateNewTaskOnTarget(target, sourceParameter);
-            tc.SetParametersOnCreatedTask(taskAttributes);
-
-            res = proj.Build("mainTarget");
-            var str = PrettyPrintXml(proj.Xml);
-
-            // var res = result.ToArray();
-            // var includes = result.SelectMany((e) => e.Include);
-            // btask.SourceFiles = includes.ToArray();
-            // var itemsByType = new Hashtable();
-            // foreach (var item in btask.SourceFiles)
-            // {
-            // itemsByType.Add(
-            // }
-            // var bla = ItemExpander.ItemizeItemVector(@"@(File)", null, itemsByType);
-            return res;
+            return big;
         }
 
 

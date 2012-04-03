@@ -19,8 +19,15 @@
         /// <param name="project">The build project the task should use.</param>
         /// <param name="taskType">Type of the task to compose.</param>
         /// <param name="buildLogger">The logger to use. Can be null.</param>
-        /// <returns>A new ITaskComposer of the specified parameters.</returns>
-        ITaskComposer CreateComposer(Project project, Type taskType, IBuildLogger buildLogger);
+        /// <returns>A new <see cref="ITaskComposer"/> with the specified parameters.</returns>
+        ITaskComposer CreateTaskComposer(Project project, Type taskType, IBuildLogger buildLogger);
+
+        /// <summary>
+        /// Creates a new instance of an <see cref="ItemGroupComposer"/> class
+        /// from the specified parameters.
+        /// </summary>
+        /// <returns>A new <see cref="ItemGroupComposer"/> with the specified parameters.</returns>
+        ItemGroupComposer CreateItemGroupComposer();
     }
 
     /// <summary>
@@ -32,11 +39,13 @@
         /// Creates and Adds a new task on a build target.
         /// </summary>
         /// <param name="target">The build target.</param>
+        /// <param name="sourceParameterIdentifier">The source parameter identifier used to name the 
+        /// ItemGroup with source files.</param>
         /// <param name="sourceParameter">The source parameter.</param>
         /// <returns>
         /// A new task ready to use.
         /// </returns>
-        BuildTask CreateNewTaskOnTarget(Target target, string sourceParameter);
+        BuildTask CreateNewTaskOnTarget(Target target, string sourceParameterIdentifier, string sourceParameter);
 
         /// <summary>
         /// Sets the specified parameters on the task, that was created by 
@@ -47,13 +56,35 @@
     }
 
     /// <summary>
-    /// A factory for <see cref="ITaskComposer"/>'s.
+    /// A factory to help in the creation of <see cref="ITaskComposer"/>'s and <see cref="ItemGroupComposer"/>'s.
     /// </summary>
     internal class TaskComposerBuilder : ITaskComposerBuilder
     {
-        public ITaskComposer CreateComposer(Project project, Type taskType, IBuildLogger buildLogger)
+        /// <summary>
+        /// Creates a new instance of an <see cref="ITaskComposer"/> class
+        /// from the specified parameters.
+        /// </summary>
+        /// <param name="project">The build project the task should use.</param>
+        /// <param name="taskType">Type of the task to compose.</param>
+        /// <param name="buildLogger">The logger to use. Can be null.</param>
+        /// <returns>
+        /// A new <see cref="ITaskComposer"/> with the specified parameters.
+        /// </returns>
+        public ITaskComposer CreateTaskComposer(Project project, Type taskType, IBuildLogger buildLogger)
         {
             return new TaskComposer(project, taskType, buildLogger);
+        }
+
+        /// <summary>
+        /// Creates a new instance of an <see cref="ItemGroupComposer"/> class
+        /// from the specified parameters.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="ItemGroupComposer"/> with the specified parameters.
+        /// </returns>
+        public ItemGroupComposer CreateItemGroupComposer()
+        {
+            return new FileItemGroupComposer();
         }
     }
 
@@ -69,7 +100,7 @@
         /// <summary>
         /// The default source parameter.
         /// </summary>
-        private string defaultSourceParameterIdentifier = @"@(FilesToZip)";
+        //private string defaultSourceParameterIdentifier = @"@(FilesToZip)";
         private BuildTask composedTask;
 
         /// <summary>
@@ -109,7 +140,7 @@
             project.AddNewUsingTaskFromAssemblyName(this.taskType.FullName, this.taskType.Assembly.FullName);
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Gets or sets the default source parameter identifier.
         /// </summary>
         /// <value>The default source parameter identifier.</value>
@@ -124,17 +155,22 @@
             {
                 this.defaultSourceParameterIdentifier = value;
             }
-        }
+        }*/
 
         /// <summary>
         /// Creates and Adds a new task on a build target.
         /// </summary>
         /// <param name="target">The build target.</param>
+        /// <param name="sourceParameterIdentifier">The source parameter identifier used to name the
+        /// ItemGroup with source files.</param>
         /// <param name="sourceParameter">The source parameter.</param>
         /// <returns>
         /// A new task ready to use.
         /// </returns>
-        public BuildTask CreateNewTaskOnTarget(Target target, string sourceParameter)
+        public BuildTask CreateNewTaskOnTarget(
+            Target target, 
+            string sourceParameterIdentifier,  
+            string sourceParameter)
         {
             if (target == null)
             {
@@ -145,7 +181,9 @@
             var batask = target.AddNewTask(this.taskType.FullName);
 
             // Set the main source parameter on the build task.
-            batask.SetParameterValue(sourceParameter, this.DefaultSourceParameterIdentifier);
+            //batask.SetParameterValue(sourceParameter, this.DefaultSourceParameterIdentifier);
+            var spi = @"@(" + sourceParameterIdentifier + ")";
+            batask.SetParameterValue(sourceParameter, spi);
 
             // Store for later use with SetParametersOnCreatedTask( ... ).
             this.composedTask = batask;

@@ -63,6 +63,7 @@
     <Compile Include="Tasks\BuildLogger.cs" />
     <Compile Include="Tasks\EventSource.cs" />
     <Compile Include="Tasks\IBuildLogger.cs" />
+    <Compile Include="Tasks\ItemGroupComposer.cs" />
     <Compile Include="Tasks\TaskComposer.cs" />
     <Compile Include="Tasks\TaskSetupEngine.cs" />
     <Compile Include="Util\DefaultTimeProvider.cs" />
