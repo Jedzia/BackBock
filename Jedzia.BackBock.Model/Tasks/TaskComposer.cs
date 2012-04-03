@@ -8,9 +8,10 @@
     using Microsoft.Build.BuildEngine;
 
     /// <summary>
-    /// Provides creation of <see cref="ITaskComposer"/>'s to help in <see cref="ITask"/> setup.
+    /// Provides creation of <see cref="ITaskComposer"/>'s and <see cref="ItemGroupComposer"/>
+    /// to help in <see cref="ITask"/> setup.
     /// </summary>
-    public interface ITaskComposerBuilder
+    public interface ITaskComposerFactory
     {
         /// <summary>
         /// Creates a new instance of an <see cref="ITaskComposer"/> class
@@ -58,7 +59,7 @@
     /// <summary>
     /// A factory to help in the creation of <see cref="ITaskComposer"/>'s and <see cref="ItemGroupComposer"/>'s.
     /// </summary>
-    internal class TaskComposerBuilder : ITaskComposerBuilder
+    internal class TaskComposerFactory : ITaskComposerFactory
     {
         /// <summary>
         /// Creates a new instance of an <see cref="ITaskComposer"/> class
