@@ -21,6 +21,14 @@ namespace Jedzia.BackBock.DataAccess
         public abstract BackupData LoadBackupData(string filename, StringDictionary parameters);
 
         /// <summary>
+        /// Saves the backup data to a specified file.
+        /// </summary>
+        /// <param name="data">The data to save.</param>
+        /// <param name="filename">The full path to the file with <see cref="BackupData"/>.</param>
+        /// <param name="parameters">Additional parameters used by the repository.</param>
+        public abstract void SaveBackupData(BackupData data, string filename, StringDictionary parameters);
+
+        /// <summary>
         /// Gets the type of the repository.
         /// </summary>
         /// <value>

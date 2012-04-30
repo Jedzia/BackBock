@@ -139,5 +139,25 @@ namespace Jedzia.BackBock.DataAccess
            
             // throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Saves the specified <see cref="BackupData"/> to disk.
+        /// </summary>
+        /// <param name="data">The data to save.</param>
+        /// <param name="filename">The path to the stored <see cref="BackupData"/> on disk.</param>
+        /// <param name="user">The requesting user with permissions.</param>
+        /// <param name="parameters">Optional specified parameters. Can be <c>null</c>.</param>
+        public void Save(BackupData data, string filename, IPrincipal user, StringDictionary parameters)
+        {
+            // use the 
+            var repo = this.repositories.First(x => x.RepositoryType == BackupRepositoryType.FileSystemProvider);
+            var fileRepo = (BackupDataFsRepository)repo;
+
+            // var repo = repositories.OfType<BackupDataFsRepository>().First();
+            fileRepo.SaveBackupData(data.ToDTO(), filename, parameters);
+
+            // throw new NotImplementedException();
+        }
+
     }
 }

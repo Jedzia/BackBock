@@ -34,7 +34,7 @@ namespace Jedzia.BackBock.Data.Xml
             {
                 // Todo: remove this after testing. ! evil. no one knows when no save occurs.
             }   
-            data.SaveToFile(path);
+            //data.SaveToFile(path);
         }
     }
 }

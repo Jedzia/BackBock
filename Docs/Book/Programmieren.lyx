@@ -569,6 +569,84 @@ mmmBtoc{}%
 Generates data based ViewModels from a XSD-Schema file.
 \end_layout
 
+\begin_layout Standard
+This is a Spass ss ? and Spass.
+ Dü 
+\lang ngerman
+bist
+\lang english
+ Nerdy 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+^^c3^^b6
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newcommand{
+\backslash
+replace}[2]{
+\backslash
+textbf{#1}$
+\backslash
+rightarrow$
+\backslash
+textbf{#2}}  
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+newcommand{
+\backslash
+subst}[2]{
+\backslash
+foreignlanguage{ngerman}{#2}}  
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+replace{data}{FUCK}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subst{ß}{ss}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Options:
 \end_layout

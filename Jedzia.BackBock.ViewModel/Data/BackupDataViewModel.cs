@@ -33,7 +33,7 @@ namespace Jedzia.BackBock.ViewModel.Data
         /// </summary>
         public const string TestIntXPropertyName = "TestIntX";
 
-        private string myProperty = 55.ToString();
+        private string myProperty = 54.ToString();
 
         private int testIntX = 123;
 

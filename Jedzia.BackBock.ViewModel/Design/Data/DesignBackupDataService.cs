@@ -66,5 +66,17 @@ namespace Jedzia.BackBock.ViewModel.Design.Data
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Saves the specified <see cref="BackupData"/> to disk.
+        /// </summary>
+        /// <param name="data">The data to save.</param>
+        /// <param name="filename">The path to the stored <see cref="BackupData"/> on disk.</param>
+        /// <param name="user">The requesting user with permissions.</param>
+        /// <param name="parameters">Optional specified parameters. Can be <c>null</c>.</param>
+        public void Save(BackupData data, string filename, IPrincipal user, StringDictionary parameters)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

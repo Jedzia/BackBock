@@ -47,5 +47,15 @@ namespace Jedzia.BackBock.DataAccess
         /// <param name="parameters">Optional specified parameters. Can be <c>null</c>.</param>
         /// <returns>A set of Backup data.</returns>
         BackupData Load(string filename, IPrincipal user, StringDictionary parameters);
+
+        /// <summary>
+        /// Saves the specified <see cref="BackupData"/> to disk.
+        /// </summary>
+        /// <param name="data">The data to save.</param>
+        /// <param name="filename">The path to the stored <see cref="BackupData"/> on disk.</param>
+        /// <param name="user">The requesting user with permissions.</param>
+        /// <param name="parameters">Optional specified parameters. Can be <c>null</c>.</param>
+        void Save(BackupData data, string filename, IPrincipal user, StringDictionary parameters);
+
     }
 }

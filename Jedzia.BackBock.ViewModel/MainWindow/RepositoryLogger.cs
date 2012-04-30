@@ -62,5 +62,16 @@
             auditor.LogMessageEvent("LoadBackupData(" + filename+ ")");
             return ((BackupDataFsRepository)innerRepository).LoadBackupData(filename,  parameters);
         }
+
+        /// <summary>
+        /// Saves the backup data to a specified file.
+        /// </summary>
+        /// <param name="data">The data to save.</param>
+        /// <param name="filename">The full path to the file with <see cref="BackupData"/>.</param>
+        /// <param name="parameters">Additional parameters used by the repository.</param>
+        public override void SaveBackupData(Jedzia.BackBock.DataAccess.DTO.BackupData data, string filename, System.Collections.Specialized.StringDictionary parameters)
+        {
+            ((BackupDataFsRepository)innerRepository).SaveBackupData(data, filename, parameters);
+        }
     }
 }

@@ -580,7 +580,10 @@ namespace Jedzia.BackBock.ViewModel.MainWindow
         internal void SaveFile(string path)
         {
             // Todo: implement;
-            //ModelSaver.SaveBackupData(bdvm.DataObject, path);
+            // ModelSaver.SaveBackupData(bdvm.DataObject, path);
+
+            dataprovider.Save(this.Data2, path, new MyPrincipal(), null);
+            //Data = new BackupDataViewModel(this.Data2);
         }
 
         /// <summary>
