@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <BackupData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DatasetName="Daily" DatasetGroup="Main">
   <BackupItem ItemName="This is from Xml Test Data">
     <Task />
@@ -40,11 +40,23 @@
     <Path Path="C:\Documents and Settings\root\Application Data\LyX2.1\layouts\">
       <Inclusion Pattern="**\*.*" Enabled="true" />
     </Path>
+    <Path Path="C:\Documents and Settings\root\Application Data\MiKTeX\">
+      <Inclusion Pattern="**\*.*" Enabled="true" />
+    </Path>
+    <Path Path="C:\Documents and Settings\root\Application Data\WinEdt Team\">
+      <Inclusion Pattern="**\*.*" Enabled="true" />
+    </Path>
+    <Path Path="C:\Documents and Settings\root\Local Settings\Application Data\MiKTeX\">
+      <Inclusion Pattern="**\*.*" Enabled="true" />
+    </Path>
+    <Path Path="C:\Documents and Settings\All Users\Application Data\MiKTeX\">
+      <Inclusion Pattern="**\*.*" Enabled="true" />
+    </Path>
     <Path Path="D:\MiKTeX\tex\latex\koma-scriptjed\">
       <Inclusion Pattern="**\*.*" Enabled="true" />
     </Path>
     <Path Path="C:\LyX\">
-      <Exclusion Pattern=".svn\**\*.*" Enabled="true" />
+      <Exclusion Pattern="*.svn\**\*.*" Enabled="true" />
       <Inclusion Pattern="**\*.*" Enabled="true" />
     </Path>
     <Path Path="C:\devel\">

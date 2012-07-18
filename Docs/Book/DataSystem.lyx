@@ -4,7 +4,6 @@
 \begin_header
 \textclass scrbookjed
 \begin_preamble
-%\sloppy
 % wenn pdflatex benutzt wird:
 \usepackage{ifpdf}
 \ifpdf
@@ -17,7 +16,7 @@
 
 % Setzt den Link fuer Sprünge zu Gleitabbildungen
 % auf den Anfang des Gelitobjekts und nicht aufs Ende
-%\usepackage[figure]{hypcap}
+\usepackage[figure]{hypcap}
 
 % Die Seiten des Inhaltsverzeichnisses werden römisch numeriert,
 % ein PDF-Lesezeichen für das Inhaltsverzeichnis wird hinzugefügt
@@ -61,8 +60,8 @@
 
 % beschleunigt die Berechnung von langen Tabellen
 %\setcounter{LTchunksize}{100}
-% wird für skalierte und rotierte Boxen benötigt
 \makeatletter
+% wird für skalierte und rotierte Boxen benötigt
 \@ifundefined{rotatebox}{\usepackage{graphicx}}{}
 
 % wird bei farbigen Tabellen benutzt
@@ -90,8 +89,6 @@
 \@ifundefined{extrarowheight}
  {\usepackage{array}}{}
 \setlength{\extrarowheight}{2pt}
-%\makeatother
-
 % wird fuer benutzerdefinierte Tabellen benutzt
 % ---
 \newcolumntype{M}[1]
@@ -158,26 +155,60 @@
 % Damit der Index den Namen "Stichwortverzeichnis" erhält
 \addto\captionsngerman{\renewcommand{\indexname}{Stichwortverzeichnis}}
 
-%\usepackage{breakurl}
-\usepackage{minitoc}
+%\usepackage{xcolor}
 
-%\renewcommand\lstlistingname{Abbildung}  
-%\renewcommand\lstlistingname{Bild}  
-%\KOMAoptions{DIV=15}
+\usepackage{listings}
+
+\lstdefinelanguage{CSharp}
+{
+ morecomment = [l]{//}, 
+ morecomment = [l]{///},
+ morecomment = [s]{/*}{*/},
+ morestring=[b]", 
+ sensitive = true,
+ morekeywords = {abstract,  event,  new,  struct,
+   as,  explicit,  null,  switch,
+   base,  extern,  object,  this,
+   bool,  false,  operator,  throw,
+   break,  finally,  out,  true,
+   byte,  fixed,  override,  try,
+   case,  float,  params,  typeof,
+   catch,  for,  private,  uint,
+   char,  foreach,  protected,  ulong,
+   checked,  goto,  public,  unchecked,
+   class,  if,  readonly,  unsafe,
+   const,  implicit,  ref,  ushort,
+   continue,  in,  return,  using,
+   decimal,  int,  sbyte,  virtual,
+   default,  interface,  sealed,  volatile,
+   delegate,  internal,  short,  void,
+   do,  is,  sizeof,  while,
+   double,  lock,  stackalloc,   
+   else,  long,  static,   
+   enum,  namespace,  string}
+}
+
+%\lstset{ %
+%language=CSharp,
+%showstringspaces=false,
+%basicstyle=\small,
+%keywordstyle=\color{blue},
+%breaklines=true,
+%frame=single,
+%commentstyle=\color{green},
+%stringstyle=\color{red},
+%backgroundcolor=\color{lightgray},
+%numbers=left
+%}
+\usepackage{floatflt}
 \end_preamble
 \options fleqn,liststotoc,bibtotoc,idxtotoc,BCOR7.5mm,titlepage,tablecaptionabove,DIV=15
 \use_default_options false
 \begin_modules
 jed
 jedpretty
-jedminitoc
 jedgerman
-jedlistings
 \end_modules
-\begin_includeonly
-Programmieren.lyx
-DataSystem.lyx
-\end_includeonly
 \maintain_unincluded_children false
 \language english
 \language_package default
@@ -210,7 +241,7 @@ DataSystem.lyx
 \pdf_bookmarksnumbered true
 \pdf_bookmarksopen true
 \pdf_bookmarksopenlevel 1
-\pdf_breaklinks true
+\pdf_breaklinks false
 \pdf_pdfborder false
 \pdf_colorlinks true
 \pdf_backref false
@@ -237,13 +268,6 @@ DataSystem.lyx
 \shortcut idx
 \color #008000
 \end_index
-\leftmargin 1cm
-\topmargin 2cm
-\rightmargin 1cm
-\bottommargin 2cm
-\headheight 2cm
-\headsep 5mm
-\footskip 1cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation skip
@@ -261,6 +285,8 @@ DataSystem.lyx
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict true
+\html_latex_start <span class='latex'>
+\html_latex_end </span>
 \end_header
 
 \begin_body
@@ -271,131 +297,10 @@ status open
 
 \begin_layout Plain Layout
 
-
-\backslash
-pagenumbering{roman} 
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-setcounter{page}{1}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-dominitoc
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-dominilof 
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-dominilot 
-\end_layout
-
-\begin_layout Plain Layout
-
 %
 \backslash
-doparttoc
+setcounter{equation}{0}
 \end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-newboolean{includeExtra} 
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-setboolean{includeExtra}{true}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-ifthenelse{
-\backslash
-boolean{includeExtra}}%
-\end_layout
-
-\begin_layout Plain Layout
-
-{%
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-{%
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-title{T4 Text Templating}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-maketitle
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-tableofcontents
-\end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "front.lyx"
 
 \end_inset
 
@@ -410,70 +315,19 @@ status open
 
 %
 \backslash
-tableofcontents
+providecommand{
 \backslash
-mtcaddchapter
-\end_layout
-
-\begin_layout Plain Layout
-
-%
+Lux}{L
 \backslash
-listoffigures
+kern-.1667em
 \backslash
-mtcaddchapter 
-\end_layout
-
-\begin_layout Plain Layout
-
-%
+lower.25em
 \backslash
-listoftables
+hbox{U}
 \backslash
-mtcaddchapter
-\end_layout
-
-\begin_layout Plain Layout
-
-%
+kern-.125emX
 \backslash
-addcontentsline{toc}{chapter}{Abbildungsverzeichnis}%nu doch chapter
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-clearpage
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-pagenumbering{arabic} 
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-setcounter{page}{1}
-\end_layout
-
-\begin_layout Plain Layout
-
-%
-\backslash
-sloppy
-\end_layout
-
-\begin_layout Plain Layout
-
+@}
 \end_layout
 
 \end_inset
@@ -487,62 +341,34 @@ status open
 
 \begin_layout Plain Layout
 
-% scrguide S.142
-\end_layout
-
-\begin_layout Plain Layout
-
 
 \backslash
-setcapindent{1em}
+def
+\backslash
+Lux{
+\backslash
+texorpdfstring{%
 \end_layout
 
 \begin_layout Plain Layout
 
+L
+\backslash
+kern-.1667em
+\backslash
+lower.25em
+\backslash
+hbox{U}
+\backslash
+kern-.125emX
+\backslash
+@}
 \end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Flex FigureName
-status open
 
 \begin_layout Plain Layout
-Bild
+
+  {LyX }} 
 \end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "chap2.lyxX"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "Programmieren.lyx"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "DataSystem.lyx"
 
 \end_inset
 
@@ -554,7 +380,22 @@ filename "DataSystem.lyx"
 status open
 
 \begin_layout Plain Layout
-Teil Anhang
+Teil Programmieren
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float tableau
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \end_inset
@@ -570,18 +411,245 @@ status open
 
 
 \backslash
-ifthenelse{
+lstset{language={[Sharp]C},basicstyle={
 \backslash
-boolean{includeExtra}}%
+small
+\backslash
+ttfamily},captionpos=b,columns=fullflexible,frame=tlRB,showspaces=true,keepspace
+s=true,framerule=0pt}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+makeatletter
 \end_layout
 
 \begin_layout Plain Layout
 
-{%
+
+\backslash
+lstset{language={[Sharp]C},basicstyle={
+\backslash
+small
+\backslash
+ttfamily},breaklines=true,captionpos=b,columns=fullflexible,frame=tlRB,framerule
+=0pt,showspaces=false,keepspaces=true,showtabs=true,tab=
+\backslash
+rightarrowfill}
 \end_layout
 
 \begin_layout Plain Layout
 
+% this is a space after comments fix.
+ a half space used to suppress the
+\end_layout
+
+\begin_layout Plain Layout
+
+% double space after c# comments.
+\end_layout
+
+\begin_layout Plain Layout
+
+% verdammt, das sieht beschissen aus!
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+def
+\backslash
+lst@visiblespace{
+\backslash
+lst@ttfamily{
+\backslash
+,}} 
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+def
+\backslash
+lst@visiblespace{
+\backslash
+lst@ttfamily{
+\backslash
+char32}
+\backslash
+textvisiblespace} % is default.
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+def
+\backslash
+lst@visiblespace{
+\backslash
+_} % is default.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+makeatother
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Todo
+\end_layout
+
+\begin_layout Standard
+Links und zeusch zum bearbeiten
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset space \space{}
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Chapter
+Data Sources
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+ViewModelGenerator
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+verbtocs{
+\backslash
+mmmtoc}|
+\backslash
+minitoc{}|  
+\backslash
+mmmBtoc{}%
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This part describes the function and structure of the repository system.
+\end_layout
+
+\begin_layout Section
+ReflectionTypeDataService
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename SingleComplexContentChoiceTest.png
+	width 50text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+SingleComplexContentChoiceTest Element Schema
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Default: 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+public bool UseSubgroups = true;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+protected virtual void OnDataPropertyChanged(object sender, System.ComponentModel.
+PropertyChangedEventArgs e)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+	DataPropertyChanged(sender, e);
 \end_layout
 
 \begin_layout Plain Layout
@@ -591,44 +659,85 @@ boolean{includeExtra}}%
 
 \begin_layout Plain Layout
 
-{%
 \end_layout
 
 \begin_layout Plain Layout
 
+partial void DataPropertyChanged(object sender, System.ComponentModel.PropertyChan
+gedEventArgs e);
+\end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/// <summary>
+\end_layout
+
+\begin_layout Plain Layout
+
+/// Represents the method that will handle an event of altering the size
+ in
+\end_layout
+
+\begin_layout Plain Layout
+
+/// a <see cref="DrawableBase"/> type.
+\end_layout
+
+\begin_layout Plain Layout
+
+/// </summary>
+\end_layout
+
+\begin_layout Plain Layout
+
+/// <param name="sender">The source of the event.</param>
+\end_layout
+
+\begin_layout Plain Layout
+
+/// <param name="e">
+\end_layout
+
+\begin_layout Plain Layout
+
+/// The <see cref="SizeEventArgs"/> instance containing the event data.
+\end_layout
+
+\begin_layout Plain Layout
+
+/// </param>
+\end_layout
+
+\begin_layout Plain Layout
+
+public delegate void SizeEventHandler(object sender, SizeEventArgs e);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
 \backslash
-printindex{}
+lstinputlisting{/listings/afterex.cs}
 \end_layout
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "ref.lyx"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset include
-LatexCommand include
-filename "append.lyx"
 
 \end_inset
 

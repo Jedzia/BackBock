@@ -279,6 +279,7 @@ namespace Jedzia.BackBock.Tasks
                     zip.ParallelDeflateThreshold = -1;
                     zip.UseUnicodeAsNecessary = true;
                     zip.CompressionLevel = this.compressLevel;
+                    // zip.CompressionMethod = CompressionMethod.BZip2;
                     if (!string.IsNullOrEmpty(this.Password))
                     {
                         zip.Password = this.Password;
